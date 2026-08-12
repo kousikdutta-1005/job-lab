@@ -14,7 +14,7 @@ from typing import Callable
 
 from ..geo import is_india
 from ..models import Job, html_to_text, job_id
-from ..net import fetch_json, fetch_text
+from ..net import fetch_json, fetch_text, post_json
 
 
 def slug_candidates(name: str, domain: str | None = None) -> list[str]:
@@ -298,6 +298,45 @@ def parse_recruitee(payload, company: str, slug: str) -> list[Job]:
 
 
 # ---------------------------------------------------------------------------
+# Workday
+# ---------------------------------------------------------------------------
+
+def _workday_parts(slug: str) -> tuple[str, str, str]:
+    host, site = slug.split("/", 1)
+    tenant = host.split(".")[0]
+    return host, tenant, site
+
+
+def workday_url(slug: str) -> str:
+    host, tenant, site = _workday_parts(slug)
+    return f"https://{host}.myworkdayjobs.com/wday/cxs/{tenant}/{site}/jobs"
+
+
+def parse_workday(payload, company: str, slug: str) -> list[Job]:
+    jobs: list[Job] = []
+    host, tenant, site = _workday_parts(slug)
+    for item in (payload or {}).get("jobPostings", []) or []:
+        title = item.get("title") or ""
+        path = item.get("externalPath") or ""
+        url = f"https://{host}.myworkdayjobs.com/en-US/{site}{path}" if path else f"https://{host}.myworkdayjobs.com/{site}"
+        location = item.get("locationsText") or ", ".join(item.get("locations") or [])
+        jobs.append(
+            Job(
+                id=job_id(company, title, url),
+                title=title,
+                company=company,
+                company_slug=slug,
+                source="workday",
+                url=url,
+                location_raw=location,
+                description_text=html_to_text(" ".join(item.get("bulletFields") or [])),
+                posted_at=_iso(item.get("startDate") or item.get("postedOn")),
+            )
+        )
+    return jobs
+
+
+# ---------------------------------------------------------------------------
 # Registry of supported ATS platforms
 # ---------------------------------------------------------------------------
 
@@ -309,6 +348,7 @@ ATS_PLATFORMS: tuple[ATSDef, ...] = (
     ("greenhouse", greenhouse_url, parse_greenhouse),
     ("lever", lever_url, parse_lever),
     ("ashby", ashby_url, parse_ashby),
+    ("workday", workday_url, parse_workday),
     ("smartrecruiters", smartrecruiters_url, parse_smartrecruiters),
     ("workable", workable_url, parse_workable),
     ("recruitee", recruitee_url, parse_recruitee),
@@ -325,7 +365,14 @@ def fetch_ats(
     if not entry:
         return [], f"unknown ats '{ats}'"
     url_fn, parse_fn = entry
-    payload, error = fetch_json(url_fn(slug), cache_hours=cache_hours)
+    if ats == "workday":
+        payload, error = post_json(
+            url_fn(slug),
+            json_body={"appliedFacets": {}, "limit": 20, "offset": 0, "searchText": ""},
+            cache_hours=cache_hours,
+        )
+    else:
+        payload, error = fetch_json(url_fn(slug), cache_hours=cache_hours)
     if error:
         return [], error
     try:
@@ -349,7 +396,14 @@ def probe(ats: str, slug: str) -> bool:
     if not entry:
         return False
     url_fn, parse_fn = entry
-    payload, error = fetch_json(url_fn(slug), cache_hours=24 * 7)
+    if ats == "workday":
+        payload, error = post_json(
+            url_fn(slug),
+            json_body={"appliedFacets": {}, "limit": 20, "offset": 0, "searchText": ""},
+            cache_hours=24 * 7,
+        )
+    else:
+        payload, error = fetch_json(url_fn(slug), cache_hours=24 * 7)
     if error or payload is None:
         return False
     try:
@@ -379,6 +433,8 @@ _BOARD_LINK_PATTERNS: tuple[tuple[str, str], ...] = (
     ("smartrecruiters", r"jobs\.smartrecruiters\.com/([A-Za-z0-9_-]{2,60})"),
     ("smartrecruiters", r"careers\.smartrecruiters\.com/([A-Za-z0-9_-]{2,60})"),
     ("recruitee", r"([a-z0-9_-]{2,60})\.recruitee\.com"),
+    ("workday", r"https?://([a-z0-9-]+\.wd\d+)\.myworkdayjobs\.com/(?:[a-z]{2}-[A-Z]{2}/)?([A-Za-z0-9_-]{2,80})"),
+    ("workday", r"([a-z0-9-]+\.wd\d+)\.myworkdayjobs\.com/wday/cxs/[a-z0-9-]+/([A-Za-z0-9_-]{2,80})/jobs"),
 )
 
 _COMPILED_BOARD_LINKS = [(ats, re.compile(p, re.I)) for ats, p in _BOARD_LINK_PATTERNS]
@@ -389,7 +445,14 @@ _BOARD_TOKEN_NOISE = {
     "app", "help", "support", "blog", "about", "search", "images", "img",
 }
 
-_CAREERS_PATHS = ("/careers", "/jobs", "/company/careers")
+_CAREERS_PATHS = (
+    "/careers",
+    "/jobs",
+    "/careers/jobs",
+    "/about/careers",
+    "/company/careers",
+    "/company/jobs",
+)
 
 
 def discover_boards_from_site(domain: str) -> list[tuple[str, str]]:
@@ -408,15 +471,27 @@ def discover_boards_from_site(domain: str) -> list[tuple[str, str]]:
     seen: set[tuple[str, str]] = set()
 
     urls = [f"https://{domain}{path}" for path in _CAREERS_PATHS]
-    urls += [f"https://{domain}", f"https://careers.{domain}"]
+    urls += [f"https://{domain}", f"https://careers.{domain}", f"https://jobs.{domain}"]
 
     for url in urls:
         body, error = fetch_text(url, cache_hours=24 * 7, timeout=8, retries=1)
         if error or not body:
             continue
+        bodies = [body]
+        for href in re.findall(r"""(?:href|content)=["']([^"']*(?:career|job)[^"']*)["']""", body, re.I)[:10]:
+            if href.startswith("/"):
+                href = f"https://{domain}{href}"
+            if not href.startswith("http"):
+                continue
+            linked, linked_error = fetch_text(href, cache_hours=24 * 7, timeout=8, retries=1)
+            if not linked_error and linked:
+                bodies.append(linked)
         for ats, rx in _COMPILED_BOARD_LINKS:
-            for match in rx.finditer(body):
-                slug = match.group(1)
+            for match in rx.finditer("\n".join(bodies)):
+                if ats == "workday":
+                    slug = f"{match.group(1)}/{match.group(2)}"
+                else:
+                    slug = match.group(1)
                 if not slug or slug.lower() in _BOARD_TOKEN_NOISE:
                     continue
                 key = (ats, slug)
@@ -452,8 +527,10 @@ def _identity_tokens(name: str) -> set[str]:
     return {t for t in tokens if t and t not in _CORPORATE_NOISE and len(t) >= 3}
 
 
-def names_match(a: str, b: str) -> bool:
+def names_match(a: str, b: str, aliases: tuple[str, ...] = ()) -> bool:
     """True when two company names plausibly refer to the same company."""
+    if aliases and any(names_match(a, alias) for alias in aliases):
+        return True
     sa, sb = _squash(a), _squash(b)
     if not sa or not sb:
         return False
@@ -536,6 +613,7 @@ def verify_board(
     company_name: str,
     domain: str | None = None,
     tags: tuple[str, ...] = (),
+    aliases: tuple[str, ...] = (),
 ) -> dict:
     """Decide whether a detected board really belongs to this company.
 
@@ -567,7 +645,7 @@ def verify_board(
 
     reported = board_identity(ats, slug)
     if reported:
-        if not names_match(reported, company_name):
+        if not names_match(reported, company_name, aliases):
             return {
                 "ok": False,
                 "confidence": "none",
@@ -582,13 +660,14 @@ def verify_board(
     # let a pizza company's `slice.careers` postings pass as the Indian fintech
     # `sliceit.com`, because "slice" is a word before it is an identity.
     domain_root = _squash(domain.split(".")[0]) if domain else ""
-    if len(domain_root) >= 4:
+    url_roots = {n for n in (domain_root, *(_squash(a) for a in aliases)) if len(n) >= 4}
+    if url_roots:
         url_blob = _squash(" ".join(j.url or "" for j in sample))
-        if domain_root in url_blob:
+        if any(root in url_blob for root in url_roots):
             score += 2
             evidence.append("company domain appears in posting URLs")
 
-    needles = {n for n in (_squash(company_name), domain_root) if len(n) >= 4}
+    needles = {n for n in (_squash(company_name), domain_root, *(_squash(a) for a in aliases)) if len(n) >= 4}
     if needles:
         hits = sum(
             1 for j in sample if any(n in _squash(j.description_text[:4000]) for n in needles)

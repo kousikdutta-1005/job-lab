@@ -43,6 +43,7 @@ class Company:
     tags: tuple[str, ...] = ()
     ats: str | None = None
     slug: str | None = None
+    aliases: tuple[str, ...] = ()
 
     @property
     def key(self) -> str:
@@ -66,6 +67,7 @@ def load_registry(path: Path = REGISTRY_PATH) -> list[Company]:
                 tags=tuple(row.get("tags") or ()),
                 ats=(row.get("ats") or None),
                 slug=(row.get("slug") or None),
+                aliases=tuple(row.get("aliases") or ()),
             )
         )
     return out
@@ -103,12 +105,21 @@ def detect_one(company: Company) -> dict:
     the fallback and are right surprisingly often.
     """
     if company.ats and company.slug:
+        verdict = verify_board(company.ats, company.slug, company.name, company.domain, company.tags, company.aliases)
+        if verdict["ok"]:
+            return {
+                "ats": company.ats,
+                "slug": company.slug,
+                "checked_at": time.time(),
+                "confidence": verdict["confidence"],
+                "how": f"pinned in registry; {verdict['why']}",
+            }
         return {
-            "ats": company.ats,
-            "slug": company.slug,
+            "ats": None,
+            "slug": None,
             "checked_at": time.time(),
-            "confidence": "declared",
-            "how": "pinned in registry",
+            "confidence": "none",
+            "how": f"pinned board rejected: {verdict['why']}",
         }
 
     rejected: list[str] = []
@@ -116,7 +127,7 @@ def detect_one(company: Company) -> dict:
     def try_candidate(ats_name: str, slug: str, how: str) -> dict | None:
         if not slug or not probe(ats_name, slug):
             return None
-        verdict = verify_board(ats_name, slug, company.name, company.domain, company.tags)
+        verdict = verify_board(ats_name, slug, company.name, company.domain, company.tags, company.aliases)
         if verdict["ok"]:
             return {
                 "ats": ats_name,

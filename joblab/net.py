@@ -99,6 +99,67 @@ def fetch_json(
     return None, last_error or "unknown error"
 
 
+def post_json(
+    url: str,
+    *,
+    json_body: dict,
+    cache_hours: float = 6.0,
+    timeout: int = DEFAULT_TIMEOUT,
+    headers: dict[str, str] | None = None,
+) -> tuple[Any | None, str | None]:
+    """POST JSON and parse JSON, for public APIs that do not use GET.
+
+    Workday's CXS endpoint is the main case. The cache key includes the request
+    body because pagination and search text share a URL but return different
+    rows.
+    """
+    cache_url = url + "::" + json.dumps(json_body, sort_keys=True, separators=(",", ":"))
+    path = _cache_path(cache_url)
+    if cache_hours > 0 and path.exists():
+        age_hours = (time.time() - path.stat().st_mtime) / 3600
+        if age_hours < cache_hours:
+            try:
+                return json.loads(path.read_text()), None
+            except (json.JSONDecodeError, OSError):
+                pass
+
+    merged_headers = {"Content-Type": "application/json", "Accept": "application/json"}
+    if headers:
+        merged_headers.update(headers)
+
+    last_error: str | None = None
+    for attempt in range(MAX_RETRIES):
+        try:
+            resp = session().post(url, json=json_body, timeout=timeout, headers=merged_headers)
+        except requests.RequestException as exc:
+            last_error = f"{type(exc).__name__}: {exc}"
+            time.sleep(BACKOFF_SECONDS * (attempt + 1))
+            continue
+        if resp.status_code == 404:
+            return None, "404"
+        if resp.status_code == 429:
+            time.sleep(BACKOFF_SECONDS * (attempt + 2) * 2)
+            last_error = "429 rate limited"
+            continue
+        if resp.status_code >= 400:
+            last_error = f"HTTP {resp.status_code}"
+            time.sleep(BACKOFF_SECONDS * (attempt + 1))
+            continue
+        try:
+            payload = resp.json()
+        except ValueError:
+            return None, "response was not JSON"
+
+        CACHE_DIR.mkdir(parents=True, exist_ok=True)
+        try:
+            path.write_text(json.dumps(payload))
+        except OSError:
+            pass
+        return payload, None
+
+    return None, last_error or "unknown error"
+
+
 def fetch_text(
     url: str,
     *,

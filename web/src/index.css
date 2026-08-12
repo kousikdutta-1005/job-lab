@@ -1056,3 +1056,39 @@ table.data tr:hover td {
     display: none;
   }
 }
+
+/* ------------------------------------------------------- job row + dismiss */
+
+.job-row {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+}
+
+.job-row .job {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.job-row.faded .job {
+  opacity: 0.42;
+}
+
+.job-dismiss {
+  flex: 0 0 auto;
+  width: 24px;
+  color: var(--ink-4);
+  font-size: 12px;
+  border-radius: var(--radius-sm);
+  opacity: 0;
+  transition: opacity 0.12s, color 0.12s;
+}
+
+.job-row:hover .job-dismiss {
+  opacity: 1;
+}
+
+.job-dismiss:hover {
+  color: var(--ink);
+  background: var(--bg-hover);
+}

@@ -2,6 +2,8 @@ import { useEffect, useMemo, useState } from "react"
 import { loadBundle, type Bundle } from "@/lib/data"
 import { endSession, hasSession } from "@/lib/auth"
 import {
+  loadDismissed,
+  saveDismissed,
   loadApplications,
   loadContacts,
   loadSettings,
@@ -14,7 +16,7 @@ import {
 import type { Application, Contact, Job, Settings, Stage } from "@/lib/types"
 import { Login } from "@/components/Login"
 import { MapBoard } from "@/components/MapBoard"
-import { JobList } from "@/components/JobList"
+import { JobList, type Sort } from "@/components/JobList"
 import { JobDetail } from "@/components/JobDetail"
 import { Tracker } from "@/components/Tracker"
 import { Contacts } from "@/components/Contacts"
@@ -42,6 +44,10 @@ export default function App() {
   const [query, setQuery] = useState("")
   const [eligibleOnly, setEligibleOnly] = useState(true)
   const [seniority, setSeniority] = useState<string | null>(null)
+  const [workplace, setWorkplace] = useState<string | null>(null)
+  const [sort, setSort] = useState<Sort>("match")
+  const [dismissed, setDismissed] = useState<string[]>(() => loadDismissed())
+  const [showDismissed, setShowDismissed] = useState(false)
 
   useEffect(() => {
     if (!authed) return
@@ -53,23 +59,43 @@ export default function App() {
   useEffect(() => saveApplications(applications), [applications])
   useEffect(() => saveContacts(contacts), [contacts])
   useEffect(() => saveSettings(settings), [settings])
+  useEffect(() => saveDismissed(dismissed), [dismissed])
 
   const jobs = bundle?.data.jobs ?? []
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()
-    return jobs.filter((job) => {
+    const hidden = new Set(dismissed)
+
+    const rows = jobs.filter((job) => {
+      if (!showDismissed && hidden.has(job.id)) return false
+      if (showDismissed && !hidden.has(job.id)) return false
       if (eligibleOnly && !job.eligible) return false
       if (seniority && job.seniority !== seniority) return false
+      if (workplace && job.workplace !== workplace) return false
       if (place === "__remote__" && job.workplace !== "remote") return false
-      if (place && place !== "__remote__" && !job.points.some((p) => p.label === place)) return false
+      if (place && place !== "__remote__" && !job.points.some((p) => p.label === place))
+        return false
       if (q) {
         const hay = `${job.title} ${job.company} ${job.location_raw} ${job.keywords.join(" ")}`
         if (!hay.toLowerCase().includes(q)) return false
       }
       return true
     })
-  }, [jobs, query, eligibleOnly, seniority, place])
+
+    const sorters: Record<Sort, (a: Job, b: Job) => number> = {
+      match: (a, b) => b.match_score - a.match_score,
+      fresh: (a, b) => (b.posted_at ?? "").localeCompare(a.posted_at ?? ""),
+      // Jobs with no disclosed band sort last rather than sorting as zero,
+      // which would bury every Indian posting under every American one.
+      pay: (a, b) =>
+        (b.salary_parsed?.inr_high ?? -1) - (a.salary_parsed?.inr_high ?? -1) ||
+        b.match_score - a.match_score,
+      company: (a, b) => a.company.localeCompare(b.company) || b.match_score - a.match_score,
+    }
+
+    return [...rows].sort(sorters[sort])
+  }, [jobs, query, eligibleOnly, seniority, workplace, place, sort, dismissed, showDismissed])
 
   const selected = useMemo(
     () => jobs.find((j) => j.id === selectedId) ?? null,
@@ -147,6 +173,11 @@ export default function App() {
   function handleApply(job: Job): void {
     window.open(job.url, "_blank", "noopener,noreferrer")
     upsertApplication(job, "applied", true)
+  }
+
+  function toggleDismiss(id: string): void {
+    setDismissed((rows) => (rows.includes(id) ? rows.filter((r) => r !== id) : [...rows, id]))
+    if (selectedId === id) setSelectedId(null)
   }
 
   function handleAction(action: Action): void {
@@ -259,9 +290,17 @@ export default function App() {
               onEligibleOnly={setEligibleOnly}
               seniority={seniority}
               onSeniority={setSeniority}
+              workplace={workplace}
+              onWorkplace={setWorkplace}
+              sort={sort}
+              onSort={setSort}
               place={place}
               onClearPlace={() => setPlace(null)}
               appByJob={appByJob}
+              dismissed={dismissed}
+              onDismiss={toggleDismiss}
+              showDismissed={showDismissed}
+              onShowDismissed={setShowDismissed}
             />
             {selected ? (
               <JobDetail

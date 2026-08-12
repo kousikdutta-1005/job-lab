@@ -1,5 +1,8 @@
+import { useEffect } from "react"
 import type { Application, Job } from "@/lib/types"
 import { ago, logoFor, scoreClass } from "@/lib/format"
+
+export type Sort = "match" | "fresh" | "pay" | "company"
 
 interface Props {
   jobs: Job[]
@@ -12,9 +15,17 @@ interface Props {
   onEligibleOnly: (value: boolean) => void
   seniority: string | null
   onSeniority: (value: string | null) => void
+  workplace: string | null
+  onWorkplace: (value: string | null) => void
+  sort: Sort
+  onSort: (value: Sort) => void
   place: string | null
   onClearPlace: () => void
   appByJob: Map<string, Application>
+  dismissed: string[]
+  onDismiss: (id: string) => void
+  showDismissed: boolean
+  onShowDismissed: (value: boolean) => void
 }
 
 const LEVELS: Array<[string, string]> = [
@@ -24,6 +35,13 @@ const LEVELS: Array<[string, string]> = [
   ["staff", "Staff"],
   ["manager", "Manager"],
   ["head", "Head"],
+]
+
+const SORTS: Array<[Sort, string]> = [
+  ["match", "Best match"],
+  ["fresh", "Newest"],
+  ["pay", "Highest pay"],
+  ["company", "Company"],
 ]
 
 export function JobList({
@@ -37,12 +55,54 @@ export function JobList({
   onEligibleOnly,
   seniority,
   onSeniority,
+  workplace,
+  onWorkplace,
+  sort,
+  onSort,
   place,
   onClearPlace,
   appByJob,
+  dismissed,
+  onDismiss,
+  showDismissed,
+  onShowDismissed,
 }: Props) {
   const countFor = (key: string) =>
     all.filter((j) => j.seniority === key && (!eligibleOnly || j.eligible)).length
+
+  // j and k move through the list the way they do in every tool built for
+  // people who will be here a lot. Escape returns to the map.
+  useEffect(() => {
+    function onKey(event: KeyboardEvent) {
+      const target = event.target as HTMLElement | null
+      if (target && /INPUT|TEXTAREA|SELECT/.test(target.tagName)) return
+
+      if (event.key === "Escape") {
+        onSelect(null)
+        return
+      }
+      if (event.key !== "j" && event.key !== "k") return
+
+      event.preventDefault()
+      const index = jobs.findIndex((job) => job.id === selectedId)
+      if (index === -1) {
+        if (jobs[0]) onSelect(jobs[0].id)
+        return
+      }
+      const next =
+        event.key === "j" ? Math.min(jobs.length - 1, index + 1) : Math.max(0, index - 1)
+      const job = jobs[next]
+      if (job) onSelect(job.id)
+    }
+
+    window.addEventListener("keydown", onKey)
+    return () => window.removeEventListener("keydown", onKey)
+  }, [jobs, selectedId, onSelect])
+
+  useEffect(() => {
+    if (!selectedId) return
+    document.querySelector(`[data-job="${selectedId}"]`)?.scrollIntoView({ block: "nearest" })
+  }, [selectedId])
 
   return (
     <aside className="rail">
@@ -65,6 +125,21 @@ export function JobList({
             <span className="n">{all.filter((j) => j.eligible).length}</span>
           </button>
 
+          {(["remote", "hybrid", "onsite"] as const).map((mode) => (
+            <button
+              key={mode}
+              className={`chip${workplace === mode ? " on" : ""}`}
+              onClick={() => onWorkplace(workplace === mode ? null : mode)}
+            >
+              {mode}
+              <span className="n">
+                {all.filter((j) => j.workplace === mode && (!eligibleOnly || j.eligible)).length}
+              </span>
+            </button>
+          ))}
+        </div>
+
+        <div className="filters">
           {LEVELS.map(([key, label]) => (
             <button
               key={key}
@@ -83,16 +158,35 @@ export function JobList({
           </button>
         )}
 
-        <div className="tiny dimmer">
-          {jobs.length} {jobs.length === 1 ? "role" : "roles"}
-          {selectedId && (
-            <>
-              {" · "}
-              <button className="dimmer" style={{ textDecoration: "underline" }} onClick={() => onSelect(null)}>
-                back to map
-              </button>
-            </>
-          )}
+        <div className="row-between">
+          <select
+            value={sort}
+            onChange={(e) => onSort(e.target.value as Sort)}
+            style={{ width: "auto", padding: "4px 7px", fontSize: 11.5 }}
+            aria-label="Sort roles"
+          >
+            {SORTS.map(([key, label]) => (
+              <option key={key} value={key}>
+                {label}
+              </option>
+            ))}
+          </select>
+
+          <span className="tiny dimmer">
+            {jobs.length} {jobs.length === 1 ? "role" : "roles"}
+            {dismissed.length > 0 && (
+              <>
+                {" · "}
+                <button
+                  className="dimmer"
+                  style={{ textDecoration: "underline" }}
+                  onClick={() => onShowDismissed(!showDismissed)}
+                >
+                  {showDismissed ? "hide hidden" : `${dismissed.length} hidden`}
+                </button>
+              </>
+            )}
+          </span>
         </div>
       </div>
 
@@ -108,41 +202,64 @@ export function JobList({
         {jobs.map((job) => {
           const tracked = appByJob.get(job.id)
           const logo = logoFor(job.company_domain)
+          const isDismissed = dismissed.includes(job.id)
           return (
-            <button
+            <div
               key={job.id}
-              className={`job${selectedId === job.id ? " on" : ""}`}
-              onClick={() => onSelect(job.id)}
+              className={`job-row${isDismissed ? " faded" : ""}`}
+              data-job={job.id}
             >
-              <div className="job-top">
-                <span className={`job-score ${scoreClass(job.match_score)}`}>{job.match_score}</span>
-                <span className="job-title">{job.title}</span>
-              </div>
-              <div className="job-meta">
-                {logo && (
-                  <img
-                    src={logo}
-                    alt=""
-                    width={13}
-                    height={13}
-                    style={{ borderRadius: 3, opacity: 0.85 }}
-                    onError={(e) => {
-                      ;(e.currentTarget as HTMLImageElement).style.display = "none"
-                    }}
-                  />
-                )}
-                <span className="job-company">{job.company}</span>
-                <span
-                  className={`job-where${job.eligible ? "" : " locked"}`}
-                  title={job.location_raw}
-                >
-                  {job.cities[0] ?? (job.workplace === "remote" ? "Remote" : job.location_raw || "—")}
-                </span>
-                <span className="dimmer job-when">{ago(job.posted_at)}</span>
-                {!job.eligible && <span className="tag-locked">{job.region_lock ?? "locked"}</span>}
-                {tracked && <span className="tag-applied">{tracked.stage.replace("_", " ")}</span>}
-              </div>
-            </button>
+              <button
+                className={`job${selectedId === job.id ? " on" : ""}`}
+                onClick={() => onSelect(job.id)}
+              >
+                <div className="job-top">
+                  <span className={`job-score ${scoreClass(job.match_score)}`}>
+                    {job.match_score}
+                  </span>
+                  <span className="job-title">{job.title}</span>
+                </div>
+                <div className="job-meta">
+                  {logo && (
+                    <img
+                      src={logo}
+                      alt=""
+                      width={13}
+                      height={13}
+                      style={{ borderRadius: 3, opacity: 0.85, flexShrink: 0 }}
+                      onError={(e) => {
+                        ;(e.currentTarget as HTMLImageElement).style.display = "none"
+                      }}
+                    />
+                  )}
+                  <span className="job-company">{job.company}</span>
+                  <span
+                    className={`job-where${job.eligible ? "" : " locked"}`}
+                    title={job.location_raw}
+                  >
+                    {job.cities[0] ??
+                      (job.workplace === "remote" ? "Remote" : job.location_raw || "—")}
+                  </span>
+                  <span className="dimmer job-when">{ago(job.posted_at)}</span>
+                  {!job.eligible && (
+                    <span className="tag-locked">{job.region_lock ?? "locked"}</span>
+                  )}
+                  {tracked && (
+                    <span className="tag-applied">{tracked.stage.replace("_", " ")}</span>
+                  )}
+                </div>
+              </button>
+              <button
+                className="job-dismiss"
+                title={isDismissed ? "Bring this back" : "Not interested"}
+                onClick={(event) => {
+                  event.stopPropagation()
+                  onDismiss(job.id)
+                }}
+              >
+                {isDismissed ? "↺" : "✕"}
+              </button>
+            </div>
           )
         })}
       </div>
