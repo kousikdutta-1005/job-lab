@@ -12,3 +12,5 @@ web/.vite/
 *.local
 web/test/.cache/
 web/test/.cache/
+web/dist/
+web/tsconfig.tsbuildinfo
