@@ -241,9 +241,12 @@ export function SettingsView({ settings, onChange, health, onRestored }: Props) 
             </tbody>
           </table>
           <p className="tiny dimmer" style={{ marginTop: 10, marginBottom: 0 }}>
-            Job data comes from public ATS APIs that companies publish themselves, plus open
-            aggregators. Remote roles relayed by Remotive link back to Remotive as their terms
-            require.
+            Job data comes from the public ATS APIs companies publish themselves — Greenhouse,
+            Lever, Ashby, Workable, SmartRecruiters, Recruitee and Workday — plus open
+            aggregators for the long tail: Remotive, RemoteOK, Jobicy, Himalayas, Arbeitnow,
+            We Work Remotely, and Hacker News “Who is hiring”. Roles relayed by Remotive and
+            RemoteOK link back to the original posting, as their terms require. Nothing here is
+            scraped from behind a login.
           </p>
         </div>
       </div>

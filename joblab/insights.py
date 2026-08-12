@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import statistics
 from collections import Counter
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 
 from .benchmarks import benchmark_basis, benchmark_for
 from .score import Profile
@@ -76,6 +76,15 @@ def _pay_context(jobs: list, profile: Profile) -> dict:
     }
 
 
+def _days_old(posted_at: str | None) -> int | None:
+    if not posted_at:
+        return None
+    try:
+        return (date.today() - datetime.fromisoformat(posted_at).date()).days
+    except ValueError:
+        return None
+
+
 def build_insights(jobs: list, profile: Profile, idf: dict[str, float], trends: dict | None, relocation: dict | None) -> dict:
     insights: list[dict] = []
     senior_jobs = [job for job in jobs if job.seniority in {"senior", "lead", "staff", "principal"}]
@@ -105,15 +114,137 @@ def build_insights(jobs: list, profile: Profile, idf: dict[str, float], trends: 
             )
         )
 
-    companies = Counter(job.company for job in jobs if job.eligible)
-    builders = [{"company": name, "open_roles": count} for name, count in companies.most_common() if count >= 2][:10]
+    by_company: dict[str, list] = {}
+    for job in jobs:
+        if job.eligible:
+            by_company.setdefault(job.company, []).append(job)
+    builders = [
+        {
+            "company": name,
+            "open_roles": len(rows),
+            "roles": [
+                {
+                    "title": job.title,
+                    "seniority": job.seniority_label,
+                    "location": job.location_raw,
+                    "url": job.url,
+                    "posted_at": job.posted_at,
+                }
+                for job in sorted(rows, key=lambda j: (j.posted_at or "", j.title), reverse=True)[:5]
+            ],
+        }
+        for name, rows in sorted(by_company.items(), key=lambda kv: (-len(kv[1]), kv[0]))
+        if len(rows) >= 2
+    ][:10]
     if builders:
+        names = ", ".join(f"{row['company']} ({row['open_roles']})" for row in builders[:5])
         insights.append(
             _insight(
-                "Prioritise companies building a design bench",
-                "Multiple open design roles at the same company are a stronger application signal than a single isolated posting.",
+                "Apply first where a design team is visibly being built",
+                f"Among India-eligible roles, these companies have 2+ open design postings right now: {names}. That is a stronger signal than one isolated role because teams usually hire in batches.",
                 builders,
-                "high" if builders[0]["open_roles"] >= 3 else "medium",
+                "high" if builders and builders[0]["open_roles"] >= 3 else "medium",
+            )
+        )
+
+    mid_jobs = [job for job in jobs if job.seniority == "mid"]
+    seniorish = [job for job in jobs if job.seniority in {"senior", "lead", "staff", "principal"}]
+    senior_df: Counter[str] = Counter(term for job in seniorish for term in set(job.keywords))
+    mid_df: Counter[str] = Counter(term for job in mid_jobs for term in set(job.keywords))
+    promotion_terms = []
+    for term, senior_count in senior_df.items():
+        if senior_count < 3:
+            continue
+        senior_share = senior_count / max(1, len(seniorish))
+        mid_share = mid_df.get(term, 0) / max(1, len(mid_jobs))
+        lift = senior_share / max(0.01, mid_share)
+        if lift >= 1.4:
+            examples = [
+                {"company": job.company, "title": job.title, "url": job.url}
+                for job in seniorish
+                if term in set(job.keywords)
+            ][:3]
+            promotion_terms.append(
+                {
+                    "term": term,
+                    "senior_jobs": senior_count,
+                    "senior_share": round(senior_share, 3),
+                    "mid_jobs": mid_df.get(term, 0),
+                    "mid_share": round(mid_share, 3),
+                    "lift": round(lift, 2),
+                    "examples": examples,
+                }
+            )
+    promotion_terms.sort(key=lambda r: (-r["lift"], -r["senior_jobs"], r["term"]))
+    if promotion_terms:
+        top_terms = ", ".join(f"{row['term']} ({row['lift']}×)" for row in promotion_terms[:5])
+        insights.append(
+            _insight(
+                "Senior postings over-index on these skills",
+                f"Compared with mid-level postings, senior-or-higher roles disproportionately mention: {top_terms}. These are concrete portfolio themes for the next-level story.",
+                promotion_terms[:8],
+                "medium" if len(seniorish) >= 20 and len(mid_jobs) >= 10 else "low",
+            )
+        )
+
+    demanded_strengths = []
+    for strength in profile.strengths:
+        count = sum(
+            1
+            for job in jobs
+            if strength in set(job.keywords)
+            or strength in (job.title or "").lower()
+            or strength in (job.description_text or "").lower()
+        )
+        demanded_strengths.append({"term": strength, "jobs": count, "share": round(count / max(1, len(jobs)), 3)})
+    demanded_strengths.sort(key=lambda r: (-r["jobs"], r["term"]))
+    if demanded_strengths:
+        top = [r for r in demanded_strengths if r["jobs"] > 0][:8]
+        low = [r for r in demanded_strengths if r["jobs"] == 0][:8]
+        body = "Your strongest market-aligned claims are " + ", ".join(f"{r['term']} ({r['jobs']} jobs)" for r in top[:5]) + "."
+        if low:
+            body += " These profile strengths did not appear in this crawl and should not lead the pitch: " + ", ".join(r["term"] for r in low[:5]) + "."
+        insights.append(
+            _insight(
+                "Profile strengths with real market pull",
+                body,
+                [{"sample_size": len(jobs), "top_strengths": top, "zero_hit_strengths": low}],
+                "high" if len(jobs) >= 100 else "medium",
+            )
+        )
+
+    india_paid = [
+        {
+            "company": job.company,
+            "title": job.title,
+            "location": job.location_raw,
+            "band": job.salary_parsed,
+            "url": job.url,
+        }
+        for job in jobs
+        if job.india and job.salary_parsed
+    ]
+    if india_paid:
+        insights.append(
+            _insight(
+                "Rare target: India roles with disclosed pay",
+                f"Only {len(india_paid)} India-based design postings disclose pay in this crawl. These should be prioritised because they reduce negotiation guesswork.",
+                india_paid[:10],
+                "medium" if len(india_paid) >= 3 else "low",
+            )
+        )
+
+    ages = [age for age in (_days_old(job.posted_at) for job in jobs if job.eligible) if age is not None and age >= 0]
+    if ages:
+        median_age = int(statistics.median(ages))
+        fresh = sum(1 for age in ages if age <= 7)
+        stale = sum(1 for age in ages if age > 30)
+        insights.append(
+            _insight(
+                "This market goes stale quickly",
+                f"The median India-eligible design posting is {median_age} days old; {fresh}/{len(ages)} dated roles are ≤7 days old and {stale}/{len(ages)} are older than 30 days. Apply within the first week when possible.",
+                [{"eligible_dated_roles": len(ages), "median_age_days": median_age, "fresh_7d": fresh, "stale_30d": stale}],
+                "medium" if len(ages) >= 20 else "low",
             )
         )
 

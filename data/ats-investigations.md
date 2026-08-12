@@ -19,3 +19,21 @@ that returns real postings and enough identity/location data to verify a board.
   pages or site-specific APIs, but no single public JSON contract was verified
   here without scraping rendered pages. Keep investigating per-company before
   adding platform code.
+
+## India/APAC aggregator investigations
+
+- Wellfound / AngelList Talent: public pages rendered only login/marketing HTML in
+  this environment and no stable no-auth JSON/RSS endpoint was verified. Not
+  added; scraping authenticated or anti-bot pages would violate the architecture.
+- Y Combinator Work at a Startup: the companies page returned HTML/406 depending
+  on headers and no stable public JSON contract was verified in this pass. Not
+  added until a no-auth jobs endpoint can be cited.
+- Instahyre, Cutshort, hirist and Naukri: checked as India-relevant sources, but
+  they do not expose a stable public JSON feed suitable for this static crawler;
+  several routes are rendered HTML or protected. Not scraped.
+- RemoteOK: added through `https://remoteok.com/remote-design-jobs.json`; posting
+  URLs remain RemoteOK URLs for attribution/link-back.
+- Jobicy: added through `https://jobicy.com/api/v2/remote-jobs?tag=design`; posting
+  URLs remain Jobicy URLs for attribution/link-back.
+- Hacker News Who is Hiring: added via Algolia's no-key comment API, restricted
+  to comments mentioning design roles and India/APAC/worldwide remote eligibility.

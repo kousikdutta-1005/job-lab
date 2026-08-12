@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-08-12T19:38:04+00:00",
+  "generated_at": "2026-08-12T19:44:46+00:00",
   "version": "0.1.0",
-  "duration_seconds": 10.2,
+  "duration_seconds": 10.7,
   "detection": {
     "total": 251,
     "cached": 251,
@@ -12,42 +12,45 @@
   "counts": {
     "companies_in_registry": 251,
     "companies_with_board": 113,
-    "raw_design_postings": 326,
+    "raw_design_postings": 360,
     "duplicates_removed": 12,
-    "jobs": 314,
-    "eligible": 52,
-    "ineligible": 262,
-    "on_map": 238,
-    "off_map": 76,
-    "places": 36,
-    "salary_disclosed": 45,
+    "jobs": 348,
+    "eligible": 65,
+    "ineligible": 283,
+    "on_map": 255,
+    "off_map": 93,
+    "places": 37,
+    "salary_disclosed": 57,
     "news_items": 60,
-    "insights": 5
+    "insights": 8
   },
   "by_source": {
     "greenhouse": 155,
     "ashby": 57,
     "workday": 54,
     "weworkremotely": 21,
+    "jobicy": 19,
     "himalayas": 11,
+    "hn-whoishiring": 11,
     "arbeitnow": 8,
     "lever": 7,
+    "remoteok": 4,
     "smartrecruiters": 1
   },
   "by_seniority": {
-    "Mid-level": 93,
-    "Senior": 74,
-    "Staff": 61,
-    "Manager": 22,
-    "Director": 22,
-    "Lead": 21,
-    "Principal": 15,
+    "Mid-level": 108,
+    "Senior": 80,
+    "Staff": 64,
+    "Lead": 24,
+    "Manager": 24,
+    "Director": 24,
+    "Principal": 16,
     "Head of Design": 5,
-    "Junior": 1
+    "Junior": 3
   },
   "by_workplace": {
     "onsite": 197,
-    "remote": 102,
+    "remote": 136,
     "hybrid": 15
   },
   "sources": [
@@ -79,6 +82,13 @@
       "error": null
     },
     {
+      "kind": "aggregator",
+      "name": "jobicy",
+      "postings": 100,
+      "jobs": 19,
+      "error": null
+    },
+    {
       "kind": "company",
       "name": "Stripe",
       "ats": "greenhouse",
@@ -93,6 +103,13 @@
       "name": "himalayas",
       "postings": 1200,
       "jobs": 15,
+      "error": null
+    },
+    {
+      "kind": "aggregator",
+      "name": "hn-whoishiring",
+      "postings": 11,
+      "jobs": 11,
       "error": null
     },
     {
@@ -359,6 +376,13 @@
       "slug": "snowflake",
       "confidence": "likely",
       "postings": 385,
+      "jobs": 4,
+      "error": null
+    },
+    {
+      "kind": "aggregator",
+      "name": "remoteok",
+      "postings": 100,
       "jobs": 4,
       "error": null
     },
@@ -1815,285 +1839,285 @@
     }
   ],
   "corpus": {
-    "documents": 314,
-    "distinct_terms": 146,
+    "documents": 348,
+    "distinct_terms": 149,
     "most_common": [
       {
         "term": "ai",
-        "jobs": 219,
-        "share": 0.697,
-        "idf": 1.3589
+        "jobs": 235,
+        "share": 0.675,
+        "idf": 1.3912
       },
       {
         "term": "platform",
-        "jobs": 153,
-        "share": 0.487,
-        "idf": 1.7156
+        "jobs": 168,
+        "share": 0.483,
+        "idf": 1.7252
       },
       {
         "term": "vision",
-        "jobs": 145,
-        "share": 0.462,
-        "idf": 1.769
+        "jobs": 154,
+        "share": 0.443,
+        "idf": 1.8116
       },
       {
         "term": "strategy",
-        "jobs": 134,
-        "share": 0.427,
-        "idf": 1.8473
+        "jobs": 147,
+        "share": 0.422,
+        "idf": 1.8579
       },
       {
         "term": "hiring",
-        "jobs": 103,
-        "share": 0.328,
-        "idf": 2.1082
+        "jobs": 119,
+        "share": 0.342,
+        "idf": 2.0676
       },
       {
         "term": "prototyping",
-        "jobs": 100,
-        "share": 0.318,
-        "idf": 2.1375
+        "jobs": 106,
+        "share": 0.305,
+        "idf": 2.1822
       },
       {
         "term": "figma",
-        "jobs": 92,
+        "jobs": 102,
         "share": 0.293,
-        "idf": 2.22
+        "idf": 2.2203
       },
       {
         "term": "design system",
-        "jobs": 80,
-        "share": 0.255,
-        "idf": 2.3581
+        "jobs": 88,
+        "share": 0.253,
+        "idf": 2.3664
       },
       {
         "term": "interaction design",
-        "jobs": 75,
-        "share": 0.239,
-        "idf": 2.4218
+        "jobs": 81,
+        "share": 0.233,
+        "idf": 2.4484
       },
       {
         "term": "influence",
-        "jobs": 73,
-        "share": 0.232,
-        "idf": 2.4485
+        "jobs": 77,
+        "share": 0.221,
+        "idf": 2.4984
       },
       {
         "term": "visual design",
-        "jobs": 65,
-        "share": 0.207,
-        "idf": 2.5629
-      },
-      {
-        "term": "enterprise",
-        "jobs": 60,
-        "share": 0.191,
-        "idf": 2.6417
-      },
-      {
-        "term": "consumer",
-        "jobs": 60,
-        "share": 0.191,
-        "idf": 2.6417
+        "jobs": 69,
+        "share": 0.198,
+        "idf": 2.6066
       },
       {
         "term": "accessibility",
-        "jobs": 57,
-        "share": 0.182,
-        "idf": 2.6921
+        "jobs": 66,
+        "share": 0.19,
+        "idf": 2.6504
+      },
+      {
+        "term": "enterprise",
+        "jobs": 63,
+        "share": 0.181,
+        "idf": 2.6962
+      },
+      {
+        "term": "consumer",
+        "jobs": 61,
+        "share": 0.175,
+        "idf": 2.7279
       },
       {
         "term": "agentic",
-        "jobs": 44,
-        "share": 0.14,
-        "idf": 2.9459
-      },
-      {
-        "term": "documentation",
-        "jobs": 43,
-        "share": 0.137,
-        "idf": 2.9684
+        "jobs": 47,
+        "share": 0.135,
+        "idf": 2.9839
       },
       {
         "term": "layout",
-        "jobs": 42,
-        "share": 0.134,
-        "idf": 2.9914
+        "jobs": 46,
+        "share": 0.132,
+        "idf": 3.0049
       },
       {
         "term": "discovery",
-        "jobs": 42,
-        "share": 0.134,
-        "idf": 2.9914
+        "jobs": 46,
+        "share": 0.132,
+        "idf": 3.0049
       },
       {
         "term": "user research",
-        "jobs": 41,
-        "share": 0.131,
-        "idf": 3.0149
+        "jobs": 44,
+        "share": 0.126,
+        "idf": 3.0484
       },
       {
-        "term": "roadmap",
-        "jobs": 39,
-        "share": 0.124,
-        "idf": 3.0637
-      },
-      {
-        "term": "b2b",
-        "jobs": 38,
-        "share": 0.121,
-        "idf": 3.089
+        "term": "documentation",
+        "jobs": 44,
+        "share": 0.126,
+        "idf": 3.0484
       },
       {
         "term": "saas",
-        "jobs": 37,
+        "jobs": 41,
         "share": 0.118,
-        "idf": 3.115
+        "idf": 3.1174
+      },
+      {
+        "term": "b2b",
+        "jobs": 41,
+        "share": 0.118,
+        "idf": 3.1174
       },
       {
         "term": "mentoring",
-        "jobs": 36,
+        "jobs": 41,
+        "share": 0.118,
+        "idf": 3.1174
+      },
+      {
+        "term": "roadmap",
+        "jobs": 40,
         "share": 0.115,
-        "idf": 3.1417
+        "idf": 3.1415
       },
       {
         "term": "typography",
-        "jobs": 33,
-        "share": 0.105,
-        "idf": 3.2262
+        "jobs": 36,
+        "share": 0.103,
+        "idf": 3.2442
       },
       {
         "term": "react",
-        "jobs": 31,
-        "share": 0.099,
-        "idf": 3.2868
+        "jobs": 35,
+        "share": 0.101,
+        "idf": 3.2716
       }
     ],
     "most_distinctive": [
       {
         "term": "keyboard navigation",
         "jobs": 1,
-        "idf": 6.0594
+        "idf": 6.1619
       },
       {
         "term": "accessibility annotations",
         "jobs": 1,
-        "idf": 6.0594
-      },
-      {
-        "term": "section 508",
-        "jobs": 1,
-        "idf": 6.0594
+        "idf": 6.1619
       },
       {
         "term": "contextual inquiry",
         "jobs": 1,
-        "idf": 6.0594
+        "idf": 6.1619
       },
       {
-        "term": "invision",
+        "term": "section 508",
         "jobs": 1,
-        "idf": 6.0594
+        "idf": 6.1619
       },
       {
         "term": "google analytics",
         "jobs": 1,
-        "idf": 6.0594
-      },
-      {
-        "term": "fullstory",
-        "jobs": 1,
-        "idf": 6.0594
+        "idf": 6.1619
       },
       {
         "term": "user interviews",
         "jobs": 1,
-        "idf": 6.0594
+        "idf": 6.1619
+      },
+      {
+        "term": "invision",
+        "jobs": 1,
+        "idf": 6.1619
+      },
+      {
+        "term": "fullstory",
+        "jobs": 1,
+        "idf": 6.1619
       },
       {
         "term": "evangelism",
         "jobs": 1,
-        "idf": 6.0594
+        "idf": 6.1619
       },
       {
         "term": "protopie",
         "jobs": 1,
-        "idf": 6.0594
+        "idf": 6.1619
+      },
+      {
+        "term": "svelte",
+        "jobs": 1,
+        "idf": 6.1619
+      },
+      {
+        "term": "vue",
+        "jobs": 1,
+        "idf": 6.1619
+      },
+      {
+        "term": "jobs to be done",
+        "jobs": 1,
+        "idf": 6.1619
       },
       {
         "term": "low fidelity",
         "jobs": 1,
-        "idf": 6.0594
-      },
-      {
-        "term": "whimsical",
-        "jobs": 1,
-        "idf": 6.0594
+        "idf": 6.1619
       },
       {
         "term": "style guide",
         "jobs": 1,
-        "idf": 6.0594
+        "idf": 6.1619
       },
       {
-        "term": "tokens studio",
+        "term": "whimsical",
         "jobs": 1,
-        "idf": 6.0594
+        "idf": 6.1619
       },
       {
         "term": "figma variables",
         "jobs": 1,
-        "idf": 6.0594
+        "idf": 6.1619
+      },
+      {
+        "term": "tokens studio",
+        "jobs": 1,
+        "idf": 6.1619
       },
       {
         "term": "okrs",
         "jobs": 1,
-        "idf": 6.0594
-      },
-      {
-        "term": "heuristic evaluation",
-        "jobs": 1,
-        "idf": 6.0594
-      },
-      {
-        "term": "card sorting",
-        "jobs": 1,
-        "idf": 6.0594
+        "idf": 6.1619
       },
       {
         "term": "confluence",
         "jobs": 1,
-        "idf": 6.0594
+        "idf": 6.1619
+      },
+      {
+        "term": "heuristic evaluation",
+        "jobs": 1,
+        "idf": 6.1619
+      },
+      {
+        "term": "card sorting",
+        "jobs": 1,
+        "idf": 6.1619
       },
       {
         "term": "maze",
         "jobs": 1,
-        "idf": 6.0594
+        "idf": 6.1619
       },
       {
         "term": "pattern library",
         "jobs": 1,
-        "idf": 6.0594
+        "idf": 6.1619
       },
       {
         "term": "webflow",
         "jobs": 1,
-        "idf": 6.0594
-      },
-      {
-        "term": "spline",
-        "jobs": 1,
-        "idf": 6.0594
-      },
-      {
-        "term": "hotjar",
-        "jobs": 2,
-        "idf": 5.654
-      },
-      {
-        "term": "sprint",
-        "jobs": 2,
-        "idf": 5.654
+        "idf": 6.1619
       }
     ]
   }
