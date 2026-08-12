@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-08-12T18:52:53+00:00",
+  "generated_at": "2026-08-12T19:02:52+00:00",
   "version": "0.1.0",
-  "duration_seconds": 6.8,
+  "duration_seconds": 6.5,
   "detection": {
     "total": 164,
     "cached": 164,
@@ -15,14 +15,14 @@
     "raw_design_postings": 181,
     "duplicates_removed": 6,
     "jobs": 175,
-    "eligible": 58,
-    "ineligible": 117,
+    "eligible": 60,
+    "ineligible": 115,
     "on_map": 134,
     "off_map": 41,
     "places": 32,
     "salary_disclosed": 31,
     "news_items": 60,
-    "insights": 4
+    "insights": 5
   },
   "by_source": {
     "greenhouse": 84,
@@ -45,9 +45,9 @@
     "Junior": 1
   },
   "by_workplace": {
-    "onsite": 82,
+    "onsite": 81,
     "remote": 80,
-    "hybrid": 13
+    "hybrid": 14
   },
   "sources": [
     {
@@ -1231,9 +1231,9 @@
       },
       {
         "term": "enterprise",
-        "jobs": 34,
-        "share": 0.194,
-        "idf": 2.6151
+        "jobs": 33,
+        "share": 0.189,
+        "idf": 2.6441
       },
       {
         "term": "b2b",
@@ -1248,25 +1248,25 @@
         "idf": 2.8383
       },
       {
-        "term": "consumer",
-        "jobs": 27,
-        "share": 0.154,
-        "idf": 2.8383
-      },
-      {
-        "term": "css",
-        "jobs": 26,
-        "share": 0.149,
-        "idf": 2.8746
-      },
-      {
         "term": "roadmap",
         "jobs": 26,
         "share": 0.149,
         "idf": 2.8746
       },
       {
+        "term": "consumer",
+        "jobs": 25,
+        "share": 0.143,
+        "idf": 2.9124
+      },
+      {
         "term": "layout",
+        "jobs": 24,
+        "share": 0.137,
+        "idf": 2.9516
+      },
+      {
+        "term": "css",
         "jobs": 24,
         "share": 0.137,
         "idf": 2.9516
@@ -1290,7 +1290,7 @@
         "idf": 3.035
       },
       {
-        "term": "discovery",
+        "term": "typography",
         "jobs": 22,
         "share": 0.126,
         "idf": 3.035
@@ -1302,7 +1302,7 @@
         "idf": 3.035
       },
       {
-        "term": "typography",
+        "term": "discovery",
         "jobs": 22,
         "share": 0.126,
         "idf": 3.035
@@ -1310,12 +1310,12 @@
     ],
     "most_distinctive": [
       {
-        "term": "keyboard navigation",
+        "term": "accessibility annotations",
         "jobs": 1,
         "idf": 5.4773
       },
       {
-        "term": "accessibility annotations",
+        "term": "keyboard navigation",
         "jobs": 1,
         "idf": 5.4773
       },
@@ -1330,12 +1330,12 @@
         "idf": 5.4773
       },
       {
-        "term": "user interviews",
+        "term": "fullstory",
         "jobs": 1,
         "idf": 5.4773
       },
       {
-        "term": "google analytics",
+        "term": "user interviews",
         "jobs": 1,
         "idf": 5.4773
       },
@@ -1345,12 +1345,12 @@
         "idf": 5.4773
       },
       {
-        "term": "fullstory",
+        "term": "sprint",
         "jobs": 1,
         "idf": 5.4773
       },
       {
-        "term": "sprint",
+        "term": "google analytics",
         "jobs": 1,
         "idf": 5.4773
       },
@@ -1360,12 +1360,12 @@
         "idf": 5.4773
       },
       {
-        "term": "lottie",
+        "term": "workshop",
         "jobs": 1,
         "idf": 5.4773
       },
       {
-        "term": "workshop",
+        "term": "lottie",
         "jobs": 1,
         "idf": 5.4773
       },
@@ -1390,7 +1390,7 @@
         "idf": 5.4773
       },
       {
-        "term": "figma variables",
+        "term": "variants",
         "jobs": 1,
         "idf": 5.4773
       },
@@ -1400,12 +1400,12 @@
         "idf": 5.4773
       },
       {
-        "term": "variants",
+        "term": "figma variables",
         "jobs": 1,
         "idf": 5.4773
       },
       {
-        "term": "heuristic evaluation",
+        "term": "confluence",
         "jobs": 1,
         "idf": 5.4773
       },
@@ -1415,7 +1415,7 @@
         "idf": 5.4773
       },
       {
-        "term": "confluence",
+        "term": "heuristic evaluation",
         "jobs": 1,
         "idf": 5.4773
       },

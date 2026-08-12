@@ -499,7 +499,7 @@ textarea {
   position: relative;
   overflow: hidden;
   background:
-    radial-gradient(1100px 600px at 62% 34%, #10141a 0%, var(--bg) 62%);
+    radial-gradient(1200px 680px at 60% 38%, #0e1319 0%, #08090b 68%);
 }
 
 .map-svg {
@@ -514,14 +514,17 @@ textarea {
 }
 
 .country {
-  fill: #12161c;
-  stroke: #1d232b;
-  stroke-width: 0.4;
+  fill: #191f27;
+  stroke: #2b333e;
+  stroke-width: 0.8;
   vector-effect: non-scaling-stroke;
 }
 
+/* Countries that are actually hiring sit forward of the rest, so the map
+   answers "where is there work" before you read a single label. */
 .country.has {
-  fill: #171d25;
+  fill: #232c38;
+  stroke: #3a4653;
 }
 
 .place-hit {
@@ -544,25 +547,25 @@ textarea {
 }
 
 .place-label {
-  fill: var(--ink-2);
-  font-size: 10px;
+  fill: var(--ink);
   font-family: var(--sans);
-  font-weight: 520;
+  font-weight: 560;
+  letter-spacing: -0.01em;
   pointer-events: none;
   paint-order: stroke;
-  stroke: var(--bg);
-  stroke-width: 3px;
+  stroke: rgba(8, 9, 11, 0.92);
   stroke-linejoin: round;
+  dominant-baseline: middle;
 }
 
 .place-count {
-  fill: var(--ink-4);
-  font-size: 9px;
+  fill: var(--ink-3);
   font-family: var(--mono);
   pointer-events: none;
   paint-order: stroke;
-  stroke: var(--bg);
-  stroke-width: 3px;
+  stroke: rgba(8, 9, 11, 0.92);
+  stroke-linejoin: round;
+  dominant-baseline: middle;
 }
 
 .map-controls {

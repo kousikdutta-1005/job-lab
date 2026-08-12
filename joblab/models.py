@@ -21,7 +21,13 @@ def html_to_text(raw: str) -> str:
     """
     if not raw:
         return ""
-    text = _SCRIPT_RE.sub(" ", raw)
+    text = raw
+    for _ in range(2):
+        unescaped = html.unescape(text)
+        if unescaped == text:
+            break
+        text = unescaped
+    text = _SCRIPT_RE.sub(" ", text)
     text = _BR_RE.sub("\n", text)
     text = _BLOCK_RE.sub("\n", text)
     text = re.sub(r"<li[^>]*>", "\n• ", text, flags=re.I)

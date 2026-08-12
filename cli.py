@@ -15,6 +15,7 @@ import sys
 from pathlib import Path
 
 from joblab.build import OUT_DIR, run
+from joblab.benchmarks import export_benchmarks
 from joblab.insights import build_insights
 from joblab.models import Job
 from joblab.news import collect_news
@@ -102,9 +103,16 @@ def cmd_trends(_: argparse.Namespace) -> int:
 
 
 def cmd_relocation(_: argparse.Namespace) -> int:
-    payload = build_relocation(_load_built_jobs())
+    payload = build_relocation(_load_built_jobs(), profile=load_profile())
     _write_json("relocation.json", payload)
     print(f"wrote relocation.json with {len(payload['cities'])} city row(s)")
+    return 0
+
+
+def cmd_benchmarks(_: argparse.Namespace) -> int:
+    payload = export_benchmarks()
+    _write_json("benchmarks.json", payload)
+    print(json.dumps(payload, indent=2))
     return 0
 
 
@@ -115,8 +123,9 @@ def cmd_insights(_: argparse.Namespace) -> int:
     relocation_path = OUT_DIR / "relocation.json"
     idf = json.loads(idf_path.read_text()) if idf_path.exists() else {}
     trends = json.loads(trends_path.read_text()) if trends_path.exists() else build_trends(jobs, write=True)
-    relocation = json.loads(relocation_path.read_text()) if relocation_path.exists() else build_relocation(jobs)
-    payload = build_insights(jobs, load_profile(), idf, trends, relocation)
+    profile = load_profile()
+    relocation = json.loads(relocation_path.read_text()) if relocation_path.exists() else build_relocation(jobs, profile=profile)
+    payload = build_insights(jobs, profile, idf, trends, relocation)
     _write_json("insights.json", payload)
     print(f"wrote insights.json with {len(payload['insights'])} insight(s)")
     return 0
@@ -150,6 +159,9 @@ def main() -> int:
 
     insights = sub.add_parser("insights", help="refresh evidence-backed recommendations JSON")
     insights.set_defaults(func=cmd_insights)
+
+    benchmarks = sub.add_parser("benchmarks", help="print and export published salary benchmarks")
+    benchmarks.set_defaults(func=cmd_benchmarks)
 
     args = parser.parse_args()
     return args.func(args)

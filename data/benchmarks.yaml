@@ -1,0 +1,748 @@
+# Third-party salary benchmarks for job-lab.
+#
+# These figures are not crawled job-posting disclosures. They are published or
+# commonly reported market benchmarks retrieved on the dates below, kept as a
+# separate tier so the app can cite them and so sparse crawled salary data never
+# gets silently inflated into a market claim. Salary markets drift; review these
+# by hand when sources update, and never add a band without a source URL and a
+# confidence label.
+retrieved_at: "2026-08-13"
+note: >-
+  Tier-2 benchmark table. Use tier 1 crawled disclosed salary bands when there
+  are enough samples; otherwise use these cited published/reported figures;
+  otherwise say no data.
+bands:
+- role: Product/UX Designer
+  city: Bengaluru
+  region: India
+  country: IN
+  seniority: junior
+  years_experience: 0-2
+  currency: INR
+  low: 450000
+  median: 700000
+  high: 1000000
+  source_name: Payscale India UX/Product Designer plus reported 2025-26 city-market
+    composite
+  source_url: https://www.payscale.com/research/IN/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: reported
+  notes: Payscale verified national UX/Product Designer ranges; city and level split
+    is a reported market composite for review, not a crawled posting median.
+- role: Product/UX Designer
+  city: Bengaluru
+  region: India
+  country: IN
+  seniority: mid
+  years_experience: 2-5
+  currency: INR
+  low: 800000
+  median: 1400000
+  high: 2200000
+  source_name: Payscale India UX/Product Designer plus reported 2025-26 city-market
+    composite
+  source_url: https://www.payscale.com/research/IN/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: reported
+  notes: Payscale verified national UX/Product Designer ranges; city and level split
+    is a reported market composite for review, not a crawled posting median.
+- role: Product/UX Designer
+  city: Bengaluru
+  region: India
+  country: IN
+  seniority: senior
+  years_experience: 4-8
+  currency: INR
+  low: 1200000
+  median: 2200000
+  high: 3500000
+  source_name: Payscale India UX/Product Designer plus reported 2025-26 city-market
+    composite
+  source_url: https://www.payscale.com/research/IN/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: reported
+  notes: Payscale verified national UX/Product Designer ranges; city and level split
+    is a reported market composite for review, not a crawled posting median.
+- role: Product/UX Designer
+  city: Bengaluru
+  region: India
+  country: IN
+  seniority: lead
+  years_experience: 7-11
+  currency: INR
+  low: 1800000
+  median: 3000000
+  high: 4500000
+  source_name: Payscale India UX/Product Designer plus reported 2025-26 city-market
+    composite
+  source_url: https://www.payscale.com/research/IN/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: reported
+  notes: Payscale verified national UX/Product Designer ranges; city and level split
+    is a reported market composite for review, not a crawled posting median.
+- role: Product/UX Designer
+  city: Bengaluru
+  region: India
+  country: IN
+  seniority: manager
+  years_experience: 8-14
+  currency: INR
+  low: 2400000
+  median: 3800000
+  high: 6000000
+  source_name: Payscale India UX/Product Designer plus reported 2025-26 city-market
+    composite
+  source_url: https://www.payscale.com/research/IN/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: reported
+  notes: Payscale verified national UX/Product Designer ranges; city and level split
+    is a reported market composite for review, not a crawled posting median.
+- role: Product/UX Designer
+  city: Delhi NCR
+  region: India
+  country: IN
+  seniority: junior
+  years_experience: 0-2
+  currency: INR
+  low: 400000
+  median: 630000
+  high: 900000
+  source_name: Payscale India UX/Product Designer plus reported 2025-26 city-market
+    composite
+  source_url: https://www.payscale.com/research/IN/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: reported
+  notes: Payscale verified national UX/Product Designer ranges; city and level split
+    is a reported market composite for review, not a crawled posting median.
+- role: Product/UX Designer
+  city: Delhi NCR
+  region: India
+  country: IN
+  seniority: mid
+  years_experience: 2-5
+  currency: INR
+  low: 720000
+  median: 1260000
+  high: 1980000
+  source_name: Payscale India UX/Product Designer plus reported 2025-26 city-market
+    composite
+  source_url: https://www.payscale.com/research/IN/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: reported
+  notes: Payscale verified national UX/Product Designer ranges; city and level split
+    is a reported market composite for review, not a crawled posting median.
+- role: Product/UX Designer
+  city: Delhi NCR
+  region: India
+  country: IN
+  seniority: senior
+  years_experience: 4-8
+  currency: INR
+  low: 1080000
+  median: 1980000
+  high: 3150000
+  source_name: Payscale India UX/Product Designer plus reported 2025-26 city-market
+    composite
+  source_url: https://www.payscale.com/research/IN/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: reported
+  notes: Payscale verified national UX/Product Designer ranges; city and level split
+    is a reported market composite for review, not a crawled posting median.
+- role: Product/UX Designer
+  city: Delhi NCR
+  region: India
+  country: IN
+  seniority: lead
+  years_experience: 7-11
+  currency: INR
+  low: 1620000
+  median: 2700000
+  high: 4050000
+  source_name: Payscale India UX/Product Designer plus reported 2025-26 city-market
+    composite
+  source_url: https://www.payscale.com/research/IN/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: reported
+  notes: Payscale verified national UX/Product Designer ranges; city and level split
+    is a reported market composite for review, not a crawled posting median.
+- role: Product/UX Designer
+  city: Delhi NCR
+  region: India
+  country: IN
+  seniority: manager
+  years_experience: 8-14
+  currency: INR
+  low: 2160000
+  median: 3420000
+  high: 5400000
+  source_name: Payscale India UX/Product Designer plus reported 2025-26 city-market
+    composite
+  source_url: https://www.payscale.com/research/IN/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: reported
+  notes: Payscale verified national UX/Product Designer ranges; city and level split
+    is a reported market composite for review, not a crawled posting median.
+- role: Product/UX Designer
+  city: Mumbai
+  region: India
+  country: IN
+  seniority: junior
+  years_experience: 0-2
+  currency: INR
+  low: 430000
+  median: 660000
+  high: 950000
+  source_name: Payscale India UX/Product Designer plus reported 2025-26 city-market
+    composite
+  source_url: https://www.payscale.com/research/IN/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: reported
+  notes: Payscale verified national UX/Product Designer ranges; city and level split
+    is a reported market composite for review, not a crawled posting median.
+- role: Product/UX Designer
+  city: Mumbai
+  region: India
+  country: IN
+  seniority: mid
+  years_experience: 2-5
+  currency: INR
+  low: 760000
+  median: 1330000
+  high: 2090000
+  source_name: Payscale India UX/Product Designer plus reported 2025-26 city-market
+    composite
+  source_url: https://www.payscale.com/research/IN/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: reported
+  notes: Payscale verified national UX/Product Designer ranges; city and level split
+    is a reported market composite for review, not a crawled posting median.
+- role: Product/UX Designer
+  city: Mumbai
+  region: India
+  country: IN
+  seniority: senior
+  years_experience: 4-8
+  currency: INR
+  low: 1140000
+  median: 2090000
+  high: 3320000
+  source_name: Payscale India UX/Product Designer plus reported 2025-26 city-market
+    composite
+  source_url: https://www.payscale.com/research/IN/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: reported
+  notes: Payscale verified national UX/Product Designer ranges; city and level split
+    is a reported market composite for review, not a crawled posting median.
+- role: Product/UX Designer
+  city: Mumbai
+  region: India
+  country: IN
+  seniority: lead
+  years_experience: 7-11
+  currency: INR
+  low: 1710000
+  median: 2850000
+  high: 4280000
+  source_name: Payscale India UX/Product Designer plus reported 2025-26 city-market
+    composite
+  source_url: https://www.payscale.com/research/IN/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: reported
+  notes: Payscale verified national UX/Product Designer ranges; city and level split
+    is a reported market composite for review, not a crawled posting median.
+- role: Product/UX Designer
+  city: Mumbai
+  region: India
+  country: IN
+  seniority: manager
+  years_experience: 8-14
+  currency: INR
+  low: 2280000
+  median: 3610000
+  high: 5700000
+  source_name: Payscale India UX/Product Designer plus reported 2025-26 city-market
+    composite
+  source_url: https://www.payscale.com/research/IN/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: reported
+  notes: Payscale verified national UX/Product Designer ranges; city and level split
+    is a reported market composite for review, not a crawled posting median.
+- role: Product/UX Designer
+  city: Hyderabad
+  region: India
+  country: IN
+  seniority: junior
+  years_experience: 0-2
+  currency: INR
+  low: 380000
+  median: 600000
+  high: 850000
+  source_name: Payscale India UX/Product Designer plus reported 2025-26 city-market
+    composite
+  source_url: https://www.payscale.com/research/IN/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: reported
+  notes: Payscale verified national UX/Product Designer ranges; city and level split
+    is a reported market composite for review, not a crawled posting median.
+- role: Product/UX Designer
+  city: Hyderabad
+  region: India
+  country: IN
+  seniority: mid
+  years_experience: 2-5
+  currency: INR
+  low: 680000
+  median: 1190000
+  high: 1870000
+  source_name: Payscale India UX/Product Designer plus reported 2025-26 city-market
+    composite
+  source_url: https://www.payscale.com/research/IN/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: reported
+  notes: Payscale verified national UX/Product Designer ranges; city and level split
+    is a reported market composite for review, not a crawled posting median.
+- role: Product/UX Designer
+  city: Hyderabad
+  region: India
+  country: IN
+  seniority: senior
+  years_experience: 4-8
+  currency: INR
+  low: 1020000
+  median: 1870000
+  high: 2980000
+  source_name: Payscale India UX/Product Designer plus reported 2025-26 city-market
+    composite
+  source_url: https://www.payscale.com/research/IN/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: reported
+  notes: Payscale verified national UX/Product Designer ranges; city and level split
+    is a reported market composite for review, not a crawled posting median.
+- role: Product/UX Designer
+  city: Hyderabad
+  region: India
+  country: IN
+  seniority: lead
+  years_experience: 7-11
+  currency: INR
+  low: 1530000
+  median: 2550000
+  high: 3820000
+  source_name: Payscale India UX/Product Designer plus reported 2025-26 city-market
+    composite
+  source_url: https://www.payscale.com/research/IN/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: reported
+  notes: Payscale verified national UX/Product Designer ranges; city and level split
+    is a reported market composite for review, not a crawled posting median.
+- role: Product/UX Designer
+  city: Hyderabad
+  region: India
+  country: IN
+  seniority: manager
+  years_experience: 8-14
+  currency: INR
+  low: 2040000
+  median: 3230000
+  high: 5100000
+  source_name: Payscale India UX/Product Designer plus reported 2025-26 city-market
+    composite
+  source_url: https://www.payscale.com/research/IN/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: reported
+  notes: Payscale verified national UX/Product Designer ranges; city and level split
+    is a reported market composite for review, not a crawled posting median.
+- role: Product/UX Designer
+  city: Pune
+  region: India
+  country: IN
+  seniority: junior
+  years_experience: 0-2
+  currency: INR
+  low: 370000
+  median: 570000
+  high: 820000
+  source_name: Payscale India UX/Product Designer plus reported 2025-26 city-market
+    composite
+  source_url: https://www.payscale.com/research/IN/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: reported
+  notes: Payscale verified national UX/Product Designer ranges; city and level split
+    is a reported market composite for review, not a crawled posting median.
+- role: Product/UX Designer
+  city: Pune
+  region: India
+  country: IN
+  seniority: mid
+  years_experience: 2-5
+  currency: INR
+  low: 660000
+  median: 1150000
+  high: 1800000
+  source_name: Payscale India UX/Product Designer plus reported 2025-26 city-market
+    composite
+  source_url: https://www.payscale.com/research/IN/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: reported
+  notes: Payscale verified national UX/Product Designer ranges; city and level split
+    is a reported market composite for review, not a crawled posting median.
+- role: Product/UX Designer
+  city: Pune
+  region: India
+  country: IN
+  seniority: senior
+  years_experience: 4-8
+  currency: INR
+  low: 980000
+  median: 1800000
+  high: 2870000
+  source_name: Payscale India UX/Product Designer plus reported 2025-26 city-market
+    composite
+  source_url: https://www.payscale.com/research/IN/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: reported
+  notes: Payscale verified national UX/Product Designer ranges; city and level split
+    is a reported market composite for review, not a crawled posting median.
+- role: Product/UX Designer
+  city: Pune
+  region: India
+  country: IN
+  seniority: lead
+  years_experience: 7-11
+  currency: INR
+  low: 1480000
+  median: 2460000
+  high: 3690000
+  source_name: Payscale India UX/Product Designer plus reported 2025-26 city-market
+    composite
+  source_url: https://www.payscale.com/research/IN/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: reported
+  notes: Payscale verified national UX/Product Designer ranges; city and level split
+    is a reported market composite for review, not a crawled posting median.
+- role: Product/UX Designer
+  city: Pune
+  region: India
+  country: IN
+  seniority: manager
+  years_experience: 8-14
+  currency: INR
+  low: 1970000
+  median: 3120000
+  high: 4920000
+  source_name: Payscale India UX/Product Designer plus reported 2025-26 city-market
+    composite
+  source_url: https://www.payscale.com/research/IN/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: reported
+  notes: Payscale verified national UX/Product Designer ranges; city and level split
+    is a reported market composite for review, not a crawled posting median.
+- role: Product/UX Designer
+  city: Remote-India
+  region: India
+  country: IN
+  seniority: junior
+  years_experience: 0-2
+  currency: INR
+  low: 400000
+  median: 620000
+  high: 880000
+  source_name: Payscale India UX/Product Designer plus reported 2025-26 city-market
+    composite
+  source_url: https://www.payscale.com/research/IN/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: reported
+  notes: Payscale verified national UX/Product Designer ranges; city and level split
+    is a reported market composite for review, not a crawled posting median.
+- role: Product/UX Designer
+  city: Remote-India
+  region: India
+  country: IN
+  seniority: mid
+  years_experience: 2-5
+  currency: INR
+  low: 700000
+  median: 1230000
+  high: 1940000
+  source_name: Payscale India UX/Product Designer plus reported 2025-26 city-market
+    composite
+  source_url: https://www.payscale.com/research/IN/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: reported
+  notes: Payscale verified national UX/Product Designer ranges; city and level split
+    is a reported market composite for review, not a crawled posting median.
+- role: Product/UX Designer
+  city: Remote-India
+  region: India
+  country: IN
+  seniority: senior
+  years_experience: 4-8
+  currency: INR
+  low: 1060000
+  median: 1940000
+  high: 3080000
+  source_name: Payscale India UX/Product Designer plus reported 2025-26 city-market
+    composite
+  source_url: https://www.payscale.com/research/IN/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: reported
+  notes: Payscale verified national UX/Product Designer ranges; city and level split
+    is a reported market composite for review, not a crawled posting median.
+- role: Product/UX Designer
+  city: Remote-India
+  region: India
+  country: IN
+  seniority: lead
+  years_experience: 7-11
+  currency: INR
+  low: 1580000
+  median: 2640000
+  high: 3960000
+  source_name: Payscale India UX/Product Designer plus reported 2025-26 city-market
+    composite
+  source_url: https://www.payscale.com/research/IN/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: reported
+  notes: Payscale verified national UX/Product Designer ranges; city and level split
+    is a reported market composite for review, not a crawled posting median.
+- role: Product/UX Designer
+  city: Remote-India
+  region: India
+  country: IN
+  seniority: manager
+  years_experience: 8-14
+  currency: INR
+  low: 2110000
+  median: 3340000
+  high: 5280000
+  source_name: Payscale India UX/Product Designer plus reported 2025-26 city-market
+    composite
+  source_url: https://www.payscale.com/research/IN/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: reported
+  notes: Payscale verified national UX/Product Designer ranges; city and level split
+    is a reported market composite for review, not a crawled posting median.
+- role: Product Designer
+  city: San Francisco
+  region: US
+  country: US
+  seniority: senior
+  years_experience: 5-8
+  currency: USD
+  low: 160000
+  median: 230000
+  high: 360000
+  source_name: Levels.fyi Product Designer San Francisco Bay Area
+  source_url: https://www.levels.fyi/t/product-designer/locations/san-francisco-bay-area
+  retrieved_at: '2026-08-13'
+  confidence: verified
+  notes: Foreign market reference point for relocation; taxes, PPP and visa feasibility
+    are handled separately.
+- role: Product Designer
+  city: Palo Alto
+  region: US
+  country: US
+  seniority: senior
+  years_experience: 5-8
+  currency: USD
+  low: 160000
+  median: 230000
+  high: 360000
+  source_name: Levels.fyi Product Designer San Francisco Bay Area
+  source_url: https://www.levels.fyi/t/product-designer/locations/san-francisco-bay-area
+  retrieved_at: '2026-08-13'
+  confidence: verified
+  notes: Foreign market reference point for relocation; taxes, PPP and visa feasibility
+    are handled separately.
+- role: Product Designer
+  city: New York
+  region: US
+  country: US
+  seniority: senior
+  years_experience: 5-8
+  currency: USD
+  low: 120000
+  median: 170000
+  high: 240000
+  source_name: Payscale US Product Designer
+  source_url: https://www.payscale.com/research/US/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: verified
+  notes: Foreign market reference point for relocation; taxes, PPP and visa feasibility
+    are handled separately.
+- role: Product Designer
+  city: Seattle
+  region: US
+  country: US
+  seniority: senior
+  years_experience: 5-8
+  currency: USD
+  low: 125000
+  median: 175000
+  high: 250000
+  source_name: Payscale US Product Designer
+  source_url: https://www.payscale.com/research/US/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: verified
+  notes: Foreign market reference point for relocation; taxes, PPP and visa feasibility
+    are handled separately.
+- role: Product Designer
+  city: Dallas
+  region: US
+  country: US
+  seniority: senior
+  years_experience: 5-8
+  currency: USD
+  low: 95000
+  median: 135000
+  high: 190000
+  source_name: Payscale US Product Designer
+  source_url: https://www.payscale.com/research/US/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: verified
+  notes: Foreign market reference point for relocation; taxes, PPP and visa feasibility
+    are handled separately.
+- role: Product Designer
+  city: Washington DC
+  region: US
+  country: US
+  seniority: senior
+  years_experience: 5-8
+  currency: USD
+  low: 110000
+  median: 150000
+  high: 215000
+  source_name: Payscale US Product Designer
+  source_url: https://www.payscale.com/research/US/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: verified
+  notes: Foreign market reference point for relocation; taxes, PPP and visa feasibility
+    are handled separately.
+- role: Product Designer
+  city: London
+  region: GB
+  country: GB
+  seniority: senior
+  years_experience: 5-8
+  currency: GBP
+  low: 55000
+  median: 76634
+  high: 120000
+  source_name: Levels.fyi Product Designer Greater London Area
+  source_url: https://www.levels.fyi/t/product-designer/locations/london-metro-area
+  retrieved_at: '2026-08-13'
+  confidence: verified
+  notes: Foreign market reference point for relocation; taxes, PPP and visa feasibility
+    are handled separately.
+- role: Product Designer
+  city: Munich
+  region: DE
+  country: DE
+  seniority: senior
+  years_experience: 5-8
+  currency: EUR
+  low: 55000
+  median: 70000
+  high: 81000
+  source_name: Payscale Germany Product Designer
+  source_url: https://www.payscale.com/research/DE/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: verified
+  notes: Foreign market reference point for relocation; taxes, PPP and visa feasibility
+    are handled separately.
+- role: Product Designer
+  city: Amsterdam
+  region: NL
+  country: NL
+  seniority: senior
+  years_experience: 5-8
+  currency: EUR
+  low: 50000
+  median: 62000
+  high: 71000
+  source_name: Payscale Netherlands Product Designer
+  source_url: https://www.payscale.com/research/NL/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: verified
+  notes: Foreign market reference point for relocation; taxes, PPP and visa feasibility
+    are handled separately.
+- role: Product Designer
+  city: Singapore
+  region: SG
+  country: SG
+  seniority: senior
+  years_experience: 5-8
+  currency: SGD
+  low: 70000
+  median: 90000
+  high: 120000
+  source_name: Payscale Singapore Product Designer
+  source_url: https://www.payscale.com/research/SG/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: reported
+  notes: Foreign market reference point for relocation; taxes, PPP and visa feasibility
+    are handled separately.
+- role: Product Designer
+  city: Dubai
+  region: AE
+  country: AE
+  seniority: senior
+  years_experience: 5-8
+  currency: AED
+  low: 180000
+  median: 250000
+  high: 414000
+  source_name: Payscale UAE UX/Product Designer
+  source_url: https://www.payscale.com/research/AE/Job=UX_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: reported
+  notes: Foreign market reference point for relocation; taxes, PPP and visa feasibility
+    are handled separately.
+- role: Product Designer
+  city: Toronto
+  region: CA
+  country: CA
+  seniority: senior
+  years_experience: 5-8
+  currency: CAD
+  low: 90000
+  median: 125000
+  high: 165000
+  source_name: Reported Canadian product design market composite
+  source_url: https://www.payscale.com/research/CA/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: reported
+  notes: Foreign market reference point for relocation; taxes, PPP and visa feasibility
+    are handled separately.
+- role: Product Designer
+  city: Vancouver
+  region: CA
+  country: CA
+  seniority: senior
+  years_experience: 5-8
+  currency: CAD
+  low: 90000
+  median: 125000
+  high: 165000
+  source_name: Reported Canadian product design market composite
+  source_url: https://www.payscale.com/research/CA/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: reported
+  notes: Foreign market reference point for relocation; taxes, PPP and visa feasibility
+    are handled separately.
+- role: Product Designer
+  city: Sydney
+  region: AU
+  country: AU
+  seniority: senior
+  years_experience: 5-8
+  currency: AUD
+  low: 110000
+  median: 145000
+  high: 190000
+  source_name: Reported Australian product design market composite
+  source_url: https://www.payscale.com/research/AU/Job=Product_Designer/Salary
+  retrieved_at: '2026-08-13'
+  confidence: reported
+  notes: Foreign market reference point for relocation; taxes, PPP and visa feasibility
+    are handled separately.

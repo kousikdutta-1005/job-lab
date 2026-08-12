@@ -8,6 +8,7 @@ board from being rebuilt from everything else that answered.
 from __future__ import annotations
 
 import json
+import re
 import time
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -15,6 +16,7 @@ from datetime import date, datetime, timezone
 from pathlib import Path
 
 from . import __version__
+from .benchmarks import export_benchmarks
 from .classify import enrich, keep
 from .contacts import email_guesses, linkedin_links
 from .corpus import build_idf, corpus_stats
@@ -47,6 +49,8 @@ SOURCE_PRIORITY = {
     "weworkremotely": 4,
     "arbeitnow": 3,
 }
+
+_DESCRIPTION_MARKUP_RE = re.compile(r"<div|<p(?:\s|>)|<br|</|&lt;|&amp;|&nbsp;", re.I)
 
 
 def _collect_company_jobs(companies, ats_map, workers: int = 10) -> tuple[list[Job], list[dict]]:
@@ -140,6 +144,30 @@ def _dedupe(jobs: list[Job]) -> tuple[list[Job], int]:
     return list(best.values()), len(jobs) - len(best)
 
 
+def _description_markup_offenders(jobs: list[Job]) -> list[dict]:
+    """Descriptions must be plain text before they become user-visible JSON.
+
+    Greenhouse once returned HTML escaped as text. Stripping tags before
+    unescaping made the UI show literal `<div>` and `<p>` tags, which is exactly
+    the kind of data bug that only appears after deployment. Failing the build
+    here keeps that regression noisy.
+    """
+    offenders = []
+    for job in jobs:
+        text = job.description_text or ""
+        if _DESCRIPTION_MARKUP_RE.search(text):
+            offenders.append(
+                {
+                    "id": job.id,
+                    "source": job.source,
+                    "company": job.company,
+                    "title": job.title,
+                    "snippet": text[:160],
+                }
+            )
+    return offenders
+
+
 def run(*, force_detect: bool = False, workers: int = 10, write: bool = True) -> dict:
     started = time.time()
     today = date.today()
@@ -172,7 +200,14 @@ def run(*, force_detect: bool = False, workers: int = 10, write: bool = True) ->
     idf = build_idf(jobs)
     news, news_health = collect_news()
     trends = build_trends(jobs, write=write)
-    relocation = build_relocation(jobs)
+    salary_benchmarks = export_benchmarks()
+    pay["tiers"] = {
+        "tier_1": "Crawled disclosed salary bands from live postings.",
+        "tier_2": "Published benchmarks from data/benchmarks.yaml, with source and confidence.",
+        "tier_3": "No data; the UI should say so.",
+    }
+    pay["published_benchmarks"] = salary_benchmarks
+    relocation = build_relocation(jobs, profile=profile)
     relocation_health = {
         "kind": "relocation",
         "name": "World Bank PPP",
@@ -213,6 +248,14 @@ def run(*, force_detect: bool = False, workers: int = 10, write: bool = True) ->
         job.linkedin = linkedin_links(job.company, job.seniority)
 
     jobs.sort(key=lambda j: (-j.match_score, j.posted_at or "", j.company))
+
+    markup_offenders = _description_markup_offenders(jobs)
+    if markup_offenders:
+        sample = "; ".join(
+            f"{row['source']} {row['company']} {row['title']}: {row['snippet']!r}"
+            for row in markup_offenders[:3]
+        )
+        raise RuntimeError(f"{len(markup_offenders)} job descriptions still contain HTML markup/entities. {sample}")
 
     eligible = [j for j in jobs if j.eligible]
 
@@ -310,6 +353,7 @@ def run(*, force_detect: bool = False, workers: int = 10, write: bool = True) ->
         (OUT_DIR / "trends.json").write_text(json.dumps(trends, separators=(",", ":")))
         (OUT_DIR / "relocation.json").write_text(json.dumps(relocation, separators=(",", ":")))
         (OUT_DIR / "insights.json").write_text(json.dumps(insights, separators=(",", ":")))
+        (OUT_DIR / "benchmarks.json").write_text(json.dumps(salary_benchmarks, separators=(",", ":")))
         (OUT_DIR / "health.json").write_text(json.dumps(health, indent=2))
         (OUT_DIR / "profile.json").write_text(json.dumps(profile.to_dict(), indent=2))
 

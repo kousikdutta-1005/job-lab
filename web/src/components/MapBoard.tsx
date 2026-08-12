@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react"
 import type { GeoJSON } from "@/lib/data"
 import type { Job, Place } from "@/lib/types"
-import { PRESETS, clampView, pathsFor, project, viewBoxOf, type View } from "@/lib/projection"
+import { PRESETS, WORLD_W, clampView, pathsFor, project, viewBoxOf, type View } from "@/lib/projection"
 
 interface Props {
   world: GeoJSON
@@ -14,8 +14,20 @@ interface Props {
 
 export function MapBoard({ world, places, jobs, selectedPlace, onSelectPlace, eligibleOnly }: Props) {
   const [view, setView] = useState<View>(PRESETS.india)
+  const [aspect, setAspect] = useState(2)
   const svgRef = useRef<SVGSVGElement>(null)
   const drag = useRef<{ x: number; y: number; cx: number; cy: number } | null>(null)
+
+  useEffect(() => {
+    const node = svgRef.current
+    if (!node) return
+    const observer = new ResizeObserver(([entry]) => {
+      const { width, height } = entry.contentRect
+      if (width > 0 && height > 0) setAspect(width / height)
+    })
+    observer.observe(node)
+    return () => observer.disconnect()
+  }, [])
 
   const countries = useMemo(() => pathsFor(world), [world])
 
@@ -52,8 +64,7 @@ export function MapBoard({ world, places, jobs, selectedPlace, onSelectPlace, el
       event.preventDefault()
       setView((current) => {
         const factor = Math.exp(-event.deltaY * 0.0016)
-        const next = clampView({ ...current, zoom: current.zoom * factor })
-        return next
+        return clampView({ ...current, zoom: current.zoom * factor })
       })
     }
 
@@ -70,13 +81,16 @@ export function MapBoard({ world, places, jobs, selectedPlace, onSelectPlace, el
     const origin = drag.current
     if (!origin || !svgRef.current) return
     const rect = svgRef.current.getBoundingClientRect()
-    const scale = 1000 / view.zoom / rect.width
+    const scale = WORLD_W / view.zoom / rect.width
     setView((current) =>
-      clampView({
-        ...current,
-        cx: origin.cx - (event.clientX - origin.x) * scale,
-        cy: origin.cy - (event.clientY - origin.y) * scale,
-      }),
+      clampView(
+        {
+          ...current,
+          cx: origin.cx - (event.clientX - origin.x) * scale,
+          cy: origin.cy - (event.clientY - origin.y) * scale,
+        },
+        aspect,
+      ),
     )
   }
 
@@ -84,23 +98,27 @@ export function MapBoard({ world, places, jobs, selectedPlace, onSelectPlace, el
     drag.current = null
   }
 
-  // Points shrink as you zoom in, so a dense cluster resolves into separate
-  // cities instead of one growing blob.
+  // Everything drawn on top of the map is sized in viewBox units, which the
+  // browser then scales by the zoom factor. Dividing by sqrt(zoom) looked
+  // right at 1x and turned "Delhi NCR" into a banner across half of India at
+  // 6.5x. Screen-constant size means dividing by the zoom exactly.
+  const k = 1 / view.zoom
+
   const r = (place: Place) => {
     const n = eligibleOnly ? place.eligible : place.jobs
-    const base = 3 + Math.sqrt(n / maxJobs) * 9
-    return base / Math.sqrt(view.zoom)
+    return (3.5 + Math.sqrt(n / maxJobs) * 8) * k
   }
 
-  const labelSize = 10 / Math.sqrt(view.zoom)
+  const labelSize = 11 * k
+  const countSize = 9.5 * k
 
   return (
     <div className="stage">
       <svg
         ref={svgRef}
         className="map-svg"
-        viewBox={viewBoxOf(view)}
-        preserveAspectRatio="xMidYMid slice"
+        viewBox={viewBoxOf(view, aspect)}
+        preserveAspectRatio="xMidYMid meet"
         onPointerDown={startDrag}
         onPointerMove={moveDrag}
         onPointerUp={endDrag}
@@ -128,6 +146,15 @@ export function MapBoard({ world, places, jobs, selectedPlace, onSelectPlace, el
               <g key={place.label}>
                 {on && <circle className="place-halo" cx={x} cy={y} r={radius * 2.6} />}
                 <circle
+                  cx={x}
+                  cy={y}
+                  r={radius}
+                  fill="none"
+                  stroke="var(--bg)"
+                  strokeWidth={1.2 * k}
+                  opacity={0.9}
+                />
+                <circle
                   className={`place-dot${place.eligible === 0 ? " none" : ""}`}
                   cx={x}
                   cy={y}
@@ -138,7 +165,7 @@ export function MapBoard({ world, places, jobs, selectedPlace, onSelectPlace, el
                   className="place-hit"
                   cx={x}
                   cy={y}
-                  r={Math.max(radius * 1.8, 9 / view.zoom)}
+                  r={Math.max(radius * 1.9, 10 * k)}
                   onClick={(event) => {
                     event.stopPropagation()
                     onSelectPlace(on ? null : place.label)
@@ -150,17 +177,17 @@ export function MapBoard({ world, places, jobs, selectedPlace, onSelectPlace, el
                   <>
                     <text
                       className="place-label"
-                      x={x + radius + 3 / view.zoom}
-                      y={y - 1 / view.zoom}
-                      style={{ fontSize: labelSize }}
+                      x={x + radius + 4 * k}
+                      y={y + 1 * k}
+                      style={{ fontSize: labelSize, strokeWidth: 3 * k }}
                     >
                       {place.label}
                     </text>
                     <text
                       className="place-count"
-                      x={x + radius + 3 / view.zoom}
-                      y={y + labelSize}
-                      style={{ fontSize: labelSize * 0.85 }}
+                      x={x + radius + 4 * k}
+                      y={y + 1 * k + labelSize * 1.05}
+                      style={{ fontSize: countSize, strokeWidth: 3 * k }}
                     >
                       {count} {count === 1 ? "role" : "roles"}
                     </text>
@@ -201,10 +228,10 @@ export function MapBoard({ world, places, jobs, selectedPlace, onSelectPlace, el
         <button title="World" onClick={() => setView(PRESETS.world)}>
           ⌂
         </button>
-        <button title="Zoom in" onClick={() => setView((v) => clampView({ ...v, zoom: v.zoom * 1.5 }))}>
+        <button title="Zoom in" onClick={() => setView((v) => clampView({ ...v, zoom: v.zoom * 1.5 }, aspect))}>
           +
         </button>
-        <button title="Zoom out" onClick={() => setView((v) => clampView({ ...v, zoom: v.zoom / 1.5 }))}>
+        <button title="Zoom out" onClick={() => setView((v) => clampView({ ...v, zoom: v.zoom / 1.5 }, aspect))}>
           −
         </button>
       </div>

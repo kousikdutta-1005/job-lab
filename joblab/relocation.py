@@ -14,8 +14,10 @@ from collections import defaultdict
 from datetime import datetime, timezone
 from typing import Any
 
+from .benchmarks import BenchmarkBand, benchmark_basis, benchmark_for
 from .net import fetch_json
 from .salary import FX_TO_INR
+from .score import Profile
 
 WORLDBANK_IND_PPP_URL = "https://api.worldbank.org/v2/country/IND/indicator/PA.NUS.PPP?format=json&per_page=100"
 
@@ -66,6 +68,7 @@ COUNTRY_TAX_AND_VISA: dict[str, dict[str, Any]] = {
     "US": {"effective_tax_rate": 0.32, "tax_note": "Federal, payroll and typical state taxes vary widely.", "visa_difficulty": "very_high", "visa_note": "H-1B is capped and lottery-based unless the employer is cap-exempt; a better salary is not automatically obtainable.", "sources": ["https://www.uscis.gov/working-in-the-united-states/h-1b-specialty-occupations"]},
     "GB": {"effective_tax_rate": 0.36, "tax_note": "Income tax plus national insurance at experienced tech salary levels.", "visa_difficulty": "medium", "visa_note": "Skilled Worker needs sponsorship; Global Talent can work but requires endorsement or prize evidence.", "sources": ["https://www.gov.uk/skilled-worker-visa", "https://www.gov.uk/global-talent"]},
     "DE": {"effective_tax_rate": 0.40, "tax_note": "Income tax and social contributions for a single worker are high but include public benefits.", "visa_difficulty": "medium", "visa_note": "EU Blue Card is realistic for qualifying salary and degree-equivalent roles, but employer and documentation still matter.", "sources": ["https://www.make-it-in-germany.com/en/visa-residence/types/eu-blue-card"]},
+    "NL": {"effective_tax_rate": 0.37, "tax_note": "Income tax and social insurance estimate for experienced professional income; the 30% ruling can change this materially.", "visa_difficulty": "medium", "visa_note": "Highly skilled migrant residence is employer-sponsored; feasible with a recognised sponsor and salary threshold, but not automatic.", "sources": ["https://ind.nl/en/residence-permits/work/highly-skilled-migrant"]},
     "SG": {"effective_tax_rate": 0.15, "tax_note": "Singapore income tax is comparatively low; CPF does not usually apply to foreign employees.", "visa_difficulty": "high", "visa_note": "Employment Pass approval uses COMPASS and employer sponsorship; strong pay helps but does not guarantee approval.", "sources": ["https://www.mom.gov.sg/passes-and-permits/employment-pass"]},
     "CA": {"effective_tax_rate": 0.33, "tax_note": "Federal plus provincial tax estimate.", "visa_difficulty": "medium", "visa_note": "Employer work permits and Express Entry are possible but slower than accepting an India/remote role.", "sources": ["https://www.canada.ca/en/immigration-refugees-citizenship/services/work-canada.html"]},
     "AU": {"effective_tax_rate": 0.34, "tax_note": "Income tax plus Medicare levy estimate.", "visa_difficulty": "medium_high", "visa_note": "Skilled and employer-sponsored visas exist, but occupation lists, points and sponsorship decide feasibility.", "sources": ["https://immi.homeaffairs.gov.au/visas/working-in-australia"]},
@@ -125,8 +128,31 @@ def _city_points(job) -> list[tuple[str, str]]:
     return points
 
 
-def build_relocation(jobs: list, *, ppp_override: float | None = None) -> dict:
+def _crawled_basis(values: list[int]) -> dict[str, Any]:
+    return {
+        "tier": 1,
+        "kind": "crawled_disclosed_bands",
+        "samples": len(values),
+        "median_inr": int(statistics.median(values)),
+    }
+
+
+def _benchmark_value(city: str, country: str, seniority: str) -> tuple[int | None, dict | None]:
+    band = benchmark_for(city, country, seniority)
+    if not band:
+        return None, None
+    return band.median_inr, benchmark_basis(band)
+
+
+def _market_value(values: list[int], city: str, country: str, seniority: str) -> tuple[int | None, dict | None]:
+    if len(values) >= 3:
+        return int(statistics.median(values)), _crawled_basis(values)
+    return _benchmark_value(city, country, seniority)
+
+
+def build_relocation(jobs: list, *, profile: Profile | None = None, ppp_override: float | None = None) -> dict:
     """Compute one relocation row for each city with salary evidence."""
+    seniority = profile.seniority if profile else "senior"
     ind_ppp, ppp_source, ppp_error = (ppp_override, "override", None) if ppp_override else _worldbank_ind_ppp()
     ppp_table = {**STATIC_PPP, "IN": {**STATIC_PPP["IN"], "ppp": ind_ppp, "source": ppp_source}}
 
@@ -161,8 +187,8 @@ def build_relocation(jobs: list, *, ppp_override: float | None = None) -> dict:
             }
         )
 
-    bengaluru_values = buckets.get(("Bengaluru", "IN")) or [v for (city, country), vals in buckets.items() for v in vals if country == "IN" and city != "Bengaluru"]
-    baseline_nominal = int(statistics.median(bengaluru_values)) if bengaluru_values else None
+    bengaluru_values = buckets.get(("Bengaluru", "IN"), [])
+    baseline_nominal, baseline_basis = _market_value(bengaluru_values, "Bengaluru", "IN", seniority)
     baseline_after_tax = baseline_nominal * (1 - COUNTRY_TAX_AND_VISA["IN"]["effective_tax_rate"]) if baseline_nominal else None
     baseline_real = (baseline_after_tax / ind_ppp / CITY_COST_INDEX["Bengaluru"]) if baseline_after_tax else None
 
@@ -172,23 +198,25 @@ def build_relocation(jobs: list, *, ppp_override: float | None = None) -> dict:
         city, country = key
         info = COUNTRY_TAX_AND_VISA.get(country, UNKNOWN_FOREIGN_TAX_AND_VISA)
         ppp = ppp_table.get(country)
-        if not values:
+        nominal, basis = _market_value(values, city, country, seniority)
+        if nominal is None:
             rows.append(
                 {
                     "city": city,
                     "country": country,
                     "jobs": counts[key],
-                    "salary_samples": 0,
+                    "salary_samples": len(values),
                     "nominal_median_pay_inr": None,
+                    "pay_basis": {"tier": 3, "kind": "no_data", "message": "No crawled salary sample and no published benchmark for this city/seniority."},
+                    "baseline_basis": baseline_basis,
                     "ppp_adjusted_vs_bengaluru_pct": None,
                     "effective_tax_rate": info["effective_tax_rate"],
                     "visa_difficulty": info["visa_difficulty"],
                     "visa_note": info["visa_note"],
-                    "verdict": "No disclosed salary in this city yet, so relocation pay cannot be compared honestly.",
+                    "verdict": "No crawled salary sample or published benchmark for this city yet, so relocation pay cannot be compared honestly.",
                 }
             )
             continue
-        nominal = int(statistics.median(values))
         if not ppp or info["effective_tax_rate"] is None:
             rows.append(
                 {
@@ -197,6 +225,8 @@ def build_relocation(jobs: list, *, ppp_override: float | None = None) -> dict:
                     "jobs": counts[key],
                     "salary_samples": len(values),
                     "nominal_median_pay_inr": nominal,
+                    "pay_basis": basis,
+                    "baseline_basis": baseline_basis,
                     "ppp_adjusted_vs_bengaluru_pct": None,
                     "effective_tax_rate": info["effective_tax_rate"],
                     "visa_difficulty": info["visa_difficulty"],
@@ -215,13 +245,13 @@ def build_relocation(jobs: list, *, ppp_override: float | None = None) -> dict:
         if vs_blr is None:
             verdict = "Not enough Bengaluru salary evidence to compare honestly."
         elif country != "IN" and difficulty in {"very_high", "high"}:
-            verdict = f"Looks {abs(vs_blr):.0f}% {'better' if vs_blr > 0 else 'worse'} on real pay, but visa difficulty is {difficulty}; treat as a long shot, not a default move."
+            verdict = f"Looks {abs(vs_blr):.0f}% {'better' if vs_blr > 0 else 'worse'} on real pay, compared against the {baseline_basis['kind'].replace('_', ' ')} Bengaluru {seniority} band; visa difficulty is {difficulty}, so treat as a long shot."
         elif vs_blr > 15:
-            verdict = f"Real pay is about {vs_blr:.0f}% above the Bengaluru baseline after PPP, tax and cost adjustment."
+            verdict = f"Real pay is about {vs_blr:.0f}% above Bengaluru after PPP, tax and cost adjustment, compared against the {baseline_basis['kind'].replace('_', ' ')} Bengaluru {seniority} band."
         elif vs_blr < -15:
-            verdict = f"Real pay is about {abs(vs_blr):.0f}% below the Bengaluru baseline after adjustment."
+            verdict = f"Real pay is about {abs(vs_blr):.0f}% below Bengaluru after adjustment, compared against the {baseline_basis['kind'].replace('_', ' ')} Bengaluru {seniority} band."
         else:
-            verdict = "Real pay is roughly comparable to Bengaluru once PPP, tax and local cost are included."
+            verdict = f"Real pay is roughly comparable to Bengaluru once PPP, tax and local cost are included, using the {baseline_basis['kind'].replace('_', ' ')} Bengaluru {seniority} band."
         rows.append(
             {
                 "city": city,
@@ -229,6 +259,8 @@ def build_relocation(jobs: list, *, ppp_override: float | None = None) -> dict:
                 "jobs": counts[key],
                 "salary_samples": len(values),
                 "nominal_median_pay_inr": nominal,
+                "pay_basis": basis,
+                "baseline_basis": baseline_basis,
                 "ppp_adjusted_vs_bengaluru_pct": vs_blr,
                 "effective_tax_rate": info["effective_tax_rate"],
                 "visa_difficulty": difficulty,
@@ -239,7 +271,7 @@ def build_relocation(jobs: list, *, ppp_override: float | None = None) -> dict:
 
     return {
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "baseline": {"city": "Bengaluru", "nominal_median_pay_inr": baseline_nominal, "real_after_tax_ppp": round(baseline_real, 2) if baseline_real else None},
+        "baseline": {"city": "Bengaluru", "seniority": seniority, "nominal_median_pay_inr": baseline_nominal, "basis": baseline_basis, "real_after_tax_ppp": round(baseline_real, 2) if baseline_real else None},
         "ppp": {"source": ppp_source, "worldbank_url": WORLDBANK_IND_PPP_URL, "error": ppp_error, "table": ppp_table},
         "tax_and_visa": COUNTRY_TAX_AND_VISA,
         "cities": sorted(rows, key=lambda r: (r["ppp_adjusted_vs_bengaluru_pct"] is None, -(r["ppp_adjusted_vs_bengaluru_pct"] or -999), -r["salary_samples"])),

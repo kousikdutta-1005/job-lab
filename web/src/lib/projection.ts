@@ -22,20 +22,31 @@ export function project(lon: number, lat: number): [number, number] {
   return [((lon + 180) / 360) * WORLD_W, ((90 - lat) / 180) * WORLD_H]
 }
 
-export function viewBoxOf(view: View): string {
+/**
+ * The viewBox has to match the shape of the element or the framing lies.
+ *
+ * A fixed 2:1 box in a 1.3:1 panel meant "zoom to India" put India in the
+ * bottom-right corner with an ocean of empty space above it. Deriving height
+ * from the measured aspect ratio keeps the centre actually centred at every
+ * zoom level and window size.
+ */
+export function viewBoxOf(view: View, aspect = 2): string {
   const w = WORLD_W / view.zoom
-  const h = WORLD_H / view.zoom
+  const h = w / Math.max(0.2, aspect)
   return `${view.cx - w / 2} ${view.cy - h / 2} ${w} ${h}`
 }
 
-export function clampView(view: View): View {
+export function clampView(view: View, aspect = 2): View {
   const zoom = Math.min(14, Math.max(1, view.zoom))
   const w = WORLD_W / zoom
-  const h = WORLD_H / zoom
+  const h = w / Math.max(0.2, aspect)
+  // Allow a little overscroll past the poles so a city near the edge can still
+  // be centred, but never let the world slide entirely out of frame.
+  const padY = Math.min(h / 2, WORLD_H / 4)
   return {
     zoom,
     cx: Math.min(WORLD_W - w / 2, Math.max(w / 2, view.cx)),
-    cy: Math.min(WORLD_H - h / 2, Math.max(h / 2, view.cy)),
+    cy: Math.min(WORLD_H + padY - h / 2, Math.max(h / 2 - padY, view.cy)),
   }
 }
 
@@ -68,7 +79,7 @@ export function pathsFor(world: GeoJSON): Array<{ iso: string; name: string; d: 
 
 export const PRESETS: Record<string, View> = {
   world: { zoom: 1, cx: WORLD_W / 2, cy: WORLD_H / 2 },
-  india: { zoom: 6.5, cx: project(79, 22)[0], cy: project(79, 22)[1] },
+  india: { zoom: 5.4, cx: project(79, 22)[0], cy: project(79, 22)[1] },
   europe: { zoom: 5.5, cx: project(10, 50)[0], cy: project(10, 50)[1] },
   usa: { zoom: 4, cx: project(-98, 39)[0], cy: project(-98, 39)[1] },
   apac: { zoom: 3, cx: project(110, 5)[0], cy: project(110, 5)[1] },

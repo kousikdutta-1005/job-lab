@@ -26,6 +26,7 @@ class Profile:
     years_experience: int = 0
     portfolio: str = ""
     location: str = "India"
+    current_ctc: int | None = None
     open_to: tuple[str, ...] = ("India", "Remote")
     target_titles: tuple[str, ...] = ()
     strengths: tuple[str, ...] = ()
@@ -50,6 +51,7 @@ class Profile:
             "years_experience": self.years_experience,
             "portfolio": self.portfolio,
             "location": self.location,
+            "current_ctc": self.current_ctc,
             "open_to": list(self.open_to),
             "target_titles": list(self.target_titles),
             "strengths": list(self.strengths),
@@ -65,6 +67,7 @@ def load_profile(path: Path = PROFILE_PATH) -> Profile:
         years_experience=int(raw.get("years_experience") or 0),
         portfolio=raw.get("portfolio", ""),
         location=raw.get("location", "India"),
+        current_ctc=int(raw["current_ctc"]) if raw.get("current_ctc") else None,
         open_to=tuple(raw.get("open_to") or ()),
         target_titles=tuple(raw.get("target_titles") or ()),
         strengths=tuple(s.lower() for s in (raw.get("strengths") or ())),

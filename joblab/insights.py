@@ -11,6 +11,7 @@ import statistics
 from collections import Counter
 from datetime import datetime, timezone
 
+from .benchmarks import benchmark_basis, benchmark_for
 from .score import Profile
 
 
@@ -44,6 +45,17 @@ def _pay_context(jobs: list, profile: Profile) -> dict:
         else:
             foreign_remote.append(midpoint)
 
+    city = "Bengaluru" if (profile.location or "").lower() == "india" else profile.location
+    benchmark = benchmark_for(city, "IN", profile.seniority) if city else None
+    current_ctc = getattr(profile, "current_ctc", None)
+    benchmark_gap = None
+    if benchmark and current_ctc:
+        benchmark_gap = {
+            "current_ctc_inr": current_ctc,
+            "vs_median_inr": current_ctc - benchmark.median_inr,
+            "vs_median_pct": round((current_ctc / benchmark.median_inr - 1) * 100, 1) if benchmark.median_inr else None,
+        }
+
     return {
         "seniority": profile.seniority,
         "all_markets_samples": len(values),
@@ -59,6 +71,8 @@ def _pay_context(jobs: list, profile: Profile) -> dict:
             "band": _band(foreign_remote) if len(foreign_remote) >= 3 else None,
             "note": "Do not use this as an Indian negotiation anchor; it mixes employer countries, tax systems and visa access.",
         },
+        "published_india_benchmark": benchmark_basis(benchmark) if benchmark else None,
+        "current_ctc_gap": benchmark_gap,
     }
 
 
@@ -113,6 +127,24 @@ def build_insights(jobs: list, profile: Profile, idf: dict[str, float], trends: 
                 f"For India-based {profile.seniority} roles with disclosed bands (n={india_band['samples']}), the median midpoint is ₹{india_band['median_inr']:,}; the middle range runs roughly ₹{india_band['p25_inr']:,}–₹{india_band['p75_inr']:,}.",
                 [pay],
                 "medium",
+            )
+        )
+    elif pay["published_india_benchmark"]:
+        band = pay["published_india_benchmark"]["band"]
+        gap = pay.get("current_ctc_gap")
+        if gap:
+            if gap["vs_median_inr"] >= 0:
+                gap_text = f"The optional current CTC is ₹{gap['current_ctc_inr']:,}, about {gap['vs_median_pct']:.1f}% above this benchmark median."
+            else:
+                gap_text = f"The optional current CTC is ₹{gap['current_ctc_inr']:,}, about {abs(gap['vs_median_pct']):.1f}% below this benchmark median."
+        else:
+            gap_text = "No current CTC is present in the committed profile, so the build can state the target band but not the personal gap."
+        insights.append(
+            _insight(
+                "Use the published Bengaluru senior band as the India pay anchor",
+                f"Indian employers in this crawl published too few {profile.seniority} pay bands to report from postings (n={pay['india']['samples']}). The tier-2 published Bengaluru {profile.seniority} benchmark is ₹{band['low_inr']:,}–₹{band['high_inr']:,}, median ₹{band['median_inr']:,} ({band['confidence']}, {band['source_name']}). {gap_text}",
+                [pay],
+                "medium" if band["confidence"] == "verified" else "low",
             )
         )
     elif context_band:
