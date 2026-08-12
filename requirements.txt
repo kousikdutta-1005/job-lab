@@ -1,0 +1,5 @@
+requests>=2.32
+PyYAML>=6.0
+# Only used to parse the handful of sources that publish RSS rather than JSON
+# (We Work Remotely, some Workable boards). Kept out of the hot path.
+feedparser>=6.0

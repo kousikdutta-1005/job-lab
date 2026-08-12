@@ -1,0 +1,1478 @@
+{
+  "adobe": {
+    "ats": null,
+    "checked_at": 1786559045.934164,
+    "confidence": "none",
+    "domain": "adobe.com",
+    "how": "no public board found",
+    "name": "Adobe",
+    "slug": null
+  },
+  "airbnb": {
+    "ats": "greenhouse",
+    "checked_at": 1786559048.893543,
+    "confidence": "verified",
+    "domain": "airbnb.com",
+    "how": "slug guessed from name; board is named 'Airbnb'; company domain appears in posting URLs; company named in 12 of 12 descriptions",
+    "name": "Airbnb",
+    "slug": "airbnb"
+  },
+  "airtable": {
+    "ats": "greenhouse",
+    "checked_at": 1786559053.794383,
+    "confidence": "verified",
+    "domain": "airtable.com",
+    "how": "slug guessed from name; board is named 'Airtable'; company domain appears in posting URLs; company named in 12 of 12 descriptions",
+    "name": "Airtable",
+    "slug": "airtable"
+  },
+  "amagi": {
+    "ats": null,
+    "checked_at": 1786559015.07166,
+    "confidence": "none",
+    "domain": "amagi.com",
+    "how": "no public board found",
+    "name": "Amagi",
+    "slug": null
+  },
+  "amplitude": {
+    "ats": "greenhouse",
+    "checked_at": 1786559051.815777,
+    "confidence": "verified",
+    "domain": "amplitude.com",
+    "how": "linked from careers page; board is named 'Amplitude '; company domain appears in posting URLs; company named in 12 of 12 descriptions",
+    "name": "Amplitude",
+    "slug": "amplitude"
+  },
+  "angel one": {
+    "ats": null,
+    "checked_at": 1786558969.9178839,
+    "confidence": "none",
+    "domain": "angelone.in",
+    "how": "no public board found",
+    "name": "Angel One",
+    "slug": null
+  },
+  "anthropic": {
+    "ats": "greenhouse",
+    "checked_at": 1786559062.6197948,
+    "confidence": "verified",
+    "domain": "anthropic.com",
+    "how": "linked from careers page; board is named 'Anthropic'; company domain appears in posting URLs; company named in 12 of 12 descriptions",
+    "name": "Anthropic",
+    "slug": "anthropic"
+  },
+  "asana": {
+    "ats": "greenhouse",
+    "checked_at": 1786559055.530299,
+    "confidence": "verified",
+    "domain": "asana.com",
+    "how": "slug guessed from name; board is named 'Asana'; company domain appears in posting URLs; company named in 12 of 12 descriptions",
+    "name": "Asana",
+    "slug": "asana"
+  },
+  "atlan": {
+    "ats": "ashby",
+    "checked_at": 1786558999.113445,
+    "confidence": "verified",
+    "domain": "atlan.com",
+    "how": "slug guessed from name; company domain appears in posting URLs; company named in 6 of 6 descriptions; 6 of 6 postings are in India",
+    "name": "Atlan",
+    "slug": "atlan"
+  },
+  "atlassian": {
+    "ats": null,
+    "checked_at": 1786559046.263201,
+    "confidence": "none",
+    "domain": "atlassian.com",
+    "how": "no public board found",
+    "name": "Atlassian",
+    "slug": null
+  },
+  "automattic": {
+    "ats": null,
+    "checked_at": 1786559052.914183,
+    "confidence": "none",
+    "domain": "automattic.com",
+    "how": "no public board found",
+    "name": "Automattic",
+    "slug": null
+  },
+  "boat": {
+    "ats": null,
+    "checked_at": 1786559028.252508,
+    "confidence": "none",
+    "domain": "boat-lifestyle.com",
+    "how": "no public board found",
+    "name": "boAt",
+    "slug": null
+  },
+  "brex": {
+    "ats": "greenhouse",
+    "checked_at": 1786559058.7074199,
+    "confidence": "verified",
+    "domain": "brex.com",
+    "how": "slug guessed from name; board is named 'Brex'; company domain appears in posting URLs; company named in 12 of 12 descriptions",
+    "name": "Brex",
+    "slug": "brex"
+  },
+  "browserstack": {
+    "ats": null,
+    "checked_at": 1786559001.190835,
+    "confidence": "none",
+    "domain": "browserstack.com",
+    "how": "no public board found",
+    "name": "BrowserStack",
+    "slug": null
+  },
+  "buffer": {
+    "ats": "ashby",
+    "checked_at": 1786559062.321543,
+    "confidence": "likely",
+    "domain": "buffer.com",
+    "how": "slug guessed from name; company domain appears in posting URLs; company named in 2 of 2 descriptions",
+    "name": "Buffer",
+    "slug": "buffer"
+  },
+  "cal.com": {
+    "ats": null,
+    "checked_at": 1786559109.024811,
+    "confidence": "none",
+    "domain": "cal.com",
+    "how": "no public board found",
+    "name": "Cal.com",
+    "slug": null
+  },
+  "canva": {
+    "ats": "smartrecruiters",
+    "checked_at": 1786559049.945146,
+    "confidence": "verified",
+    "domain": "canva.com",
+    "how": "slug guessed from name; board is named 'Canva'; company domain appears in posting URLs",
+    "name": "Canva",
+    "slug": "canva"
+  },
+  "cashfree": {
+    "ats": null,
+    "checked_at": 1786558962.854281,
+    "confidence": "none",
+    "domain": "cashfree.com",
+    "how": "no public board found",
+    "name": "Cashfree",
+    "slug": null
+  },
+  "chargebee": {
+    "ats": null,
+    "checked_at": 1786559001.998402,
+    "confidence": "none",
+    "domain": "chargebee.com",
+    "how": "no public board found",
+    "name": "Chargebee",
+    "slug": null
+  },
+  "checkout.com": {
+    "ats": null,
+    "checked_at": 1786559089.984885,
+    "confidence": "none",
+    "domain": "checkout.com",
+    "how": "no public board found",
+    "name": "Checkout.com",
+    "slug": null
+  },
+  "cleartax": {
+    "ats": null,
+    "checked_at": 1786558965.6644769,
+    "confidence": "none",
+    "domain": "cleartax.in",
+    "how": "no public board found",
+    "name": "ClearTax",
+    "slug": null
+  },
+  "clevertap": {
+    "ats": null,
+    "checked_at": 1786559006.510179,
+    "confidence": "none",
+    "domain": "clevertap.com",
+    "how": "no public board found",
+    "name": "CleverTap",
+    "slug": null
+  },
+  "coinbase": {
+    "ats": "greenhouse",
+    "checked_at": 1786559058.9537659,
+    "confidence": "verified",
+    "domain": "coinbase.com",
+    "how": "slug guessed from name; board is named 'Coinbase'; company domain appears in posting URLs; company named in 12 of 12 descriptions",
+    "name": "Coinbase",
+    "slug": "coinbase"
+  },
+  "confluent": {
+    "ats": "ashby",
+    "checked_at": 1786559053.3045492,
+    "confidence": "likely",
+    "domain": "confluent.io",
+    "how": "slug guessed from name; company domain appears in posting URLs; company named in 12 of 12 descriptions",
+    "name": "Confluent",
+    "slug": "confluent"
+  },
+  "country delight": {
+    "ats": null,
+    "checked_at": 1786559004.975788,
+    "confidence": "none",
+    "domain": "countrydelight.in",
+    "how": "no public board found",
+    "name": "Country Delight",
+    "slug": null
+  },
+  "cred": {
+    "ats": "lever",
+    "checked_at": 1786558960.3539379,
+    "confidence": "verified",
+    "domain": "cred.club",
+    "how": "slug guessed from name; company domain appears in posting URLs; company named in 4 of 5 descriptions; 5 of 5 postings are in India",
+    "name": "CRED",
+    "slug": "cred"
+  },
+  "cult.fit": {
+    "ats": null,
+    "checked_at": 1786559044.049629,
+    "confidence": "none",
+    "domain": "cult.fit",
+    "how": "no public board found",
+    "name": "Cult.fit",
+    "slug": null
+  },
+  "darwinbox": {
+    "ats": null,
+    "checked_at": 1786559003.0965278,
+    "confidence": "none",
+    "domain": "darwinbox.com",
+    "how": "no public board found",
+    "name": "Darwinbox",
+    "slug": null
+  },
+  "databricks": {
+    "ats": "greenhouse",
+    "checked_at": 1786559051.468042,
+    "confidence": "verified",
+    "domain": "databricks.com",
+    "how": "slug guessed from name; board is named 'Databricks'; company domain appears in posting URLs; company named in 12 of 12 descriptions",
+    "name": "Databricks",
+    "slug": "databricks"
+  },
+  "datadog": {
+    "ats": "greenhouse",
+    "checked_at": 1786559051.018518,
+    "confidence": "verified",
+    "domain": "datadoghq.com",
+    "how": "slug guessed from name; board is named 'Datadog'; company domain appears in posting URLs; company named in 12 of 12 descriptions",
+    "name": "Datadog",
+    "slug": "datadog"
+  },
+  "decentro": {
+    "ats": null,
+    "checked_at": 1786558966.5396008,
+    "confidence": "none",
+    "domain": "decentro.tech",
+    "how": "no public board found",
+    "name": "Decentro",
+    "slug": null
+  },
+  "deel": {
+    "ats": null,
+    "checked_at": 1786559059.433347,
+    "confidence": "none",
+    "domain": "deel.com",
+    "how": "no public board found",
+    "name": "Deel",
+    "slug": null
+  },
+  "delhivery": {
+    "ats": null,
+    "checked_at": 1786558978.7187998,
+    "confidence": "none",
+    "domain": "delhivery.com",
+    "how": "no public board found",
+    "name": "Delhivery",
+    "slug": null
+  },
+  "dhan": {
+    "ats": null,
+    "checked_at": 1786558992.93854,
+    "confidence": "none",
+    "domain": "dhan.co",
+    "how": "no public board found",
+    "name": "Dhan",
+    "slug": null
+  },
+  "doist": {
+    "ats": null,
+    "checked_at": 1786559063.044698,
+    "confidence": "none",
+    "domain": "doist.com",
+    "how": "no public board found",
+    "name": "Doist",
+    "slug": null
+  },
+  "dream11": {
+    "ats": null,
+    "checked_at": 1786559030.325879,
+    "confidence": "none",
+    "domain": "dream11.com",
+    "how": "no public board found",
+    "name": "Dream11",
+    "slug": null
+  },
+  "dropbox": {
+    "ats": "greenhouse",
+    "checked_at": 1786559054.93553,
+    "confidence": "verified",
+    "domain": "dropbox.com",
+    "how": "slug guessed from name; board is named 'Dropbox'; company domain appears in posting URLs; company named in 12 of 12 descriptions",
+    "name": "Dropbox",
+    "slug": "dropbox"
+  },
+  "druva": {
+    "ats": "greenhouse",
+    "checked_at": 1786559009.046675,
+    "confidence": "verified",
+    "domain": "druva.com",
+    "how": "linked from careers page; board is named 'Druva'; company domain appears in posting URLs; company named in 12 of 12 descriptions; 11 of 29 postings are in India",
+    "name": "Druva",
+    "slug": "druva"
+  },
+  "duolingo": {
+    "ats": "greenhouse",
+    "checked_at": 1786559053.857264,
+    "confidence": "verified",
+    "domain": "duolingo.com",
+    "how": "linked from careers page; board is named 'Duolingo'; company domain appears in posting URLs; company named in 12 of 12 descriptions",
+    "name": "Duolingo",
+    "slug": "duolingo"
+  },
+  "eightfold ai": {
+    "ats": null,
+    "checked_at": 1786559074.2965739,
+    "confidence": "none",
+    "domain": "eightfold.ai",
+    "how": "no public board found",
+    "name": "Eightfold AI",
+    "slug": null
+  },
+  "elastic": {
+    "ats": "greenhouse",
+    "checked_at": 1786559050.492043,
+    "confidence": "verified",
+    "domain": "elastic.co",
+    "how": "slug guessed from name; board is named 'Elastic'; company domain appears in posting URLs; company named in 12 of 12 descriptions",
+    "name": "Elastic",
+    "slug": "elastic"
+  },
+  "exotel": {
+    "ats": null,
+    "checked_at": 1786559011.930284,
+    "confidence": "none",
+    "domain": "exotel.com",
+    "how": "no public board found",
+    "name": "Exotel",
+    "slug": null
+  },
+  "facilio": {
+    "ats": null,
+    "checked_at": 1786559008.420099,
+    "confidence": "none",
+    "domain": "facilio.com",
+    "how": "no public board found",
+    "name": "Facilio",
+    "slug": null
+  },
+  "fareye": {
+    "ats": null,
+    "checked_at": 1786559042.158657,
+    "confidence": "none",
+    "domain": "fareye.com",
+    "how": "no public board found",
+    "name": "FarEye",
+    "slug": null
+  },
+  "fi money": {
+    "ats": "lever",
+    "checked_at": 1786558959.4483578,
+    "confidence": "likely",
+    "domain": "fi.money",
+    "how": "linked from careers page; 11 of 11 postings are in India",
+    "name": "Fi Money",
+    "slug": "epifi"
+  },
+  "figma": {
+    "ats": "greenhouse",
+    "checked_at": 1786559047.473226,
+    "confidence": "verified",
+    "domain": "figma.com",
+    "how": "linked from careers page; board is named 'Figma'; company domain appears in posting URLs; company named in 12 of 12 descriptions",
+    "name": "Figma",
+    "slug": "figma"
+  },
+  "flipkart": {
+    "ats": null,
+    "checked_at": 1786558967.327146,
+    "confidence": "none",
+    "domain": "flipkart.com",
+    "how": "no public board found",
+    "name": "Flipkart",
+    "slug": null
+  },
+  "freshworks": {
+    "ats": "smartrecruiters",
+    "checked_at": 1786558994.056195,
+    "confidence": "verified",
+    "domain": "freshworks.com",
+    "how": "linked from careers page; board is named 'Freshworks'; company domain appears in posting URLs; 36 of 100 postings are in India",
+    "name": "Freshworks",
+    "slug": "Freshworks"
+  },
+  "games24x7": {
+    "ats": null,
+    "checked_at": 1786559059.112418,
+    "confidence": "none",
+    "domain": "games24x7.com",
+    "how": "no public board found",
+    "name": "Games24x7",
+    "slug": null
+  },
+  "ghost": {
+    "ats": "greenhouse",
+    "checked_at": 1786559062.64523,
+    "confidence": "verified",
+    "domain": "ghost.org",
+    "how": "slug guessed from name; board is named 'Ghost'; company named in 4 of 4 descriptions",
+    "name": "Ghost",
+    "slug": "ghost"
+  },
+  "gitlab": {
+    "ats": "greenhouse",
+    "checked_at": 1786559049.9550989,
+    "confidence": "verified",
+    "domain": "gitlab.com",
+    "how": "slug guessed from name; board is named 'GitLab'; company domain appears in posting URLs; company named in 12 of 12 descriptions",
+    "name": "GitLab",
+    "slug": "gitlab"
+  },
+  "google": {
+    "ats": null,
+    "checked_at": 1786559045.325863,
+    "confidence": "none",
+    "domain": "google.com",
+    "how": "recruitee/google: board looks like a demo account ('Senior Marketer (Sample)')",
+    "name": "Google",
+    "slug": null
+  },
+  "grammarly": {
+    "ats": null,
+    "checked_at": 1786559056.958679,
+    "confidence": "none",
+    "domain": "grammarly.com",
+    "how": "no public board found",
+    "name": "Grammarly",
+    "slug": null
+  },
+  "groww": {
+    "ats": "greenhouse",
+    "checked_at": 1786558959.76095,
+    "confidence": "verified",
+    "domain": "groww.in",
+    "how": "slug guessed from name; board is named 'Groww'; company domain appears in posting URLs; company named in 8 of 8 descriptions; 8 of 8 postings are in India",
+    "name": "Groww",
+    "slug": "groww"
+  },
+  "gupshup": {
+    "ats": null,
+    "checked_at": 1786559014.009423,
+    "confidence": "none",
+    "domain": "gupshup.io",
+    "how": "no public board found",
+    "name": "Gupshup",
+    "slug": null
+  },
+  "hackerrank": {
+    "ats": "greenhouse",
+    "checked_at": 1786559017.9047492,
+    "confidence": "verified",
+    "domain": "hackerrank.com",
+    "how": "slug guessed from name; board is named 'HackerRank Careers'; company domain appears in posting URLs; company named in 12 of 12 descriptions; 17 of 28 postings are in India",
+    "name": "Hackerrank",
+    "slug": "hackerrank"
+  },
+  "hashicorp": {
+    "ats": null,
+    "checked_at": 1786559052.3648021,
+    "confidence": "none",
+    "domain": "hashicorp.com",
+    "how": "no public board found",
+    "name": "HashiCorp",
+    "slug": null
+  },
+  "hasura": {
+    "ats": null,
+    "checked_at": 1786559006.141763,
+    "confidence": "none",
+    "domain": "hasura.io",
+    "how": "no public board found",
+    "name": "Hasura",
+    "slug": null
+  },
+  "healthifyme": {
+    "ats": null,
+    "checked_at": 1786559025.637365,
+    "confidence": "none",
+    "domain": "healthifyme.com",
+    "how": "no public board found",
+    "name": "HealthifyMe",
+    "slug": null
+  },
+  "highradius": {
+    "ats": "greenhouse",
+    "checked_at": 1786559009.40445,
+    "confidence": "verified",
+    "domain": "highradius.com",
+    "how": "slug guessed from name; board is named 'HighRadius'; company domain appears in posting URLs; company named in 11 of 12 descriptions; 58 of 76 postings are in India",
+    "name": "HighRadius",
+    "slug": "highradius"
+  },
+  "hotjar": {
+    "ats": null,
+    "checked_at": 1786559062.9684448,
+    "confidence": "none",
+    "domain": "hotjar.com",
+    "how": "lever/contentsquare: no evidence this board belongs to them",
+    "name": "Hotjar",
+    "slug": null
+  },
+  "hotstar": {
+    "ats": null,
+    "checked_at": 1786559044.27024,
+    "confidence": "none",
+    "domain": "hotstar.com",
+    "how": "no public board found",
+    "name": "Hotstar",
+    "slug": null
+  },
+  "hugging face": {
+    "ats": "workable",
+    "checked_at": 1786559062.648841,
+    "confidence": "verified",
+    "domain": "huggingface.co",
+    "how": "linked from careers page; board is named 'Hugging Face'; company named in 7 of 7 descriptions",
+    "name": "Hugging Face",
+    "slug": "huggingface"
+  },
+  "icertis": {
+    "ats": null,
+    "checked_at": 1786559017.529084,
+    "confidence": "none",
+    "domain": "icertis.com",
+    "how": "no public board found",
+    "name": "Icertis",
+    "slug": null
+  },
+  "indmoney": {
+    "ats": null,
+    "checked_at": 1786558964.5382059,
+    "confidence": "none",
+    "domain": "indmoney.com",
+    "how": "no public board found",
+    "name": "INDmoney",
+    "slug": null
+  },
+  "innovaccer": {
+    "ats": null,
+    "checked_at": 1786559006.93666,
+    "confidence": "none",
+    "domain": "innovaccer.com",
+    "how": "no public board found",
+    "name": "Innovaccer",
+    "slug": null
+  },
+  "intercom": {
+    "ats": null,
+    "checked_at": 1786559054.681262,
+    "confidence": "none",
+    "domain": "intercom.com",
+    "how": "greenhouse/intercom: board is named 'Fin', not 'Intercom'; greenhouse/intercom: board is named 'Fin', not 'Intercom'",
+    "name": "Intercom",
+    "slug": null
+  },
+  "jupiter": {
+    "ats": null,
+    "checked_at": 1786558962.1064801,
+    "confidence": "none",
+    "domain": "jupiter.money",
+    "how": "no public board found",
+    "name": "Jupiter",
+    "slug": null
+  },
+  "juspay": {
+    "ats": null,
+    "checked_at": 1786558962.5596511,
+    "confidence": "none",
+    "domain": "juspay.in",
+    "how": "no public board found",
+    "name": "Juspay",
+    "slug": null
+  },
+  "khatabook": {
+    "ats": null,
+    "checked_at": 1786558966.0292008,
+    "confidence": "none",
+    "domain": "khatabook.com",
+    "how": "no public board found",
+    "name": "Khatabook",
+    "slug": null
+  },
+  "klarna": {
+    "ats": null,
+    "checked_at": 1786559060.734793,
+    "confidence": "none",
+    "domain": "klarna.com",
+    "how": "no public board found",
+    "name": "Klarna",
+    "slug": null
+  },
+  "kreditbee": {
+    "ats": null,
+    "checked_at": 1786558963.3634582,
+    "confidence": "none",
+    "domain": "kreditbee.in",
+    "how": "no public board found",
+    "name": "KreditBee",
+    "slug": null
+  },
+  "leadsquared": {
+    "ats": null,
+    "checked_at": 1786559007.333287,
+    "confidence": "none",
+    "domain": "leadsquared.com",
+    "how": "no public board found",
+    "name": "LeadSquared",
+    "slug": null
+  },
+  "lenskart": {
+    "ats": null,
+    "checked_at": 1786558968.987932,
+    "confidence": "none",
+    "domain": "lenskart.com",
+    "how": "no public board found",
+    "name": "Lenskart",
+    "slug": null
+  },
+  "licious": {
+    "ats": null,
+    "checked_at": 1786558969.8108668,
+    "confidence": "none",
+    "domain": "licious.in",
+    "how": "no public board found",
+    "name": "Licious",
+    "slug": null
+  },
+  "linear": {
+    "ats": "ashby",
+    "checked_at": 1786559047.969014,
+    "confidence": "likely",
+    "domain": "linear.app",
+    "how": "linked from careers page; company domain appears in posting URLs; company named in 12 of 12 descriptions",
+    "name": "Linear",
+    "slug": "Linear"
+  },
+  "locus": {
+    "ats": null,
+    "checked_at": 1786559011.492686,
+    "confidence": "none",
+    "domain": "locus.sh",
+    "how": "no public board found",
+    "name": "Locus",
+    "slug": null
+  },
+  "m2p fintech": {
+    "ats": null,
+    "checked_at": 1786558993.7107909,
+    "confidence": "none",
+    "domain": "m2pfintech.com",
+    "how": "no public board found",
+    "name": "M2P Fintech",
+    "slug": null
+  },
+  "mamaearth": {
+    "ats": null,
+    "checked_at": 1786558972.373966,
+    "confidence": "none",
+    "domain": "mamaearth.in",
+    "how": "no public board found",
+    "name": "Mamaearth",
+    "slug": null
+  },
+  "meesho": {
+    "ats": "lever",
+    "checked_at": 1786558966.767128,
+    "confidence": "verified",
+    "domain": "meesho.com",
+    "how": "slug guessed from name; company domain appears in posting URLs; company named in 11 of 12 descriptions; 52 of 53 postings are in India",
+    "name": "Meesho",
+    "slug": "meesho"
+  },
+  "microsoft": {
+    "ats": null,
+    "checked_at": 1786559048.328754,
+    "confidence": "none",
+    "domain": "microsoft.com",
+    "how": "no public board found",
+    "name": "Microsoft",
+    "slug": null
+  },
+  "mindtickle": {
+    "ats": "lever",
+    "checked_at": 1786559008.068032,
+    "confidence": "verified",
+    "domain": "mindtickle.com",
+    "how": "linked from careers page; company domain appears in posting URLs; company named in 12 of 12 descriptions; 23 of 24 postings are in India",
+    "name": "Mindtickle",
+    "slug": "mindtickle"
+  },
+  "miro": {
+    "ats": "ashby",
+    "checked_at": 1786559056.40504,
+    "confidence": "likely",
+    "domain": "miro.com",
+    "how": "slug guessed from name; company domain appears in posting URLs; company named in 12 of 12 descriptions",
+    "name": "Miro",
+    "slug": "miro"
+  },
+  "mixpanel": {
+    "ats": "greenhouse",
+    "checked_at": 1786559051.819042,
+    "confidence": "verified",
+    "domain": "mixpanel.com",
+    "how": "linked from careers page; board is named 'Mixpanel'; company domain appears in posting URLs; company named in 12 of 12 descriptions",
+    "name": "Mixpanel",
+    "slug": "mixpanel"
+  },
+  "mobile premier league": {
+    "ats": null,
+    "checked_at": 1786559042.8606489,
+    "confidence": "none",
+    "domain": "mpl.live",
+    "how": "no public board found",
+    "name": "Mobile Premier League",
+    "slug": null
+  },
+  "moengage": {
+    "ats": null,
+    "checked_at": 1786559006.349429,
+    "confidence": "none",
+    "domain": "moengage.com",
+    "how": "no public board found",
+    "name": "MoEngage",
+    "slug": null
+  },
+  "moglix": {
+    "ats": null,
+    "checked_at": 1786558977.3294039,
+    "confidence": "none",
+    "domain": "moglix.com",
+    "how": "no public board found",
+    "name": "Moglix",
+    "slug": null
+  },
+  "mongodb": {
+    "ats": "greenhouse",
+    "checked_at": 1786559049.424552,
+    "confidence": "verified",
+    "domain": "mongodb.com",
+    "how": "slug guessed from name; board is named 'MongoDB'; company domain appears in posting URLs; company named in 12 of 12 descriptions",
+    "name": "MongoDB",
+    "slug": "mongodb"
+  },
+  "myntra": {
+    "ats": null,
+    "checked_at": 1786559022.7359931,
+    "confidence": "none",
+    "domain": "myntra.com",
+    "how": "no public board found",
+    "name": "Myntra",
+    "slug": null
+  },
+  "navi": {
+    "ats": null,
+    "checked_at": 1786558963.005496,
+    "confidence": "none",
+    "domain": "navi.com",
+    "how": "ashby/navi: no Indian postings on an Indian company's board (7 jobs) \u2014 probably a namesake; recruitee/navi: board looks like a demo account ('Senior Marketer (Sample)')",
+    "name": "Navi",
+    "slug": null
+  },
+  "nazara": {
+    "ats": null,
+    "checked_at": 1786559040.0714529,
+    "confidence": "none",
+    "domain": "nazara.com",
+    "how": "no public board found",
+    "name": "Nazara",
+    "slug": null
+  },
+  "netcore cloud": {
+    "ats": null,
+    "checked_at": 1786559025.506853,
+    "confidence": "none",
+    "domain": "netcorecloud.com",
+    "how": "no public board found",
+    "name": "Netcore Cloud",
+    "slug": null
+  },
+  "netradyne": {
+    "ats": "greenhouse",
+    "checked_at": 1786559013.0432909,
+    "confidence": "verified",
+    "domain": "netradyne.com",
+    "how": "slug guessed from name; board is named 'Netradyne'; company domain appears in posting URLs; company named in 12 of 12 descriptions; 17 of 32 postings are in India",
+    "name": "Netradyne",
+    "slug": "netradyne"
+  },
+  "notion": {
+    "ats": "ashby",
+    "checked_at": 1786559047.558968,
+    "confidence": "likely",
+    "domain": "notion.so",
+    "how": "linked from careers page; company domain appears in posting URLs; company named in 12 of 12 descriptions",
+    "name": "Notion",
+    "slug": "notion"
+  },
+  "nutanix": {
+    "ats": null,
+    "checked_at": 1786559048.297746,
+    "confidence": "none",
+    "domain": "nutanix.com",
+    "how": "no public board found",
+    "name": "Nutanix",
+    "slug": null
+  },
+  "nykaa": {
+    "ats": null,
+    "checked_at": 1786558967.640207,
+    "confidence": "none",
+    "domain": "nykaa.com",
+    "how": "no public board found",
+    "name": "Nykaa",
+    "slug": null
+  },
+  "observe.ai": {
+    "ats": "greenhouse",
+    "checked_at": 1786559007.901642,
+    "confidence": "verified",
+    "domain": "observe.ai",
+    "how": "slug guessed from name; board is named 'Observe.AI'; company domain appears in posting URLs; company named in 12 of 12 descriptions; 7 of 18 postings are in India",
+    "name": "Observe.AI",
+    "slug": "observeai"
+  },
+  "ola": {
+    "ats": null,
+    "checked_at": 1786558998.1760042,
+    "confidence": "none",
+    "domain": "olacabs.com",
+    "how": "no public board found",
+    "name": "Ola",
+    "slug": null
+  },
+  "open financial": {
+    "ats": null,
+    "checked_at": 1786559011.5023308,
+    "confidence": "none",
+    "domain": "open.money",
+    "how": "no public board found",
+    "name": "Open Financial",
+    "slug": null
+  },
+  "openai": {
+    "ats": "ashby",
+    "checked_at": 1786559068.648532,
+    "confidence": "likely",
+    "domain": "openai.com",
+    "how": "slug guessed from name; company domain appears in posting URLs; company named in 12 of 12 descriptions",
+    "name": "OpenAI",
+    "slug": "openai"
+  },
+  "paytm": {
+    "ats": "lever",
+    "checked_at": 1786558959.474114,
+    "confidence": "verified",
+    "domain": "paytm.com",
+    "how": "linked from careers page; company domain appears in posting URLs; company named in 8 of 12 descriptions; 219 of 246 postings are in India",
+    "name": "Paytm",
+    "slug": "paytm"
+  },
+  "perfios": {
+    "ats": null,
+    "checked_at": 1786559000.394645,
+    "confidence": "none",
+    "domain": "perfios.com",
+    "how": "no public board found",
+    "name": "Perfios",
+    "slug": null
+  },
+  "pharmeasy": {
+    "ats": null,
+    "checked_at": 1786559043.887815,
+    "confidence": "none",
+    "domain": "pharmeasy.in",
+    "how": "no public board found",
+    "name": "PharmEasy",
+    "slug": null
+  },
+  "phonepe": {
+    "ats": "greenhouse",
+    "checked_at": 1786558960.7197142,
+    "confidence": "verified",
+    "domain": "phonepe.com",
+    "how": "slug guessed from name; board is named 'PhonePe'; company domain appears in posting URLs; company named in 12 of 12 descriptions; 61 of 79 postings are in India",
+    "name": "PhonePe",
+    "slug": "phonepe"
+  },
+  "physicswallah": {
+    "ats": null,
+    "checked_at": 1786559053.0196831,
+    "confidence": "none",
+    "domain": "pw.live",
+    "how": "no public board found",
+    "name": "PhysicsWallah",
+    "slug": null
+  },
+  "plaid": {
+    "ats": "ashby",
+    "checked_at": 1786559061.928116,
+    "confidence": "likely",
+    "domain": "plaid.com",
+    "how": "slug guessed from name; company domain appears in posting URLs; company named in 12 of 12 descriptions",
+    "name": "Plaid",
+    "slug": "plaid"
+  },
+  "porter": {
+    "ats": null,
+    "checked_at": 1786559009.894903,
+    "confidence": "none",
+    "domain": "porter.in",
+    "how": "lever/porter: no Indian postings on an Indian company's board (28 jobs) \u2014 probably a namesake",
+    "name": "Porter",
+    "slug": null
+  },
+  "posthog": {
+    "ats": "ashby",
+    "checked_at": 1786559061.96248,
+    "confidence": "likely",
+    "domain": "posthog.com",
+    "how": "slug guessed from name; company domain appears in posting URLs; company named in 12 of 12 descriptions",
+    "name": "PostHog",
+    "slug": "posthog"
+  },
+  "postman": {
+    "ats": "greenhouse",
+    "checked_at": 1786558997.190569,
+    "confidence": "verified",
+    "domain": "postman.com",
+    "how": "slug guessed from name; board is named 'Postman'; company domain appears in posting URLs; company named in 12 of 12 descriptions; 9 of 106 postings are in India",
+    "name": "Postman",
+    "slug": "postman"
+  },
+  "practo": {
+    "ats": null,
+    "checked_at": 1786559043.9115798,
+    "confidence": "none",
+    "domain": "practo.com",
+    "how": "no public board found",
+    "name": "Practo",
+    "slug": null
+  },
+  "purplle": {
+    "ats": null,
+    "checked_at": 1786558997.0049431,
+    "confidence": "none",
+    "domain": "purplle.com",
+    "how": "no public board found",
+    "name": "Purplle",
+    "slug": null
+  },
+  "ramp": {
+    "ats": "ashby",
+    "checked_at": 1786559057.482087,
+    "confidence": "likely",
+    "domain": "ramp.com",
+    "how": "linked from careers page; company domain appears in posting URLs; company named in 12 of 12 descriptions",
+    "name": "Ramp",
+    "slug": "ramp"
+  },
+  "rapido": {
+    "ats": null,
+    "checked_at": 1786558982.7342138,
+    "confidence": "none",
+    "domain": "rapido.bike",
+    "how": "no public board found",
+    "name": "Rapido",
+    "slug": null
+  },
+  "razorpay": {
+    "ats": "greenhouse",
+    "checked_at": 1786558959.475519,
+    "confidence": "verified",
+    "domain": "razorpay.com",
+    "how": "linked from careers page; board is named 'Razorpay Software Private Limited'; company domain appears in posting URLs; company named in 12 of 12 descriptions; 15 of 21 postings are in India",
+    "name": "Razorpay",
+    "slug": "razorpaysoftwareprivatelimited"
+  },
+  "remote": {
+    "ats": "greenhouse",
+    "checked_at": 1786559061.1335602,
+    "confidence": "verified",
+    "domain": "remote.com",
+    "how": "slug guessed from name; board is named 'General Assembly Remote Jobs '; company domain appears in posting URLs",
+    "name": "Remote",
+    "slug": "remote"
+  },
+  "replit": {
+    "ats": "ashby",
+    "checked_at": 1786559062.742862,
+    "confidence": "likely",
+    "domain": "replit.com",
+    "how": "linked from careers page; company domain appears in posting URLs; company named in 12 of 12 descriptions",
+    "name": "Replit",
+    "slug": "replit"
+  },
+  "retool": {
+    "ats": null,
+    "checked_at": 1786559092.870311,
+    "confidence": "none",
+    "domain": "retool.com",
+    "how": "no public board found",
+    "name": "Retool",
+    "slug": null
+  },
+  "revolut": {
+    "ats": null,
+    "checked_at": 1786559059.831768,
+    "confidence": "none",
+    "domain": "revolut.com",
+    "how": "no public board found",
+    "name": "Revolut",
+    "slug": null
+  },
+  "rippling": {
+    "ats": null,
+    "checked_at": 1786559060.2569149,
+    "confidence": "none",
+    "domain": "rippling.com",
+    "how": "no public board found",
+    "name": "Rippling",
+    "slug": null
+  },
+  "rupeek": {
+    "ats": null,
+    "checked_at": 1786558993.9067461,
+    "confidence": "none",
+    "domain": "rupeek.com",
+    "how": "no public board found",
+    "name": "Rupeek",
+    "slug": null
+  },
+  "salesforce": {
+    "ats": null,
+    "checked_at": 1786559047.3536751,
+    "confidence": "none",
+    "domain": "salesforce.com",
+    "how": "no public board found",
+    "name": "Salesforce",
+    "slug": null
+  },
+  "scale ai": {
+    "ats": "greenhouse",
+    "checked_at": 1786559063.162198,
+    "confidence": "verified",
+    "domain": "scale.com",
+    "how": "slug guessed from name; board is named 'Scale AI'; company domain appears in posting URLs; company named in 12 of 12 descriptions",
+    "name": "Scale AI",
+    "slug": "scaleai"
+  },
+  "scaler": {
+    "ats": null,
+    "checked_at": 1786559048.112094,
+    "confidence": "none",
+    "domain": "scaler.com",
+    "how": "no public board found",
+    "name": "Scaler",
+    "slug": null
+  },
+  "scripbox": {
+    "ats": null,
+    "checked_at": 1786558992.7590468,
+    "confidence": "none",
+    "domain": "scripbox.com",
+    "how": "no public board found",
+    "name": "Scripbox",
+    "slug": null
+  },
+  "setu": {
+    "ats": null,
+    "checked_at": 1786558963.167244,
+    "confidence": "none",
+    "domain": "setu.co",
+    "how": "no public board found",
+    "name": "Setu",
+    "slug": null
+  },
+  "sharechat": {
+    "ats": null,
+    "checked_at": 1786559042.135732,
+    "confidence": "none",
+    "domain": "sharechat.com",
+    "how": "no public board found",
+    "name": "ShareChat",
+    "slug": null
+  },
+  "shiprocket": {
+    "ats": null,
+    "checked_at": 1786558981.1376882,
+    "confidence": "none",
+    "domain": "shiprocket.in",
+    "how": "no public board found",
+    "name": "Shiprocket",
+    "slug": null
+  },
+  "shopify": {
+    "ats": null,
+    "checked_at": 1786559077.350423,
+    "confidence": "none",
+    "domain": "shopify.com",
+    "how": "no public board found",
+    "name": "Shopify",
+    "slug": null
+  },
+  "signzy": {
+    "ats": null,
+    "checked_at": 1786558962.891059,
+    "confidence": "none",
+    "domain": "signzy.com",
+    "how": "no public board found",
+    "name": "Signzy",
+    "slug": null
+  },
+  "sirionlabs": {
+    "ats": null,
+    "checked_at": 1786559017.683798,
+    "confidence": "none",
+    "domain": "sirionlabs.com",
+    "how": "no public board found",
+    "name": "SirionLabs",
+    "slug": null
+  },
+  "slice": {
+    "ats": null,
+    "checked_at": 1786558964.828795,
+    "confidence": "none",
+    "domain": "sliceit.com",
+    "how": "greenhouse/slice: no Indian postings on an Indian company's board (43 jobs) \u2014 probably a namesake",
+    "name": "slice",
+    "slug": null
+  },
+  "smallcase": {
+    "ats": null,
+    "checked_at": 1786558965.896338,
+    "confidence": "none",
+    "domain": "smallcase.com",
+    "how": "no public board found",
+    "name": "smallcase",
+    "slug": null
+  },
+  "snowflake": {
+    "ats": "ashby",
+    "checked_at": 1786559053.751456,
+    "confidence": "likely",
+    "domain": "snowflake.com",
+    "how": "slug guessed from name; company domain appears in posting URLs; company named in 12 of 12 descriptions",
+    "name": "Snowflake",
+    "slug": "snowflake"
+  },
+  "sourcegraph": {
+    "ats": "greenhouse",
+    "checked_at": 1786559059.014603,
+    "confidence": "verified",
+    "domain": "sourcegraph.com",
+    "how": "linked from careers page; board is named 'Sourcegraph'; company domain appears in posting URLs; company named in 8 of 8 descriptions",
+    "name": "Sourcegraph",
+    "slug": "sourcegraph91"
+  },
+  "spotify": {
+    "ats": "lever",
+    "checked_at": 1786559054.501805,
+    "confidence": "likely",
+    "domain": "spotify.com",
+    "how": "slug guessed from name; company domain appears in posting URLs; company named in 12 of 12 descriptions",
+    "name": "Spotify",
+    "slug": "spotify"
+  },
+  "springworks": {
+    "ats": null,
+    "checked_at": 1786559017.6274729,
+    "confidence": "none",
+    "domain": "springworks.in",
+    "how": "no public board found",
+    "name": "Springworks",
+    "slug": null
+  },
+  "sprinto": {
+    "ats": "lever",
+    "checked_at": 1786559019.5996768,
+    "confidence": "verified",
+    "domain": "sprinto.com",
+    "how": "linked from careers page; company domain appears in posting URLs; company named in 12 of 12 descriptions; 25 of 31 postings are in India",
+    "name": "Sprinto",
+    "slug": "Sprinto"
+  },
+  "stripe": {
+    "ats": "greenhouse",
+    "checked_at": 1786559046.877527,
+    "confidence": "verified",
+    "domain": "stripe.com",
+    "how": "slug guessed from name; board is named 'Stripe'; company domain appears in posting URLs; company named in 12 of 12 descriptions",
+    "name": "Stripe",
+    "slug": "stripe"
+  },
+  "supabase": {
+    "ats": "ashby",
+    "checked_at": 1786559059.200266,
+    "confidence": "likely",
+    "domain": "supabase.com",
+    "how": "linked from careers page; company domain appears in posting URLs; company named in 12 of 12 descriptions",
+    "name": "Supabase",
+    "slug": "supabase"
+  },
+  "swiggy": {
+    "ats": "smartrecruiters",
+    "checked_at": 1786558967.932182,
+    "confidence": "verified",
+    "domain": "swiggy.com",
+    "how": "slug guessed from name; board is named 'SWIGGY'; company domain appears in posting URLs; 24 of 36 postings are in India",
+    "name": "Swiggy",
+    "slug": "swiggy"
+  },
+  "tata 1mg": {
+    "ats": null,
+    "checked_at": 1786559046.8613682,
+    "confidence": "none",
+    "domain": "1mg.com",
+    "how": "no public board found",
+    "name": "Tata 1mg",
+    "slug": null
+  },
+  "toggl": {
+    "ats": null,
+    "checked_at": 1786559064.1875641,
+    "confidence": "none",
+    "domain": "toggl.com",
+    "how": "no public board found",
+    "name": "Toggl",
+    "slug": null
+  },
+  "twilio": {
+    "ats": "greenhouse",
+    "checked_at": 1786559054.894484,
+    "confidence": "verified",
+    "domain": "twilio.com",
+    "how": "slug guessed from name; board is named 'Twilio'; company domain appears in posting URLs; company named in 12 of 12 descriptions",
+    "name": "Twilio",
+    "slug": "twilio"
+  },
+  "uber": {
+    "ats": null,
+    "checked_at": 1786559077.387876,
+    "confidence": "none",
+    "domain": "uber.com",
+    "how": "smartrecruiters/uber: board looks like a demo account ('Test UAT')",
+    "name": "Uber",
+    "slug": null
+  },
+  "udaan": {
+    "ats": null,
+    "checked_at": 1786559003.606446,
+    "confidence": "none",
+    "domain": "udaan.com",
+    "how": "no public board found",
+    "name": "Udaan",
+    "slug": null
+  },
+  "unacademy": {
+    "ats": "smartrecruiters",
+    "checked_at": 1786559020.5163589,
+    "confidence": "verified",
+    "domain": "unacademy.com",
+    "how": "slug guessed from name; board is named 'Unacademy'; company domain appears in posting URLs; 3 of 3 postings are in India",
+    "name": "Unacademy",
+    "slug": "unacademy"
+  },
+  "uniphore": {
+    "ats": null,
+    "checked_at": 1786559038.335851,
+    "confidence": "none",
+    "domain": "uniphore.com",
+    "how": "no public board found",
+    "name": "Uniphore",
+    "slug": null
+  },
+  "upgrad": {
+    "ats": null,
+    "checked_at": 1786559025.404151,
+    "confidence": "none",
+    "domain": "upgrad.com",
+    "how": "no public board found",
+    "name": "upGrad",
+    "slug": null
+  },
+  "upstox": {
+    "ats": "smartrecruiters",
+    "checked_at": 1786558964.974366,
+    "confidence": "verified",
+    "domain": "upstox.com",
+    "how": "slug guessed from name; board is named 'upstox'; company domain appears in posting URLs",
+    "name": "Upstox",
+    "slug": "upstox"
+  },
+  "urban company": {
+    "ats": null,
+    "checked_at": 1786559028.9839659,
+    "confidence": "none",
+    "domain": "urbancompany.com",
+    "how": "no public board found",
+    "name": "Urban Company",
+    "slug": null
+  },
+  "vedantu": {
+    "ats": null,
+    "checked_at": 1786559022.364079,
+    "confidence": "none",
+    "domain": "vedantu.com",
+    "how": "no public board found",
+    "name": "Vedantu",
+    "slug": null
+  },
+  "vercel": {
+    "ats": "greenhouse",
+    "checked_at": 1786559048.0026429,
+    "confidence": "verified",
+    "domain": "vercel.com",
+    "how": "linked from careers page; board is named 'Vercel'; company domain appears in posting URLs; company named in 12 of 12 descriptions",
+    "name": "Vercel",
+    "slug": "vercel"
+  },
+  "whatfix": {
+    "ats": null,
+    "checked_at": 1786559004.23842,
+    "confidence": "none",
+    "domain": "whatfix.com",
+    "how": "smartrecruiters/whatfix: board looks like a demo account ('test')",
+    "name": "Whatfix",
+    "slug": null
+  },
+  "wise": {
+    "ats": "smartrecruiters",
+    "checked_at": 1786559056.346926,
+    "confidence": "verified",
+    "domain": "wise.com",
+    "how": "slug guessed from name; board is named 'Wise'; company domain appears in posting URLs",
+    "name": "Wise",
+    "slug": "wise"
+  },
+  "yellow.ai": {
+    "ats": null,
+    "checked_at": 1786559019.586261,
+    "confidence": "none",
+    "domain": "yellow.ai",
+    "how": "no public board found",
+    "name": "Yellow.ai",
+    "slug": null
+  },
+  "yubi": {
+    "ats": null,
+    "checked_at": 1786558965.4979048,
+    "confidence": "none",
+    "domain": "go-yubi.com",
+    "how": "no public board found",
+    "name": "Yubi",
+    "slug": null
+  },
+  "zapier": {
+    "ats": "ashby",
+    "checked_at": 1786559051.452087,
+    "confidence": "likely",
+    "domain": "zapier.com",
+    "how": "slug guessed from name; company domain appears in posting URLs; company named in 11 of 11 descriptions",
+    "name": "Zapier",
+    "slug": "zapier"
+  },
+  "zepto": {
+    "ats": null,
+    "checked_at": 1786558968.027765,
+    "confidence": "none",
+    "domain": "zepto.co.in",
+    "how": "no public board found",
+    "name": "Zepto",
+    "slug": null
+  },
+  "zerodha": {
+    "ats": null,
+    "checked_at": 1786558962.5271769,
+    "confidence": "none",
+    "domain": "zerodha.com",
+    "how": "no public board found",
+    "name": "Zerodha",
+    "slug": null
+  },
+  "zeta": {
+    "ats": "lever",
+    "checked_at": 1786558962.935461,
+    "confidence": "verified",
+    "domain": "zeta.tech",
+    "how": "slug guessed from name; company domain appears in posting URLs; company named in 12 of 12 descriptions; 22 of 24 postings are in India",
+    "name": "Zeta",
+    "slug": "zeta"
+  },
+  "zetwerk": {
+    "ats": null,
+    "checked_at": 1786558974.5743392,
+    "confidence": "none",
+    "domain": "zetwerk.com",
+    "how": "no public board found",
+    "name": "Zetwerk",
+    "slug": null
+  },
+  "zluri": {
+    "ats": null,
+    "checked_at": 1786559008.9516318,
+    "confidence": "none",
+    "domain": "zluri.com",
+    "how": "no public board found",
+    "name": "Zluri",
+    "slug": null
+  },
+  "zoho": {
+    "ats": null,
+    "checked_at": 1786558997.1555898,
+    "confidence": "none",
+    "domain": "zoho.com",
+    "how": "no public board found",
+    "name": "Zoho",
+    "slug": null
+  },
+  "zomato": {
+    "ats": null,
+    "checked_at": 1786559007.5439308,
+    "confidence": "none",
+    "domain": "zomato.com",
+    "how": "no public board found",
+    "name": "Zomato",
+    "slug": null
+  }
+}

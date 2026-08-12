@@ -1,0 +1,304 @@
+import { useEffect, useMemo, useState } from "react"
+import { loadBundle, type Bundle } from "@/lib/data"
+import { endSession, hasSession } from "@/lib/auth"
+import {
+  loadApplications,
+  loadContacts,
+  loadSettings,
+  saveApplications,
+  saveContacts,
+  saveSettings,
+  today,
+  uid,
+} from "@/lib/store"
+import type { Application, Contact, Job, Settings, Stage } from "@/lib/types"
+import { Login } from "@/components/Login"
+import { MapBoard } from "@/components/MapBoard"
+import { JobList } from "@/components/JobList"
+import { JobDetail } from "@/components/JobDetail"
+import { Tracker } from "@/components/Tracker"
+import { Contacts } from "@/components/Contacts"
+import { PayView } from "@/components/PayView"
+import { SettingsView } from "@/components/SettingsView"
+import { AdvisorView } from "@/components/AdvisorView"
+import { ago } from "@/lib/format"
+
+type View = "board" | "advisor" | "tracker" | "contacts" | "pay" | "settings"
+
+export default function App() {
+  const [authed, setAuthed] = useState(hasSession())
+  const [bundle, setBundle] = useState<Bundle | null>(null)
+  const [error, setError] = useState<string | null>(null)
+  const [view, setView] = useState<View>("board")
+
+  const [applications, setApplications] = useState<Application[]>(() => loadApplications())
+  const [contacts, setContacts] = useState<Contact[]>(() => loadContacts())
+  const [settings, setSettings] = useState<Settings>(() => loadSettings())
+
+  const [selectedId, setSelectedId] = useState<string | null>(null)
+  const [place, setPlace] = useState<string | null>(null)
+  const [query, setQuery] = useState("")
+  const [eligibleOnly, setEligibleOnly] = useState(true)
+  const [seniority, setSeniority] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (!authed) return
+    loadBundle()
+      .then(setBundle)
+      .catch((e: Error) => setError(e.message))
+  }, [authed])
+
+  useEffect(() => saveApplications(applications), [applications])
+  useEffect(() => saveContacts(contacts), [contacts])
+  useEffect(() => saveSettings(settings), [settings])
+
+  const jobs = bundle?.data.jobs ?? []
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase()
+    return jobs.filter((job) => {
+      if (eligibleOnly && !job.eligible) return false
+      if (seniority && job.seniority !== seniority) return false
+      if (place === "__remote__" && job.workplace !== "remote") return false
+      if (place && place !== "__remote__" && !job.points.some((p) => p.label === place)) return false
+      if (q) {
+        const hay = `${job.title} ${job.company} ${job.location_raw} ${job.keywords.join(" ")}`
+        if (!hay.toLowerCase().includes(q)) return false
+      }
+      return true
+    })
+  }, [jobs, query, eligibleOnly, seniority, place])
+
+  const selected = useMemo(
+    () => jobs.find((j) => j.id === selectedId) ?? null,
+    [jobs, selectedId],
+  )
+
+  const appByJob = useMemo(() => {
+    const map = new Map<string, Application>()
+    for (const row of applications) if (row.job_id) map.set(row.job_id, row)
+    return map
+  }, [applications])
+
+  function upsertApplication(job: Job, stage: Stage, opened = false): void {
+    setApplications((rows) => {
+      const existing = rows.find((r) => r.job_id === job.id)
+      if (existing) {
+        return rows.map((r) =>
+          r.job_id === job.id
+            ? {
+                ...r,
+                stage,
+                date_applied:
+                  stage === "applied" && !r.date_applied ? today() : r.date_applied,
+                activities: opened
+                  ? [
+                      {
+                        id: uid(),
+                        type: "applied" as const,
+                        date: today(),
+                        title: "Opened the posting to apply",
+                      },
+                      ...r.activities,
+                    ]
+                  : r.activities,
+              }
+            : r,
+        )
+      }
+      const created: Application = {
+        id: uid(),
+        job_id: job.id,
+        title: job.title,
+        company: job.company,
+        company_domain: job.company_domain,
+        url: job.url,
+        location: job.location_raw,
+        work_mode: job.workplace,
+        stage,
+        date_saved: today(),
+        date_applied: stage === "applied" ? today() : undefined,
+        salary_min: job.salary_parsed?.inr_low,
+        salary_max: job.salary_parsed?.inr_high,
+        currency: "INR",
+        contact_ids: [],
+        activities: opened
+          ? [{ id: uid(), type: "applied", date: today(), title: "Opened the posting to apply" }]
+          : [],
+      }
+      return [created, ...rows]
+    })
+  }
+
+  function handleApply(job: Job): void {
+    window.open(job.url, "_blank", "noopener,noreferrer")
+    upsertApplication(job, "applied", true)
+  }
+
+  function addContact(seed: Partial<Contact>): void {
+    const contact: Contact = {
+      id: uid(),
+      name: seed.name ?? "",
+      title: seed.title ?? "",
+      company: seed.company ?? "",
+      email: seed.email,
+      linkedin_url: seed.linkedin_url,
+      relationship: seed.relationship ?? "other",
+      notes: seed.notes,
+      added: today(),
+    }
+    setContacts((rows) => [contact, ...rows])
+  }
+
+  if (!authed) return <Login onPass={() => setAuthed(true)} />
+
+  if (error) {
+    return (
+      <div className="loading">
+        <div style={{ textAlign: "center" }}>
+          <p>Could not load the board.</p>
+          <p className="dimmer">{error}</p>
+          <p className="dimmer">Run `python cli.py build` to generate the data.</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (!bundle) return <div className="loading">loading the board…</div>
+
+  const counts = {
+    board: filtered.length,
+    tracker: applications.filter((a) => !["rejected", "withdrawn", "archived"].includes(a.stage))
+      .length,
+    contacts: contacts.length,
+    advice: bundle.advisor.insights?.insights.length ?? 0,
+  }
+
+  return (
+    <div className="shell">
+      <header className="topbar">
+        <div className="brand">
+          <span className="brand-dot" />
+          job-lab
+        </div>
+
+        <nav className="nav">
+          {(
+            [
+              ["board", "Board", counts.board],
+              ["advisor", "Advisor", counts.advice],
+              ["tracker", "Applications", counts.tracker],
+              ["contacts", "Contacts", counts.contacts],
+              ["pay", "Pay", null],
+              ["settings", "Settings", null],
+            ] as Array<[View, string, number | null]>
+          ).map(([key, label, count]) => (
+            <button
+              key={key}
+              className={view === key ? "on" : ""}
+              onClick={() => setView(key)}
+            >
+              <span className="label">{label}</span>
+              {count !== null && <span className="count">{count}</span>}
+            </button>
+          ))}
+        </nav>
+
+        <div className="topbar-right">
+          <span title={bundle.health.generated_at}>
+            rebuilt {ago(bundle.health.generated_at.slice(0, 10))}
+          </span>
+          <button
+            className="chip"
+            onClick={() => {
+              endSession()
+              setAuthed(false)
+            }}
+          >
+            lock
+          </button>
+        </div>
+      </header>
+
+      <main className="main">
+        {view === "board" && (
+          <div className="board">
+            <JobList
+              jobs={filtered}
+              all={jobs}
+              selectedId={selectedId}
+              onSelect={setSelectedId}
+              query={query}
+              onQuery={setQuery}
+              eligibleOnly={eligibleOnly}
+              onEligibleOnly={setEligibleOnly}
+              seniority={seniority}
+              onSeniority={setSeniority}
+              place={place}
+              onClearPlace={() => setPlace(null)}
+              appByJob={appByJob}
+            />
+            {selected ? (
+              <JobDetail
+                job={selected}
+                company={bundle.data.companies[selected.company]}
+                settings={settings}
+                idf={bundle.idf}
+                application={appByJob.get(selected.id)}
+                contacts={contacts}
+                onApply={handleApply}
+                onStage={(job, stage) => upsertApplication(job, stage)}
+                onAddContact={addContact}
+                onOpenSettings={() => setView("settings")}
+              />
+            ) : (
+              <MapBoard
+                world={bundle.world}
+                places={bundle.data.places}
+                jobs={jobs}
+                selectedPlace={place}
+                onSelectPlace={setPlace}
+                eligibleOnly={eligibleOnly}
+              />
+            )}
+          </div>
+        )}
+
+        {view === "advisor" && <AdvisorView advisor={bundle.advisor} />}
+
+        {view === "tracker" && (
+          <Tracker
+            applications={applications}
+            contacts={contacts}
+            onChange={setApplications}
+            onOpenJob={(jobId) => {
+              setSelectedId(jobId)
+              setView("board")
+            }}
+          />
+        )}
+
+        {view === "contacts" && (
+          <Contacts contacts={contacts} onChange={setContacts} applications={applications} />
+        )}
+
+        {view === "pay" && (
+          <PayView pay={bundle.data.pay} settings={settings} health={bundle.health} />
+        )}
+
+        {view === "settings" && (
+          <SettingsView
+            settings={settings}
+            onChange={setSettings}
+            health={bundle.health}
+            onRestored={() => {
+              setApplications(loadApplications())
+              setContacts(loadContacts())
+              setSettings(loadSettings())
+            }}
+          />
+        )}
+      </main>
+    </div>
+  )
+}

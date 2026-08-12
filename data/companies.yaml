@@ -1,0 +1,183 @@
+# The seed list. Everything else in the crawl is derived from it.
+#
+# Only `name` is required. `domain` improves the email-pattern guess and the
+# LinkedIn company link; `ats` and `slug` skip auto-detection when known. If both
+# are omitted the pipeline probes the public board endpoints of every supported
+# ATS and caches whichever one answers, so adding a company is usually one line.
+#
+# Tags are free-form and only used for grouping in the board UI.
+
+companies:
+  # --- Indian fintech ---------------------------------------------------------
+  - { name: Razorpay,        domain: razorpay.com,      tags: [india, fintech] }
+  - { name: CRED,            domain: cred.club,         tags: [india, fintech] }
+  - { name: Zerodha,         domain: zerodha.com,       tags: [india, fintech] }
+  - { name: Groww,           domain: groww.in,          tags: [india, fintech] }
+  - { name: PhonePe,         domain: phonepe.com,       tags: [india, fintech] }
+  - { name: Paytm,           domain: paytm.com,         tags: [india, fintech] }
+  - { name: Jupiter,         domain: jupiter.money,     tags: [india, fintech] }
+  - { name: Fi Money,        domain: fi.money,          tags: [india, fintech] }
+  - { name: slice,           domain: sliceit.com,       tags: [india, fintech] }
+  - { name: Navi,            domain: navi.com,          tags: [india, fintech] }
+  - { name: Juspay,          domain: juspay.in,         tags: [india, fintech] }
+  - { name: Cashfree,        domain: cashfree.com,      tags: [india, fintech] }
+  - { name: Zeta,            domain: zeta.tech,         tags: [india, fintech] }
+  - { name: Setu,            domain: setu.co,           tags: [india, fintech] }
+  - { name: M2P Fintech,     domain: m2pfintech.com,    tags: [india, fintech] }
+  - { name: Perfios,         domain: perfios.com,       tags: [india, fintech] }
+  - { name: Signzy,          domain: signzy.com,        tags: [india, fintech] }
+  - { name: KreditBee,       domain: kreditbee.in,      tags: [india, fintech] }
+  - { name: Yubi,            domain: go-yubi.com,       tags: [india, fintech] }
+  - { name: INDmoney,        domain: indmoney.com,      tags: [india, fintech] }
+  - { name: smallcase,       domain: smallcase.com,     tags: [india, fintech] }
+  - { name: Dhan,            domain: dhan.co,           tags: [india, fintech] }
+  - { name: Angel One,       domain: angelone.in,       tags: [india, fintech] }
+  - { name: Upstox,          domain: upstox.com,        tags: [india, fintech] }
+  - { name: Scripbox,        domain: scripbox.com,      tags: [india, fintech] }
+  - { name: ClearTax,        domain: cleartax.in,       tags: [india, fintech] }
+  - { name: Khatabook,       domain: khatabook.com,     tags: [india, fintech] }
+  - { name: Open Financial,  domain: open.money,        tags: [india, fintech] }
+  - { name: Decentro,        domain: decentro.tech,     tags: [india, fintech] }
+  - { name: Rupeek,          domain: rupeek.com,        tags: [india, fintech] }
+
+  # --- Indian consumer and commerce ------------------------------------------
+  - { name: Flipkart,        domain: flipkart.com,      tags: [india, commerce] }
+  - { name: Meesho,          domain: meesho.com,        tags: [india, commerce] }
+  - { name: Myntra,          domain: myntra.com,        tags: [india, commerce] }
+  - { name: Nykaa,           domain: nykaa.com,         tags: [india, commerce] }
+  - { name: Zepto,           domain: zepto.co.in,       tags: [india, commerce] }
+  - { name: Swiggy,          domain: swiggy.com,        tags: [india, commerce] }
+  - { name: Zomato,          domain: zomato.com,        tags: [india, commerce] }
+  - { name: Licious,         domain: licious.in,        tags: [india, commerce] }
+  - { name: Lenskart,        domain: lenskart.com,      tags: [india, commerce] }
+  - { name: Purplle,         domain: purplle.com,       tags: [india, commerce] }
+  - { name: Mamaearth,       domain: mamaearth.in,      tags: [india, commerce] }
+  - { name: boAt,            domain: boat-lifestyle.com, tags: [india, commerce] }
+  - { name: Udaan,           domain: udaan.com,         tags: [india, commerce] }
+  - { name: Zetwerk,         domain: zetwerk.com,       tags: [india, commerce] }
+  - { name: Moglix,          domain: moglix.com,        tags: [india, commerce] }
+  - { name: Delhivery,       domain: delhivery.com,     tags: [india, logistics] }
+  - { name: Shiprocket,      domain: shiprocket.in,     tags: [india, logistics] }
+  - { name: Rapido,          domain: rapido.bike,       tags: [india, mobility] }
+  - { name: Ola,             domain: olacabs.com,       tags: [india, mobility] }
+  - { name: Porter,          domain: porter.in,         tags: [india, logistics] }
+  - { name: Urban Company,   domain: urbancompany.com,  tags: [india, services] }
+  - { name: Country Delight, domain: countrydelight.in, tags: [india, commerce] }
+
+  # --- Indian SaaS and developer tools ---------------------------------------
+  - { name: Freshworks,      domain: freshworks.com,    tags: [india, saas] }
+  - { name: Zoho,            domain: zoho.com,          tags: [india, saas] }
+  - { name: Postman,         domain: postman.com,       tags: [india, devtools] }
+  - { name: BrowserStack,    domain: browserstack.com,  tags: [india, devtools] }
+  - { name: Hasura,          domain: hasura.io,         tags: [india, devtools] }
+  - { name: Atlan,           domain: atlan.com,         tags: [india, saas] }
+  - { name: Chargebee,       domain: chargebee.com,     tags: [india, saas] }
+  - { name: Darwinbox,       domain: darwinbox.com,     tags: [india, saas] }
+  - { name: Whatfix,         domain: whatfix.com,       tags: [india, saas] }
+  - { name: MoEngage,        domain: moengage.com,      tags: [india, saas] }
+  - { name: CleverTap,       domain: clevertap.com,     tags: [india, saas] }
+  - { name: Netcore Cloud,   domain: netcorecloud.com,  tags: [india, saas] }
+  - { name: Innovaccer,      domain: innovaccer.com,    tags: [india, healthtech] }
+  - { name: LeadSquared,     domain: leadsquared.com,   tags: [india, saas] }
+  - { name: Zluri,           domain: zluri.com,         tags: [india, saas] }
+  - { name: Sprinto,         domain: sprinto.com,       tags: [india, saas] }
+  - { name: Facilio,         domain: facilio.com,       tags: [india, saas] }
+  - { name: Yellow.ai,       domain: yellow.ai,         tags: [india, ai] }
+  - { name: Observe.AI,      domain: observe.ai,        tags: [india, ai] }
+  - { name: Uniphore,        domain: uniphore.com,      tags: [india, ai] }
+  - { name: Mindtickle,      domain: mindtickle.com,    tags: [india, saas] }
+  - { name: HighRadius,      domain: highradius.com,    tags: [india, saas] }
+  - { name: Icertis,         domain: icertis.com,       tags: [india, saas] }
+  - { name: Druva,           domain: druva.com,         tags: [india, saas] }
+  - { name: Gupshup,         domain: gupshup.io,        tags: [india, saas] }
+  - { name: Exotel,          domain: exotel.com,        tags: [india, saas] }
+  - { name: Locus,           domain: locus.sh,          tags: [india, saas] }
+  - { name: FarEye,          domain: fareye.com,        tags: [india, saas] }
+  - { name: Amagi,           domain: amagi.com,         tags: [india, media] }
+  - { name: Netradyne,       domain: netradyne.com,     tags: [india, ai] }
+  - { name: Eightfold AI,    domain: eightfold.ai,      tags: [india, ai] }
+  - { name: SirionLabs,      domain: sirionlabs.com,    tags: [india, saas] }
+  - { name: Springworks,     domain: springworks.in,    tags: [india, saas] }
+  - { name: Hackerrank,      domain: hackerrank.com,    tags: [india, devtools] }
+  - { name: Scaler,          domain: scaler.com,        tags: [india, edtech] }
+  - { name: Nutanix,         domain: nutanix.com,       tags: [india, infra] }
+
+  # --- Indian consumer internet, health, education, gaming --------------------
+  - { name: Unacademy,       domain: unacademy.com,     tags: [india, edtech] }
+  - { name: PhysicsWallah,   domain: pw.live,           tags: [india, edtech] }
+  - { name: Vedantu,         domain: vedantu.com,       tags: [india, edtech] }
+  - { name: upGrad,          domain: upgrad.com,        tags: [india, edtech] }
+  - { name: Cult.fit,        domain: cult.fit,          tags: [india, health] }
+  - { name: HealthifyMe,     domain: healthifyme.com,   tags: [india, health] }
+  - { name: PharmEasy,       domain: pharmeasy.in,      tags: [india, health] }
+  - { name: Practo,          domain: practo.com,        tags: [india, health] }
+  - { name: Tata 1mg,        domain: 1mg.com,           tags: [india, health] }
+  - { name: Dream11,         domain: dream11.com,       tags: [india, gaming] }
+  - { name: Games24x7,       domain: games24x7.com,     tags: [india, gaming] }
+  - { name: Mobile Premier League, domain: mpl.live,    tags: [india, gaming] }
+  - { name: Nazara,          domain: nazara.com,        tags: [india, gaming] }
+  - { name: ShareChat,       domain: sharechat.com,     tags: [india, social] }
+  - { name: Hotstar,         domain: hotstar.com,       tags: [india, media] }
+
+  # --- Global product companies with real India design teams -----------------
+  - { name: Google,          domain: google.com,        tags: [global, bigtech] }
+  - { name: Microsoft,       domain: microsoft.com,     tags: [global, bigtech] }
+  - { name: Adobe,           domain: adobe.com,         tags: [global, bigtech] }
+  - { name: Salesforce,      domain: salesforce.com,    tags: [global, saas] }
+  - { name: Atlassian,       domain: atlassian.com,     tags: [global, saas] }
+  - { name: Uber,            domain: uber.com,          tags: [global, bigtech] }
+  - { name: Airbnb,          domain: airbnb.com,        tags: [global, bigtech] }
+  - { name: Stripe,          domain: stripe.com,        tags: [global, fintech] }
+  - { name: Shopify,         domain: shopify.com,       tags: [global, commerce] }
+  - { name: Figma,           domain: figma.com,         tags: [global, design] }
+  - { name: Canva,           domain: canva.com,         tags: [global, design] }
+  - { name: Notion,          domain: notion.so,         tags: [global, saas] }
+  - { name: Linear,          domain: linear.app,        tags: [global, saas] }
+  - { name: Vercel,          domain: vercel.com,        tags: [global, devtools] }
+  - { name: GitLab,          domain: gitlab.com,        tags: [global, devtools, remote-first] }
+  - { name: Automattic,      domain: automattic.com,    tags: [global, remote-first] }
+  - { name: Zapier,          domain: zapier.com,        tags: [global, remote-first] }
+  - { name: Datadog,         domain: datadoghq.com,     tags: [global, infra] }
+  - { name: MongoDB,         domain: mongodb.com,       tags: [global, infra] }
+  - { name: Elastic,         domain: elastic.co,        tags: [global, infra, remote-first] }
+  - { name: HashiCorp,       domain: hashicorp.com,     tags: [global, infra] }
+  - { name: Confluent,       domain: confluent.io,      tags: [global, infra] }
+  - { name: Databricks,      domain: databricks.com,    tags: [global, data] }
+  - { name: Snowflake,       domain: snowflake.com,     tags: [global, data] }
+  - { name: Twilio,          domain: twilio.com,        tags: [global, saas] }
+  - { name: Amplitude,       domain: amplitude.com,     tags: [global, data] }
+  - { name: Mixpanel,        domain: mixpanel.com,      tags: [global, data] }
+  - { name: Intercom,        domain: intercom.com,      tags: [global, saas] }
+  - { name: Miro,            domain: miro.com,          tags: [global, saas] }
+  - { name: Airtable,        domain: airtable.com,      tags: [global, saas] }
+  - { name: Asana,           domain: asana.com,         tags: [global, saas] }
+  - { name: Dropbox,         domain: dropbox.com,       tags: [global, saas] }
+  - { name: Grammarly,       domain: grammarly.com,     tags: [global, saas] }
+  - { name: Duolingo,        domain: duolingo.com,      tags: [global, edtech] }
+  - { name: Spotify,         domain: spotify.com,       tags: [global, media] }
+  - { name: Wise,            domain: wise.com,          tags: [global, fintech] }
+  - { name: Revolut,         domain: revolut.com,       tags: [global, fintech] }
+  - { name: Klarna,          domain: klarna.com,        tags: [global, fintech] }
+  - { name: Checkout.com,    domain: checkout.com,      tags: [global, fintech] }
+  - { name: Deel,            domain: deel.com,          tags: [global, remote-first] }
+  - { name: Remote,          domain: remote.com,        tags: [global, remote-first] }
+  - { name: Rippling,        domain: rippling.com,      tags: [global, saas] }
+  - { name: Brex,            domain: brex.com,          tags: [global, fintech] }
+  - { name: Ramp,            domain: ramp.com,          tags: [global, fintech] }
+  - { name: Plaid,           domain: plaid.com,         tags: [global, fintech] }
+  - { name: Coinbase,        domain: coinbase.com,      tags: [global, fintech] }
+  - { name: Sourcegraph,     domain: sourcegraph.com,   tags: [global, devtools, remote-first] }
+  - { name: Supabase,        domain: supabase.com,      tags: [global, devtools, remote-first] }
+  - { name: PostHog,         domain: posthog.com,       tags: [global, devtools, remote-first] }
+  - { name: Cal.com,         domain: cal.com,           tags: [global, devtools, remote-first] }
+  - { name: Doist,           domain: doist.com,         tags: [global, remote-first] }
+  - { name: Buffer,          domain: buffer.com,        tags: [global, remote-first] }
+  - { name: Hotjar,          domain: hotjar.com,        tags: [global, remote-first] }
+  - { name: Toggl,           domain: toggl.com,         tags: [global, remote-first] }
+  - { name: Ghost,           domain: ghost.org,         tags: [global, remote-first] }
+  - { name: Anthropic,       domain: anthropic.com,     tags: [global, ai] }
+  - { name: OpenAI,          domain: openai.com,        tags: [global, ai] }
+  - { name: Scale AI,        domain: scale.com,         tags: [global, ai] }
+  - { name: Hugging Face,    domain: huggingface.co,    tags: [global, ai, remote-first] }
+  - { name: Replit,          domain: replit.com,        tags: [global, devtools] }
+  - { name: Retool,          domain: retool.com,        tags: [global, devtools] }

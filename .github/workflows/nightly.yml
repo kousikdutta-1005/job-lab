@@ -1,0 +1,90 @@
+name: Nightly job-lab build
+
+on:
+  # The site has no server or database, so the scheduled build is the system's
+  # heartbeat: it refreshes static JSON and commits the tiny history files that
+  # become tomorrow's trend memory.
+  schedule:
+    - cron: '30 18 * * *'
+  workflow_dispatch:
+
+permissions:
+  # contents:write is only for committing data/history/ and data/ats-map.json.
+  # pages/id-token are the minimum GitHub Pages deployment permissions.
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  # A slow crawl should not race a manual rerun and deploy stale JSON over fresh
+  # JSON, so all Pages builds share one queue.
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install crawler dependencies
+        run: |
+          python -m venv .venv
+          ./.venv/bin/python -m pip install --upgrade pip
+          ./.venv/bin/python -m pip install -r requirements.txt
+
+      - name: Build static job data
+        # cli.py writes only static JSON. A failed public source records an error
+        # in health.json instead of failing the whole site build.
+        run: ./.venv/bin/python cli.py build
+
+      - name: Commit crawl memory
+        # data/history/ is the database substitute; data/ats-map.json avoids
+        # re-detecting every company board from scratch on every run.
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/history data/ats-map.json
+          if git diff --cached --quiet; then
+            echo "No crawl memory changes to commit."
+          else
+            git commit -m "Update job-lab crawl memory"
+            git push
+          fi
+
+      - name: Set up Node from .nvmrc
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Build web app
+        # The frontend consumes web/public/data during the Vite build, so it runs
+        # after the crawler has refreshed those files.
+        run: |
+          cd web
+          npm ci
+          npm run build
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: web/dist
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,1439 @@
+{
+  "generated_at": "2026-08-12T18:52:53+00:00",
+  "version": "0.1.0",
+  "duration_seconds": 6.8,
+  "detection": {
+    "total": 164,
+    "cached": 164,
+    "probed": 0,
+    "found": 61,
+    "missing": 103
+  },
+  "counts": {
+    "companies_in_registry": 164,
+    "companies_with_board": 61,
+    "raw_design_postings": 181,
+    "duplicates_removed": 6,
+    "jobs": 175,
+    "eligible": 58,
+    "ineligible": 117,
+    "on_map": 134,
+    "off_map": 41,
+    "places": 32,
+    "salary_disclosed": 31,
+    "news_items": 60,
+    "insights": 4
+  },
+  "by_source": {
+    "greenhouse": 84,
+    "ashby": 33,
+    "weworkremotely": 22,
+    "himalayas": 11,
+    "smartrecruiters": 10,
+    "arbeitnow": 8,
+    "lever": 7
+  },
+  "by_seniority": {
+    "Mid-level": 56,
+    "Staff": 35,
+    "Senior": 28,
+    "Director": 18,
+    "Lead": 14,
+    "Manager": 14,
+    "Principal": 5,
+    "Head of Design": 4,
+    "Junior": 1
+  },
+  "by_workplace": {
+    "onsite": 82,
+    "remote": 80,
+    "hybrid": 13
+  },
+  "sources": [
+    {
+      "kind": "aggregator",
+      "name": "weworkremotely",
+      "postings": 92,
+      "jobs": 23,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Stripe",
+      "ats": "greenhouse",
+      "slug": "stripe",
+      "confidence": "verified",
+      "postings": 567,
+      "jobs": 15,
+      "error": null
+    },
+    {
+      "kind": "aggregator",
+      "name": "himalayas",
+      "postings": 1200,
+      "jobs": 15,
+      "error": null
+    },
+    {
+      "kind": "aggregator",
+      "name": "arbeitnow",
+      "postings": 576,
+      "jobs": 9,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Figma",
+      "ats": "greenhouse",
+      "slug": "figma",
+      "confidence": "verified",
+      "postings": 159,
+      "jobs": 8,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Datadog",
+      "ats": "greenhouse",
+      "slug": "datadog",
+      "confidence": "verified",
+      "postings": 439,
+      "jobs": 7,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Duolingo",
+      "ats": "greenhouse",
+      "slug": "duolingo",
+      "confidence": "verified",
+      "postings": 63,
+      "jobs": 7,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "OpenAI",
+      "ats": "ashby",
+      "slug": "openai",
+      "confidence": "likely",
+      "postings": 736,
+      "jobs": 7,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Brex",
+      "ats": "greenhouse",
+      "slug": "brex",
+      "confidence": "verified",
+      "postings": 290,
+      "jobs": 6,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Canva",
+      "ats": "smartrecruiters",
+      "slug": "canva",
+      "confidence": "verified",
+      "postings": 100,
+      "jobs": 6,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Dropbox",
+      "ats": "greenhouse",
+      "slug": "dropbox",
+      "confidence": "verified",
+      "postings": 39,
+      "jobs": 6,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Ramp",
+      "ats": "ashby",
+      "slug": "ramp",
+      "confidence": "likely",
+      "postings": 134,
+      "jobs": 5,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Airbnb",
+      "ats": "greenhouse",
+      "slug": "airbnb",
+      "confidence": "verified",
+      "postings": 177,
+      "jobs": 4,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Coinbase",
+      "ats": "greenhouse",
+      "slug": "coinbase",
+      "confidence": "verified",
+      "postings": 166,
+      "jobs": 4,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Databricks",
+      "ats": "greenhouse",
+      "slug": "databricks",
+      "confidence": "verified",
+      "postings": 807,
+      "jobs": 4,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Miro",
+      "ats": "ashby",
+      "slug": "miro",
+      "confidence": "likely",
+      "postings": 42,
+      "jobs": 4,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Notion",
+      "ats": "ashby",
+      "slug": "notion",
+      "confidence": "likely",
+      "postings": 128,
+      "jobs": 4,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Snowflake",
+      "ats": "ashby",
+      "slug": "snowflake",
+      "confidence": "likely",
+      "postings": 385,
+      "jobs": 4,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Asana",
+      "ats": "greenhouse",
+      "slug": "asana",
+      "confidence": "verified",
+      "postings": 139,
+      "jobs": 3,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Linear",
+      "ats": "ashby",
+      "slug": "Linear",
+      "confidence": "likely",
+      "postings": 31,
+      "jobs": 3,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Replit",
+      "ats": "ashby",
+      "slug": "replit",
+      "confidence": "likely",
+      "postings": 77,
+      "jobs": 3,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Spotify",
+      "ats": "lever",
+      "slug": "spotify",
+      "confidence": "likely",
+      "postings": 100,
+      "jobs": 3,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Vercel",
+      "ats": "greenhouse",
+      "slug": "vercel",
+      "confidence": "verified",
+      "postings": 84,
+      "jobs": 3,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Wise",
+      "ats": "smartrecruiters",
+      "slug": "wise",
+      "confidence": "verified",
+      "postings": 100,
+      "jobs": 3,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Anthropic",
+      "ats": "greenhouse",
+      "slug": "anthropic",
+      "confidence": "verified",
+      "postings": 408,
+      "jobs": 2,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Hackerrank",
+      "ats": "greenhouse",
+      "slug": "hackerrank",
+      "confidence": "verified",
+      "postings": 28,
+      "jobs": 2,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "PhonePe",
+      "ats": "greenhouse",
+      "slug": "phonepe",
+      "confidence": "verified",
+      "postings": 79,
+      "jobs": 2,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Razorpay",
+      "ats": "greenhouse",
+      "slug": "razorpaysoftwareprivatelimited",
+      "confidence": "verified",
+      "postings": 21,
+      "jobs": 2,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Supabase",
+      "ats": "ashby",
+      "slug": "supabase",
+      "confidence": "likely",
+      "postings": 56,
+      "jobs": 2,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Twilio",
+      "ats": "greenhouse",
+      "slug": "twilio",
+      "confidence": "verified",
+      "postings": 164,
+      "jobs": 2,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Airtable",
+      "ats": "greenhouse",
+      "slug": "airtable",
+      "confidence": "verified",
+      "postings": 17,
+      "jobs": 1,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Amplitude",
+      "ats": "greenhouse",
+      "slug": "amplitude",
+      "confidence": "verified",
+      "postings": 32,
+      "jobs": 1,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Elastic",
+      "ats": "greenhouse",
+      "slug": "elastic",
+      "confidence": "verified",
+      "postings": 255,
+      "jobs": 1,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Freshworks",
+      "ats": "smartrecruiters",
+      "slug": "Freshworks",
+      "confidence": "verified",
+      "postings": 100,
+      "jobs": 1,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "GitLab",
+      "ats": "greenhouse",
+      "slug": "gitlab",
+      "confidence": "verified",
+      "postings": 197,
+      "jobs": 1,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "HighRadius",
+      "ats": "greenhouse",
+      "slug": "highradius",
+      "confidence": "verified",
+      "postings": 76,
+      "jobs": 1,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Meesho",
+      "ats": "lever",
+      "slug": "meesho",
+      "confidence": "verified",
+      "postings": 53,
+      "jobs": 1,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Mindtickle",
+      "ats": "lever",
+      "slug": "mindtickle",
+      "confidence": "verified",
+      "postings": 24,
+      "jobs": 1,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Mixpanel",
+      "ats": "greenhouse",
+      "slug": "mixpanel",
+      "confidence": "verified",
+      "postings": 59,
+      "jobs": 1,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Paytm",
+      "ats": "lever",
+      "slug": "paytm",
+      "confidence": "verified",
+      "postings": 246,
+      "jobs": 1,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Plaid",
+      "ats": "ashby",
+      "slug": "plaid",
+      "confidence": "likely",
+      "postings": 101,
+      "jobs": 1,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Scale AI",
+      "ats": "greenhouse",
+      "slug": "scaleai",
+      "confidence": "verified",
+      "postings": 212,
+      "jobs": 1,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Zeta",
+      "ats": "lever",
+      "slug": "zeta",
+      "confidence": "verified",
+      "postings": 24,
+      "jobs": 1,
+      "error": null
+    },
+    {
+      "kind": "news",
+      "name": "A List Apart",
+      "url": "https://alistapart.com/main/feed/",
+      "items": 19,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Atlan",
+      "ats": "ashby",
+      "slug": "atlan",
+      "confidence": "verified",
+      "postings": 6,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Buffer",
+      "ats": "ashby",
+      "slug": "buffer",
+      "confidence": "likely",
+      "postings": 2,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "CRED",
+      "ats": "lever",
+      "slug": "cred",
+      "confidence": "verified",
+      "postings": 5,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Confluent",
+      "ats": "ashby",
+      "slug": "confluent",
+      "confidence": "likely",
+      "postings": 30,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Druva",
+      "ats": "greenhouse",
+      "slug": "druva",
+      "confidence": "verified",
+      "postings": 29,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Fi Money",
+      "ats": "lever",
+      "slug": "epifi",
+      "confidence": "likely",
+      "postings": 11,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Ghost",
+      "ats": "greenhouse",
+      "slug": "ghost",
+      "confidence": "verified",
+      "postings": 4,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Groww",
+      "ats": "greenhouse",
+      "slug": "groww",
+      "confidence": "verified",
+      "postings": 8,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "news",
+      "name": "Hacker News \u2014 design",
+      "url": "https://hn.algolia.com/api/v1/search_by_date?query=design&tags=story",
+      "items": 1,
+      "error": null
+    },
+    {
+      "kind": "news",
+      "name": "Hacker News \u2014 layoffs",
+      "url": "https://hn.algolia.com/api/v1/search_by_date?query=layoffs&tags=story",
+      "items": 18,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Hugging Face",
+      "ats": "workable",
+      "slug": "huggingface",
+      "confidence": "verified",
+      "postings": 7,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "MongoDB",
+      "ats": "greenhouse",
+      "slug": "mongodb",
+      "confidence": "verified",
+      "postings": 416,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Netradyne",
+      "ats": "greenhouse",
+      "slug": "netradyne",
+      "confidence": "verified",
+      "postings": 32,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "news",
+      "name": "Nielsen Norman Group",
+      "url": "https://www.nngroup.com/feed/rss/",
+      "items": 17,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Observe.AI",
+      "ats": "greenhouse",
+      "slug": "observeai",
+      "confidence": "verified",
+      "postings": 18,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "PostHog",
+      "ats": "ashby",
+      "slug": "posthog",
+      "confidence": "likely",
+      "postings": 13,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Postman",
+      "ats": "greenhouse",
+      "slug": "postman",
+      "confidence": "verified",
+      "postings": 106,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Remote",
+      "ats": "greenhouse",
+      "slug": "remote",
+      "confidence": "verified",
+      "postings": 2,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "news",
+      "name": "Smashing Magazine",
+      "url": "https://www.smashingmagazine.com/feed/",
+      "items": 28,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Sourcegraph",
+      "ats": "greenhouse",
+      "slug": "sourcegraph91",
+      "confidence": "verified",
+      "postings": 8,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Sprinto",
+      "ats": "lever",
+      "slug": "Sprinto",
+      "confidence": "verified",
+      "postings": 31,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Swiggy",
+      "ats": "smartrecruiters",
+      "slug": "swiggy",
+      "confidence": "verified",
+      "postings": 36,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "news",
+      "name": "UX Collective",
+      "url": "https://uxdesign.cc/feed",
+      "items": 9,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Unacademy",
+      "ats": "smartrecruiters",
+      "slug": "unacademy",
+      "confidence": "verified",
+      "postings": 3,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Upstox",
+      "ats": "smartrecruiters",
+      "slug": "upstox",
+      "confidence": "verified",
+      "postings": 1,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "relocation",
+      "name": "World Bank PPP",
+      "url": "https://api.worldbank.org/v2/country/IND/indicator/PA.NUS.PPP?format=json&per_page=100",
+      "items": 1,
+      "error": null,
+      "source": "World Bank PA.NUS.PPP 2025"
+    },
+    {
+      "kind": "company",
+      "name": "Zapier",
+      "ats": "ashby",
+      "slug": "zapier",
+      "confidence": "likely",
+      "postings": 11,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "aggregator",
+      "name": "remotive",
+      "postings": 17,
+      "jobs": 0,
+      "error": null
+    }
+  ],
+  "companies_without_board": [
+    {
+      "name": "Zerodha",
+      "why": "no public board found"
+    },
+    {
+      "name": "Jupiter",
+      "why": "no public board found"
+    },
+    {
+      "name": "slice",
+      "why": "greenhouse/slice: no Indian postings on an Indian company's board (43 jobs) \u2014 probably a namesake"
+    },
+    {
+      "name": "Navi",
+      "why": "ashby/navi: no Indian postings on an Indian company's board (7 jobs) \u2014 probably a namesake; recruitee/navi: board looks like a demo account ('Senior Marketer (Sample)')"
+    },
+    {
+      "name": "Juspay",
+      "why": "no public board found"
+    },
+    {
+      "name": "Cashfree",
+      "why": "no public board found"
+    },
+    {
+      "name": "Setu",
+      "why": "no public board found"
+    },
+    {
+      "name": "M2P Fintech",
+      "why": "no public board found"
+    },
+    {
+      "name": "Perfios",
+      "why": "no public board found"
+    },
+    {
+      "name": "Signzy",
+      "why": "no public board found"
+    },
+    {
+      "name": "KreditBee",
+      "why": "no public board found"
+    },
+    {
+      "name": "Yubi",
+      "why": "no public board found"
+    },
+    {
+      "name": "INDmoney",
+      "why": "no public board found"
+    },
+    {
+      "name": "smallcase",
+      "why": "no public board found"
+    },
+    {
+      "name": "Dhan",
+      "why": "no public board found"
+    },
+    {
+      "name": "Angel One",
+      "why": "no public board found"
+    },
+    {
+      "name": "Scripbox",
+      "why": "no public board found"
+    },
+    {
+      "name": "ClearTax",
+      "why": "no public board found"
+    },
+    {
+      "name": "Khatabook",
+      "why": "no public board found"
+    },
+    {
+      "name": "Open Financial",
+      "why": "no public board found"
+    },
+    {
+      "name": "Decentro",
+      "why": "no public board found"
+    },
+    {
+      "name": "Rupeek",
+      "why": "no public board found"
+    },
+    {
+      "name": "Flipkart",
+      "why": "no public board found"
+    },
+    {
+      "name": "Myntra",
+      "why": "no public board found"
+    },
+    {
+      "name": "Nykaa",
+      "why": "no public board found"
+    },
+    {
+      "name": "Zepto",
+      "why": "no public board found"
+    },
+    {
+      "name": "Zomato",
+      "why": "no public board found"
+    },
+    {
+      "name": "Licious",
+      "why": "no public board found"
+    },
+    {
+      "name": "Lenskart",
+      "why": "no public board found"
+    },
+    {
+      "name": "Purplle",
+      "why": "no public board found"
+    },
+    {
+      "name": "Mamaearth",
+      "why": "no public board found"
+    },
+    {
+      "name": "boAt",
+      "why": "no public board found"
+    },
+    {
+      "name": "Udaan",
+      "why": "no public board found"
+    },
+    {
+      "name": "Zetwerk",
+      "why": "no public board found"
+    },
+    {
+      "name": "Moglix",
+      "why": "no public board found"
+    },
+    {
+      "name": "Delhivery",
+      "why": "no public board found"
+    },
+    {
+      "name": "Shiprocket",
+      "why": "no public board found"
+    },
+    {
+      "name": "Rapido",
+      "why": "no public board found"
+    },
+    {
+      "name": "Ola",
+      "why": "no public board found"
+    },
+    {
+      "name": "Porter",
+      "why": "lever/porter: no Indian postings on an Indian company's board (28 jobs) \u2014 probably a namesake"
+    },
+    {
+      "name": "Urban Company",
+      "why": "no public board found"
+    },
+    {
+      "name": "Country Delight",
+      "why": "no public board found"
+    },
+    {
+      "name": "Zoho",
+      "why": "no public board found"
+    },
+    {
+      "name": "BrowserStack",
+      "why": "no public board found"
+    },
+    {
+      "name": "Hasura",
+      "why": "no public board found"
+    },
+    {
+      "name": "Chargebee",
+      "why": "no public board found"
+    },
+    {
+      "name": "Darwinbox",
+      "why": "no public board found"
+    },
+    {
+      "name": "Whatfix",
+      "why": "smartrecruiters/whatfix: board looks like a demo account ('test')"
+    },
+    {
+      "name": "MoEngage",
+      "why": "no public board found"
+    },
+    {
+      "name": "CleverTap",
+      "why": "no public board found"
+    },
+    {
+      "name": "Netcore Cloud",
+      "why": "no public board found"
+    },
+    {
+      "name": "Innovaccer",
+      "why": "no public board found"
+    },
+    {
+      "name": "LeadSquared",
+      "why": "no public board found"
+    },
+    {
+      "name": "Zluri",
+      "why": "no public board found"
+    },
+    {
+      "name": "Facilio",
+      "why": "no public board found"
+    },
+    {
+      "name": "Yellow.ai",
+      "why": "no public board found"
+    },
+    {
+      "name": "Uniphore",
+      "why": "no public board found"
+    },
+    {
+      "name": "Icertis",
+      "why": "no public board found"
+    },
+    {
+      "name": "Gupshup",
+      "why": "no public board found"
+    },
+    {
+      "name": "Exotel",
+      "why": "no public board found"
+    },
+    {
+      "name": "Locus",
+      "why": "no public board found"
+    },
+    {
+      "name": "FarEye",
+      "why": "no public board found"
+    },
+    {
+      "name": "Amagi",
+      "why": "no public board found"
+    },
+    {
+      "name": "Eightfold AI",
+      "why": "no public board found"
+    },
+    {
+      "name": "SirionLabs",
+      "why": "no public board found"
+    },
+    {
+      "name": "Springworks",
+      "why": "no public board found"
+    },
+    {
+      "name": "Scaler",
+      "why": "no public board found"
+    },
+    {
+      "name": "Nutanix",
+      "why": "no public board found"
+    },
+    {
+      "name": "PhysicsWallah",
+      "why": "no public board found"
+    },
+    {
+      "name": "Vedantu",
+      "why": "no public board found"
+    },
+    {
+      "name": "upGrad",
+      "why": "no public board found"
+    },
+    {
+      "name": "Cult.fit",
+      "why": "no public board found"
+    },
+    {
+      "name": "HealthifyMe",
+      "why": "no public board found"
+    },
+    {
+      "name": "PharmEasy",
+      "why": "no public board found"
+    },
+    {
+      "name": "Practo",
+      "why": "no public board found"
+    },
+    {
+      "name": "Tata 1mg",
+      "why": "no public board found"
+    },
+    {
+      "name": "Dream11",
+      "why": "no public board found"
+    },
+    {
+      "name": "Games24x7",
+      "why": "no public board found"
+    },
+    {
+      "name": "Mobile Premier League",
+      "why": "no public board found"
+    },
+    {
+      "name": "Nazara",
+      "why": "no public board found"
+    },
+    {
+      "name": "ShareChat",
+      "why": "no public board found"
+    },
+    {
+      "name": "Hotstar",
+      "why": "no public board found"
+    },
+    {
+      "name": "Google",
+      "why": "recruitee/google: board looks like a demo account ('Senior Marketer (Sample)')"
+    },
+    {
+      "name": "Microsoft",
+      "why": "no public board found"
+    },
+    {
+      "name": "Adobe",
+      "why": "no public board found"
+    },
+    {
+      "name": "Salesforce",
+      "why": "no public board found"
+    },
+    {
+      "name": "Atlassian",
+      "why": "no public board found"
+    },
+    {
+      "name": "Uber",
+      "why": "smartrecruiters/uber: board looks like a demo account ('Test UAT')"
+    },
+    {
+      "name": "Shopify",
+      "why": "no public board found"
+    },
+    {
+      "name": "Automattic",
+      "why": "no public board found"
+    },
+    {
+      "name": "HashiCorp",
+      "why": "no public board found"
+    },
+    {
+      "name": "Intercom",
+      "why": "greenhouse/intercom: board is named 'Fin', not 'Intercom'; greenhouse/intercom: board is named 'Fin', not 'Intercom'"
+    },
+    {
+      "name": "Grammarly",
+      "why": "no public board found"
+    },
+    {
+      "name": "Revolut",
+      "why": "no public board found"
+    },
+    {
+      "name": "Klarna",
+      "why": "no public board found"
+    },
+    {
+      "name": "Checkout.com",
+      "why": "no public board found"
+    },
+    {
+      "name": "Deel",
+      "why": "no public board found"
+    },
+    {
+      "name": "Rippling",
+      "why": "no public board found"
+    },
+    {
+      "name": "Cal.com",
+      "why": "no public board found"
+    },
+    {
+      "name": "Doist",
+      "why": "no public board found"
+    },
+    {
+      "name": "Hotjar",
+      "why": "lever/contentsquare: no evidence this board belongs to them"
+    },
+    {
+      "name": "Toggl",
+      "why": "no public board found"
+    },
+    {
+      "name": "Retool",
+      "why": "no public board found"
+    }
+  ],
+  "corpus": {
+    "documents": 175,
+    "distinct_terms": 135,
+    "most_common": [
+      {
+        "term": "ai",
+        "jobs": 134,
+        "share": 0.766,
+        "idf": 1.2652
+      },
+      {
+        "term": "strategy",
+        "jobs": 97,
+        "share": 0.554,
+        "idf": 1.5855
+      },
+      {
+        "term": "vision",
+        "jobs": 96,
+        "share": 0.549,
+        "idf": 1.5958
+      },
+      {
+        "term": "platform",
+        "jobs": 95,
+        "share": 0.543,
+        "idf": 1.6061
+      },
+      {
+        "term": "prototyping",
+        "jobs": 61,
+        "share": 0.349,
+        "idf": 2.0433
+      },
+      {
+        "term": "figma",
+        "jobs": 61,
+        "share": 0.349,
+        "idf": 2.0433
+      },
+      {
+        "term": "influence",
+        "jobs": 53,
+        "share": 0.303,
+        "idf": 2.1815
+      },
+      {
+        "term": "hiring",
+        "jobs": 49,
+        "share": 0.28,
+        "idf": 2.2585
+      },
+      {
+        "term": "design system",
+        "jobs": 48,
+        "share": 0.274,
+        "idf": 2.2787
+      },
+      {
+        "term": "interaction design",
+        "jobs": 45,
+        "share": 0.257,
+        "idf": 2.3418
+      },
+      {
+        "term": "visual design",
+        "jobs": 41,
+        "share": 0.234,
+        "idf": 2.4328
+      },
+      {
+        "term": "accessibility",
+        "jobs": 38,
+        "share": 0.217,
+        "idf": 2.5069
+      },
+      {
+        "term": "enterprise",
+        "jobs": 34,
+        "share": 0.194,
+        "idf": 2.6151
+      },
+      {
+        "term": "b2b",
+        "jobs": 31,
+        "share": 0.177,
+        "idf": 2.7047
+      },
+      {
+        "term": "agentic",
+        "jobs": 27,
+        "share": 0.154,
+        "idf": 2.8383
+      },
+      {
+        "term": "consumer",
+        "jobs": 27,
+        "share": 0.154,
+        "idf": 2.8383
+      },
+      {
+        "term": "css",
+        "jobs": 26,
+        "share": 0.149,
+        "idf": 2.8746
+      },
+      {
+        "term": "roadmap",
+        "jobs": 26,
+        "share": 0.149,
+        "idf": 2.8746
+      },
+      {
+        "term": "layout",
+        "jobs": 24,
+        "share": 0.137,
+        "idf": 2.9516
+      },
+      {
+        "term": "user research",
+        "jobs": 23,
+        "share": 0.131,
+        "idf": 2.9924
+      },
+      {
+        "term": "documentation",
+        "jobs": 23,
+        "share": 0.131,
+        "idf": 2.9924
+      },
+      {
+        "term": "saas",
+        "jobs": 22,
+        "share": 0.126,
+        "idf": 3.035
+      },
+      {
+        "term": "discovery",
+        "jobs": 22,
+        "share": 0.126,
+        "idf": 3.035
+      },
+      {
+        "term": "information architecture",
+        "jobs": 22,
+        "share": 0.126,
+        "idf": 3.035
+      },
+      {
+        "term": "typography",
+        "jobs": 22,
+        "share": 0.126,
+        "idf": 3.035
+      }
+    ],
+    "most_distinctive": [
+      {
+        "term": "keyboard navigation",
+        "jobs": 1,
+        "idf": 5.4773
+      },
+      {
+        "term": "accessibility annotations",
+        "jobs": 1,
+        "idf": 5.4773
+      },
+      {
+        "term": "section 508",
+        "jobs": 1,
+        "idf": 5.4773
+      },
+      {
+        "term": "contextual inquiry",
+        "jobs": 1,
+        "idf": 5.4773
+      },
+      {
+        "term": "user interviews",
+        "jobs": 1,
+        "idf": 5.4773
+      },
+      {
+        "term": "google analytics",
+        "jobs": 1,
+        "idf": 5.4773
+      },
+      {
+        "term": "invision",
+        "jobs": 1,
+        "idf": 5.4773
+      },
+      {
+        "term": "fullstory",
+        "jobs": 1,
+        "idf": 5.4773
+      },
+      {
+        "term": "sprint",
+        "jobs": 1,
+        "idf": 5.4773
+      },
+      {
+        "term": "rive",
+        "jobs": 1,
+        "idf": 5.4773
+      },
+      {
+        "term": "lottie",
+        "jobs": 1,
+        "idf": 5.4773
+      },
+      {
+        "term": "workshop",
+        "jobs": 1,
+        "idf": 5.4773
+      },
+      {
+        "term": "marketplace",
+        "jobs": 1,
+        "idf": 5.4773
+      },
+      {
+        "term": "qualitative research",
+        "jobs": 1,
+        "idf": 5.4773
+      },
+      {
+        "term": "style guide",
+        "jobs": 1,
+        "idf": 5.4773
+      },
+      {
+        "term": "whimsical",
+        "jobs": 1,
+        "idf": 5.4773
+      },
+      {
+        "term": "figma variables",
+        "jobs": 1,
+        "idf": 5.4773
+      },
+      {
+        "term": "tokens studio",
+        "jobs": 1,
+        "idf": 5.4773
+      },
+      {
+        "term": "variants",
+        "jobs": 1,
+        "idf": 5.4773
+      },
+      {
+        "term": "heuristic evaluation",
+        "jobs": 1,
+        "idf": 5.4773
+      },
+      {
+        "term": "card sorting",
+        "jobs": 1,
+        "idf": 5.4773
+      },
+      {
+        "term": "confluence",
+        "jobs": 1,
+        "idf": 5.4773
+      },
+      {
+        "term": "maze",
+        "jobs": 1,
+        "idf": 5.4773
+      },
+      {
+        "term": "brand guidelines",
+        "jobs": 1,
+        "idf": 5.4773
+      },
+      {
+        "term": "quantitative research",
+        "jobs": 1,
+        "idf": 5.4773
+      }
+    ]
+  }
+}

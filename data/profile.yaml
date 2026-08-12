@@ -1,0 +1,61 @@
+# Who the board is ranking jobs for.
+#
+# Only non-private details live here, because this file is public. Your email,
+# phone and resume stay in the browser and are never committed or uploaded.
+
+name: Kousik Dutta
+title: Senior Product Designer
+years_experience: 5
+portfolio: https://kousikdutta.com
+location: India
+open_to:
+  - India
+  - Remote
+
+# Titles you would actually take, best fit first. Used to rank, not to filter.
+target_titles:
+  - Senior Product Designer
+  - Product Designer
+  - Senior UX Designer
+  - Design Lead
+  - Staff Product Designer
+  - Senior Interaction Designer
+  - Design Systems Designer
+
+# What you want to be hired for. These are matched against job descriptions, so
+# write them the way a job description would.
+strengths:
+  - product design
+  - design system
+  - design tokens
+  - interaction design
+  - prototyping
+  - figma
+  - typography
+  - accessibility
+  - wcag
+  - information architecture
+  - user research
+  - usability testing
+  - design engineering
+  - react
+  - typescript
+  - html
+  - css
+  - data visualization
+  - dashboard
+  - b2b
+  - saas
+  - enterprise
+  - ai
+  - design leadership
+  - mentoring
+  - stakeholder management
+
+# Company qualities to nudge up the board.
+prefer_tags:
+  - design
+  - devtools
+  - saas
+  - ai
+  - fintech

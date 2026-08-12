@@ -1,0 +1,191 @@
+"""Industry intelligence from public feeds, with failure treated as data.
+
+The jobs board is intentionally static, so the market context beside it has to be
+static too: RSS and no-auth JSON become one small JSON file the browser can read.
+Feeds are allowed to disappear or block crawlers. When that happens this module
+records the source error and returns the items that did work, rather than making
+the nightly build depend on a magazine's uptime.
+"""
+
+from __future__ import annotations
+
+import email.utils
+import re
+from datetime import datetime, timezone
+from typing import Any
+
+import feedparser
+
+from .models import html_to_text
+from .net import fetch_json, fetch_text
+
+HN_DESIGN_URL = "https://hn.algolia.com/api/v1/search_by_date?query=design&tags=story"
+HN_LAYOFFS_URL = "https://hn.algolia.com/api/v1/search_by_date?query=layoffs&tags=story"
+
+RSS_SOURCES: tuple[tuple[str, str], ...] = (
+    ("Nielsen Norman Group", "https://www.nngroup.com/feed/rss/"),
+    ("Smashing Magazine", "https://www.smashingmagazine.com/feed/"),
+    ("A List Apart", "https://alistapart.com/main/feed/"),
+    ("UX Collective", "https://uxdesign.cc/feed"),
+)
+
+_RELEVANCE_TERMS: dict[str, tuple[str, ...]] = {
+    "design": ("design", "designer", "ux", "ui", "research", "accessibility", "figma"),
+    "product": ("product", "saas", "startup", "ai", "strategy", "roadmap"),
+    "career": ("career", "hiring", "jobs", "layoff", "layoffs", "portfolio", "interview"),
+    "leadership": ("leadership", "manager", "team", "stakeholder", "collaboration"),
+}
+
+
+_DATE_FORMATS = ("%Y-%m-%dT%H:%M:%S.%fZ", "%Y-%m-%dT%H:%M:%SZ", "%Y-%m-%d")
+
+
+def _iso_date(value: Any) -> str | None:
+    """Normalize the date shapes used by Algolia and RSS.
+
+    Feedparser already understands most RSS date formats, but Medium sometimes
+    emits RFC822 strings and HN emits ISO strings. Keeping this small parser here
+    prevents an unparseable timestamp from dropping an otherwise useful item.
+    """
+    if not value:
+        return None
+    if isinstance(value, (tuple, list)) and len(value) >= 6:
+        try:
+            return datetime(*value[:6], tzinfo=timezone.utc).isoformat(timespec="seconds")
+        except (TypeError, ValueError):
+            return None
+    text = str(value).strip()
+    for fmt in _DATE_FORMATS:
+        try:
+            return datetime.strptime(text[:26].rstrip("Z") + ("Z" if text.endswith("Z") else ""), fmt).replace(tzinfo=timezone.utc).isoformat(timespec="seconds")
+        except ValueError:
+            pass
+    try:
+        parsed = email.utils.parsedate_to_datetime(text)
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=timezone.utc)
+        return parsed.astimezone(timezone.utc).isoformat(timespec="seconds")
+    except (TypeError, ValueError):
+        return None
+
+
+def _tags_for(*texts: str) -> list[str]:
+    blob = " ".join(t or "" for t in texts).lower()
+    tags: list[str] = []
+    for tag, terms in _RELEVANCE_TERMS.items():
+        if any(re.search(rf"(?<![a-z0-9]){re.escape(term)}(?![a-z0-9])", blob) for term in terms):
+            tags.append(tag)
+    return tags
+
+
+def _keep_item(title: str, summary: str, *, source: str) -> tuple[bool, list[str]]:
+    tags = _tags_for(title, summary)
+    if source == "Hacker News — layoffs":
+        return True, sorted(set(tags + ["career", "layoffs"]))
+    if source == "Hacker News — design":
+        blob = f"{title} {summary}".lower()
+        product_design = (
+            "ux", "ui", "user", "product", "interface", "accessibility", "research",
+            "design system", "designer", "portfolio", "hiring", "career", "figma",
+        )
+        hardware_noise = ("fpga", "pcb", "circuit", "compiler", "chip", "hardware")
+        product_match = any(re.search(rf"(?<![a-z0-9]){re.escape(term)}(?![a-z0-9])", blob) for term in product_design)
+        if any(re.search(rf"(?<![a-z0-9]){re.escape(term)}(?![a-z0-9])", blob) for term in hardware_noise) and not product_match:
+            return False, tags
+        return product_match, tags
+    return bool(tags), tags
+
+
+def _hn_items(url: str, source: str) -> tuple[list[dict], dict]:
+    payload, error = fetch_json(url, cache_hours=3)
+    health = {"kind": "news", "name": source, "url": url, "items": 0, "error": error}
+    if error or not isinstance(payload, dict):
+        if not error:
+            health["error"] = "response was not a JSON object"
+        return [], health
+
+    rows: list[dict] = []
+    for hit in payload.get("hits") or []:
+        title = (hit.get("title") or hit.get("story_title") or "").strip()
+        item_url = hit.get("url") or hit.get("story_url") or ""
+        summary = html_to_text(hit.get("story_text") or hit.get("comment_text") or "")[:500]
+        keep, tags = _keep_item(title, summary, source=source)
+        if not title or not item_url or not keep:
+            continue
+        rows.append(
+            {
+                "title": title,
+                "url": item_url,
+                "source": source,
+                "published": _iso_date(hit.get("created_at")),
+                "summary": summary,
+                "tags": tags,
+            }
+        )
+    health["items"] = len(rows)
+    return rows, health
+
+
+def _rss_items(name: str, url: str) -> tuple[list[dict], dict]:
+    text, error = fetch_text(url, cache_hours=3)
+    health = {"kind": "news", "name": name, "url": url, "items": 0, "error": error}
+    if error or text is None:
+        return [], health
+
+    feed = feedparser.parse(text)
+    if feed.bozo and not feed.entries:
+        health["error"] = str(getattr(feed, "bozo_exception", "invalid feed"))
+        return [], health
+
+    rows: list[dict] = []
+    for entry in feed.entries[:40]:
+        title = html_to_text(entry.get("title", ""))
+        summary = html_to_text(entry.get("summary") or entry.get("description") or "")[:500]
+        keep, tags = _keep_item(title, summary, source=name)
+        if not title or not keep:
+            continue
+        rows.append(
+            {
+                "title": title,
+                "url": entry.get("link", ""),
+                "source": name,
+                "published": _iso_date(entry.get("published_parsed") or entry.get("updated_parsed") or entry.get("published") or entry.get("updated")),
+                "summary": summary,
+                "tags": tags,
+            }
+        )
+    health["items"] = len(rows)
+    return rows, health
+
+
+def collect_news(limit: int = 60) -> tuple[dict, list[dict]]:
+    """Return frontend-ready news plus one health row per public source."""
+    items: list[dict] = []
+    health: list[dict] = []
+
+    for url, name in ((HN_DESIGN_URL, "Hacker News — design"), (HN_LAYOFFS_URL, "Hacker News — layoffs")):
+        rows, row_health = _hn_items(url, name)
+        items.extend(rows)
+        health.append(row_health)
+
+    for name, url in RSS_SOURCES:
+        rows, row_health = _rss_items(name, url)
+        items.extend(rows)
+        health.append(row_health)
+
+    seen: set[str] = set()
+    deduped: list[dict] = []
+    for item in sorted(items, key=lambda r: r.get("published") or "", reverse=True):
+        key = item.get("url") or f"{item.get('source')}|{item.get('title')}"
+        if key in seen:
+            continue
+        seen.add(key)
+        deduped.append(item)
+        if len(deduped) >= limit:
+            break
+
+    return {
+        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "items": deduped,
+        "sources": health,
+    }, health
