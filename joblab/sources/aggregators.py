@@ -264,9 +264,175 @@ def fetch_weworkremotely() -> tuple[list[Job], str | None]:
     return jobs, None
 
 
+def fetch_remoteok() -> tuple[list[Job], str | None]:
+    """RemoteOK's free API requires attribution and links back in each posting URL."""
+    payload, error = fetch_json("https://remoteok.com/remote-design-jobs.json", cache_hours=6)
+    if error:
+        return [], error
+
+    jobs: list[Job] = []
+    for item in (payload or [])[1:]:
+        if not isinstance(item, dict):
+            continue
+        title = item.get("position") or ""
+        company = item.get("company") or ""
+        url = item.get("url") or ""
+        location = item.get("location") or "Worldwide"
+        salary = None
+        lo, hi = item.get("salary_min"), item.get("salary_max")
+        if lo and hi:
+            salary = f"USD {int(lo):,} – {int(hi):,}"
+        jobs.append(
+            Job(
+                id=job_id(company, title, url),
+                title=title,
+                company=company,
+                company_slug=re.sub(r"[^a-z0-9]+", "", company.lower()),
+                source="remoteok",
+                url=url,
+                location_raw=f"Remote — {location}",
+                description_text=html_to_text(item.get("description") or ""),
+                posted_at=_iso(item.get("date")),
+                salary=salary,
+            )
+        )
+    return jobs, None
+
+
+def fetch_jobicy() -> tuple[list[Job], str | None]:
+    """Jobicy publishes a no-key remote jobs API and asks consumers to cite it."""
+    payload, error = fetch_json(
+        "https://jobicy.com/api/v2/remote-jobs?count=100&tag=design", cache_hours=6
+    )
+    if error:
+        return [], error
+
+    jobs: list[Job] = []
+    for item in (payload or {}).get("jobs", []) or []:
+        title = item.get("jobTitle") or ""
+        company = item.get("companyName") or ""
+        url = item.get("url") or ""
+        location = item.get("jobGeo") or "Worldwide"
+        salary = None
+        lo, hi, cur = item.get("salaryMin"), item.get("salaryMax"), item.get("salaryCurrency") or "USD"
+        if lo and hi:
+            salary = f"{cur} {int(lo):,} – {int(hi):,}"
+        jobs.append(
+            Job(
+                id=job_id(company, title, url),
+                title=title,
+                company=company,
+                company_slug=re.sub(r"[^a-z0-9]+", "", company.lower()),
+                source="jobicy",
+                url=url,
+                location_raw=f"Remote — {location}",
+                description_text=html_to_text(item.get("jobDescription") or ""),
+                department=", ".join(item.get("jobIndustry") or []),
+                posted_at=_iso(item.get("pubDate")),
+                salary=salary,
+            )
+        )
+    return jobs, None
+
+
+_HN_ROLE_PATTERNS: tuple[tuple[str, str], ...] = (
+    ("Product Designer", r"\bproduct design(er)?\b"),
+    ("UX Designer", r"\bux\b|\buser experience\b"),
+    ("UI Designer", r"\bui\b|\binterface designer\b"),
+    ("Design Engineer", r"\bdesign engineer\b"),
+    ("UX Researcher", r"\bux research(er)?\b|\buser research(er)?\b"),
+    ("Design Lead", r"\bdesign lead\b|\bhead of design\b"),
+)
+
+
+def _hn_role(text: str) -> str | None:
+    for label, pattern in _HN_ROLE_PATTERNS:
+        if re.search(pattern, text, re.I):
+            return label
+    return None
+
+
+def _hn_location(text: str) -> str | None:
+    lowered = text.lower()
+    if not re.search(r"\b(remote|india|apac|asia|worldwide|anywhere)\b", lowered):
+        return None
+    if re.search(r"\b(us|u\.s\.|usa|united states|canada|north america|uk|europe)\s*(only|remote|based)\b", lowered):
+        return None
+    if "india" in lowered:
+        return "Remote — India"
+    if "apac" in lowered or "asia" in lowered:
+        return "Remote — APAC"
+    if "worldwide" in lowered or "anywhere" in lowered or "global" in lowered:
+        return "Remote — Worldwide"
+    if "remote" in lowered:
+        return "Remote — Worldwide"
+    return None
+
+
+def fetch_hn_whoishiring() -> tuple[list[Job], str | None]:
+    """HN Who is Hiring comments are messy, but Algolia exposes them as JSON.
+
+    Only comments that explicitly mention a design role and an India/APAC/global
+    remote location become jobs. That keeps US-only engineering posts out and
+    preserves the board's eligibility promise.
+    """
+    search, error = fetch_json(
+        "https://hn.algolia.com/api/v1/search_by_date?query=Who%20is%20hiring&tags=story",
+        cache_hours=12,
+    )
+    if error:
+        return [], error
+    story_id = None
+    for hit in (search or {}).get("hits", []) or []:
+        title = hit.get("title") or ""
+        if title.lower().startswith("ask hn: who is hiring?"):
+            story_id = hit.get("objectID")
+            break
+    if not story_id:
+        return [], "no current Who is Hiring story found"
+
+    jobs: list[Job] = []
+    for page in range(3):
+        payload, page_error = fetch_json(
+            f"https://hn.algolia.com/api/v1/search?tags=comment,story_{story_id}&hitsPerPage=100&page={page}",
+            cache_hours=12,
+        )
+        if page_error:
+            return jobs, page_error
+        rows = (payload or {}).get("hits", []) or []
+        if not rows:
+            break
+        for item in rows:
+            text = html_to_text(item.get("comment_text") or "")
+            role = _hn_role(text)
+            location = _hn_location(text)
+            if not role or not location:
+                continue
+            first_line = next((line.strip() for line in text.splitlines() if line.strip()), "")
+            company = re.split(r"\s+\|\s+| - | – ", first_line)[0][:80].strip() or "HN Who is Hiring"
+            url = f"https://news.ycombinator.com/item?id={item.get('objectID')}"
+            jobs.append(
+                Job(
+                    id=job_id(company, role, url),
+                    title=role,
+                    company=company,
+                    company_slug=re.sub(r"[^a-z0-9]+", "", company.lower())[:40],
+                    source="hn-whoishiring",
+                    url=url,
+                    location_raw=location,
+                    description_text=text,
+                    posted_at=_iso(item.get("created_at")),
+                )
+            )
+    return jobs, None
+
+
 AGGREGATORS = {
     "remotive": fetch_remotive,
     "arbeitnow": fetch_arbeitnow,
     "himalayas": fetch_himalayas,
     "weworkremotely": fetch_weworkremotely,
+    "remoteok": fetch_remoteok,
+    "jobicy": fetch_jobicy,
+    "hn-whoishiring": fetch_hn_whoishiring,
 }

@@ -3,6 +3,7 @@ import type { Application, CompanyInfo, Contact, Job, Settings } from "@/lib/typ
 import { ago, copy, logoFor, money, scoreClass } from "@/lib/format"
 import { drafts, mailto, renderPattern } from "@/lib/email"
 import { matchResume } from "@/lib/resume"
+import { agenda, likelyQuestions, portfolioPlan } from "@/lib/prep"
 
 interface Props {
   job: Job
@@ -17,7 +18,7 @@ interface Props {
   onOpenSettings: () => void
 }
 
-type Tab = "role" | "match" | "people" | "write"
+type Tab = "role" | "match" | "people" | "write" | "prep"
 
 export function JobDetail({
   job,
@@ -141,6 +142,7 @@ export function JobDetail({
               ["match", match ? `Resume ${match.score}` : "Resume"],
               ["people", "Who to contact"],
               ["write", "Write to them"],
+              ["prep", "Prepare"],
             ] as Array<[Tab, string]>
           ).map(([key, label]) => (
             <button key={key} className={tab === key ? "on" : ""} onClick={() => setTab(key)}>
@@ -477,6 +479,57 @@ export function JobDetail({
                 </div>
               </div>
             )}
+          </>
+        )}
+
+
+        {tab === "prep" && (
+          <>
+            <div className="card">
+              <h3>What this posting is really about</h3>
+              <p className="tiny dimmer" style={{ marginTop: -4 }}>
+                The terms this posting uses that most postings do not. Every design posting says
+                Figma; these are the ones that tell you what the job actually is, and what they will
+                probe hardest.
+              </p>
+              <div className="wrap">
+                {agenda(job, idf, 6).map((term) => (
+                  <span key={term} className="pill pill-accent">
+                    {term}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className="card">
+              <h3>Questions they are likely to ask</h3>
+              <ul className="reasons">
+                {likelyQuestions(job).map((question) => (
+                  <li key={question}>{question}</li>
+                ))}
+              </ul>
+              <p className="tiny dimmer" style={{ marginTop: 10, marginBottom: 0 }}>
+                Weighted by which themes this posting spends the most words on. It does not know
+                this company's actual process — no free source does — so treat it as the shape of
+                the conversation rather than the script.
+              </p>
+            </div>
+
+            {portfolioPlan(job, idf).map((section) => (
+              <div className="card" key={section.heading}>
+                <h3>{section.heading}</h3>
+                <ul className="reasons">
+                  {section.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+                {section.note && (
+                  <p className="tiny dimmer" style={{ marginTop: 10, marginBottom: 0 }}>
+                    {section.note}
+                  </p>
+                )}
+              </div>
+            ))}
           </>
         )}
 
