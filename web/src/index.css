@@ -457,7 +457,26 @@ textarea {
   font-size: 11.5px;
   color: var(--ink-3);
   margin-top: 4px;
-  flex-wrap: wrap;
+  min-width: 0;
+}
+
+/* A long location like "Hybrid - San Francisco, New York City" used to wrap and
+   push the posting date onto its own line, which made every card a different
+   height and the list impossible to scan. */
+.job-meta > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.job-meta .job-where {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.job-meta .job-when {
+  flex: 0 0 auto;
+  margin-left: auto;
 }
 
 .job-company {

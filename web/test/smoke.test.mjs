@@ -21,7 +21,7 @@ const base = process.argv[2] ?? "http://127.0.0.1:5180"
 const USER = "kousik"
 const PASSWORD = process.env.JOBLAB_PASSWORD ?? "kousik@1209"
 
-const VIEWS = ["Board", "Advisor", "Applications", "Contacts", "Pay", "Settings"]
+const VIEWS = ["Today", "Board", "Advisor", "Applications", "Contacts", "Pay", "Settings"]
 
 mkdirSync(shots, { recursive: true })
 
@@ -56,7 +56,11 @@ await page.screenshot({ path: join(shots, "01-login.png") })
 await page.click('button[type="submit"]')
 
 await page.waitForSelector(".shell", { timeout: 15000 }).catch(() => fail("did not reach the app after login"))
-await page.waitForSelector(".job, .empty, .stage", { timeout: 15000 }).catch(() => fail("board never populated"))
+
+// The app now opens on Today; the board is one click away.
+await page.waitForSelector(".card, .empty", { timeout: 15000 }).catch(() => fail("today never populated"))
+await page.locator('.nav button:has-text("Board")').first().click()
+await page.waitForSelector(".job, .empty", { timeout: 15000 }).catch(() => fail("board never populated"))
 
 const jobCount = await page.locator(".job").count()
 console.log(`board rendered with ${jobCount} job cards`)

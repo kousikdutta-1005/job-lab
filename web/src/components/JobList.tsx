@@ -132,10 +132,13 @@ export function JobList({
                   />
                 )}
                 <span className="job-company">{job.company}</span>
-                <span className={job.eligible ? "" : "locked"}>
+                <span
+                  className={`job-where${job.eligible ? "" : " locked"}`}
+                  title={job.location_raw}
+                >
                   {job.cities[0] ?? (job.workplace === "remote" ? "Remote" : job.location_raw || "—")}
                 </span>
-                <span className="dimmer">{ago(job.posted_at)}</span>
+                <span className="dimmer job-when">{ago(job.posted_at)}</span>
                 {!job.eligible && <span className="tag-locked">{job.region_lock ?? "locked"}</span>}
                 {tracked && <span className="tag-applied">{tracked.stage.replace("_", " ")}</span>}
               </div>

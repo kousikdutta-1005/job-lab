@@ -21,15 +21,17 @@ import { Contacts } from "@/components/Contacts"
 import { PayView } from "@/components/PayView"
 import { SettingsView } from "@/components/SettingsView"
 import { AdvisorView } from "@/components/AdvisorView"
+import { TodayView } from "@/components/TodayView"
+import { briefing, type Action } from "@/lib/briefing"
 import { ago } from "@/lib/format"
 
-type View = "board" | "advisor" | "tracker" | "contacts" | "pay" | "settings"
+type View = "today" | "board" | "advisor" | "tracker" | "contacts" | "pay" | "settings"
 
 export default function App() {
   const [authed, setAuthed] = useState(hasSession())
   const [bundle, setBundle] = useState<Bundle | null>(null)
   const [error, setError] = useState<string | null>(null)
-  const [view, setView] = useState<View>("board")
+  const [view, setView] = useState<View>("today")
 
   const [applications, setApplications] = useState<Application[]>(() => loadApplications())
   const [contacts, setContacts] = useState<Contact[]>(() => loadContacts())
@@ -72,6 +74,18 @@ export default function App() {
   const selected = useMemo(
     () => jobs.find((j) => j.id === selectedId) ?? null,
     [jobs, selectedId],
+  )
+
+  // Computed once here rather than inside the view, because the nav badge and
+  // the page have to agree on the number.
+  const actions = useMemo(
+    () =>
+      bundle
+        ? briefing(bundle.data.jobs, applications, contacts, settings, bundle.idf).filter(
+            (a) => a.kind !== "nothing",
+          )
+        : [],
+    [bundle, applications, contacts, settings],
   )
 
   const appByJob = useMemo(() => {
@@ -135,6 +149,15 @@ export default function App() {
     upsertApplication(job, "applied", true)
   }
 
+  function handleAction(action: Action): void {
+    if (action.jobId) {
+      setSelectedId(action.jobId)
+      setView("board")
+      return
+    }
+    if (action.view) setView(action.view)
+  }
+
   function addContact(seed: Partial<Contact>): void {
     const contact: Contact = {
       id: uid(),
@@ -172,6 +195,7 @@ export default function App() {
       .length,
     contacts: contacts.length,
     advice: bundle.advisor.insights?.insights.length ?? 0,
+    actions: actions.length,
   }
 
   return (
@@ -185,6 +209,7 @@ export default function App() {
         <nav className="nav">
           {(
             [
+              ["today", "Today", counts.actions],
               ["board", "Board", counts.board],
               ["advisor", "Advisor", counts.advice],
               ["tracker", "Applications", counts.tracker],
@@ -262,6 +287,18 @@ export default function App() {
               />
             )}
           </div>
+        )}
+
+        {view === "today" && (
+          <TodayView
+            actions={actions}
+            jobs={jobs}
+            applications={applications}
+            contacts={contacts}
+            settings={settings}
+            generatedAt={bundle.health.generated_at}
+            onGo={handleAction}
+          />
         )}
 
         {view === "advisor" && <AdvisorView advisor={bundle.advisor} />}

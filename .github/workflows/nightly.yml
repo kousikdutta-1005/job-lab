@@ -7,6 +7,15 @@ on:
   schedule:
     - cron: '30 18 * * *'
   workflow_dispatch:
+  # Deploy on every push to main so a fix reaches the live site without waiting
+  # for the small hours. The crawl-memory commit this job makes is pushed with
+  # GITHUB_TOKEN, and GitHub deliberately does not re-trigger workflows from
+  # those, so this cannot loop.
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'data/history/**'
+      - 'README.md'
 
 permissions:
   # contents:write is only for committing data/history/ and data/ats-map.json.
