@@ -14,6 +14,7 @@ const KEYS = {
   contacts: "joblab.contacts",
   settings: "joblab.settings",
   dismissed: "joblab.dismissed",
+  board: "joblab.board",
 } as const
 
 function read<T>(key: string, fallback: T): T {
@@ -126,3 +127,26 @@ export function download(filename: string, contents: string): void {
   link.click()
   URL.revokeObjectURL(url)
 }
+
+/* The board's filter state. Small, but resetting "can apply only" on every
+   visit meant re-hiding two hundred roles you cannot take, every time. */
+export interface BoardState {
+  eligibleOnly: boolean
+  seniority: string | null
+  workplace: string | null
+  sort: string
+}
+
+export const DEFAULT_BOARD: BoardState = {
+  eligibleOnly: true,
+  seniority: null,
+  workplace: null,
+  sort: "match",
+}
+
+export const loadBoard = (): BoardState => ({
+  ...DEFAULT_BOARD,
+  ...read<Partial<BoardState>>(KEYS.board, {}),
+})
+
+export const saveBoard = (value: BoardState): void => write(KEYS.board, value)

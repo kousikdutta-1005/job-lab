@@ -7,9 +7,10 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "test": "node test/autofill.test.mjs && node test/smoke.test.mjs",
+    "test": "node test/autofill.test.mjs && node test/smoke.test.mjs && node test/mobile.mjs",
     "test:autofill": "node test/autofill.test.mjs",
-    "test:smoke": "node test/smoke.test.mjs"
+    "test:smoke": "node test/smoke.test.mjs",
+    "test:mobile": "node test/mobile.mjs"
   },
   "dependencies": {
     "react": "^19.2.0",

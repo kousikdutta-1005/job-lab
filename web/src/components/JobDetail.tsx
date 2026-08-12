@@ -16,6 +16,7 @@ interface Props {
   onStage: (job: Job, stage: Application["stage"]) => void
   onAddContact: (seed: Partial<Contact>) => void
   onOpenSettings: () => void
+  onClose: () => void
 }
 
 type Tab = "role" | "match" | "people" | "write" | "prep"
@@ -31,6 +32,7 @@ export function JobDetail({
   onStage,
   onAddContact,
   onOpenSettings,
+  onClose,
 }: Props) {
   const [tab, setTab] = useState<Tab>("role")
   const [expanded, setExpanded] = useState(false)
@@ -72,6 +74,9 @@ export function JobDetail({
   return (
     <div className="detail">
       <div className="detail-head">
+        <button className="chip detail-back" onClick={onClose}>
+          ← Back to the list
+        </button>
         <div className="row" style={{ marginBottom: 8 }}>
           <span className={`job-score ${scoreClass(job.match_score)}`}>{job.match_score}</span>
           {logo && (

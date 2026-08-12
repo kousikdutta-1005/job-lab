@@ -4,6 +4,8 @@ import { endSession, hasSession } from "@/lib/auth"
 import {
   loadDismissed,
   saveDismissed,
+  loadBoard,
+  saveBoard,
   loadApplications,
   loadContacts,
   loadSettings,
@@ -51,10 +53,11 @@ export default function App() {
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [place, setPlace] = useState<string | null>(null)
   const [query, setQuery] = useState("")
-  const [eligibleOnly, setEligibleOnly] = useState(true)
-  const [seniority, setSeniority] = useState<string | null>(null)
-  const [workplace, setWorkplace] = useState<string | null>(null)
-  const [sort, setSort] = useState<Sort>("match")
+  const savedBoard = loadBoard()
+  const [eligibleOnly, setEligibleOnly] = useState(savedBoard.eligibleOnly)
+  const [seniority, setSeniority] = useState<string | null>(savedBoard.seniority)
+  const [workplace, setWorkplace] = useState<string | null>(savedBoard.workplace)
+  const [sort, setSort] = useState<Sort>(savedBoard.sort as Sort)
   const [dismissed, setDismissed] = useState<string[]>(() => loadDismissed())
   const [showDismissed, setShowDismissed] = useState(false)
 
@@ -69,6 +72,10 @@ export default function App() {
   useEffect(() => saveContacts(contacts), [contacts])
   useEffect(() => saveSettings(settings), [settings])
   useEffect(() => saveDismissed(dismissed), [dismissed])
+  useEffect(
+    () => saveBoard({ eligibleOnly, seniority, workplace, sort }),
+    [eligibleOnly, seniority, workplace, sort],
+  )
 
   const jobs = bundle?.data.jobs ?? []
 
@@ -325,6 +332,7 @@ export default function App() {
                 onStage={(job, stage) => upsertApplication(job, stage)}
                 onAddContact={addContact}
                 onOpenSettings={() => setView("settings")}
+                onClose={() => setSelectedId(null)}
               />
             ) : (
               <MapBoard
