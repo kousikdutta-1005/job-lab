@@ -1,63 +1,223 @@
-import type { Band, Health, Pay, Settings } from "@/lib/types"
+import { useState } from "react"
+import type { Band, Benchmarks, Health, Pay, Settings } from "@/lib/types"
 import { inr, money } from "@/lib/format"
 
 interface Props {
   pay: Pay
+  benchmarks?: Benchmarks
   settings: Settings
   health: Health
 }
 
-function BandRow({ label, band, max }: { label: string; band: Band; max: number }) {
-  const left = (band.p25 / max) * 100
-  const width = ((band.p75 - band.p25) / max) * 100
-  const median = (band.median / max) * 100
+const LADDER = ["junior", "mid", "senior", "lead", "manager"]
+
+/** Where this many years of experience sits, in the benchmark table's terms. */
+function levelFor(years: number): string {
+  if (years < 2) return "junior"
+  if (years < 4) return "mid"
+  if (years < 8) return "senior"
+  if (years < 12) return "lead"
+  return "manager"
+}
+
+function BandBar({
+  label,
+  low,
+  median,
+  high,
+  max,
+  marker,
+}: {
+  label: string
+  low: number
+  median: number
+  high: number
+  max: number
+  marker?: number
+}) {
+  const pct = (value: number) => `${Math.min(100, (value / max) * 100)}%`
   return (
     <div className="bar-row">
       <span className="dim">{label}</span>
       <div className="bar-track">
-        <div className="bar-fill" style={{ left: `${left}%`, width: `${Math.max(width, 1.5)}%` }} />
-        <div className="bar-tick" style={{ left: `${median}%` }} />
+        <div
+          className="bar-fill"
+          style={{ left: pct(low), width: `${Math.max(1.5, ((high - low) / max) * 100)}%` }}
+        />
+        <div className="bar-tick" style={{ left: pct(median) }} />
+        {marker !== undefined && marker > 0 && (
+          <div
+            className="bar-you"
+            style={{ left: pct(marker) }}
+            title={`You: ${inr(marker)}`}
+          />
+        )}
       </div>
       <span className="mono tiny" style={{ textAlign: "right" }}>
-        {inr(band.median)}
+        {inr(median)}
       </span>
     </div>
   )
 }
 
-export function PayView({ pay, settings, health }: Props) {
-  const bands = Object.entries(pay.by_seniority)
-  const max = Math.max(1, ...bands.map(([, b]) => b.p75))
+export function PayView({ pay, benchmarks, settings, health }: Props) {
+  const [city, setCity] = useState("Bengaluru")
 
-  const mine = pay.by_seniority["Senior"] ?? pay.by_seniority["Mid-level"]
-  const current = settings.current_ctc
+  const bands = benchmarks?.bands ?? []
+  const indiaCities = Array.from(
+    new Set(bands.filter((b) => b.country === "IN").map((b) => b.city)),
+  )
 
-  let position: string | null = null
-  if (mine && current) {
-    if (current < mine.p25)
-      position = `You are below the 25th percentile of what these postings offer. The gap to the median is ${inr(
-        mine.median - current,
-      )}.`
-    else if (current < mine.median)
-      position = `You sit between the 25th percentile and the median. The gap to the median is ${inr(
-        mine.median - current,
-      )}.`
-    else if (current < mine.p75) position = "You are above the median and below the 75th percentile."
-    else position = "You are at or above the 75th percentile of what these postings disclose."
+  const myLevel = levelFor(settings.years || 5)
+  const forCity = bands.filter((b) => b.city === city)
+  const mine = forCity.find((b) => b.seniority === myLevel)
+  const current = settings.current_ctc ?? 0
+  const target = settings.target_ctc ?? 0
+
+  const maxCity = Math.max(1, ...forCity.map((b) => b.high_inr), current, target)
+
+  // Where the user sits inside the published band for their level.
+  let verdict: { text: string; tone: string } | null = null
+  if (mine && current > 0) {
+    if (current < mine.low_inr) {
+      verdict = {
+        text: `You are below the published floor for ${myLevel} designers in ${city}. The gap to the median is ${inr(
+          mine.median_inr - current,
+        )} a year, and the floor alone is ${inr(mine.low_inr - current)} away.`,
+        tone: "pill-bad",
+      }
+    } else if (current < mine.median_inr) {
+      verdict = {
+        text: `You are inside the band but below the median. Asking for ${inr(
+          mine.median_inr,
+        )} would put you at the middle of the market, which is ${inr(
+          mine.median_inr - current,
+        )} more than now.`,
+        tone: "pill-warn",
+      }
+    } else if (current < mine.high_inr) {
+      verdict = {
+        text: `You are above the median for ${myLevel} in ${city}. The remaining headroom to the top of the band is ${inr(
+          mine.high_inr - current,
+        )}, which usually means changing level rather than changing company.`,
+        tone: "pill-good",
+      }
+    } else {
+      verdict = {
+        text: `You are at or above the top of the published ${myLevel} band for ${city}. Further gains realistically come from moving up a level, moving market, or equity — not from a better offer at the same level.`,
+        tone: "pill-good",
+      }
+    }
   }
+
+  const seniorityBands = Object.entries(pay.by_seniority)
+  const maxCrawled = Math.max(1, ...seniorityBands.map(([, b]) => b.p75))
 
   return (
     <div className="pane">
       <div className="pane-inner pane-wide">
         <h2 className="title">Pay</h2>
         <p className="subtitle">
-          Every number here was written down by an employer in a live posting. Nothing is
-          estimated, modelled or scraped from self-reported surveys — which makes the sample small
-          and biased toward companies confident enough to publish a band, but makes each number
-          real.
+          Two sources, never mixed. Published benchmarks answer what you should be earning where
+          you live. Crawled postings show what employers are actually advertising right now — a
+          smaller, more honest, and much more American sample.
         </p>
 
-        <div className="grid-3" style={{ marginBottom: 16 }}>
+        {/* ------------------------------------------------ tier 2: benchmarks */}
+        {bands.length > 0 && (
+          <>
+            <div className="row-between" style={{ marginBottom: 10 }}>
+              <div className="kicker" style={{ margin: 0 }}>
+                What you should be making
+              </div>
+              <select
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+                style={{ width: "auto", padding: "4px 8px", fontSize: 12 }}
+              >
+                {indiaCities.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="card">
+              {mine ? (
+                <>
+                  <div className="row-between" style={{ alignItems: "flex-start", marginBottom: 14 }}>
+                    <div>
+                      <div className="mono" style={{ fontSize: 30, letterSpacing: "-0.02em" }}>
+                        {inr(mine.median_inr)}
+                      </div>
+                      <div className="tiny dim">
+                        median for a {myLevel} designer in {city}, on {settings.years || 5} years
+                      </div>
+                    </div>
+                    <div style={{ textAlign: "right" }}>
+                      <div className="mono tiny">
+                        {inr(mine.low_inr)} – {inr(mine.high_inr)}
+                      </div>
+                      <div className="tiny dimmer">full published range</div>
+                    </div>
+                  </div>
+
+                  {verdict ? (
+                    <p className="tiny" style={{ color: "var(--ink-2)", margin: "0 0 12px" }}>
+                      {verdict.text}
+                    </p>
+                  ) : (
+                    <p className="tiny dimmer" style={{ margin: "0 0 12px" }}>
+                      Add your current salary in Settings and this will tell you where you sit
+                      inside the band, and what the gap is worth in rupees.
+                    </p>
+                  )}
+
+                  {LADDER.filter((level) => forCity.some((b) => b.seniority === level)).map(
+                    (level) => {
+                      const band = forCity.find((b) => b.seniority === level)!
+                      return (
+                        <BandBar
+                          key={level}
+                          label={level === myLevel ? `${level} ← you` : level}
+                          low={band.low_inr}
+                          median={band.median_inr}
+                          high={band.high_inr}
+                          max={maxCity}
+                          marker={level === myLevel ? current : undefined}
+                        />
+                      )
+                    },
+                  )}
+
+                  <p className="tiny dimmer" style={{ marginTop: 12, marginBottom: 0 }}>
+                    Bar spans the published low to high, the tick is the median, and the white line
+                    is you. Source:{" "}
+                    <a href={mine.source_url} target="_blank" rel="noopener noreferrer">
+                      {mine.source_name}
+                    </a>
+                    , retrieved {mine.retrieved_at}.{" "}
+                    <span className={`pill ${mine.confidence === "verified" ? "pill-good" : ""}`}>
+                      {mine.confidence}
+                    </span>
+                  </p>
+                </>
+              ) : (
+                <p className="tiny dim" style={{ margin: 0 }}>
+                  No published band for a {myLevel} designer in {city}.
+                </p>
+              )}
+            </div>
+          </>
+        )}
+
+        {/* ------------------------------------------------ tier 1: crawled */}
+        <div className="kicker" style={{ marginTop: 20 }}>
+          What employers are advertising
+        </div>
+
+        <div className="grid-3" style={{ marginBottom: 12 }}>
           <div className="stat">
             <div className="n">{pay.coverage.disclosed}</div>
             <div className="l">Postings that disclosed pay</div>
@@ -70,53 +230,34 @@ export function PayView({ pay, settings, health }: Props) {
             <div className="l">Indian postings with a band</div>
             <div className="sub">
               {pay.coverage.india_disclosed === 0
-                ? "None. Indian employers almost never publish pay, so the Indian picture here comes from elsewhere."
-                : "Small sample — read as a signal, not a benchmark."}
+                ? "None. Indian employers almost never publish pay, which is exactly why the benchmarks above exist."
+                : "Small sample — a signal, not a benchmark."}
             </div>
           </div>
           <div className="stat">
-            <div className="n">{mine ? inr(mine.median) : "—"}</div>
-            <div className="l">Median at your level</div>
-            <div className="sub">{mine ? `From ${mine.n} disclosed postings.` : "Not enough data yet."}</div>
+            <div className="n">{seniorityBands.length}</div>
+            <div className="l">Levels with enough data</div>
+            <div className="sub">Anything under three postings is not reported at all.</div>
           </div>
         </div>
 
-        {position && (
-          <div className="card" style={{ borderLeft: "2px solid var(--accent)" }}>
-            <h3>Where you stand</h3>
-            <p className="tiny" style={{ margin: 0, color: "var(--ink-2)" }}>
-              {position}
-            </p>
-          </div>
-        )}
-
-        {bands.length > 0 && (
+        {seniorityBands.length > 0 && (
           <div className="card">
-            <h3>By level</h3>
+            <h3>By level, from disclosed postings</h3>
             <p className="tiny dimmer" style={{ marginTop: -4 }}>
-              Bar spans the 25th to 75th percentile. The tick is the median. All converted to INR
-              so foreign bands sit on the same axis.
+              Converted to INR at a fixed rate and dominated by US remote roles. Useful for judging
+              a foreign offer, misleading as an Indian anchor — which is why it is kept separate.
             </p>
-            {bands
+            {seniorityBands
               .sort((a, b) => b[1].median - a[1].median)
-              .map(([label, band]) => (
-                <BandRow key={label} label={`${label} (${band.n})`} band={band} max={max} />
-              ))}
-          </div>
-        )}
-
-        {Object.keys(pay.by_city).length > 0 && (
-          <div className="card">
-            <h3>By city</h3>
-            {Object.entries(pay.by_city)
-              .sort((a, b) => b[1].median - a[1].median)
-              .slice(0, 12)
-              .map(([label, band]) => (
-                <BandRow
+              .map(([label, band]: [string, Band]) => (
+                <BandBar
                   key={label}
                   label={`${label} (${band.n})`}
-                  band={band}
-                  max={Math.max(1, ...Object.values(pay.by_city).map((b) => b.p75))}
+                  low={band.p25}
+                  median={band.median}
+                  high={band.p75}
+                  max={maxCrawled}
                 />
               ))}
           </div>
@@ -135,7 +276,7 @@ export function PayView({ pay, settings, health }: Props) {
                 </tr>
               </thead>
               <tbody>
-                {pay.top_paying.slice(0, 12).map((row) => (
+                {pay.top_paying.slice(0, 10).map((row) => (
                   <tr key={row.url + row.title}>
                     <td>
                       <a href={row.url} target="_blank" rel="noopener noreferrer">
@@ -145,7 +286,8 @@ export function PayView({ pay, settings, health }: Props) {
                     </td>
                     <td>{row.company}</td>
                     <td className="mono tiny">
-                      {money(row.band.low, row.band.currency)} – {money(row.band.high, row.band.currency)}
+                      {money(row.band.low, row.band.currency)} –{" "}
+                      {money(row.band.high, row.band.currency)}
                     </td>
                     <td className="mono tiny">
                       {inr(row.band.inr_low)} – {inr(row.band.inr_high)}
@@ -161,21 +303,23 @@ export function PayView({ pay, settings, health }: Props) {
           <h3>What this cannot tell you</h3>
           <ul className="reasons">
             <li>
-              Only {Math.round(pay.coverage.share * 100)}% of postings disclose pay, and the ones
-              that do skew American and remote-first. Treat the top of the range as aspirational.
+              The published bands are third-party figures, mostly marked “reported” rather than
+              verified, and they drift. Treat them as a starting position in a negotiation, not a
+              fact to quote.
             </li>
             <li>
-              Foreign bands are converted at a fixed rate and are not adjusted for cost of living or
-              tax. A US number is not the same money as an Indian one.
+              Only {Math.round(pay.coverage.share * 100)}% of crawled postings disclose pay, and
+              those skew American and remote-first. The top of that range is aspirational.
             </li>
             <li>
-              Equity is excluded entirely. For senior roles at funded companies that can be the
-              larger half of the offer.
+              Equity is excluded entirely. At senior level in a funded company it can be the larger
+              half of the offer.
             </li>
             <li>
-              Sample size is shown next to every band. Anything under three postings is not
-              reported at all rather than reported badly. Rebuilt {health.generated_at.slice(0, 10)}.
+              Foreign figures are not adjusted for cost of living, tax or visa reality here — the
+              Advisor’s relocation tab does that, and the answer is usually less flattering.
             </li>
+            <li>Rebuilt {health.generated_at.slice(0, 10)}.</li>
           </ul>
         </div>
       </div>

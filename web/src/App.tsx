@@ -359,7 +359,12 @@ export default function App() {
         )}
 
         {view === "pay" && (
-          <PayView pay={bundle.data.pay} settings={settings} health={bundle.health} />
+          <PayView
+            pay={bundle.data.pay}
+            benchmarks={bundle.benchmarks}
+            settings={settings}
+            health={bundle.health}
+          />
         )}
 
         {view === "settings" && (

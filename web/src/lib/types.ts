@@ -234,3 +234,30 @@ export interface Settings {
   resume_text: string
   resume_name: string
 }
+
+export interface BenchmarkBand {
+  role: string
+  city: string
+  region: string
+  country: string
+  seniority: string
+  years_experience: string
+  currency: string
+  low: number
+  median: number
+  high: number
+  low_inr: number
+  median_inr: number
+  high_inr: number
+  source_name: string
+  source_url: string
+  confidence: "verified" | "reported"
+  retrieved_at: string
+  notes?: string
+}
+
+export interface Benchmarks {
+  retrieved_at: string
+  note: string
+  bands: BenchmarkBand[]
+}

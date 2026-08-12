@@ -82,6 +82,27 @@ EXCLUDE_TITLE_PATTERNS: tuple[str, ...] = (
     r"\bvlsi\b",
     r"\brtl\b",
     r"\bchip\b",
+    # Hardware roles that legitimately carry the words "design engineer".
+    # OpenAI's "Actuator Gear Design Engineer" and two of its siblings were
+    # sitting on a UX board and, because they pay Bay Area robotics money,
+    # dragging the mid-level pay median up to ₹2.7 crore.
+    r"\bactuator\b",
+    r"\belectromagnetic\b",
+    r"\brobotic(s)?\b",
+    r"\bhardware\b",
+    r"\bfirmware\b",
+    r"\bthermal\b",
+    r"\bgear\b",
+    r"\bmotor\b",
+    r"\bbattery\b",
+    r"\boptical\b",
+    r"\bantenna\b",
+    r"\basic\b",
+    r"\bfpga\b",
+    r"\bembedded\b",
+    r"\bmanufactur(e|ing)\b",
+    r"\btooling\b",
+    r"\bmould|\bmold\b",
     r"\bnetwork design(er)?\b",
     r"\bprocess design(er)?\b",
     # Recruiting for a design role is not a design role.

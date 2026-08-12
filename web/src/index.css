@@ -1092,3 +1092,14 @@ table.data tr:hover td {
   color: var(--ink);
   background: var(--bg-hover);
 }
+
+/* Your own salary, marked inside the published band. */
+.bar-you {
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  width: 2px;
+  background: var(--ink);
+  box-shadow: 0 0 0 1px rgba(8, 9, 11, 0.9);
+  border-radius: 1px;
+}

@@ -1,4 +1,4 @@
-import type { Dataset, Health, Profile } from "./types"
+import type { Benchmarks, Dataset, Health, Profile } from "./types"
 import type { Advisor } from "@/components/AdvisorView"
 
 /** Everything the nightly crawl produced, fetched once and shared. */
@@ -9,6 +9,7 @@ export interface Bundle {
   idf: Record<string, number>
   world: GeoJSON
   advisor: Advisor
+  benchmarks?: Benchmarks
 }
 
 export interface GeoJSON {
@@ -38,7 +39,7 @@ async function grab<T>(path: string): Promise<T> {
 }
 
 export async function loadBundle(): Promise<Bundle> {
-  const [data, health, profile, idf, world, insights, news, trends, relocation] =
+  const [data, health, profile, idf, world, insights, news, trends, relocation, benchmarks] =
     await Promise.all([
       grab<Dataset>("jobs.json"),
       grab<Health>("health.json"),
@@ -49,6 +50,15 @@ export async function loadBundle(): Promise<Bundle> {
       maybe<Advisor["news"]>("news.json"),
       maybe<Advisor["trends"]>("trends.json"),
       maybe<Advisor["relocation"]>("relocation.json"),
+      maybe<Benchmarks>("benchmarks.json"),
     ])
-  return { data, health, profile, idf, world, advisor: { insights, news, trends, relocation } }
+  return {
+    data,
+    health,
+    profile,
+    idf,
+    world,
+    benchmarks,
+    advisor: { insights, news, trends, relocation },
+  }
 }

@@ -184,3 +184,92 @@ companies:
   - { name: Hugging Face,    domain: huggingface.co,    tags: [global, ai, remote-first] }
   - { name: Replit,          domain: replit.com,        tags: [global, devtools] }
   - { name: Retool,          domain: retool.com,        tags: [global, devtools] }
+
+  # --- Added coverage pass: verified boards and India-heavy targets ------------
+  - { name: Fivetran,        domain: fivetran.com,       ats: greenhouse, slug: fivetran, tags: [global, data] }
+  - { name: Webflow,         domain: webflow.com,        ats: greenhouse, slug: webflow, tags: [global, design] }
+  - { name: Typeform,        domain: typeform.com,       ats: greenhouse, slug: typeform, tags: [global, saas] }
+  - { name: Pendo,           domain: pendo.io,           ats: greenhouse, slug: pendo, tags: [global, saas] }
+  - { name: Braze,           domain: braze.com,          ats: greenhouse, slug: braze, tags: [global, saas] }
+  - { name: Iterable,        domain: iterable.com,       ats: greenhouse, slug: iterable, tags: [global, saas] }
+  - { name: Attentive,       domain: attentive.com,      ats: greenhouse, slug: attentive, tags: [global, saas] }
+  - { name: Klaviyo,         domain: klaviyo.com,        ats: greenhouse, slug: klaviyo, tags: [global, saas] }
+  - { name: Calendly,        domain: calendly.com,       ats: greenhouse, slug: calendly, tags: [global, saas] }
+  - { name: Gusto,           domain: gusto.com,          ats: greenhouse, slug: gusto, tags: [global, fintech] }
+  - { name: Carta,           domain: carta.com,          ats: greenhouse, slug: carta, tags: [global, fintech] }
+  - { name: Mercury,         domain: mercury.com,        ats: greenhouse, slug: mercury, tags: [global, fintech] }
+  - { name: Grafana Labs,    domain: grafana.com,        ats: greenhouse, slug: grafanalabs, tags: [global, devtools] }
+  - { name: LaunchDarkly,    domain: launchdarkly.com,   ats: greenhouse, slug: launchdarkly, tags: [global, devtools] }
+  - { name: Postscript,      domain: postscript.io,      ats: greenhouse, slug: postscript, tags: [global, saas] }
+  - { name: Customer.io,     domain: customer.io,        ats: greenhouse, slug: customerio, tags: [global, saas] }
+  - { name: Algolia,         domain: algolia.com,        ats: greenhouse, slug: algolia, tags: [global, devtools] }
+  - { name: Sendbird,        domain: sendbird.com,       ats: greenhouse, slug: sendbird, tags: [global, saas] }
+  - { name: Lattice,         domain: lattice.com,        ats: greenhouse, slug: lattice, tags: [global, saas] }
+  - { name: Culture Amp,     domain: cultureamp.com,     ats: greenhouse, slug: cultureamp, tags: [global, saas] }
+  - { name: Monzo,           domain: monzo.com,          ats: greenhouse, slug: monzo, tags: [global, fintech] }
+  - { name: N26,             domain: n26.com,            ats: greenhouse, slug: n26, tags: [global, fintech] }
+  - { name: Motive,          domain: gomotive.com,       ats: greenhouse, slug: motive, tags: [global, logistics] }
+  - { name: Faire,           domain: faire.com,          ats: greenhouse, slug: faire, tags: [global, commerce] }
+  - { name: Oscar Health,    domain: hioscar.com,        ats: greenhouse, slug: oscar, tags: [global, healthtech] }
+  - { name: Samsara,         domain: samsara.com,        ats: greenhouse, slug: samsara, tags: [global, saas] }
+  - { name: Anduril,         domain: anduril.com,        ats: greenhouse, slug: andurilindustries, tags: [global, ai] }
+  - { name: Netlify,         domain: netlify.com,        ats: greenhouse, slug: netlify, tags: [global, devtools] }
+  - { name: Squarespace,     domain: squarespace.com,    ats: greenhouse, slug: squarespace, tags: [global, design] }
+  - { name: Modal,           domain: modal.com,          ats: ashby, slug: modal, tags: [global, ai] }
+  - { name: Cohere,          domain: cohere.com,         ats: ashby, slug: cohere, tags: [global, ai] }
+  - { name: ElevenLabs,      domain: elevenlabs.io,      ats: ashby, slug: elevenlabs, tags: [global, ai] }
+  - { name: Cursor,          domain: cursor.com,         ats: ashby, slug: cursor, tags: [global, ai, devtools] }
+  - { name: Lovable,         domain: lovable.dev,        ats: ashby, slug: lovable, tags: [global, ai, devtools] }
+  - { name: Perplexity,      domain: perplexity.ai,      ats: ashby, slug: perplexity, tags: [global, ai] }
+  - { name: Harvey,          domain: harvey.ai,          ats: ashby, slug: harvey, tags: [global, ai] }
+  - { name: Mercor,          domain: mercor.com,         ats: ashby, slug: mercor, tags: [global, ai] }
+  - { name: Decagon,         domain: decagon.ai,         ats: ashby, slug: decagon, tags: [global, ai] }
+  - { name: LangChain,       domain: langchain.com,      ats: ashby, slug: langchain, tags: [global, ai, devtools] }
+  - { name: Pika,            domain: pika.art,           ats: ashby, slug: pika, tags: [global, ai, design] }
+  - { name: Gamma,           domain: gamma.app,          ats: ashby, slug: gamma, tags: [global, ai, design] }
+  - { name: Baseten,         domain: baseten.co,         ats: ashby, slug: baseten, tags: [global, ai] }
+  - { name: Workday,         domain: workday.com,        ats: workday, slug: workday.wd5/Workday, tags: [global, saas] }
+  - { name: Autodesk,        domain: autodesk.com,       ats: workday, slug: autodesk.wd1/Ext, tags: [global, design] }
+  - { name: NVIDIA,          domain: nvidia.com,         ats: workday, slug: nvidia.wd5/NVIDIAExternalCareerSite, tags: [global, ai] }
+  - { name: Target,          domain: target.com,         ats: workday, slug: target.wd5/targetcareers, tags: [global, commerce] }
+  - { name: Signal,          domain: signal.org,         ats: lever, slug: signal, tags: [global, privacy] }
+  - { name: Contentsquare,   domain: contentsquare.com,  ats: lever, slug: contentsquare, tags: [global, analytics] }
+  - { name: Capillary Technologies, domain: capillarytech.com, tags: [india, saas] }
+  - { name: WebEngage,       domain: webengage.com,      tags: [india, saas] }
+  - { name: LambdaTest,      domain: lambdatest.com,     tags: [india, devtools] }
+  - { name: Testsigma,       domain: testsigma.com,      tags: [india, devtools] }
+  - { name: Airmeet,         domain: airmeet.com,        tags: [india, saas] }
+  - { name: Rocketlane,      domain: rocketlane.com,     tags: [india, saas] }
+  - { name: Hiver,           domain: hiverhq.com,        tags: [india, saas] }
+  - { name: Plum,            domain: plumhq.com,         tags: [india, healthtech] }
+  - { name: Kissflow,        domain: kissflow.com,       tags: [india, saas] }
+  - { name: Kovai.co,        domain: kovai.co,           tags: [india, saas] }
+  - { name: Kapture CX,      domain: kapture.cx,         tags: [india, saas] }
+  - { name: Signeasy,        domain: signeasy.com,       tags: [india, saas] }
+  - { name: Appsmith,        domain: appsmith.com,       tags: [india, devtools] }
+  - { name: ToolJet,         domain: tooljet.com,        tags: [india, devtools] }
+  - { name: Fyle,            domain: fylehq.com,         tags: [india, fintech] }
+  - { name: Volopay,         domain: volopay.com,        tags: [india, fintech] }
+  - { name: Nova Benefits,   domain: novabenefits.com,   tags: [india, healthtech] }
+  - { name: Refyne,          domain: refyne.co.in,       tags: [india, fintech] }
+  - { name: Keka,            domain: keka.com,           tags: [india, saas] }
+  - { name: Turtlemint,      domain: turtlemint.com,     tags: [india, fintech] }
+  - { name: Acko,            domain: acko.com,           tags: [india, fintech] }
+  - { name: Policybazaar,    domain: policybazaar.com,   tags: [india, fintech] }
+  - { name: NoBroker,        domain: nobroker.in,        tags: [india, realestate] }
+  - { name: Housing.com,     domain: housing.com,        tags: [india, realestate] }
+  - { name: Magicbricks,     domain: magicbricks.com,    tags: [india, realestate] }
+  - { name: Cars24,          domain: cars24.com,         tags: [india, commerce] }
+  - { name: Spinny,          domain: spinny.com,         tags: [india, commerce] }
+  - { name: CarDekho,        domain: cardekho.com,       tags: [india, commerce] }
+  - { name: Wakefit,         domain: wakefit.co,         tags: [india, commerce] }
+  - { name: Pepperfry,       domain: pepperfry.com,      tags: [india, commerce] }
+  - { name: The Souled Store, domain: thesouledstore.com, tags: [india, commerce] }
+  - { name: Ixigo,           domain: ixigo.com,          tags: [india, travel] }
+  - { name: MakeMyTrip,      domain: makemytrip.com,     tags: [india, travel] }
+  - { name: Cleartrip,       domain: cleartrip.com,      tags: [india, travel] }
+  - { name: Headout,         domain: headout.com,        tags: [india, travel] }
+  - { name: Pocket FM,       domain: pocketfm.com,       tags: [india, media] }
+  - { name: Kuku FM,         domain: kukufm.com,         tags: [india, media] }
+  - { name: Pratilipi,       domain: pratilipi.com,      tags: [india, media] }
+  - { name: Glance,          domain: glance.com,         tags: [india, media] }
