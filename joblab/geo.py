@@ -92,27 +92,48 @@ def classify(location: str, description: str = "") -> dict:
     workplace = workplace_type(location, description)
     cities = india_cities(location)
     india = is_india(location)
-    lock = detect_region_lock(location, description[:8000])
-    worldwide = is_global_remote(location, description)
+
+    # The location field is authoritative; the description is boilerplate.
+    #
+    # Reading them as equals produced the worst kind of wrong answer. Linear's
+    # posting says "North America (Remote)" in its location and describes the
+    # company as remote-first in its body, and Vercel's says "Hybrid - San
+    # Francisco" while the body talks about working from anywhere. Both were
+    # being marked open worldwide, which is exactly the mistake this whole
+    # module exists to prevent. So a lock or a worldwide claim written in the
+    # location wins outright, and the description is only consulted when the
+    # location says nothing useful.
+    location_lock = detect_region_lock(location)
+    location_worldwide = is_global_remote(location)
+    described_lock = detect_region_lock(location, description[:8000])
+    described_worldwide = is_global_remote(location, description)
 
     points = locate(location)
     countries = {p.get("country") for p in points if p.get("country")}
     foreign = countries - {"IN"}
 
+    lock = location_lock or described_lock
+
     if india:
         eligible, reason = True, "Based in India"
-    elif worldwide:
-        eligible, reason = True, "Remote, open worldwide"
     elif workplace != "remote":
         eligible, reason = False, "On-site outside India"
-    elif lock in ("APAC", "SG"):
-        eligible, reason = True, f"Remote within {lock}, which includes India"
-    elif lock:
-        eligible, reason = False, f"Remote but restricted to {lock}"
+    elif location_lock in ("APAC", "SG"):
+        eligible, reason = True, f"Remote within {location_lock}, which includes India"
+    elif location_lock:
+        eligible, reason = False, f"Remote but restricted to {location_lock}"
+    elif location_worldwide:
+        eligible, reason = True, "Remote, open worldwide"
     elif foreign:
         named = ", ".join(sorted(foreign))
         eligible, reason = False, f"Remote within {named} — the role is tied to that country"
-        lock = sorted(foreign)[0]
+        lock = lock or sorted(foreign)[0]
+    elif described_lock in ("APAC", "SG"):
+        eligible, reason = True, f"Remote within {described_lock}, which includes India"
+    elif described_lock:
+        eligible, reason = False, f"Remote but restricted to {described_lock}"
+    elif described_worldwide:
+        eligible, reason = True, "Remote, open worldwide"
     else:
         eligible, reason = True, "Remote, no stated region restriction"
 

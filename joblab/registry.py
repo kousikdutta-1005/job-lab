@@ -173,7 +173,10 @@ def resolve_boards(
     todo = [
         c
         for c in companies
-        if force or not _is_fresh(mapping.get(c.key, {}))
+        if force
+        or not _is_fresh(mapping.get(c.key, {}))
+        or (c.ats and mapping.get(c.key, {}).get("ats") != c.ats)
+        or (c.slug and mapping.get(c.key, {}).get("slug") != c.slug)
     ]
 
     stats = {

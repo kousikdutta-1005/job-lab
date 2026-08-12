@@ -366,11 +366,23 @@ def fetch_ats(
         return [], f"unknown ats '{ats}'"
     url_fn, parse_fn = entry
     if ats == "workday":
-        payload, error = post_json(
-            url_fn(slug),
-            json_body={"appliedFacets": {}, "limit": 20, "offset": 0, "searchText": ""},
-            cache_hours=cache_hours,
-        )
+        postings: dict[str, dict] = {}
+        payload, error = None, None
+        for term in ("design", "ux", "product designer", ""):
+            page, page_error = post_json(
+                url_fn(slug),
+                json_body={"appliedFacets": {}, "limit": 20, "offset": 0, "searchText": term},
+                cache_hours=cache_hours,
+            )
+            if page_error and payload is None:
+                error = page_error
+                continue
+            if isinstance(page, dict):
+                payload = page
+                for item in page.get("jobPostings", []) or []:
+                    postings[item.get("externalPath") or item.get("title") or str(len(postings))] = item
+        if payload is not None:
+            payload = {**payload, "jobPostings": list(postings.values())}
     else:
         payload, error = fetch_json(url_fn(slug), cache_hours=cache_hours)
     if error:
@@ -478,7 +490,14 @@ def discover_boards_from_site(domain: str) -> list[tuple[str, str]]:
         if error or not body:
             continue
         bodies = [body]
-        for href in re.findall(r"""(?:href|content)=["']([^"']*(?:career|job)[^"']*)["']""", body, re.I)[:10]:
+        direct = []
+        for ats, rx in _COMPILED_BOARD_LINKS:
+            direct.extend(rx.finditer(body))
+        if not direct:
+            hrefs = re.findall(r"""(?:href|content)=["']([^"']*(?:career|job)[^"']*)["']""", body, re.I)
+        else:
+            hrefs = []
+        for href in hrefs[:3]:
             if href.startswith("/"):
                 href = f"https://{domain}{href}"
             if not href.startswith("http"):

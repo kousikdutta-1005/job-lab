@@ -290,6 +290,10 @@ REGION_LOCKS: tuple[tuple[str, str], ...] = (
     ("EU", r"\bwithin the (eu|european union)\b"),
     ("AU", r"\b(australia|anz)\s*(only|based)\b"),
     ("SG", r"\bsingapore\s*(only|based)\b"),
+    # APAC and India-inclusive regions are matched so the verdict can say why
+    # you *are* eligible, rather than falling through to "nothing stated".
+    ("APAC", r"\b(apac|asia[- ]pacific|asia pacific|south ?east asia|sea region)\b"),
+    ("APAC", r"\bremote\s*[-–—(,:|]?\s*(apac|asia)\b"),
     ("LATAM", r"\b(latam|latin america)\s*(only|based)\b"),
 )
 

@@ -1,60 +1,81 @@
 {
-  "generated_at": "2026-08-12T19:02:52+00:00",
+  "generated_at": "2026-08-12T19:38:04+00:00",
   "version": "0.1.0",
-  "duration_seconds": 6.5,
+  "duration_seconds": 10.2,
   "detection": {
-    "total": 164,
-    "cached": 164,
+    "total": 251,
+    "cached": 251,
     "probed": 0,
-    "found": 61,
-    "missing": 103
+    "found": 113,
+    "missing": 138
   },
   "counts": {
-    "companies_in_registry": 164,
-    "companies_with_board": 61,
-    "raw_design_postings": 181,
-    "duplicates_removed": 6,
-    "jobs": 175,
-    "eligible": 60,
-    "ineligible": 115,
-    "on_map": 134,
-    "off_map": 41,
-    "places": 32,
-    "salary_disclosed": 31,
+    "companies_in_registry": 251,
+    "companies_with_board": 113,
+    "raw_design_postings": 326,
+    "duplicates_removed": 12,
+    "jobs": 314,
+    "eligible": 52,
+    "ineligible": 262,
+    "on_map": 238,
+    "off_map": 76,
+    "places": 36,
+    "salary_disclosed": 45,
     "news_items": 60,
     "insights": 5
   },
   "by_source": {
-    "greenhouse": 84,
-    "ashby": 33,
-    "weworkremotely": 22,
+    "greenhouse": 155,
+    "ashby": 57,
+    "workday": 54,
+    "weworkremotely": 21,
     "himalayas": 11,
-    "smartrecruiters": 10,
     "arbeitnow": 8,
-    "lever": 7
+    "lever": 7,
+    "smartrecruiters": 1
   },
   "by_seniority": {
-    "Mid-level": 56,
-    "Staff": 35,
-    "Senior": 28,
-    "Director": 18,
-    "Lead": 14,
-    "Manager": 14,
-    "Principal": 5,
-    "Head of Design": 4,
+    "Mid-level": 93,
+    "Senior": 74,
+    "Staff": 61,
+    "Manager": 22,
+    "Director": 22,
+    "Lead": 21,
+    "Principal": 15,
+    "Head of Design": 5,
     "Junior": 1
   },
   "by_workplace": {
-    "onsite": 81,
-    "remote": 80,
-    "hybrid": 14
+    "onsite": 197,
+    "remote": 102,
+    "hybrid": 15
   },
   "sources": [
+    {
+      "kind": "company",
+      "name": "Anduril",
+      "ats": "greenhouse",
+      "slug": "andurilindustries",
+      "confidence": "verified",
+      "postings": 2204,
+      "jobs": 27,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Adobe",
+      "ats": "workday",
+      "slug": "adobe.wd5/external_experienced",
+      "confidence": "likely",
+      "postings": 60,
+      "jobs": 24,
+      "error": null
+    },
     {
       "kind": "aggregator",
       "name": "weworkremotely",
       "postings": 92,
-      "jobs": 23,
+      "jobs": 22,
       "error": null
     },
     {
@@ -75,6 +96,36 @@
       "error": null
     },
     {
+      "kind": "company",
+      "name": "Harvey",
+      "ats": "ashby",
+      "slug": "harvey",
+      "confidence": "likely",
+      "postings": 388,
+      "jobs": 10,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Autodesk",
+      "ats": "workday",
+      "slug": "autodesk.wd1/Ext",
+      "confidence": "likely",
+      "postings": 57,
+      "jobs": 9,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "NVIDIA",
+      "ats": "workday",
+      "slug": "nvidia.wd5/NVIDIAExternalCareerSite",
+      "confidence": "likely",
+      "postings": 67,
+      "jobs": 9,
+      "error": null
+    },
+    {
       "kind": "aggregator",
       "name": "arbeitnow",
       "postings": 576,
@@ -88,6 +139,16 @@
       "slug": "figma",
       "confidence": "verified",
       "postings": 159,
+      "jobs": 8,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Target",
+      "ats": "workday",
+      "slug": "target.wd5/targetcareers",
+      "confidence": "likely",
+      "postings": 62,
       "jobs": 8,
       "error": null
     },
@@ -113,31 +174,11 @@
     },
     {
       "kind": "company",
-      "name": "OpenAI",
-      "ats": "ashby",
-      "slug": "openai",
-      "confidence": "likely",
-      "postings": 736,
-      "jobs": 7,
-      "error": null
-    },
-    {
-      "kind": "company",
       "name": "Brex",
       "ats": "greenhouse",
       "slug": "brex",
       "confidence": "verified",
       "postings": 290,
-      "jobs": 6,
-      "error": null
-    },
-    {
-      "kind": "company",
-      "name": "Canva",
-      "ats": "smartrecruiters",
-      "slug": "canva",
-      "confidence": "verified",
-      "postings": 100,
       "jobs": 6,
       "error": null
     },
@@ -149,6 +190,56 @@
       "confidence": "verified",
       "postings": 39,
       "jobs": 6,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Glance",
+      "ats": "greenhouse",
+      "slug": "glance",
+      "confidence": "verified",
+      "postings": 44,
+      "jobs": 6,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Gusto",
+      "ats": "greenhouse",
+      "slug": "gusto",
+      "confidence": "verified",
+      "postings": 91,
+      "jobs": 6,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Mercury",
+      "ats": "greenhouse",
+      "slug": "mercury",
+      "confidence": "verified",
+      "postings": 57,
+      "jobs": 6,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Hotstar",
+      "ats": "workday",
+      "slug": "jiostar.wd102/JioStar",
+      "confidence": "likely",
+      "postings": 64,
+      "jobs": 5,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Lovable",
+      "ats": "ashby",
+      "slug": "lovable",
+      "confidence": "likely",
+      "postings": 69,
+      "jobs": 5,
       "error": null
     },
     {
@@ -193,6 +284,26 @@
     },
     {
       "kind": "company",
+      "name": "Intercom",
+      "ats": "greenhouse",
+      "slug": "intercom",
+      "confidence": "verified",
+      "postings": 118,
+      "jobs": 4,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Klaviyo",
+      "ats": "greenhouse",
+      "slug": "klaviyo",
+      "confidence": "verified",
+      "postings": 151,
+      "jobs": 4,
+      "error": null
+    },
+    {
+      "kind": "company",
       "name": "Miro",
       "ats": "ashby",
       "slug": "miro",
@@ -203,11 +314,41 @@
     },
     {
       "kind": "company",
+      "name": "Monzo",
+      "ats": "greenhouse",
+      "slug": "monzo",
+      "confidence": "verified",
+      "postings": 80,
+      "jobs": 4,
+      "error": null
+    },
+    {
+      "kind": "company",
       "name": "Notion",
       "ats": "ashby",
       "slug": "notion",
       "confidence": "likely",
       "postings": 128,
+      "jobs": 4,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "OpenAI",
+      "ats": "ashby",
+      "slug": "openai",
+      "confidence": "likely",
+      "postings": 736,
+      "jobs": 4,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Samsara",
+      "ats": "greenhouse",
+      "slug": "samsara",
+      "confidence": "verified",
+      "postings": 263,
       "jobs": 4,
       "error": null
     },
@@ -233,11 +374,41 @@
     },
     {
       "kind": "company",
+      "name": "Fivetran",
+      "ats": "greenhouse",
+      "slug": "fivetran",
+      "confidence": "verified",
+      "postings": 207,
+      "jobs": 3,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Gamma",
+      "ats": "ashby",
+      "slug": "gamma",
+      "confidence": "likely",
+      "postings": 33,
+      "jobs": 3,
+      "error": null
+    },
+    {
+      "kind": "company",
       "name": "Linear",
       "ats": "ashby",
       "slug": "Linear",
       "confidence": "likely",
       "postings": 31,
+      "jobs": 3,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Perplexity",
+      "ats": "ashby",
+      "slug": "perplexity",
+      "confidence": "likely",
+      "postings": 97,
       "jobs": 3,
       "error": null
     },
@@ -273,16 +444,6 @@
     },
     {
       "kind": "company",
-      "name": "Wise",
-      "ats": "smartrecruiters",
-      "slug": "wise",
-      "confidence": "verified",
-      "postings": 100,
-      "jobs": 3,
-      "error": null
-    },
-    {
-      "kind": "company",
       "name": "Anthropic",
       "ats": "greenhouse",
       "slug": "anthropic",
@@ -293,11 +454,31 @@
     },
     {
       "kind": "company",
+      "name": "Culture Amp",
+      "ats": "greenhouse",
+      "slug": "cultureamp",
+      "confidence": "verified",
+      "postings": 29,
+      "jobs": 2,
+      "error": null
+    },
+    {
+      "kind": "company",
       "name": "Hackerrank",
       "ats": "greenhouse",
       "slug": "hackerrank",
       "confidence": "verified",
       "postings": 28,
+      "jobs": 2,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Oscar Health",
+      "ats": "greenhouse",
+      "slug": "oscar",
+      "confidence": "verified",
+      "postings": 264,
       "jobs": 2,
       "error": null
     },
@@ -318,6 +499,16 @@
       "slug": "razorpaysoftwareprivatelimited",
       "confidence": "verified",
       "postings": 21,
+      "jobs": 2,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Salesforce",
+      "ats": "workday",
+      "slug": "salesforce.wd12/External_Career_Site",
+      "confidence": "likely",
+      "postings": 58,
       "jobs": 2,
       "error": null
     },
@@ -363,11 +554,71 @@
     },
     {
       "kind": "company",
+      "name": "Baseten",
+      "ats": "ashby",
+      "slug": "baseten",
+      "confidence": "likely",
+      "postings": 69,
+      "jobs": 1,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Cursor",
+      "ats": "ashby",
+      "slug": "cursor",
+      "confidence": "likely",
+      "postings": 115,
+      "jobs": 1,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Customer.io",
+      "ats": "greenhouse",
+      "slug": "customerio",
+      "confidence": "verified",
+      "postings": 29,
+      "jobs": 1,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Decagon",
+      "ats": "ashby",
+      "slug": "decagon",
+      "confidence": "likely",
+      "postings": 128,
+      "jobs": 1,
+      "error": null
+    },
+    {
+      "kind": "company",
       "name": "Elastic",
       "ats": "greenhouse",
       "slug": "elastic",
       "confidence": "verified",
       "postings": 255,
+      "jobs": 1,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "ElevenLabs",
+      "ats": "ashby",
+      "slug": "elevenlabs",
+      "confidence": "likely",
+      "postings": 250,
+      "jobs": 1,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Faire",
+      "ats": "greenhouse",
+      "slug": "faire",
+      "confidence": "verified",
+      "postings": 65,
       "jobs": 1,
       "error": null
     },
@@ -403,11 +654,31 @@
     },
     {
       "kind": "company",
+      "name": "LangChain",
+      "ats": "ashby",
+      "slug": "langchain",
+      "confidence": "likely",
+      "postings": 107,
+      "jobs": 1,
+      "error": null
+    },
+    {
+      "kind": "company",
       "name": "Meesho",
       "ats": "lever",
       "slug": "meesho",
       "confidence": "verified",
       "postings": 53,
+      "jobs": 1,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Mercor",
+      "ats": "ashby",
+      "slug": "mercor",
+      "confidence": "likely",
+      "postings": 85,
       "jobs": 1,
       "error": null
     },
@@ -433,11 +704,31 @@
     },
     {
       "kind": "company",
+      "name": "N26",
+      "ats": "greenhouse",
+      "slug": "n26",
+      "confidence": "likely",
+      "postings": 82,
+      "jobs": 1,
+      "error": null
+    },
+    {
+      "kind": "company",
       "name": "Paytm",
       "ats": "lever",
       "slug": "paytm",
       "confidence": "verified",
       "postings": 246,
+      "jobs": 1,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Pendo",
+      "ats": "greenhouse",
+      "slug": "pendo",
+      "confidence": "verified",
+      "postings": 39,
       "jobs": 1,
       "error": null
     },
@@ -463,6 +754,26 @@
     },
     {
       "kind": "company",
+      "name": "Squarespace",
+      "ats": "greenhouse",
+      "slug": "squarespace",
+      "confidence": "verified",
+      "postings": 22,
+      "jobs": 1,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Webflow",
+      "ats": "greenhouse",
+      "slug": "webflow",
+      "confidence": "verified",
+      "postings": 26,
+      "jobs": 1,
+      "error": null
+    },
+    {
+      "kind": "company",
       "name": "Zeta",
       "ats": "lever",
       "slug": "zeta",
@@ -480,11 +791,51 @@
     },
     {
       "kind": "company",
+      "name": "Algolia",
+      "ats": "greenhouse",
+      "slug": "algolia",
+      "confidence": "verified",
+      "postings": 36,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "company",
       "name": "Atlan",
       "ats": "ashby",
       "slug": "atlan",
       "confidence": "verified",
       "postings": 6,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Attentive",
+      "ats": "greenhouse",
+      "slug": "attentive",
+      "confidence": "verified",
+      "postings": 40,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Braze",
+      "ats": "greenhouse",
+      "slug": "braze",
+      "confidence": "verified",
+      "postings": 251,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "BrowserStack",
+      "ats": "workday",
+      "slug": "browserstack.wd3/External",
+      "confidence": "verified",
+      "postings": 26,
       "jobs": 0,
       "error": null
     },
@@ -510,11 +861,51 @@
     },
     {
       "kind": "company",
+      "name": "Calendly",
+      "ats": "greenhouse",
+      "slug": "calendly",
+      "confidence": "verified",
+      "postings": 11,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Carta",
+      "ats": "greenhouse",
+      "slug": "carta",
+      "confidence": "verified",
+      "postings": 57,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Cohere",
+      "ats": "ashby",
+      "slug": "cohere",
+      "confidence": "likely",
+      "postings": 145,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "company",
       "name": "Confluent",
       "ats": "ashby",
       "slug": "confluent",
       "confidence": "likely",
       "postings": 30,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Contentsquare",
+      "ats": "lever",
+      "slug": "contentsquare",
+      "confidence": "likely",
+      "postings": 21,
       "jobs": 0,
       "error": null
     },
@@ -550,6 +941,16 @@
     },
     {
       "kind": "company",
+      "name": "Grafana Labs",
+      "ats": "greenhouse",
+      "slug": "grafanalabs",
+      "confidence": "verified",
+      "postings": 145,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "company",
       "name": "Groww",
       "ats": "greenhouse",
       "slug": "groww",
@@ -574,6 +975,16 @@
     },
     {
       "kind": "company",
+      "name": "Hotjar",
+      "ats": "lever",
+      "slug": "contentsquare",
+      "confidence": "likely",
+      "postings": 21,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "company",
       "name": "Hugging Face",
       "ats": "workable",
       "slug": "huggingface",
@@ -584,11 +995,71 @@
     },
     {
       "kind": "company",
+      "name": "Iterable",
+      "ats": "greenhouse",
+      "slug": "iterable",
+      "confidence": "verified",
+      "postings": 25,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Lattice",
+      "ats": "greenhouse",
+      "slug": "lattice",
+      "confidence": "verified",
+      "postings": 8,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "LaunchDarkly",
+      "ats": "greenhouse",
+      "slug": "launchdarkly",
+      "confidence": "verified",
+      "postings": 40,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Modal",
+      "ats": "ashby",
+      "slug": "modal",
+      "confidence": "likely",
+      "postings": 31,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "company",
       "name": "MongoDB",
       "ats": "greenhouse",
       "slug": "mongodb",
       "confidence": "verified",
       "postings": 416,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Motive",
+      "ats": "greenhouse",
+      "slug": "motive",
+      "confidence": "verified",
+      "postings": 10,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Netlify",
+      "ats": "greenhouse",
+      "slug": "netlify",
+      "confidence": "verified",
+      "postings": 3,
       "jobs": 0,
       "error": null
     },
@@ -621,6 +1092,16 @@
     },
     {
       "kind": "company",
+      "name": "Pika",
+      "ats": "ashby",
+      "slug": "pika",
+      "confidence": "likely",
+      "postings": 10,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "company",
       "name": "PostHog",
       "ats": "ashby",
       "slug": "posthog",
@@ -641,11 +1122,41 @@
     },
     {
       "kind": "company",
+      "name": "Postscript",
+      "ats": "greenhouse",
+      "slug": "postscript",
+      "confidence": "verified",
+      "postings": 7,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "company",
       "name": "Remote",
       "ats": "greenhouse",
       "slug": "remote",
       "confidence": "verified",
       "postings": 2,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Sendbird",
+      "ats": "greenhouse",
+      "slug": "sendbird",
+      "confidence": "verified",
+      "postings": 15,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Signal",
+      "ats": "lever",
+      "slug": "signal",
+      "confidence": "likely",
+      "postings": 1,
       "jobs": 0,
       "error": null
     },
@@ -678,11 +1189,11 @@
     },
     {
       "kind": "company",
-      "name": "Swiggy",
-      "ats": "smartrecruiters",
-      "slug": "swiggy",
+      "name": "Typeform",
+      "ats": "greenhouse",
+      "slug": "typeform",
       "confidence": "verified",
-      "postings": 36,
+      "postings": 13,
       "jobs": 0,
       "error": null
     },
@@ -695,21 +1206,31 @@
     },
     {
       "kind": "company",
-      "name": "Unacademy",
-      "ats": "smartrecruiters",
-      "slug": "unacademy",
+      "name": "Uniphore",
+      "ats": "workday",
+      "slug": "uniphore.wd503/Uniphore",
       "confidence": "verified",
-      "postings": 3,
+      "postings": 20,
       "jobs": 0,
       "error": null
     },
     {
       "kind": "company",
-      "name": "Upstox",
-      "ats": "smartrecruiters",
-      "slug": "upstox",
+      "name": "Wise",
+      "ats": "greenhouse",
+      "slug": "wise",
       "confidence": "verified",
       "postings": 1,
+      "jobs": 0,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Workday",
+      "ats": "workday",
+      "slug": "workday.wd5/Workday",
+      "confidence": "likely",
+      "postings": 68,
       "jobs": 0,
       "error": null
     },
@@ -742,697 +1263,837 @@
   "companies_without_board": [
     {
       "name": "Zerodha",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Jupiter",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "slice",
-      "why": "greenhouse/slice: no Indian postings on an Indian company's board (43 jobs) \u2014 probably a namesake"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Navi",
-      "why": "ashby/navi: no Indian postings on an Indian company's board (7 jobs) \u2014 probably a namesake; recruitee/navi: board looks like a demo account ('Senior Marketer (Sample)')"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Juspay",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Cashfree",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Setu",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "M2P Fintech",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Perfios",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Signzy",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "KreditBee",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Yubi",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "INDmoney",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "smallcase",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Dhan",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Angel One",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "Upstox",
+      "why": "probe error: ValueError"
     },
     {
       "name": "Scripbox",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "ClearTax",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Khatabook",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Open Financial",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Decentro",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Rupeek",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Flipkart",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Myntra",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Nykaa",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Zepto",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "Swiggy",
+      "why": "probe error: ValueError"
     },
     {
       "name": "Zomato",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Licious",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Lenskart",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Purplle",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Mamaearth",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "boAt",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Udaan",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Zetwerk",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Moglix",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Delhivery",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Shiprocket",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Rapido",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Ola",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Porter",
-      "why": "lever/porter: no Indian postings on an Indian company's board (28 jobs) \u2014 probably a namesake"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Urban Company",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Country Delight",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Zoho",
-      "why": "no public board found"
-    },
-    {
-      "name": "BrowserStack",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Hasura",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Chargebee",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Darwinbox",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Whatfix",
-      "why": "smartrecruiters/whatfix: board looks like a demo account ('test')"
+      "why": "probe error: ValueError"
     },
     {
       "name": "MoEngage",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "CleverTap",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Netcore Cloud",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Innovaccer",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "LeadSquared",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Zluri",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Facilio",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Yellow.ai",
-      "why": "no public board found"
-    },
-    {
-      "name": "Uniphore",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Icertis",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Gupshup",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Exotel",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Locus",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "FarEye",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Amagi",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Eightfold AI",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "SirionLabs",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Springworks",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Scaler",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Nutanix",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "Unacademy",
+      "why": "probe error: ValueError"
     },
     {
       "name": "PhysicsWallah",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Vedantu",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "upGrad",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Cult.fit",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "HealthifyMe",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "PharmEasy",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Practo",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Tata 1mg",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Dream11",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Games24x7",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Mobile Premier League",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Nazara",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "ShareChat",
-      "why": "no public board found"
-    },
-    {
-      "name": "Hotstar",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Google",
-      "why": "recruitee/google: board looks like a demo account ('Senior Marketer (Sample)')"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Microsoft",
-      "why": "no public board found"
-    },
-    {
-      "name": "Adobe",
-      "why": "no public board found"
-    },
-    {
-      "name": "Salesforce",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Atlassian",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Uber",
-      "why": "smartrecruiters/uber: board looks like a demo account ('Test UAT')"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Shopify",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "Canva",
+      "why": "probe error: ValueError"
     },
     {
       "name": "Automattic",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "HashiCorp",
-      "why": "no public board found"
-    },
-    {
-      "name": "Intercom",
-      "why": "greenhouse/intercom: board is named 'Fin', not 'Intercom'; greenhouse/intercom: board is named 'Fin', not 'Intercom'"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Grammarly",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Revolut",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Klarna",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Checkout.com",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Deel",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Rippling",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Cal.com",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Doist",
-      "why": "no public board found"
-    },
-    {
-      "name": "Hotjar",
-      "why": "lever/contentsquare: no evidence this board belongs to them"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Toggl",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
     },
     {
       "name": "Retool",
-      "why": "no public board found"
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "Capillary Technologies",
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "WebEngage",
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "LambdaTest",
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "Testsigma",
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "Airmeet",
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "Rocketlane",
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "Hiver",
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "Plum",
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "Kissflow",
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "Kovai.co",
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "Kapture CX",
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "Signeasy",
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "Appsmith",
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "ToolJet",
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "Fyle",
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "Volopay",
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "Nova Benefits",
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "Refyne",
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "Keka",
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "Turtlemint",
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "Acko",
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "Policybazaar",
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "NoBroker",
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "Housing.com",
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "Magicbricks",
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "Cars24",
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "Spinny",
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "CarDekho",
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "Wakefit",
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "Pepperfry",
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "The Souled Store",
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "Ixigo",
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "MakeMyTrip",
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "Cleartrip",
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "Headout",
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "Pocket FM",
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "Kuku FM",
+      "why": "probe error: ValueError"
+    },
+    {
+      "name": "Pratilipi",
+      "why": "probe error: ValueError"
     }
   ],
   "corpus": {
-    "documents": 175,
-    "distinct_terms": 135,
+    "documents": 314,
+    "distinct_terms": 146,
     "most_common": [
       {
         "term": "ai",
-        "jobs": 134,
-        "share": 0.766,
-        "idf": 1.2652
-      },
-      {
-        "term": "strategy",
-        "jobs": 97,
-        "share": 0.554,
-        "idf": 1.5855
-      },
-      {
-        "term": "vision",
-        "jobs": 96,
-        "share": 0.549,
-        "idf": 1.5958
+        "jobs": 219,
+        "share": 0.697,
+        "idf": 1.3589
       },
       {
         "term": "platform",
-        "jobs": 95,
-        "share": 0.543,
-        "idf": 1.6061
+        "jobs": 153,
+        "share": 0.487,
+        "idf": 1.7156
       },
       {
-        "term": "prototyping",
-        "jobs": 61,
-        "share": 0.349,
-        "idf": 2.0433
+        "term": "vision",
+        "jobs": 145,
+        "share": 0.462,
+        "idf": 1.769
       },
       {
-        "term": "figma",
-        "jobs": 61,
-        "share": 0.349,
-        "idf": 2.0433
-      },
-      {
-        "term": "influence",
-        "jobs": 53,
-        "share": 0.303,
-        "idf": 2.1815
+        "term": "strategy",
+        "jobs": 134,
+        "share": 0.427,
+        "idf": 1.8473
       },
       {
         "term": "hiring",
-        "jobs": 49,
-        "share": 0.28,
-        "idf": 2.2585
+        "jobs": 103,
+        "share": 0.328,
+        "idf": 2.1082
+      },
+      {
+        "term": "prototyping",
+        "jobs": 100,
+        "share": 0.318,
+        "idf": 2.1375
+      },
+      {
+        "term": "figma",
+        "jobs": 92,
+        "share": 0.293,
+        "idf": 2.22
       },
       {
         "term": "design system",
-        "jobs": 48,
-        "share": 0.274,
-        "idf": 2.2787
+        "jobs": 80,
+        "share": 0.255,
+        "idf": 2.3581
       },
       {
         "term": "interaction design",
-        "jobs": 45,
-        "share": 0.257,
-        "idf": 2.3418
+        "jobs": 75,
+        "share": 0.239,
+        "idf": 2.4218
+      },
+      {
+        "term": "influence",
+        "jobs": 73,
+        "share": 0.232,
+        "idf": 2.4485
       },
       {
         "term": "visual design",
-        "jobs": 41,
-        "share": 0.234,
-        "idf": 2.4328
-      },
-      {
-        "term": "accessibility",
-        "jobs": 38,
-        "share": 0.217,
-        "idf": 2.5069
+        "jobs": 65,
+        "share": 0.207,
+        "idf": 2.5629
       },
       {
         "term": "enterprise",
-        "jobs": 33,
-        "share": 0.189,
-        "idf": 2.6441
-      },
-      {
-        "term": "b2b",
-        "jobs": 31,
-        "share": 0.177,
-        "idf": 2.7047
-      },
-      {
-        "term": "agentic",
-        "jobs": 27,
-        "share": 0.154,
-        "idf": 2.8383
-      },
-      {
-        "term": "roadmap",
-        "jobs": 26,
-        "share": 0.149,
-        "idf": 2.8746
+        "jobs": 60,
+        "share": 0.191,
+        "idf": 2.6417
       },
       {
         "term": "consumer",
-        "jobs": 25,
-        "share": 0.143,
-        "idf": 2.9124
+        "jobs": 60,
+        "share": 0.191,
+        "idf": 2.6417
       },
       {
-        "term": "layout",
-        "jobs": 24,
-        "share": 0.137,
-        "idf": 2.9516
+        "term": "accessibility",
+        "jobs": 57,
+        "share": 0.182,
+        "idf": 2.6921
       },
       {
-        "term": "css",
-        "jobs": 24,
-        "share": 0.137,
-        "idf": 2.9516
-      },
-      {
-        "term": "user research",
-        "jobs": 23,
-        "share": 0.131,
-        "idf": 2.9924
+        "term": "agentic",
+        "jobs": 44,
+        "share": 0.14,
+        "idf": 2.9459
       },
       {
         "term": "documentation",
-        "jobs": 23,
-        "share": 0.131,
-        "idf": 2.9924
+        "jobs": 43,
+        "share": 0.137,
+        "idf": 2.9684
       },
       {
-        "term": "saas",
-        "jobs": 22,
-        "share": 0.126,
-        "idf": 3.035
-      },
-      {
-        "term": "typography",
-        "jobs": 22,
-        "share": 0.126,
-        "idf": 3.035
-      },
-      {
-        "term": "information architecture",
-        "jobs": 22,
-        "share": 0.126,
-        "idf": 3.035
+        "term": "layout",
+        "jobs": 42,
+        "share": 0.134,
+        "idf": 2.9914
       },
       {
         "term": "discovery",
-        "jobs": 22,
-        "share": 0.126,
-        "idf": 3.035
+        "jobs": 42,
+        "share": 0.134,
+        "idf": 2.9914
+      },
+      {
+        "term": "user research",
+        "jobs": 41,
+        "share": 0.131,
+        "idf": 3.0149
+      },
+      {
+        "term": "roadmap",
+        "jobs": 39,
+        "share": 0.124,
+        "idf": 3.0637
+      },
+      {
+        "term": "b2b",
+        "jobs": 38,
+        "share": 0.121,
+        "idf": 3.089
+      },
+      {
+        "term": "saas",
+        "jobs": 37,
+        "share": 0.118,
+        "idf": 3.115
+      },
+      {
+        "term": "mentoring",
+        "jobs": 36,
+        "share": 0.115,
+        "idf": 3.1417
+      },
+      {
+        "term": "typography",
+        "jobs": 33,
+        "share": 0.105,
+        "idf": 3.2262
+      },
+      {
+        "term": "react",
+        "jobs": 31,
+        "share": 0.099,
+        "idf": 3.2868
       }
     ],
     "most_distinctive": [
       {
-        "term": "accessibility annotations",
-        "jobs": 1,
-        "idf": 5.4773
-      },
-      {
         "term": "keyboard navigation",
         "jobs": 1,
-        "idf": 5.4773
+        "idf": 6.0594
+      },
+      {
+        "term": "accessibility annotations",
+        "jobs": 1,
+        "idf": 6.0594
       },
       {
         "term": "section 508",
         "jobs": 1,
-        "idf": 5.4773
+        "idf": 6.0594
       },
       {
         "term": "contextual inquiry",
         "jobs": 1,
-        "idf": 5.4773
-      },
-      {
-        "term": "fullstory",
-        "jobs": 1,
-        "idf": 5.4773
-      },
-      {
-        "term": "user interviews",
-        "jobs": 1,
-        "idf": 5.4773
+        "idf": 6.0594
       },
       {
         "term": "invision",
         "jobs": 1,
-        "idf": 5.4773
-      },
-      {
-        "term": "sprint",
-        "jobs": 1,
-        "idf": 5.4773
+        "idf": 6.0594
       },
       {
         "term": "google analytics",
         "jobs": 1,
-        "idf": 5.4773
+        "idf": 6.0594
       },
       {
-        "term": "rive",
+        "term": "fullstory",
         "jobs": 1,
-        "idf": 5.4773
+        "idf": 6.0594
       },
       {
-        "term": "workshop",
+        "term": "user interviews",
         "jobs": 1,
-        "idf": 5.4773
+        "idf": 6.0594
       },
       {
-        "term": "lottie",
+        "term": "evangelism",
         "jobs": 1,
-        "idf": 5.4773
+        "idf": 6.0594
       },
       {
-        "term": "marketplace",
+        "term": "protopie",
         "jobs": 1,
-        "idf": 5.4773
+        "idf": 6.0594
       },
       {
-        "term": "qualitative research",
+        "term": "low fidelity",
         "jobs": 1,
-        "idf": 5.4773
-      },
-      {
-        "term": "style guide",
-        "jobs": 1,
-        "idf": 5.4773
+        "idf": 6.0594
       },
       {
         "term": "whimsical",
         "jobs": 1,
-        "idf": 5.4773
+        "idf": 6.0594
       },
       {
-        "term": "variants",
+        "term": "style guide",
         "jobs": 1,
-        "idf": 5.4773
+        "idf": 6.0594
       },
       {
         "term": "tokens studio",
         "jobs": 1,
-        "idf": 5.4773
+        "idf": 6.0594
       },
       {
         "term": "figma variables",
         "jobs": 1,
-        "idf": 5.4773
+        "idf": 6.0594
       },
       {
-        "term": "confluence",
+        "term": "okrs",
         "jobs": 1,
-        "idf": 5.4773
-      },
-      {
-        "term": "card sorting",
-        "jobs": 1,
-        "idf": 5.4773
+        "idf": 6.0594
       },
       {
         "term": "heuristic evaluation",
         "jobs": 1,
-        "idf": 5.4773
+        "idf": 6.0594
+      },
+      {
+        "term": "card sorting",
+        "jobs": 1,
+        "idf": 6.0594
+      },
+      {
+        "term": "confluence",
+        "jobs": 1,
+        "idf": 6.0594
       },
       {
         "term": "maze",
         "jobs": 1,
-        "idf": 5.4773
+        "idf": 6.0594
       },
       {
-        "term": "brand guidelines",
+        "term": "pattern library",
         "jobs": 1,
-        "idf": 5.4773
+        "idf": 6.0594
       },
       {
-        "term": "quantitative research",
+        "term": "webflow",
         "jobs": 1,
-        "idf": 5.4773
+        "idf": 6.0594
+      },
+      {
+        "term": "spline",
+        "jobs": 1,
+        "idf": 6.0594
+      },
+      {
+        "term": "hotjar",
+        "jobs": 2,
+        "idf": 5.654
+      },
+      {
+        "term": "sprint",
+        "jobs": 2,
+        "idf": 5.654
       }
     ]
   }

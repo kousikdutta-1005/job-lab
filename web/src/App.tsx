@@ -24,10 +24,19 @@ import { PayView } from "@/components/PayView"
 import { SettingsView } from "@/components/SettingsView"
 import { AdvisorView } from "@/components/AdvisorView"
 import { TodayView } from "@/components/TodayView"
+import { NegotiateView } from "@/components/NegotiateView"
 import { briefing, type Action } from "@/lib/briefing"
 import { ago } from "@/lib/format"
 
-type View = "today" | "board" | "advisor" | "tracker" | "contacts" | "pay" | "settings"
+type View =
+  | "today"
+  | "board"
+  | "advisor"
+  | "tracker"
+  | "contacts"
+  | "pay"
+  | "negotiate"
+  | "settings"
 
 export default function App() {
   const [authed, setAuthed] = useState(hasSession())
@@ -227,6 +236,7 @@ export default function App() {
     contacts: contacts.length,
     advice: bundle.advisor.insights?.insights.length ?? 0,
     actions: actions.length,
+    offers: applications.filter((a) => a.stage === "offer").length,
   }
 
   return (
@@ -246,6 +256,7 @@ export default function App() {
               ["tracker", "Applications", counts.tracker],
               ["contacts", "Contacts", counts.contacts],
               ["pay", "Pay", null],
+              ["negotiate", "Negotiate", counts.offers || null],
               ["settings", "Settings", null],
             ] as Array<[View, string, number | null]>
           ).map(([key, label, count]) => (
@@ -364,6 +375,14 @@ export default function App() {
             benchmarks={bundle.benchmarks}
             settings={settings}
             health={bundle.health}
+          />
+        )}
+
+        {view === "negotiate" && (
+          <NegotiateView
+            benchmarks={bundle.benchmarks}
+            settings={settings}
+            applications={applications}
           />
         )}
 

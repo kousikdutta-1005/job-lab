@@ -21,7 +21,7 @@ const base = process.argv[2] ?? "http://127.0.0.1:5180"
 const USER = "kousik"
 const PASSWORD = process.env.JOBLAB_PASSWORD ?? "kousik@1209"
 
-const VIEWS = ["Today", "Board", "Advisor", "Applications", "Contacts", "Pay", "Settings"]
+const VIEWS = ["Today", "Board", "Advisor", "Applications", "Contacts", "Pay", "Negotiate", "Settings"]
 
 mkdirSync(shots, { recursive: true })
 

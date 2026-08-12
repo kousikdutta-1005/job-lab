@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "node test/autofill.test.mjs && node test/smoke.test.mjs",
+    "test:autofill": "node test/autofill.test.mjs",
+    "test:smoke": "node test/smoke.test.mjs"
   },
   "dependencies": {
     "react": "^19.2.0",
@@ -16,6 +19,8 @@
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
     "@vitejs/plugin-react": "^5.0.0",
+    "jsdom": "^29.1.1",
+    "playwright-core": "^1.62.1",
     "typescript": "~5.9.0",
     "vite": "^7.1.0"
   }
