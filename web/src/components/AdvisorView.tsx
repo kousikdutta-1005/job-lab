@@ -377,6 +377,14 @@ export function AdvisorView({ advisor }: { advisor: Advisor }) {
         {tab === "trends" && (
           <div className="card">
             <h3>Market movement</h3>
+            {trends && trends.history_days > 1 && allWaiting(trends.comparisons) && (
+              <p className="tiny dim" style={{ margin: "0 0 10px" }}>
+                {trends.history_days} nightly snapshots so far. The first window needs about seven,
+                so the dashes below mean “not measured yet”, not “nothing moved”. Roughly{" "}
+                {Math.max(1, 7 - trends.history_days)} more{" "}
+                {7 - trends.history_days === 1 ? "night" : "nights"} until the 7-day row fills in.
+              </p>
+            )}
             {!trends || trends.history_days <= 1 ? (
               <p className="tiny dim" style={{ margin: 0 }}>
                 Only {trends?.history_days ?? 0} day of history so far. Trends need at least a week
@@ -392,6 +400,13 @@ export function AdvisorView({ advisor }: { advisor: Advisor }) {
       </div>
     </div>
   )
+}
+
+function allWaiting(comparisons: Record<string, unknown>): boolean {
+  const rows = Object.values(comparisons).filter(
+    (v): v is Record<string, unknown> => !!v && typeof v === "object",
+  )
+  return rows.length > 0 && rows.every((r) => r.status === "not_enough_history")
 }
 
 function TrendTable({ comparisons }: { comparisons: Record<string, unknown> }) {
@@ -418,14 +433,23 @@ function TrendTable({ comparisons }: { comparisons: Record<string, unknown> }) {
         </tr>
       </thead>
       <tbody>
-        {rows.map(([window, value]) => (
-          <tr key={window}>
-            <td className="mono">{window}</td>
-            <td className="mono tiny">{String(value.jobs_delta ?? value.jobs ?? "—")}</td>
-            <td className="mono tiny">{String(value.eligible_delta ?? value.eligible ?? "—")}</td>
-            <td className="tiny dim">{String(value.note ?? value.summary ?? "")}</td>
-          </tr>
-        ))}
+        {rows.map(([window, value]) => {
+          const waiting = value.status === "not_enough_history"
+          const delta = (v: unknown) =>
+            typeof v === "number" ? `${v > 0 ? "+" : ""}${v}` : "—"
+          return (
+            <tr key={window} className={waiting ? "dim" : undefined}>
+              <td className="mono">{window}</td>
+              <td className="mono tiny">{waiting ? "—" : delta(value.jobs_delta ?? value.jobs)}</td>
+              <td className="mono tiny">
+                {waiting ? "—" : delta(value.eligible_delta ?? value.eligible)}
+              </td>
+              <td className="tiny dim">
+                {String(value.message ?? value.note ?? value.summary ?? "")}
+              </td>
+            </tr>
+          )
+        })}
       </tbody>
     </table>
   )

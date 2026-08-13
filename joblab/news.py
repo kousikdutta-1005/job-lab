@@ -29,11 +29,34 @@ RSS_SOURCES: tuple[tuple[str, str], ...] = (
     ("UX Collective", "https://uxdesign.cc/feed"),
 )
 
+# A tag is a claim about what a story is about, so every one of these has to be
+# earned from the story's own words. "layoffs" used to be stamped on anything
+# arriving from the layoffs feed, which put the tag on a diagramming tool, and
+# it was not in this table at all — so a genuine layoffs piece from any other
+# source could never earn it.
 _RELEVANCE_TERMS: dict[str, tuple[str, ...]] = {
     "design": ("design", "designer", "ux", "ui", "research", "accessibility", "figma"),
     "product": ("product", "saas", "startup", "ai", "strategy", "roadmap"),
-    "career": ("career", "hiring", "jobs", "layoff", "layoffs", "portfolio", "interview"),
+    "career": ("career", "hiring", "jobs", "portfolio", "interview", "salary", "promotion"),
+    "layoffs": (
+        "layoff", "layoffs", "laid off", "lays off", "lay off", "job cuts", "jobcuts",
+        "redundancies", "redundancy", "downsizing", "hiring freeze", "workforce reduction",
+        "restructuring", "severance", "riff", "rif",
+    ),
     "leadership": ("leadership", "manager", "team", "stakeholder", "collaboration"),
+}
+
+# Multi-word terms cannot use the character-class guards the single words use.
+_TERM_RE: dict[str, tuple[re.Pattern[str], ...]] = {
+    tag: tuple(
+        re.compile(
+            rf"(?<![a-z0-9]){re.escape(term)}(?![a-z0-9])"
+            if " " not in term
+            else rf"\b{re.escape(term)}\b"
+        )
+        for term in terms
+    )
+    for tag, terms in _RELEVANCE_TERMS.items()
 }
 
 
@@ -71,17 +94,15 @@ def _iso_date(value: Any) -> str | None:
 
 def _tags_for(*texts: str) -> list[str]:
     blob = " ".join(t or "" for t in texts).lower()
-    tags: list[str] = []
-    for tag, terms in _RELEVANCE_TERMS.items():
-        if any(re.search(rf"(?<![a-z0-9]){re.escape(term)}(?![a-z0-9])", blob) for term in terms):
-            tags.append(tag)
-    return tags
+    return [tag for tag, patterns in _TERM_RE.items() if any(r.search(blob) for r in patterns)]
 
 
 def _keep_item(title: str, summary: str, *, source: str) -> tuple[bool, list[str]]:
     tags = _tags_for(title, summary)
     if source == "Hacker News — layoffs":
-        return True, sorted(set(tags + ["career", "layoffs"]))
+        # The feed is a full-text search, so it returns things like "Show HN:
+        # Artful D2 Diagrams". Being on the feed is not evidence of anything.
+        return "layoffs" in tags or "career" in tags, tags
     if source == "Hacker News — design":
         blob = f"{title} {summary}".lower()
         product_design = (
