@@ -282,6 +282,25 @@ else fail("Postman was applied to 11 days ago with no chase and nothing prompted
 
 await page.screenshot({ path: join(shots, "10-applications.png"), fullPage: true })
 
+// Furthest along first: an offer at the bottom of the pipeline is a design bug.
+const pipelineRoles = await page.locator("table.data tbody tr.row-click td:first-child").allInnerTexts()
+console.log(`  pipeline: ${pipelineRoles.map((r) => r.split("\n")[1] ?? r).join(" | ")}`)
+if (/Zerodha/.test(pipelineRoles[0] ?? "")) pass("the offer sorts to the top of the pipeline")
+else fail(`pipeline is not sorted by stage — first row was ${pipelineRoles[0]?.slice(0, 60)}`)
+
+// You apply to plenty of things the crawler never saw.
+await page.locator('button:has-text("add by hand")').first().click()
+await page.waitForTimeout(300)
+await page.fill('input[placeholder="Senior Product Designer"]', "Principal Designer")
+await page.fill('input[placeholder="Adobe"]', "Figma")
+await page.locator('button:has-text("Track it")').click()
+await page.waitForTimeout(400)
+const afterAdd = await page.locator(".pane").innerText()
+if (/Figma/.test(afterAdd)) pass("an off-board application can be tracked by hand")
+else fail("adding an application by hand did not add a row")
+
+await page.screenshot({ path: join(shots, "11-applications-add.png"), fullPage: true })
+
 // Open a row and check the activity log renders.
 await page.locator(".pane").getByText("Razorpay", { exact: false }).first().click()
 await page.waitForTimeout(500)

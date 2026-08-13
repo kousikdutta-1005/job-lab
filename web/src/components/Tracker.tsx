@@ -12,17 +12,77 @@ interface Props {
 
 const ACTIVE: Stage[] = ["wishlist", "applied", "phone_screen", "interview", "offer"]
 
-export function Tracker({ applications, onChange, onOpenJob }: Props) {
+/* Furthest along first — an offer at the bottom of the page is a design bug. */
+const RANK: Record<Stage, number> = {
+  offer: 6,
+  interview: 5,
+  phone_screen: 4,
+  applied: 3,
+  wishlist: 2,
+  accepted: 1,
+  rejected: 0,
+  withdrawn: 0,
+  archived: 0,
+}
+const stageRank = (stage: Stage): number => RANK[stage] ?? 0
+
+const lastTouch = (row: Application): number => {
+  const marks = [row.date_applied, row.date_saved, ...row.activities.map((a) => a.date)].filter(
+    Boolean,
+  ) as string[]
+  const times = marks.map((d) => Date.parse(d)).filter((n) => Number.isFinite(n))
+  return times.length ? Math.max(...times) : 0
+}
+
+export function Tracker({ applications, contacts, onChange, onOpenJob }: Props) {
   const [openId, setOpenId] = useState<string | null>(null)
   const [showClosed, setShowClosed] = useState(false)
+  const [adding, setAdding] = useState(false)
+  const [draft, setDraft] = useState({ title: "", company: "", url: "", location: "" })
 
   const rows = useMemo(
     () =>
-      applications.filter((a) =>
-        showClosed ? true : !["rejected", "withdrawn", "archived"].includes(a.stage),
-      ),
+      applications
+        .filter((a) => (showClosed ? true : !["rejected", "withdrawn", "archived"].includes(a.stage)))
+        .slice()
+        // Whatever has moved most recently is what you are actually thinking
+        // about. Insertion order is meaningless after the third application.
+        .sort((a, b) => stageRank(b.stage) - stageRank(a.stage) || lastTouch(b) - lastTouch(a)),
     [applications, showClosed],
   )
+
+  /* How long this has sat where it is. It is the number that tells you a thing
+     is dead without anyone ever writing to say so. */
+  function stalledDays(row: Application): number | null {
+    const marks = [row.date_applied, ...row.activities.map((a) => a.date)].filter(
+      Boolean,
+    ) as string[]
+    if (!marks.length) return null
+    const latest = marks.map((d) => Date.parse(d)).sort((a, b) => b - a)[0]
+    if (!Number.isFinite(latest)) return null
+    return Math.floor((Date.now() - latest) / 86_400_000)
+  }
+
+  function addManual() {
+    if (!draft.title.trim() || !draft.company.trim()) return
+    const row: Application = {
+      id: uid(),
+      job_id: null,
+      title: draft.title.trim(),
+      company: draft.company.trim(),
+      url: draft.url.trim(),
+      location: draft.location.trim(),
+      work_mode: "unknown",
+      stage: "applied",
+      date_saved: today(),
+      date_applied: today(),
+      contact_ids: [],
+      activities: [{ id: uid(), type: "applied", date: today(), title: "Added by hand" }],
+    }
+    onChange([row, ...applications])
+    setDraft({ title: "", company: "", url: "", location: "" })
+    setAdding(false)
+  }
 
   // A follow-up is due when a week has passed since you applied and nothing has
   // moved. That single number is the difference between a tracker and a to-do
@@ -130,6 +190,52 @@ export function Tracker({ applications, onChange, onOpenJob }: Props) {
               ))}
             </div>
 
+            {(() => {
+              const known = contacts.filter(
+                (c) => c.company.toLowerCase().trim() === open.company.toLowerCase().trim(),
+              )
+              return (
+                <>
+                  <div className="kicker">Who you know there</div>
+                  {known.length === 0 ? (
+                    <p className="tiny dimmer" style={{ margin: "0 0 12px" }}>
+                      Nobody saved at {open.company}. An application with a name attached to it is a
+                      different application; the LinkedIn searches on the posting are the fastest
+                      way to find one.
+                    </p>
+                  ) : (
+                    <div className="link-list" style={{ marginBottom: 12 }}>
+                      {known.map((c) => (
+                        <div key={c.id} className="link-row">
+                          <div>
+                            <span style={{ fontWeight: 550 }}>{c.name}</span>
+                            <span className="dim tiny dot-sep">{c.title}</span>
+                          </div>
+                          <div className="row" style={{ gap: 8 }}>
+                            {c.email && (
+                              <a href={`mailto:${c.email}`} className="tiny">
+                                email
+                              </a>
+                            )}
+                            {c.linkedin_url && (
+                              <a
+                                href={c.linkedin_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="tiny"
+                              >
+                                LinkedIn
+                              </a>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </>
+              )
+            })()}
+
             {open.activities.length > 0 && (
               <>
                 <div className="kicker">History</div>
@@ -222,10 +328,68 @@ export function Tracker({ applications, onChange, onOpenJob }: Props) {
           <div className="kicker" style={{ margin: 0 }}>
             Pipeline
           </div>
-          <button className="chip" onClick={() => setShowClosed((v) => !v)}>
-            {showClosed ? "hide closed" : "show closed"}
-          </button>
+          <div className="row" style={{ gap: 6 }}>
+            <button className="chip" onClick={() => setAdding((v) => !v)}>
+              {adding ? "cancel" : "+ add by hand"}
+            </button>
+            <button className="chip" onClick={() => setShowClosed((v) => !v)}>
+              {showClosed ? "hide closed" : "show closed"}
+            </button>
+          </div>
         </div>
+
+        {adding && (
+          <div className="card" style={{ marginBottom: 12 }}>
+            <h3 style={{ marginTop: 0 }}>Something you applied to elsewhere</h3>
+            <p className="tiny dimmer" style={{ marginTop: -4 }}>
+              Referrals, LinkedIn Easy Apply, a role a friend sent you — the board will never see
+              these, and a tracker that only knows half your applications is worse than none.
+            </p>
+            <div className="split">
+              <div className="field">
+                <label>Role</label>
+                <input
+                  value={draft.title}
+                  placeholder="Senior Product Designer"
+                  onChange={(e) => setDraft({ ...draft, title: e.target.value })}
+                />
+              </div>
+              <div className="field">
+                <label>Company</label>
+                <input
+                  value={draft.company}
+                  placeholder="Adobe"
+                  onChange={(e) => setDraft({ ...draft, company: e.target.value })}
+                />
+              </div>
+            </div>
+            <div className="split">
+              <div className="field">
+                <label>Link to the posting</label>
+                <input
+                  value={draft.url}
+                  placeholder="https://…"
+                  onChange={(e) => setDraft({ ...draft, url: e.target.value })}
+                />
+              </div>
+              <div className="field">
+                <label>Location</label>
+                <input
+                  value={draft.location}
+                  placeholder="Bengaluru, India"
+                  onChange={(e) => setDraft({ ...draft, location: e.target.value })}
+                />
+              </div>
+            </div>
+            <button
+              className="btn btn-sm"
+              disabled={!draft.title.trim() || !draft.company.trim()}
+              onClick={addManual}
+            >
+              Track it
+            </button>
+          </div>
+        )}
 
         {applications.length === 0 ? (
           <div className="empty">
@@ -239,7 +403,7 @@ export function Tracker({ applications, onChange, onOpenJob }: Props) {
               <tr>
                 <th>Role</th>
                 <th>Stage</th>
-                <th>Applied</th>
+                <th>Quiet for</th>
                 <th>Pay</th>
                 <th />
               </tr>
@@ -294,7 +458,22 @@ export function Tracker({ applications, onChange, onOpenJob }: Props) {
                         ))}
                       </select>
                     </td>
-                    <td className="tiny dimmer">{row.date_applied ? ago(row.date_applied) : "—"}</td>
+                    <td className="tiny">
+                      {(() => {
+                        const quiet = stalledDays(row)
+                        if (quiet === null) return <span className="dimmer">not applied yet</span>
+                        const dead = quiet >= 30 && !["offer", "accepted"].includes(row.stage)
+                        return (
+                          <span
+                            className="mono"
+                            style={{ color: dead ? "var(--bad)" : quiet >= 14 ? "var(--warn)" : undefined }}
+                            title={row.date_applied ? `Applied ${ago(row.date_applied)}` : undefined}
+                          >
+                            {quiet === 0 ? "today" : `${quiet}d`}
+                          </span>
+                        )
+                      })()}
+                    </td>
                     <td className="tiny mono">
                       {row.salary_min ? `${inr(row.salary_min)}–${inr(row.salary_max ?? 0)}` : "—"}
                     </td>
