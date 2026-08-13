@@ -1,8 +1,8 @@
 {
   "date": "2026-08-13",
-  "eligible_count": 75,
-  "generated_at": "2026-08-13T05:06:35+00:00",
-  "job_count": 326,
+  "eligible_count": 73,
+  "generated_at": "2026-08-13T05:18:21+00:00",
+  "job_count": 324,
   "job_keys": [
     "10 ancestry.com operations|principal design engineer, storytelling",
     "adobe|ai product designer",
@@ -10,7 +10,6 @@
     "adobe|product designer",
     "adobe|product designer ii",
     "adobe|product designer, adobe express",
-    "adobe|product designer, document cloud",
     "adobe|senior product designer, monetization platform",
     "adobe|sr product design manager",
     "adobe|sr product designer",
@@ -100,7 +99,6 @@
     "dropbox|director, product design",
     "dropbox|principal product designer",
     "dropbox|staff product designer",
-    "duckduckgo|design lead",
     "duolingo|creative director, marketing",
     "duolingo|senior product designer",
     "duolingo|staff product designer",
@@ -307,7 +305,7 @@
   "keyword_doc_frequency": {
     "accessibility": 86,
     "agentic": 56,
-    "ai": 264,
+    "ai": 263,
     "analytics": 36,
     "b2b": 50,
     "coaching": 31,
@@ -324,7 +322,7 @@
     "frontend": 26,
     "generative ai": 23,
     "governance": 23,
-    "hiring": 131,
+    "hiring": 130,
     "html": 26,
     "influence": 94,
     "information architecture": 30,
@@ -333,12 +331,12 @@
     "iteration": 30,
     "layout": 47,
     "mentoring": 40,
-    "platform": 199,
-    "prototyping": 127,
+    "platform": 197,
+    "prototyping": 126,
     "react": 34,
     "roadmap": 44,
     "saas": 48,
-    "strategy": 172,
+    "strategy": 171,
     "typescript": 22,
     "typography": 39,
     "user flows": 24,
@@ -348,13 +346,13 @@
   },
   "median_disclosed_pay_inr": 18524000,
   "per_city": {
-    "Bengaluru": 29,
+    "Bengaluru": 28,
     "Delhi NCR": 4,
     "Pune": 3
   },
   "per_company": {
     "10 Ancestry.com Operations": 1,
-    "Adobe": 22,
+    "Adobe": 21,
     "Airbnb": 4,
     "Airtable": 1,
     "AlphaSense": 1,
@@ -386,7 +384,6 @@
     "Detections.ai": 1,
     "DigitalFish, Inc": 1,
     "Dropbox": 7,
-    "DuckDuckGo": 1,
     "Duolingo": 7,
     "Elastic": 1,
     "Elation Health": 1,
@@ -488,12 +485,12 @@
   "per_seniority": {
     "Director": 27,
     "Head of Design": 5,
-    "Junior": 3,
-    "Lead": 20,
+    "Junior": 4,
+    "Lead": 19,
     "Manager": 24,
-    "Mid-level": 96,
+    "Mid-level": 55,
     "Principal": 15,
-    "Senior": 73,
-    "Staff": 63
+    "Senior": 101,
+    "Staff": 74
   }
 }
