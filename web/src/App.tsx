@@ -8,9 +8,11 @@ import {
   saveBoard,
   loadApplications,
   loadContacts,
+  loadProjects,
   loadSettings,
   saveApplications,
   saveContacts,
+  saveProjects,
   saveSettings,
   today,
   uid,
@@ -22,6 +24,8 @@ import { JobList, type Sort } from "@/components/JobList"
 import { JobDetail } from "@/components/JobDetail"
 import { Tracker } from "@/components/Tracker"
 import { Contacts } from "@/components/Contacts"
+import { PortfolioView } from "@/components/PortfolioView"
+import type { Project } from "@/lib/portfolio"
 import { PayView } from "@/components/PayView"
 import { SettingsView } from "@/components/SettingsView"
 import { AdvisorView } from "@/components/AdvisorView"
@@ -36,6 +40,7 @@ type View =
   | "advisor"
   | "tracker"
   | "contacts"
+  | "portfolio"
   | "pay"
   | "negotiate"
   | "settings"
@@ -48,6 +53,7 @@ export default function App() {
 
   const [applications, setApplications] = useState<Application[]>(() => loadApplications())
   const [contacts, setContacts] = useState<Contact[]>(() => loadContacts())
+  const [projects, setProjects] = useState<Project[]>(() => loadProjects())
   const [settings, setSettings] = useState<Settings>(() => loadSettings())
 
   const [selectedId, setSelectedId] = useState<string | null>(null)
@@ -70,6 +76,7 @@ export default function App() {
 
   useEffect(() => saveApplications(applications), [applications])
   useEffect(() => saveContacts(contacts), [contacts])
+  useEffect(() => saveProjects(projects), [projects])
   useEffect(() => saveSettings(settings), [settings])
   useEffect(() => saveDismissed(dismissed), [dismissed])
   useEffect(
@@ -244,6 +251,7 @@ export default function App() {
     advice: bundle.advisor.insights?.insights.length ?? 0,
     actions: actions.length,
     offers: applications.filter((a) => a.stage === "offer").length,
+    projects: projects.length,
   }
 
   return (
@@ -262,6 +270,7 @@ export default function App() {
               ["advisor", "Advisor", counts.advice],
               ["tracker", "Applications", counts.tracker],
               ["contacts", "Contacts", counts.contacts],
+              ["portfolio", "Portfolio", counts.projects || null],
               ["pay", "Pay", null],
               ["negotiate", "Negotiate", counts.offers || null],
               ["settings", "Settings", null],
@@ -373,6 +382,10 @@ export default function App() {
           />
         )}
 
+        {view === "portfolio" && (
+          <PortfolioView jobs={bundle.data.jobs} projects={projects} onChange={setProjects} />
+        )}
+
         {view === "contacts" && (
           <Contacts
             contacts={contacts}
@@ -409,6 +422,7 @@ export default function App() {
             onRestored={() => {
               setApplications(loadApplications())
               setContacts(loadContacts())
+              setProjects(loadProjects())
               setSettings(loadSettings())
             }}
           />

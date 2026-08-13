@@ -8,6 +8,7 @@
  */
 
 import type { Application, Contact, Settings, Stage } from "./types"
+import type { Project } from "./portfolio"
 
 const KEYS = {
   applications: "joblab.applications",
@@ -15,6 +16,7 @@ const KEYS = {
   settings: "joblab.settings",
   dismissed: "joblab.dismissed",
   board: "joblab.board",
+  projects: "joblab.projects",
 } as const
 
 function read<T>(key: string, fallback: T): T {
@@ -64,6 +66,9 @@ export const saveApplications = (rows: Application[]): void => write(KEYS.applic
 export const loadContacts = (): Contact[] => read<Contact[]>(KEYS.contacts, [])
 export const saveContacts = (rows: Contact[]): void => write(KEYS.contacts, rows)
 
+export const loadProjects = (): Project[] => read<Project[]>(KEYS.projects, [])
+export const saveProjects = (rows: Project[]): void => write(KEYS.projects, rows)
+
 export const loadDismissed = (): string[] => read<string[]>(KEYS.dismissed, [])
 export const saveDismissed = (ids: string[]): void => write(KEYS.dismissed, ids)
 
@@ -97,6 +102,7 @@ export function exportAll(): string {
       contacts: loadContacts(),
       settings: loadSettings(),
       dismissed: loadDismissed(),
+      projects: loadProjects(),
     },
     null,
     2,
@@ -109,6 +115,7 @@ export function importAll(raw: string): { ok: boolean; message: string } {
     if (Array.isArray(parsed.applications)) saveApplications(parsed.applications as Application[])
     if (Array.isArray(parsed.contacts)) saveContacts(parsed.contacts as Contact[])
     if (Array.isArray(parsed.dismissed)) saveDismissed(parsed.dismissed as string[])
+    if (Array.isArray(parsed.projects)) saveProjects(parsed.projects as Project[])
     if (parsed.settings && typeof parsed.settings === "object") {
       saveSettings({ ...DEFAULT_SETTINGS, ...(parsed.settings as Partial<Settings>) })
     }

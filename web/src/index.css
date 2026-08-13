@@ -1216,3 +1216,9 @@ table.data tr.row-detail .card {
     display: inline-flex;
   }
 }
+
+/* The browser's default blue is the one colour on the page nobody chose. */
+input[type="checkbox"] {
+  accent-color: var(--accent);
+  cursor: pointer;
+}

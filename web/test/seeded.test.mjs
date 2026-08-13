@@ -345,6 +345,33 @@ else pass(`connection note fits (${counter})`)
 
 await page.screenshot({ path: join(shots, "12-contacts.png"), fullPage: true })
 
+/* -------------------------------------------------------------- portfolio */
+
+await page.locator('.nav button:has-text("Portfolio")').first().click()
+await page.waitForTimeout(600)
+const emptyPortfolio = await page.locator(".pane").innerText()
+if (/Designed with or for AI/.test(emptyPortfolio)) pass("portfolio criteria measured from the board")
+else fail("portfolio view did not list criteria")
+// The weights must come from the postings, not from a hardcoded opinion.
+if (/\d+%/.test(emptyPortfolio)) pass("criteria carry a measured demand share")
+else fail("no demand percentages on the criteria")
+
+await page.locator('button:has-text("add a project")').click()
+await page.waitForTimeout(300)
+await page.fill('input[placeholder="Rebuilding checkout at …"]', "Payments onboarding")
+// Tick three of the ten.
+const boxes = page.locator('.pane input[type="checkbox"]')
+await boxes.nth(0).check()
+await boxes.nth(2).check()
+await boxes.nth(4).check()
+await page.waitForTimeout(400)
+const audited = await page.locator(".pane").innerText()
+if (/in none of your work/.test(audited)) pass("uncovered criteria are called out")
+else fail("a project covering 3 of 10 criteria produced no gap warnings")
+if (/covered, weighted by demand/.test(audited)) pass("coverage is demand-weighted")
+else fail("no coverage figure")
+await page.screenshot({ path: join(shots, "15-portfolio.png"), fullPage: true })
+
 /* ------------------------------------------------- today, now with a load */
 
 await page.locator('.nav button:has-text("Today")').first().click()
