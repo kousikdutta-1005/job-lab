@@ -105,6 +105,25 @@ EXCLUDE_TITLE_PATTERNS: tuple[str, ...] = (
     r"\bmould|\bmold\b",
     r"\bnetwork design(er)?\b",
     r"\bprocess design(er)?\b",
+    # A second wave of the same problem, from defence and silicon boards.
+    r"\bwarhead\b",
+    r"\bordnance\b",
+    r"\blethality\b",
+    r"\bmunition(s)?\b",
+    r"\bwire harness\b",
+    r"\bavionic(s)?\b",
+    r"\bpropulsion\b",
+    r"\baerodynamic(s)?\b",
+    r"\bstructures\b",
+    r"\bemc\b",
+    r"\banalog\b",
+    r"\binterposer\b",
+    r"\bsilicon\b",
+    r"\bverilog\b",
+    r"\boverhead line\b",
+    r"\bohl\b",
+    r"\bphysical design\b",
+    r"\bdigital design engineer\b",
     # Recruiting for a design role is not a design role.
     r"\brecruiter\b",
     r"\btalent acquisition\b",
@@ -118,8 +137,53 @@ EXCLUDE_TITLE_PATTERNS: tuple[str, ...] = (
     r"\bfresher\b",
 )
 
+# Titles that are a design role only when the posting corroborates it.
+AMBIGUOUS_TITLE_PATTERNS: tuple[str, ...] = (
+    r"\bdesign engineer\b",
+    r"\bsystem(s)? design\b",
+)
+
+# ...unless the title itself already says which kind of design engineer.
+UNAMBIGUOUS_QUALIFIER_PATTERN = (
+    r"\b(ux|ui|web|front.?end|product design|design system(s)?|growth|marketing|"
+    r"brand|creative|digital product|interaction)\b"
+)
+
+# Vocabulary that only appears in postings about screens, users and the front
+# end. Deliberately excludes bare "design", which every engineering JD uses.
+PRODUCT_DESIGN_EVIDENCE_PATTERNS: tuple[str, ...] = (
+    r"\bfigma\b",
+    r"\bprototyp\w*",
+    r"\bdesign system(s)?\b",
+    r"\bfront.?end\b",
+    r"\breact\b",
+    r"\bcss\b",
+    r"\btypescript\b",
+    r"\btailwind\b",
+    r"\buser research\b",
+    r"\busability\b",
+    r"\buser experience\b",
+    r"\bux\b",
+    r"\bcomponent librar(y|ies)\b",
+    r"\bweb app(lication)?s?\b",
+    r"\blanding page(s)?\b",
+    r"\bmarketing site\b",
+    r"\baccessibilit(y|ies)\b",
+    r"\banimation(s)?\b",
+    r"\bresponsive\b",
+    r"\bdesign tool(s)?\b",
+)
+
+# Three distinct signals. One is a passing mention; two happens by accident in
+# a robotics JD that mentions animation and responsiveness. Three separates
+# every real design-engineer posting on the board from every hardware one.
+EVIDENCE_REQUIRED = 3
+
 _INCLUDE_RE = [re.compile(p, re.I) for p in INCLUDE_TITLE_PATTERNS]
 _EXCLUDE_RE = [re.compile(p, re.I) for p in EXCLUDE_TITLE_PATTERNS]
+_AMBIGUOUS_RE = [re.compile(p, re.I) for p in AMBIGUOUS_TITLE_PATTERNS]
+_UNAMBIGUOUS_QUALIFIER_RE = re.compile(UNAMBIGUOUS_QUALIFIER_PATTERN, re.I)
+_EVIDENCE_RE = [re.compile(p, re.I) for p in PRODUCT_DESIGN_EVIDENCE_PATTERNS]
 
 
 def normalise_title(title: str) -> str:
@@ -131,14 +195,40 @@ def normalise_title(title: str) -> str:
     return t
 
 
-def is_design_role(title: str) -> bool:
-    """True when the title is a UX, product or adjacent design role."""
+def is_design_role(title: str, description: str | None = None) -> bool:
+    """True when the title is a UX, product or adjacent design role.
+
+    Some titles are only a design role in context. "Design Engineer" is the
+    standard title for someone who designs *parts* in mechanical, electrical
+    and defence engineering, and a rarer hybrid design-and-code role in
+    software. The blocklist below it grew to forty patterns chasing that one
+    ambiguity — actuator, gear, warhead, interposer, overhead line — and a new
+    crawl always brought a discipline nobody had thought of. So an ambiguous
+    title is not admitted on the strength of the title. It has to be
+    corroborated by the posting talking about screens, users or the front end.
+    """
     t = normalise_title(title)
     if not t:
         return False
     if any(r.search(t) for r in _EXCLUDE_RE):
         return False
-    return any(r.search(t) for r in _INCLUDE_RE)
+    if not any(r.search(t) for r in _INCLUDE_RE):
+        return False
+    if any(r.search(t) for r in _AMBIGUOUS_RE) and not _UNAMBIGUOUS_QUALIFIER_RE.search(t):
+        return product_design_evidence(description) >= EVIDENCE_REQUIRED
+    return True
+
+
+def product_design_evidence(description: str | None) -> int:
+    """How many distinct product-design signals a posting uses.
+
+    Distinct terms, not occurrences, so one JD repeating "Figma" nine times
+    counts once and cannot corroborate itself.
+    """
+    if not description:
+        return 0
+    blob = description[:20000].lower()
+    return sum(1 for r in _EVIDENCE_RE if r.search(blob))
 
 
 # ---------------------------------------------------------------------------

@@ -69,4 +69,4 @@ def enrich(job: Job) -> Job:
 
 def keep(job: Job) -> bool:
     """The single gate into the board."""
-    return is_design_role(job.title)
+    return is_design_role(job.title, job.description_text)
