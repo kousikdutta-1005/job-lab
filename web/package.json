@@ -20,6 +20,7 @@
     "test:ties": "node --experimental-strip-types --import ./test/ts-resolve.mjs test/level_ties.test.mjs",
     "test:criteria": "node --experimental-strip-types --import ./test/ts-resolve.mjs test/criteria_match.test.mjs",
     "test:drafts": "node --experimental-strip-types --import ./test/ts-resolve.mjs test/draft_claims.test.mjs",
+    "test:basis": "node test/score_basis.test.mjs",
     "test:claimed": "node --experimental-strip-types --import ./test/ts-resolve.mjs test/resume_claimed.test.mjs"
   },
   "dependencies": {

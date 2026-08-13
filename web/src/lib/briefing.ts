@@ -328,7 +328,7 @@ function resumeLeverage(
         urgency: 95,
         title: "Add your resume once",
         detail:
-          "Every role on the board gets scored against it, and the gaps get ranked by how rare each requirement is. It stays in this browser and is never uploaded.",
+          "Every role then gets an ATS match on its Resume tab, with the gaps ranked by how rare each requirement is. It stays in this browser and is never uploaded.",
         view: "settings",
       },
     ]

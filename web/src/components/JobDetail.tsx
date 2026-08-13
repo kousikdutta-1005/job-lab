@@ -207,7 +207,7 @@ export function JobDetail({
             </div>
 
             <div className="card">
-              <h3>Why this ranks {job.match_score}</h3>
+              <h3>Why this ranks {job.match_score} against your profile</h3>
               <ul className="reasons">
                 {job.match_reasons.map((reason) => (
                   <li key={reason}>{reason}</li>
@@ -272,8 +272,10 @@ export function JobDetail({
               <div className="card">
                 <h3>No resume loaded</h3>
                 <p className="dim tiny">
-                  Paste your resume once in Settings and every job on the board gets scored against
-                  it. It stays in this browser — it is never uploaded anywhere.
+                  Paste your resume once in Settings and every role gets an ATS match here, with
+                  the gaps ranked by how rare each one is. The number on the board is a different
+                  measure — how well the role fits your profile — and it does not move when you add
+                  a resume. Your resume stays in this browser and is never uploaded anywhere.
                 </p>
                 <button className="btn btn-sm" onClick={onOpenSettings}>
                   Add resume in Settings

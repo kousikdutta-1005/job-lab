@@ -112,8 +112,9 @@ export function SettingsView({ settings, onChange, health, onRestored }: Props) 
         <div className="card">
           <h3>Resume</h3>
           <p className="tiny dimmer" style={{ marginTop: -4 }}>
-            Paste the plain text of your resume. Every role on the board is then scored against it
-            in this browser. Copy it out of your PDF with select-all — if the paste comes out
+            Paste the plain text of your resume. Every role then gets an ATS match on its Resume
+            tab, worked out in this browser. It does not change the board score, which rates the
+            role against your profile. Copy it out of your PDF with select-all — if the paste comes out
             garbled, an applicant tracking system sees exactly the same garble, which is itself
             the most useful thing this tool can tell you.
           </p>
