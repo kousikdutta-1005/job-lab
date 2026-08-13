@@ -10,6 +10,7 @@ from .config import (
     TERM_TO_GROUP,
     is_design_role,
     seniority_from_title,
+    term_pattern,
     seniority_from_years,
     years_required,
 )
@@ -21,8 +22,7 @@ from .models import Job
 # "design system" is never counted as a bare "design", and "ai" never matches
 # inside "email" or "detail".
 _TERM_PATTERNS: list[tuple[str, re.Pattern[str]]] = [
-    (term, re.compile(rf"(?<![a-z0-9]){re.escape(term)}(?![a-z0-9])", re.I))
-    for term in ALL_LEXICON_TERMS
+    (term, term_pattern(term)) for term in ALL_LEXICON_TERMS
 ]
 
 

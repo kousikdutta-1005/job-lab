@@ -24,7 +24,13 @@ from joblab.insights import build_insights
 IDF = {"ai": 1.2, "figma": 2.0, "lottie": 5.8, "aria": 5.8}
 
 
-def job(keywords: list[str], *, seniority: str = "senior", company: str = "Acme") -> SimpleNamespace:
+def job(
+    keywords: list[str],
+    *,
+    seniority: str = "senior",
+    company: str = "Acme",
+    eligible: bool = True,
+) -> SimpleNamespace:
     return SimpleNamespace(
         keywords=keywords,
         seniority=seniority,
@@ -34,7 +40,7 @@ def job(keywords: list[str], *, seniority: str = "senior", company: str = "Acme"
         url="https://example.com/j",
         location_raw="Bengaluru",
         cities=["Bengaluru"],
-        eligible=True,
+        eligible=eligible,
         remote="onsite",
         match_score=80,
         salary_parsed=None,
@@ -118,6 +124,49 @@ def main() -> int:
 
     junior = [job(["ai"], seniority="junior", company=f"Co{i}") for i in range(20)]
     check("no senior roles means no senior advice", gap_card(junior, profile()) is None)
+
+    # The population the advice is about. The card says these terms unlock
+    # senior roles, and the board is the eligible set -- but it counted every
+    # crawled posting: "56% of the 173 senior roles on the board", printed
+    # beside a nav reading "Board 76". It moved the numbers too. Strategy is in
+    # 56% of all senior postings and 46% of the ones you can actually apply to.
+    reachable = [job(["ai", "figma"], company=f"Reach{i}") for i in range(6)]
+    walled = [job(["lottie"], company=f"Walled{i}", eligible=False) for i in range(40)]
+    scoped = gap_card(reachable + walled, profile())
+    check("a gap card is still produced from reachable roles alone", scoped is not None)
+    if scoped:
+        terms = [row["term"] for row in scoped["evidence"]]
+        check(
+            "a term seen only in roles you cannot take is not offered as a gap",
+            "lottie" not in terms, str(terms),
+        )
+        check("terms from reachable roles are still ranked", "ai" in terms, str(terms))
+        check(
+            "the sentence names the population it counted",
+            "senior roles you can take" in scoped["body"], scoped["body"],
+        )
+        check(
+            "and counts only those, not the whole crawl",
+            " 6 senior roles" in scoped["body"], scoped["body"],
+        )
+        check(
+            "and no longer calls the whole crawl the board",
+            "on the board" not in scoped["body"], scoped["body"],
+        )
+
+    # Evidence has to tell the terms apart. Examples were the first three
+    # postings in crawl order, so the same three employers filled every row of
+    # every term, three times each, and the rows stopped distinguishing terms.
+    repeated = [job(["ai", "figma"], company="Hackerrank") for _ in range(3)]
+    repeated += [job(["ai", "figma"], company="Razorpay") for _ in range(3)]
+    repeated += [job(["ai", "figma"], company="Pixel One") for _ in range(2)]
+    varied = gap_card(repeated, profile())
+    check("a gap card is produced from the repeated-company fixture", varied is not None)
+    if varied:
+        for row in varied["evidence"]:
+            firms = [e["company"] for e in row["examples"]]
+            check(f"{row['term']} shows each company once", len(firms) == len(set(firms)), str(firms))
+            check(f"{row['term']} still shows three examples", len(firms) == 3, str(firms))
 
     print("\n" + (f"FAIL — {failures} problem(s)" if failures else "PASS — gaps ranked by reach, not rarity"))
     return 1 if failures else 0

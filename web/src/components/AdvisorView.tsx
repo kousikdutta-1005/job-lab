@@ -168,7 +168,7 @@ function Evidence({ evidence }: { evidence: unknown }) {
               {row.idf !== undefined && (
                 <span className="dimmer tiny">
                   {row.share !== undefined
-                    ? `${Math.round(row.share * 100)}% of senior roles`
+                    ? `${Math.round(row.share * 100)}% of the senior roles you can take`
                     : `rarity ${Number(row.idf).toFixed(2)}`}
                 </span>
               )}

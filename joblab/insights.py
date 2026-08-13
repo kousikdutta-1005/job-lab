@@ -12,6 +12,7 @@ from collections import Counter
 from datetime import date, datetime, timezone
 
 from .benchmarks import benchmark_basis, benchmark_for
+from .config import has_term
 from .score import Profile
 
 
@@ -87,15 +88,33 @@ def _days_old(posted_at: str | None) -> int | None:
 
 def build_insights(jobs: list, profile: Profile, idf: dict[str, float], trends: dict | None, relocation: dict | None) -> dict:
     insights: list[dict] = []
-    senior_jobs = [job for job in jobs if job.seniority in {"senior", "lead", "staff", "principal"}]
+    # Roles you can actually take. The board is the eligible set, the portfolio
+    # criteria are scored against the eligible set, and this card says the terms
+    # "unlock" roles -- so it has to mean the same roles. Counting the whole
+    # crawl said "56% of the 173 senior roles on the board" on a screen whose
+    # nav read "Board 76", and it moved the numbers: strategy is in 56% of every
+    # senior posting crawled but 46% of the ones you can apply to, and vision
+    # 48% against 37%. Advice drawn from a market you were told you cannot
+    # reach is not advice.
+    senior_jobs = [
+        job
+        for job in jobs
+        if job.eligible and job.seniority in {"senior", "lead", "staff", "principal"}
+    ]
     profile_terms = set(profile.strengths)
 
     skill_counts: Counter[str] = Counter()
     examples: dict[str, list[dict]] = {}
-    for job in senior_jobs:
+    for job in sorted(senior_jobs, key=lambda j: -(j.match_score or 0)):
         for term in set(job.keywords) - profile_terms:
             skill_counts[term] += 1
-            examples.setdefault(term, []).append({"company": job.company, "title": job.title, "url": job.url})
+            shown = examples.setdefault(term, [])
+            # One row per company. Without this the same three employers filled
+            # every term's evidence, three times each, and the examples stopped
+            # telling the terms apart.
+            if any(row["company"] == job.company for row in shown):
+                continue
+            shown.append({"company": job.company, "title": job.title, "url": job.url})
 
     gaps = [
         {
@@ -126,8 +145,8 @@ def build_insights(jobs: list, profile: Profile, idf: dict[str, float], trends: 
             _insight(
                 "Close the highest-signal senior skill gaps",
                 f"These terms carry the most weight across senior-or-higher postings and are not in the public profile "
-                f"strengths — {share}% of the {len(senior_jobs)} senior roles on the board mention {lead['term']}. "
-                f"Ranked by how many senior roles each unlocks, discounted for how common the term is. "
+                f"strengths — {share}% of the {len(senior_jobs)} senior roles you can take mention {lead['term']}. "
+                f"Ranked by how many of those roles each unlocks, discounted for how common the term is. "
                 f"Treat them as portfolio proof points only if they are genuinely true.",
                 top,
                 # Confidence tracks the evidence, not how many rows fit on
@@ -169,8 +188,15 @@ def build_insights(jobs: list, profile: Profile, idf: dict[str, float], trends: 
             )
         )
 
-    mid_jobs = [job for job in jobs if job.seniority == "mid"]
-    seniorish = [job for job in jobs if job.seniority in {"senior", "lead", "staff", "principal"}]
+    # This card is a vocabulary difference between two rungs, so both sides have
+    # to be postings that actually said which rung they are. A req that stated
+    # nothing falls back to mid for matching purposes, and letting that fallback
+    # define mid-level language would have fed whole-ladder postings from Ramp,
+    # OpenAI and Anthropic into the baseline it measures the lift against --
+    # flattening the very difference the card exists to report.
+    stated = [job for job in jobs if getattr(job, "seniority_stated", True)]
+    mid_jobs = [job for job in stated if job.seniority == "mid"]
+    seniorish = [job for job in stated if job.seniority in {"senior", "lead", "staff", "principal"}]
     senior_df: Counter[str] = Counter(term for job in seniorish for term in set(job.keywords))
     mid_df: Counter[str] = Counter(term for job in mid_jobs for term in set(job.keywords))
     promotion_terms = []
@@ -181,11 +207,15 @@ def build_insights(jobs: list, profile: Profile, idf: dict[str, float], trends: 
         mid_share = mid_df.get(term, 0) / max(1, len(mid_jobs))
         lift = senior_share / max(0.01, mid_share)
         if lift >= 1.4:
-            examples = [
-                {"company": job.company, "title": job.title, "url": job.url}
-                for job in seniorish
-                if term in set(job.keywords)
-            ][:3]
+            examples = []
+            for job in seniorish:
+                if term not in set(job.keywords):
+                    continue
+                if any(row["company"] == job.company for row in examples):
+                    continue
+                examples.append({"company": job.company, "title": job.title, "url": job.url})
+                if len(examples) == 3:
+                    break
             promotion_terms.append(
                 {
                     "term": term,
@@ -203,27 +233,40 @@ def build_insights(jobs: list, profile: Profile, idf: dict[str, float], trends: 
         insights.append(
             _insight(
                 "Senior postings over-index on these skills",
-                f"Compared with mid-level postings, senior-or-higher roles disproportionately mention: {top_terms}. These are concrete portfolio themes for the next-level story.",
+                f"Compared with the {len(mid_jobs)} postings that call themselves mid-level, the {len(seniorish)} that call themselves senior or higher disproportionately mention: {top_terms}. Postings that never stated a level are left out of both sides. These are concrete portfolio themes for the next-level story.",
                 promotion_terms[:8],
                 "medium" if len(seniorish) >= 20 and len(mid_jobs) >= 10 else "low",
             )
         )
 
+    # Word matching, not substring matching. `strength in description_text` put
+    # "ai" in 322 of 330 postings -- 98% -- because it is inside detail, email,
+    # available, maintain, training and Chennai. This list is the sentence that
+    # tells you which claims to lead a pitch with, so an inflated count here
+    # reorders what you say about yourself.
     demanded_strengths = []
     for strength in profile.strengths:
         count = sum(
             1
             for job in jobs
             if strength in set(job.keywords)
-            or strength in (job.title or "").lower()
-            or strength in (job.description_text or "").lower()
+            or has_term(job.title, strength)
+            or has_term(job.description_text, strength)
         )
         demanded_strengths.append({"term": strength, "jobs": count, "share": round(count / max(1, len(jobs)), 3)})
     demanded_strengths.sort(key=lambda r: (-r["jobs"], r["term"]))
     if demanded_strengths:
         top = [r for r in demanded_strengths if r["jobs"] > 0][:8]
         low = [r for r in demanded_strengths if r["jobs"] == 0][:8]
-        body = "Your strongest market-aligned claims are " + ", ".join(f"{r['term']} ({r['jobs']} jobs)" for r in top[:5]) + "."
+        # Name the population. "266 jobs" beside a nav reading "Board 76" is a
+        # number without a denominator, and this crawl is much wider than the
+        # set you can apply to.
+        body = (
+            f"Across all {len(jobs)} postings crawled, not just the ones you can take, your "
+            "strongest market-aligned claims are "
+            + ", ".join(f"{r['term']} ({r['jobs']})" for r in top[:5])
+            + "."
+        )
         if low:
             body += " These profile strengths did not appear in this crawl and should not lead the pitch: " + ", ".join(r["term"] for r in low[:5]) + "."
         insights.append(

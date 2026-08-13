@@ -513,3 +513,31 @@ def detect_region_lock(*texts: str) -> str | None:
         if rx.search(blob):
             return code
     return None
+
+
+# One definition of "does this text use this term", shared by everything that
+# counts terms. Written as a negative lookaround rather than \b so that terms
+# ending in a symbol still work, with an optional plural so "design systems"
+# counts as "design system".
+#
+# The web app has the same rule in resume.ts as hasTerm(). Both exist because
+# a plain `term in text` check silently counted "ai" inside detail, email,
+# available, maintain, training and Chennai: it put "ai" in 322 of 330
+# postings, 98%, and drove the sentence telling you which of your strengths to
+# lead a pitch with.
+_TERM_CACHE: dict[str, re.Pattern[str]] = {}
+
+
+def term_pattern(term: str) -> re.Pattern[str]:
+    rx = _TERM_CACHE.get(term)
+    if rx is None:
+        rx = re.compile(rf"(?<![a-z0-9]){re.escape(term)}(?:s)?(?![a-z0-9])", re.I)
+        _TERM_CACHE[term] = rx
+    return rx
+
+
+def has_term(text: str | None, term: str) -> bool:
+    """Whether `text` uses `term` as a word, not as a run of letters."""
+    if not text or not term:
+        return False
+    return bool(term_pattern(term).search(text))
