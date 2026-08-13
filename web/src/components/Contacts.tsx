@@ -81,9 +81,28 @@ export function Contacts({
     )
   }, [contacts, query])
 
+  /* "Applied" has to mean the same thing here as it does in the funnel, which
+     counts a row only once date_applied is set. Building this from every row
+     regardless of stage badged a contact at a company you had merely
+     wishlisted with "you applied here" — and that badge is the context you
+     write the email from. Saved-but-not-sent is still worth knowing, so it
+     gets its own, honest label. */
   const companiesApplied = useMemo(
-    () => new Set(applications.map((a) => a.company.toLowerCase())),
+    () =>
+      new Set(
+        applications.filter((a) => a.date_applied).map((a) => a.company.toLowerCase()),
+      ),
     [applications],
+  )
+  const companiesSaved = useMemo(
+    () =>
+      new Set(
+        applications
+          .filter((a) => !a.date_applied)
+          .map((a) => a.company.toLowerCase())
+          .filter((c) => !companiesApplied.has(c)),
+      ),
+    [applications, companiesApplied],
   )
 
   function add(event: React.FormEvent) {
@@ -257,6 +276,11 @@ export function Contacts({
                     </td>
                     <td>
                       {contact.company}
+                      {companiesSaved.has(contact.company.toLowerCase()) && (
+                        <div>
+                          <span className="pill tiny">on your list, not applied</span>
+                        </div>
+                      )}
                       {companiesApplied.has(contact.company.toLowerCase()) && (
                         <div>
                           <span className="pill pill-good tiny">you applied here</span>

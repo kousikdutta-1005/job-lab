@@ -70,6 +70,18 @@ const CONTACTS = [
     notes: "No email found. Only route is a cold DM or the Linear community Slack.",
     added: day(5),
   },
+  {
+    // Freshworks is on the board as a wishlist row with no date_applied. This
+    // contact exists to prove the badge tells the truth about that.
+    id: "c-meera",
+    name: "Meera Iyer",
+    title: "Design Manager",
+    company: "Freshworks",
+    relationship: "employee",
+    linkedin_url: "https://www.linkedin.com/in/example-meera/",
+    notes: "Met at a meetup. Have not applied yet — systems case study first.",
+    added: day(3),
+  },
 ]
 
 const APPLICATIONS = [
@@ -578,6 +590,33 @@ if (await multi.count()) {
     if (!runOn) pass("no count sits directly against a percentage")
     else fail(`count runs into rate: "${runOn[0]}"`)
   } else fail("no funnel card on the applications view")
+}
+
+// "Applied" must mean the same thing on every surface. The funnel counts a row
+// only once date_applied is set; Contacts was building its badge from every
+// application regardless of stage, so a company you had merely wishlisted was
+// labelled "you applied here" — and that badge is the context you write the
+// email from.
+{
+  await page.locator(".nav button", { hasText: "Contacts" }).first().click()
+  await page.waitForTimeout(700)
+
+  const rowFor = (name) => page.locator("tr").filter({ hasText: name }).first()
+
+  const meera = await rowFor("Meera Iyer").innerText()
+  if (!/you applied here/.test(meera))
+    pass("a contact at a wishlisted company is not badged as applied")
+  else fail("Freshworks is a wishlist row but Meera is badged 'you applied here'")
+
+  if (/not applied/.test(meera)) pass("and is labelled as saved-but-not-applied instead")
+  else fail(`no honest label on the wishlist contact: ${meera.replace(/\n/g, " / ")}`)
+
+  const anita = await rowFor("Anita Raghavan").innerText()
+  if (/you applied here/.test(anita)) pass("a contact at a genuinely applied company keeps the badge")
+  else fail("Razorpay was applied to but Anita lost the badge")
+
+  if (!/not applied/.test(anita)) pass("and does not also carry the not-applied label")
+  else fail("Anita carries both labels at once")
 }
 
 await browser.close()
