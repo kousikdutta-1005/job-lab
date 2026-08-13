@@ -555,6 +555,31 @@ if (await multi.count()) {
   } else fail("no Resume tab on the job detail")
 }
 
+// A count set directly before a percentage reads as one number: "3 75%" is
+// indistinguishable from 375% in this font, and reviewing the app by pulling
+// innerText produced exactly that misreading. Every rate in the funnel is a
+// subset over its parent, so none can legitimately exceed 100.
+{
+  await page.locator(".nav button", { hasText: "Applications" }).first().click()
+  await page.waitForTimeout(600)
+  const card = page.locator(".card").filter({ hasText: "Where it is leaking" }).first()
+  if ((await card.count()) > 0) {
+    const text = await card.innerText()
+    const overs = (text.match(/(\d+)%/g) || [])
+      .map((m) => parseInt(m, 10))
+      .filter((n) => n > 100)
+    if (overs.length === 0) pass("no conversion rate in the funnel reads above 100%")
+    else fail(`funnel shows impossible rates: ${overs.join(", ")}%`)
+
+    if (/\(\d+% of /.test(text)) pass("each rate is bracketed so it cannot merge with the count")
+    else fail("funnel rates are not bracketed, so a count can run into a percentage")
+
+    const runOn = text.match(/\d\s\d+% of/)
+    if (!runOn) pass("no count sits directly against a percentage")
+    else fail(`count runs into rate: "${runOn[0]}"`)
+  } else fail("no funnel card on the applications view")
+}
+
 await browser.close()
 console.log(failures ? `\nFAIL — ${failures} problem(s)` : "\nPASS — seeded views all render")
 process.exit(failures ? 1 : 0)

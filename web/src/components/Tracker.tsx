@@ -304,11 +304,17 @@ export function Tracker({ applications, contacts, onChange, onOpenJob }: Props) 
                         {step.label}
                       </span>
                       <span className="tiny mono dimmer">
-                        {step.count}
+                        {/* A count set immediately before a percentage reads as
+                            one number: "3 75%" is indistinguishable from 375%
+                            at this size, and the rate is only coloured on the
+                            one row that has a benchmark. The count is brightened
+                            and the rate bracketed so the two can never merge,
+                            in pixels or in extracted text. */}
+                        <span style={{ color: "var(--ink-1)" }}>{step.count}</span>
                         {step.rate !== null && (
                           <span
                             style={{
-                              marginLeft: 8,
+                              marginLeft: 7,
                               color:
                                 step.benchmark !== null
                                   ? step.rate >= step.benchmark
@@ -317,10 +323,12 @@ export function Tracker({ applications, contacts, onChange, onOpenJob }: Props) 
                                   : undefined,
                             }}
                           >
+                            {"("}
                             {Math.round(step.rate * 100)}%
                             {step.benchmark !== null
                               ? ` of ${shape.steps[i - 1].label.toLowerCase()} · typical ${Math.round(step.benchmark * 100)}%`
                               : ` of ${shape.steps[i - 1].label.toLowerCase()}`}
+                            {")"}
                           </span>
                         )}
                       </span>
