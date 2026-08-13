@@ -7,10 +7,12 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "test": "node test/autofill.test.mjs && node test/smoke.test.mjs && node test/mobile.mjs",
+    "test": "node --experimental-strip-types test/funnel.test.mjs && node test/autofill.test.mjs && node test/smoke.test.mjs && node test/seeded.test.mjs && node test/mobile.mjs",
     "test:autofill": "node test/autofill.test.mjs",
     "test:smoke": "node test/smoke.test.mjs",
-    "test:mobile": "node test/mobile.mjs"
+    "test:mobile": "node test/mobile.mjs",
+    "test:funnel": "node --experimental-strip-types test/funnel.test.mjs",
+    "test:seeded": "node test/seeded.test.mjs"
   },
   "dependencies": {
     "react": "^19.2.0",

@@ -280,6 +280,12 @@ else fail(`applied count wrong — got: ${trackerText.slice(0, 200)}`)
 if (/follow|chase|waiting|nudge/i.test(trackerText)) pass("follow-up prompt surfaced")
 else fail("Postman was applied to 11 days ago with no chase and nothing prompted a follow-up")
 
+if (/Where it is leaking/.test(trackerText)) pass("funnel renders")
+else fail("no funnel on the applications view")
+// Six applications is below the point where a rate means anything; it must say so.
+if (/too few to read a pattern/i.test(trackerText)) pass("funnel refuses to read rates off 6 applications")
+else fail("funnel drew conclusions from a sample of six")
+
 await page.screenshot({ path: join(shots, "10-applications.png"), fullPage: true })
 
 // Furthest along first: an offer at the bottom of the pipeline is a design bug.

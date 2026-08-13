@@ -2,6 +2,7 @@ import { Fragment, useMemo, useState } from "react"
 import type { Application, Contact, Stage } from "@/lib/types"
 import { STAGES, today, uid } from "@/lib/store"
 import { ago, inr, logoFor } from "@/lib/format"
+import { funnel } from "@/lib/funnel"
 
 interface Props {
   applications: Application[]
@@ -129,7 +130,7 @@ export function Tracker({ applications, contacts, onChange, onOpenJob }: Props) 
     ).length,
     rejected: applications.filter((a) => a.stage === "rejected").length,
   }
-  const rate = stats.applied ? Math.round((stats.interviews / stats.applied) * 100) : 0
+  const shape = useMemo(() => funnel(applications), [applications])
 
   /* The detail lives directly under the row you clicked, not at the foot of
      the table — with twenty applications the old placement meant clicking a
@@ -280,17 +281,85 @@ export function Tracker({ applications, contacts, onChange, onOpenJob }: Props) 
             <div className="l">Still live</div>
           </div>
           <div className="stat">
-            <div className="n">{rate}%</div>
+            <div className="n">{stats.interviews}</div>
             <div className="l">Reached interview</div>
-            <div className="sub">
-              {stats.applied < 10
-                ? "Too few applications to read anything into this yet."
-                : rate >= 15
-                  ? "Above the usual 8–12%. Your targeting is working."
-                  : "Below the usual 8–12%. Tighten targeting before sending more."}
-            </div>
           </div>
         </div>
+
+        {stats.applied > 0 && (
+          <div className="card" style={{ marginBottom: 14 }}>
+            <h3 style={{ marginTop: 0 }}>Where it is leaking</h3>
+            <p className="tiny" style={{ color: "var(--ink-2)", marginTop: -2 }}>
+              {shape.verdict}
+            </p>
+
+            <div style={{ marginTop: 12 }}>
+              {shape.steps.map((step, i) => {
+                const top = shape.steps[0].count || 1
+                const width = Math.max(2, Math.round((step.count / top) * 100))
+                return (
+                  <div key={step.key} style={{ marginBottom: 9 }}>
+                    <div className="row-between" style={{ marginBottom: 3 }}>
+                      <span className="tiny" style={{ color: "var(--ink-2)" }}>
+                        {step.label}
+                      </span>
+                      <span className="tiny mono dimmer">
+                        {step.count}
+                        {step.rate !== null && (
+                          <span
+                            style={{
+                              marginLeft: 8,
+                              color:
+                                step.benchmark !== null
+                                  ? step.rate >= step.benchmark
+                                    ? "var(--good)"
+                                    : "var(--warn)"
+                                  : undefined,
+                            }}
+                          >
+                            {Math.round(step.rate * 100)}%
+                            {step.benchmark !== null
+                              ? ` of ${shape.steps[i - 1].label.toLowerCase()} · typical ${Math.round(step.benchmark * 100)}%`
+                              : ` of ${shape.steps[i - 1].label.toLowerCase()}`}
+                          </span>
+                        )}
+                      </span>
+                    </div>
+                    <div
+                      style={{
+                        height: 6,
+                        borderRadius: 3,
+                        background: "var(--bg-hover)",
+                        overflow: "hidden",
+                      }}
+                    >
+                      <div
+                        style={{
+                          height: "100%",
+                          width: `${width}%`,
+                          background:
+                            shape.weakest?.key === step.key ? "var(--warn)" : "var(--accent)",
+                          opacity: shape.weakest?.key === step.key ? 0.9 : 0.5,
+                        }}
+                      />
+                    </div>
+                    {step.reading && (
+                      <p className="tiny dimmer" style={{ margin: "5px 0 0" }}>
+                        {step.reading}
+                      </p>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+
+            {shape.enough && shape.steps[1].benchmarkNote && (
+              <p className="tiny dimmer" style={{ margin: "10px 0 0" }}>
+                {shape.steps[1].benchmarkNote}
+              </p>
+            )}
+          </div>
+        )}
 
         {needsFollowUp.length > 0 && (
           <div className="card" style={{ borderLeft: "2px solid var(--accent)" }}>
