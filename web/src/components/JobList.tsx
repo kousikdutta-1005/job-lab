@@ -32,6 +32,8 @@ interface Props {
   onWorkplace: (value: string | null) => void
   sort: Sort
   onSort: (value: Sort) => void
+  pinned: { ids: string[]; label: string } | null
+  onClearPinned: () => void
   place: string | null
   onClearPlace: () => void
   appByJob: Map<string, Application>
@@ -72,6 +74,8 @@ export function JobList({
   onWorkplace,
   sort,
   onSort,
+  pinned,
+  onClearPinned,
   place,
   onClearPlace,
   appByJob,
@@ -164,6 +168,12 @@ export function JobList({
             </button>
           ))}
         </div>
+
+        {pinned && (
+          <button className="chip on" onClick={onClearPinned} title="Show the whole board again">
+            {pinned.label} · {pinned.ids.length} ✕
+          </button>
+        )}
 
         {place && (
           <button className="chip on" onClick={onClearPlace}>

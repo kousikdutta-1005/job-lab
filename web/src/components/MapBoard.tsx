@@ -31,15 +31,32 @@ export function MapBoard({ world, places, jobs, selectedPlace, onSelectPlace, el
 
   const countries = useMemo(() => pathsFor(world), [world])
 
+  // The dots are counted from the roles actually on the board, not from the
+  // precomputed totals in places.json. Those totals are the whole corpus, so a
+  // rail filtered to twelve roles used to sit beside a dot claiming twenty-nine
+  // in one city. places.json still supplies the coordinates and the labels.
+  const live = useMemo(() => {
+    const counts = new Map<string, { jobs: number; eligible: number }>()
+    for (const job of jobs) {
+      for (const point of job.points) {
+        const row = counts.get(point.label) ?? { jobs: 0, eligible: 0 }
+        row.jobs += 1
+        if (job.eligible) row.eligible += 1
+        counts.set(point.label, row)
+      }
+    }
+    return places.map((p) => ({ ...p, ...(counts.get(p.label) ?? { jobs: 0, eligible: 0 }) }))
+  }, [places, jobs])
+
   const withJobs = useMemo(() => {
     const set = new Set<string>()
-    for (const place of places) if (place.jobs > 0) set.add(place.country)
+    for (const place of live) if (place.jobs > 0) set.add(place.country)
     return set
-  }, [places])
+  }, [live])
 
   const visible = useMemo(
-    () => places.filter((p) => (eligibleOnly ? p.eligible > 0 : p.jobs > 0)),
-    [places, eligibleOnly],
+    () => live.filter((p) => (eligibleOnly ? p.eligible > 0 : p.jobs > 0)),
+    [live, eligibleOnly],
   )
 
   const maxJobs = useMemo(

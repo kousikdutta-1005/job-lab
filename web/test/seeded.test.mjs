@@ -464,6 +464,39 @@ const ghostTags = await page.locator(".tag-stale").count()
 if (ghostTags === badAges.length) pass(`the ghost tag rides only with a bad age (${ghostTags})`)
 else fail(`ghost tags ${ghostTags} but ${badAges.length} bad ages`)
 
+// A Today card about twelve roles has to hand the board all twelve. It used to
+// pass the first one's id and its score, so the card claimed a single score and
+// the button opened one role out of the set it had just described.
+await page.click('.nav button:has-text("Today")')
+await page.waitForTimeout(700)
+const multi = page.locator(".card").filter({ hasText: /\d+ strong roles are past the month mark/ }).first()
+if (await multi.count()) {
+  const text = await multi.innerText()
+  const claimed = Number(text.match(/(\d+) strong roles/)?.[1] ?? 0)
+  if (/\d+ roles · scores \d+ to \d+/.test(text)) pass("the collapsed card reports a score range, not one score")
+  else fail(`collapsed card evidence reads: ${text.split("\n").slice(-2)[0]}`)
+
+  await multi.locator("button").last().click()
+  await page.waitForTimeout(900)
+  const landed = await page.locator(".job-row").count()
+  if (landed === claimed) pass(`the card about ${claimed} roles opens all ${claimed}`)
+  else fail(`card claimed ${claimed} roles, board showed ${landed}`)
+
+  const dotTotal = await page.locator(".place-count").evaluateAll((ns) =>
+    ns.map((n) => parseInt(n.textContent || "0", 10) || 0).reduce((a, b) => a + b, 0))
+  if (dotTotal <= landed) pass(`the map counts no more than the rail (${dotTotal} <= ${landed})`)
+  else fail(`map dots total ${dotTotal} exceeds the ${landed} roles on the rail`)
+
+  const chip = page.locator(".chip.on").filter({ hasText: "Past the month" })
+  if (await chip.count()) {
+    await chip.click()
+    await page.waitForTimeout(700)
+    const restored = await page.locator(".job-row").count()
+    if (restored > landed) pass(`clearing the pin restores the board (${restored})`)
+    else fail(`board still shows ${restored} after clearing the pin`)
+  } else fail("no clearable chip for the pinned set")
+}
+
 await browser.close()
 console.log(failures ? `\nFAIL — ${failures} problem(s)` : "\nPASS — seeded views all render")
 process.exit(failures ? 1 : 0)

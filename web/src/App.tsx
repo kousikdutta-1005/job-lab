@@ -64,6 +64,9 @@ export default function App() {
 
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [place, setPlace] = useState<string | null>(null)
+  // A Today card about several roles hands the whole set over, so the board
+  // shows exactly what the card was talking about instead of one of them.
+  const [pinned, setPinned] = useState<{ ids: string[]; label: string } | null>(null)
   const [query, setQuery] = useState("")
   const savedBoard = loadBoard()
   const [eligibleOnly, setEligibleOnly] = useState(savedBoard.eligibleOnly)
@@ -99,23 +102,33 @@ export default function App() {
 
   const jobs = bundle?.data.jobs ?? []
 
-  const filtered = useMemo(() => {
+  // Everything except the map's own filter. A facet must not filter itself, or
+  // clicking Bengaluru would collapse the map to a single dot with no way back.
+  // Everything else has to apply, though: a rail showing 12 roles beside a map
+  // counting 29 in one city is the app disagreeing with itself on one screen.
+  const onMap = useMemo(() => {
     const q = query.trim().toLowerCase()
     const hidden = new Set(dismissed)
-
-    const rows = jobs.filter((job) => {
+    return jobs.filter((job) => {
       if (!showDismissed && hidden.has(job.id)) return false
       if (showDismissed && !hidden.has(job.id)) return false
       if (eligibleOnly && !job.eligible) return false
       if (seniority && job.seniority !== seniority) return false
       if (workplace && job.workplace !== workplace) return false
-      if (place === "__remote__" && job.workplace !== "remote") return false
-      if (place && place !== "__remote__" && !job.points.some((p) => p.label === place))
-        return false
+      if (pinned && !pinned.ids.includes(job.id)) return false
       if (q) {
         const hay = `${job.title} ${job.company} ${job.location_raw} ${job.keywords.join(" ")}`
         if (!hay.toLowerCase().includes(q)) return false
       }
+      return true
+    })
+  }, [jobs, query, eligibleOnly, seniority, workplace, pinned, dismissed, showDismissed])
+
+  const filtered = useMemo(() => {
+    const rows = onMap.filter((job) => {
+      if (place === "__remote__" && job.workplace !== "remote") return false
+      if (place && place !== "__remote__" && !job.points.some((p) => p.label === place))
+        return false
       return true
     })
 
@@ -131,7 +144,7 @@ export default function App() {
     }
 
     return [...rows].sort(sorters[sort])
-  }, [jobs, query, eligibleOnly, seniority, workplace, place, sort, dismissed, showDismissed])
+  }, [onMap, place, sort])
 
   const selected = useMemo(
     () => jobs.find((j) => j.id === selectedId) ?? null,
@@ -222,7 +235,14 @@ export default function App() {
   }
 
   function handleAction(action: Action): void {
+    if (action.jobIds?.length) {
+      setPinned({ ids: action.jobIds, label: action.setLabel ?? "From Today" })
+      setSelectedId(null)
+      setView("board")
+      return
+    }
     if (action.jobId) {
+      setPinned(null)
       setSelectedId(action.jobId)
       setView("board")
       return
@@ -346,6 +366,8 @@ export default function App() {
               onSeniority={setSeniority}
               workplace={workplace}
               onWorkplace={setWorkplace}
+              pinned={pinned}
+              onClearPinned={() => setPinned(null)}
               sort={sort}
               onSort={setSort}
               place={place}
@@ -375,7 +397,7 @@ export default function App() {
               <MapBoard
                 world={bundle.world}
                 places={bundle.data.places}
-                jobs={jobs}
+                jobs={onMap}
                 selectedPlace={place}
                 onSelectPlace={setPlace}
                 eligibleOnly={eligibleOnly}

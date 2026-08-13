@@ -39,6 +39,9 @@ export interface Action {
   detail: string
   evidence?: string
   jobId?: string
+  /** A card about several roles hands the board the whole set, not the first one. */
+  jobIds?: string[]
+  setLabel?: string
   view?: "board" | "tracker" | "contacts" | "settings" | "pay" | "negotiate" | "portfolio"
 }
 
@@ -268,8 +271,12 @@ function expiring(jobs: Job[], applications: Application[]): Action[] {
             .map((c) => `${c.job.company} (${c.job.quality?.days_open ?? daysAgo(c.job.posted_at)}d)`)
             .join(", ")}. Design shortlists are usually drawn inside a month, so these are either hard to fill — which is leverage — or being kept warm. One line to the recruiter asking where they are in the process costs a minute and decides all of them.`
         : `Open ${age} days. Past the month where shortlists usually close, so ask whether it is still live before you spend an hour tailoring for it.`,
-      evidence: `Scores ${first.job.match_score}`,
-      jobId: first.job.id,
+      evidence: rest.length
+        ? `${closing.length} roles · scores ${Math.max(...closing.map((c) => c.job.match_score))} to ${Math.min(...closing.map((c) => c.job.match_score))}`
+        : `Scores ${first.job.match_score}`,
+      jobId: rest.length ? undefined : first.job.id,
+      jobIds: rest.length ? closing.map((c) => c.job.id) : undefined,
+      setLabel: rest.length ? "Past the month mark" : undefined,
       view: "board",
     })
   }
@@ -287,8 +294,12 @@ function expiring(jobs: Job[], applications: Application[]): Action[] {
         .slice(0, 4)
         .map((c) => `${c.job.company} (${Math.round((c.job.quality?.days_open ?? 0) / 30)}mo)`)
         .join(", ")}. Around a fifth of listings are ghosts, and age is the strongest signal available from outside. Do not tailor for these. Send two lines to someone on the team and let the silence answer it.`,
-      evidence: `Scores ${first.job.match_score}`,
-      jobId: first.job.id,
+      evidence: rest.length
+        ? `${suspect.length} roles · scores ${Math.max(...suspect.map((c) => c.job.match_score))} to ${Math.min(...suspect.map((c) => c.job.match_score))}`
+        : `Scores ${first.job.match_score}`,
+      jobId: rest.length ? undefined : first.job.id,
+      jobIds: rest.length ? suspect.map((c) => c.job.id) : undefined,
+      setLabel: rest.length ? "Might be ghosts" : undefined,
       view: "board",
     })
   }

@@ -43,7 +43,7 @@ const LABEL_FOR: Partial<Record<ActionKind, string>> = {
   offer: "Read the offer",
   interview: "Prepare",
   apply: "Open the role",
-  expiring: "Look at these",
+  expiring: "Open the role",
   follow_up: "Open applications",
   network: "Find someone",
   portfolio: "Check the portfolio",
@@ -143,7 +143,9 @@ export function TodayView({
               <span className="tiny dimmer">{action.evidence ?? ""}</span>
               {action.view && (
                 <button className="btn btn-sm" onClick={() => onGo(action)}>
-                  {LABEL_FOR[action.kind] ?? "Fix it"}
+                  {action.jobIds?.length
+                    ? `Show all ${action.jobIds.length}`
+                    : LABEL_FOR[action.kind] ?? "Fix it"}
                 </button>
               )}
             </div>
