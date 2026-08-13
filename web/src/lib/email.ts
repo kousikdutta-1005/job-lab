@@ -6,6 +6,7 @@
  * job. Every draft therefore quotes something only this posting contains.
  */
 
+import { hasTerm } from "./resume"
 import type { Job, Settings } from "./types"
 
 export interface Draft {
@@ -29,6 +30,49 @@ export function hooks(job: Job, idf: Record<string, number>, count = 3): string[
     .map((entry) => entry.term)
 }
 
+/**
+ * What this posting asks for that you can actually stand behind.
+ *
+ * hooks() answers "what is distinctive about this job". That is the right
+ * input for "the parts about X made me write", which is a statement about the
+ * posting. It is the wrong input for "strongest on X", which is a statement
+ * about you — and the drafts used it for both. The result was an email to a
+ * hiring manager claiming the user was strongest on the two terms the resume
+ * panel had, on the previous tab, listed as their biggest gaps.
+ *
+ * Evidence is the resume first, then the profile. Nothing else may be claimed.
+ */
+export function claimable(
+  job: Job,
+  idf: Record<string, number>,
+  resume = "",
+  strengths: string[] = [],
+  count = 3,
+): string[] {
+  const body = resume.toLowerCase().replace(/\s+/g, " ")
+  const claimed = new Set(strengths.map((s) => s.toLowerCase().trim()))
+  return Array.from(new Set(job.keywords))
+    .map((term) => {
+      const t = term.toLowerCase()
+      return {
+        term,
+        weight: idf[term] ?? 1,
+        // Two tiers, not one. The resume is the document you attach to this
+        // email, so a term it contains is corroborated the moment they open
+        // it. A profile-only claim is still yours to make, but it leaves the
+        // reader holding a resume that never mentions the thing you led with.
+        inResume: hasTerm(body, t),
+        inProfile: claimed.has(t),
+      }
+    })
+    .filter((e) => e.inResume || e.inProfile)
+    .sort((a, b) =>
+      a.inResume === b.inResume ? b.weight - a.weight : a.inResume ? -1 : 1,
+    )
+    .slice(0, count)
+    .map((entry) => entry.term)
+}
+
 function signature(me: Settings): string {
   const lines = [me.full_name || "—"]
   if (me.portfolio) lines.push(me.portfolio)
@@ -46,9 +90,14 @@ export function drafts(
   me: Settings,
   idf: Record<string, number>,
   contactName = "there",
+  strengths: string[] = [],
 ): Draft[] {
   const topics = hooks(job, idf)
   const focus = topics.slice(0, 2).join(" and ") || "the problems this team is working on"
+  // What drew you to the role can be anything the posting says. What you are
+  // strongest at has to be something you can show.
+  const proven = claimable(job, idf, me.resume_text || "", strengths, 2)
+  const strength = proven.join(" and ")
   const years = me.years || 5
   const portfolio = me.portfolio || "my portfolio"
   const who = firstName(me)
@@ -86,7 +135,9 @@ No pressure at all — if you do not know the team or would rather not, that is 
 
 If you do know them, would you be willing to pass my name along? Everything you would need is here: ${portfolio}
 
-Short version: ${years} years in product design, strongest on ${focus}.
+Short version: ${years} years in product design${
+        strength ? `, strongest on ${strength}` : ""
+      }.
 
 Thanks either way,
 ${who}`,
@@ -102,7 +153,9 @@ I have applied for the ${job.title} role${
         job.location_raw ? ` in ${job.location_raw}` : ""
       } and wanted to put a face to the application.
 
-${years} years in product design. The overlap with your posting is closest on ${focus}. Portfolio and case studies: ${portfolio}
+${years} years in product design.${
+        strength ? ` The overlap with your posting is closest on ${strength}.` : ""
+      } Portfolio and case studies: ${portfolio}
 
 If the role has already moved on, I would still be glad to be kept in mind for design work at ${job.company}.
 
@@ -140,10 +193,16 @@ export function linkedinDrafts(
   idf: Record<string, number>,
   contactName = "there",
   contactTitle = "",
+  strengths: string[] = [],
 ): Draft[] {
   const who = firstName(me)
   const topics = job ? hooks(job, idf, 2) : []
-  const focus = topics[0] ?? "the work your team is doing"
+  // "mostly X" is a claim about your career, so it needs the same evidence the
+  // email drafts need. Falling back to a JD term would put a stranger's words
+  // in your mouth in a note you cannot edit after sending.
+  const proven = job ? claimable(job, idf, me.resume_text || "", strengths, 1) : []
+  const focus = proven[0] ?? topics[0] ?? "the work your team is doing"
+  const honest = proven.length > 0
   const years = me.years || 5
   const company = job?.company ?? "your team"
   const role = job?.title ?? "design roles"
@@ -154,10 +213,10 @@ export function linkedinDrafts(
      to send a longer note. So the note is built in descending order of what
      matters and the first version that fits is the one you get. */
   const connect = [
-    `Hi ${first} — I'm applying for the ${role} role at ${company}. ${years} years in product design, mostly ${focus}. Not asking you to do anything with it; I'd just rather the application had a face attached. Work is at ${
+    `Hi ${first} — I'm applying for the ${role} role at ${company}. ${years} years in product design${honest ? `, mostly ${focus}` : ""}. Not asking you to do anything with it; I'd just rather the application had a face attached. Work is at ${
       me.portfolio || "my profile"
     }.`,
-    `Hi ${first} — I'm applying for the ${role} role at ${company}. ${years} years in product design, mostly ${focus}. Work is at ${
+    `Hi ${first} — I'm applying for the ${role} role at ${company}. ${years} years in product design${honest ? `, mostly ${focus}` : ""}. Work is at ${
       me.portfolio || "my profile"
     }.`,
     `Hi ${first} — applying for the ${role} role at ${company}. ${years} years in product design. ${

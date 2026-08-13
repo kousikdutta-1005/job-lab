@@ -9,6 +9,7 @@ interface Props {
   applications: Application[]
   jobs: Job[]
   settings: Settings
+  strengths: string[]
   idf: Record<string, number>
   onChange: (rows: Contact[]) => void
 }
@@ -31,7 +32,15 @@ const BLANK = {
   notes: "",
 }
 
-export function Contacts({ contacts, applications, jobs, settings, idf, onChange }: Props) {
+export function Contacts({
+  contacts,
+  applications,
+  jobs,
+  settings,
+  strengths,
+  idf,
+  onChange,
+}: Props) {
   const [form, setForm] = useState(BLANK)
   const [query, setQuery] = useState("")
   const [editing, setEditing] = useState<string | null>(null)
@@ -59,7 +68,7 @@ export function Contacts({ contacts, applications, jobs, settings, idf, onChange
 
   function draftsFor(contact: Contact) {
     const job = jobFor(contact)
-    const li = linkedinDrafts(job, settings, idf, contact.name, contact.title)
+    const li = linkedinDrafts(job, settings, idf, contact.name, contact.title, strengths)
     const mail = job ? emailDrafts(job, settings, idf, contact.name.split(/\s+/)[0] || "there") : []
     return { job, all: [...li, ...mail] }
   }

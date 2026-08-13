@@ -69,7 +69,7 @@ function normalise(text: string): string {
     .replace(/\s+/g, " ")
 }
 
-function hasTerm(haystack: string, term: string): boolean {
+export function hasTerm(haystack: string, term: string): boolean {
   const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
   return new RegExp(`(?<![a-z0-9])${escaped}(?![a-z0-9])`, "i").test(haystack)
 }

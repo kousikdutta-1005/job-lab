@@ -64,7 +64,7 @@ export function JobDetail({
   )
 
   const allDrafts = useMemo(
-    () => drafts(job, settings, idf, person.first || "there"),
+    () => drafts(job, settings, idf, person.first || "there", profile.strengths ?? []),
     [job, settings, idf, person.first],
   )
   const draft = allDrafts.find((d) => d.key === draftKey) ?? allDrafts[0]

@@ -445,6 +445,7 @@ export default function App() {
             applications={applications}
             jobs={bundle.data.jobs}
             settings={settings}
+            strengths={bundle.profile.strengths ?? []}
             idf={bundle.idf}
           />
         )}

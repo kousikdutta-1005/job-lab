@@ -268,9 +268,19 @@ def email_guesses(
             f"The domain does accept mail ({mail['provider']}), so a wrong guess should bounce "
             "quickly rather than disappear."
         )
-    else:
+    elif mail.get("checked"):
         confidence = "unusable"
         note = "This domain has no mail records, so do not expect any address at it to work."
+    else:
+        # The DNS query itself failed. That is not evidence of anything about
+        # the domain, and reporting it as "no mail records" would talk you out
+        # of a working outreach route because a network call timed out.
+        confidence = "guess"
+        note = (
+            "No published address found, so these are the standard patterns, most common "
+            "first. The mail-server check did not complete this crawl, so treat a silent "
+            "send as unproven rather than delivered."
+        )
 
     return {
         "domain": domain,
