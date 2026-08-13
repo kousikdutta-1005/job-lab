@@ -92,18 +92,30 @@ def attach_quality(jobs: list[Job], *, today: date | None = None, history_dir: P
 
         days_open = None
         days_open_basis = "not_enough_job_history"
+        # The employer's own posted date beats our first sighting whenever it
+        # is older. Local history cannot predate the first crawl, so preferring
+        # it reported every posting on the board as "open 0 days" — including
+        # one that Workday said had been up for 392 days. Take the earlier of
+        # the two: a posting seen before its stated date is a repost, and a
+        # posting stated older than our history is genuinely older.
+        ats_days = None
+        if job.posted_at:
+            try:
+                ats_days = max(0, (today - date.fromisoformat(job.posted_at[:10])).days)
+            except ValueError:
+                ats_days = None
+
+        seen_days = None
         if first_seen:
             try:
-                days_open = (today - date.fromisoformat(first_seen)).days
-                days_open_basis = "first_seen_in_history"
+                seen_days = (today - date.fromisoformat(first_seen)).days
             except ValueError:
-                pass
-        elif job.posted_at:
-            try:
-                days_open = max(0, (today - date.fromisoformat(job.posted_at[:10])).days)
-                days_open_basis = "ats_posted_date"
-            except ValueError:
-                pass
+                seen_days = None
+
+        if ats_days is not None and (seen_days is None or ats_days > seen_days):
+            days_open, days_open_basis = ats_days, "ats_posted_date"
+        elif seen_days is not None:
+            days_open, days_open_basis = seen_days, "first_seen_in_history"
 
         repost_count = None
         always_open = None
@@ -124,8 +136,8 @@ def attach_quality(jobs: list[Job], *, today: date | None = None, history_dir: P
         caveats = []
         if history_days < 7 or len(keyed_rows) < 3:
             caveats.append("history is too short for repost or always-open claims")
-        if days_open_basis == "ats_posted_date":
-            caveats.append("age uses ATS posted date because first-seen history is unavailable")
+        if days_open_basis == "ats_posted_date" and history_days < 7:
+            caveats.append("age is the employer's stated posted date, not our own observation")
         if specificity < 0.35:
             caveats.append("description is fairly generic")
 

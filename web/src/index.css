@@ -1222,3 +1222,27 @@ input[type="checkbox"] {
   accent-color: var(--accent);
   cursor: pointer;
 }
+
+/* --- Is this posting worth an hour? ------------------------------------ */
+/* Coloured on the left edge only. A whole card tinted red reads as an error
+   in the app rather than a judgement about the job. */
+.vet { border-left: 3px solid var(--line); }
+.vet-good { border-left-color: var(--good); }
+.vet-warn { border-left-color: var(--warn); }
+.vet-bad { border-left-color: var(--bad); }
+.vet-advice { color: var(--ink-2); margin: -4px 0 12px; max-width: 62ch; }
+.vet-grid { display: grid; gap: 10px; }
+.vet-row {
+  border-top: 1px solid var(--line);
+  padding-top: 9px;
+}
+.vet-row:first-child { border-top: 0; padding-top: 0; }
+.vet-head { display: flex; align-items: baseline; gap: 8px; }
+.vet-head strong { font-size: 13px; }
+.vet-row.tone-good .vet-head strong { color: var(--good); }
+.vet-row.tone-warn .vet-head strong { color: var(--warn); }
+.vet-row.tone-bad .vet-head strong { color: var(--bad); }
+.vet-row p { margin: 4px 0 0; color: var(--ink-2); max-width: 62ch; }
+.vet-src { color: var(--ink-3); text-decoration: none; display: inline-block; margin-top: 3px; }
+a.vet-src { border-bottom: 1px dotted var(--line); }
+a.vet-src:hover { color: var(--accent); }

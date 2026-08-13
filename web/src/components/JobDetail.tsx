@@ -1,13 +1,15 @@
 import { useMemo, useState } from "react"
-import type { Application, CompanyInfo, Contact, Job, Settings } from "@/lib/types"
+import type { Application, CompanyDossier, CompanyInfo, Contact, Job, Settings } from "@/lib/types"
 import { ago, copy, logoFor, money, scoreClass } from "@/lib/format"
 import { drafts, mailto, renderPattern } from "@/lib/email"
 import { matchResume } from "@/lib/resume"
 import { agenda, likelyQuestions, portfolioPlan } from "@/lib/prep"
+import { vet } from "@/lib/vetting"
 
 interface Props {
   job: Job
   company?: CompanyInfo
+  dossier?: CompanyDossier
   settings: Settings
   idf: Record<string, number>
   application?: Application
@@ -24,6 +26,7 @@ type Tab = "role" | "match" | "people" | "write" | "prep"
 export function JobDetail({
   job,
   company,
+  dossier,
   settings,
   idf,
   application,
@@ -39,6 +42,8 @@ export function JobDetail({
   const [copied, setCopied] = useState<string | null>(null)
   const [draftKey, setDraftKey] = useState("hiring_manager")
   const [person, setPerson] = useState({ first: "", last: "" })
+
+  const vetting = useMemo(() => vet(job, dossier), [job, dossier])
 
   const match = useMemo(
     () => (settings.resume_text ? matchResume(settings.resume_text, job, idf) : null),
@@ -158,6 +163,30 @@ export function JobDetail({
 
         {tab === "role" && (
           <>
+            <div className={`card vet vet-${vetting.tone}`}>
+              <h3>{vetting.headline}</h3>
+              <p className="tiny vet-advice">{vetting.advice}</p>
+              <div className="vet-grid">
+                {vetting.signals.map((signal) => (
+                  <div key={signal.label + signal.value} className={`vet-row tone-${signal.tone}`}>
+                    <div className="vet-head">
+                      <span className="kicker">{signal.label}</span>
+                      <strong>{signal.value}</strong>
+                    </div>
+                    {signal.note && <p className="tiny">{signal.note}</p>}
+                    {signal.source &&
+                      (signal.source.startsWith("http") ? (
+                        <a className="tiny vet-src" href={signal.source} target="_blank" rel="noreferrer">
+                          source
+                        </a>
+                      ) : (
+                        <span className="tiny vet-src">from {signal.source}</span>
+                      ))}
+                  </div>
+                ))}
+              </div>
+            </div>
+
             <div className="card">
               <h3>Why this ranks {job.match_score}</h3>
               <ul className="reasons">

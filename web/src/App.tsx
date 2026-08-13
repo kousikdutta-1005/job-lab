@@ -45,6 +45,10 @@ type View =
   | "negotiate"
   | "settings"
 
+/** Dossiers are keyed by the crawler's company slug. */
+const slugFor = (name: string) =>
+  name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")
+
 export default function App() {
   const [authed, setAuthed] = useState(hasSession())
   const [bundle, setBundle] = useState<Bundle | null>(null)
@@ -338,6 +342,7 @@ export default function App() {
               <JobDetail
                 job={selected}
                 company={bundle.data.companies[selected.company]}
+                dossier={bundle.dossiers[slugFor(selected.company)]}
                 settings={settings}
                 idf={bundle.idf}
                 application={appByJob.get(selected.id)}
