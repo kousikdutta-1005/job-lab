@@ -7,6 +7,22 @@ that returns real postings and enough identity/location data to verify a board.
 - Freshteam: public customer pages such as `browserstack.freshteam.com/jobs`
   returned HTML, and `jobs.json` did not return JSON. Rejected for now because
   parsing rendered HTML would weaken the crawler's machine-readable-source rule.
+- Teamtailor: added. Tenant feeds expose a public JSON Feed at
+  `https://{tenant}/jobs.json` with schema.org JobPosting data, including
+  hiring organization, posting URL, description, date and locations. Verified
+  against `career.teamtailor.com/jobs.json`.
+- BambooHR: added. Public boards expose `https://{tenant}.bamboohr.com/careers/list`
+  and per-job unauthenticated JSON at `/careers/{id}/detail`. The verifier keeps
+  the demo-account rejection because BambooHR tenants often leave sample jobs
+  online.
+- Personio: `*.jobs.personio.de/xml` and `search.json` routes returned a Vercel
+  Security Checkpoint / HTTP 429 in this environment. Rejected for automation
+  until the public XML endpoint can be fetched reliably from GitHub Actions.
+- Jobvite: public pages redirected invalid tenants to job-seeker support and no
+  stable no-auth JSON endpoint was verified during this pass. Rejected until a
+  concrete tenant API URL is proven.
+- iCIMS: many tenants expose HTML careers portals, but no shared public JSON
+  contract with enough identity/location data was verified in this pass.
 - Darwinbox: public career pages vary by tenant and did not expose a consistent
   unauthenticated JSON jobs endpoint during this pass. Rejected until a stable
   public endpoint is verified.

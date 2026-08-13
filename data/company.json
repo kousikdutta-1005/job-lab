@@ -1,0 +1,4583 @@
+{
+  "companies": {
+    "acko": {
+      "domain": "acko.com",
+      "facts": {},
+      "name": "Acko"
+    },
+    "adobe": {
+      "domain": "adobe.com",
+      "facts": {
+        "employee_count": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "25988"
+        },
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "1982-02-28"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "San Jose"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "artificial intelligence"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.adobe.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q11463"
+        }
+      },
+      "name": "Adobe"
+    },
+    "airbnb": {
+      "domain": "airbnb.com",
+      "facts": {
+        "employee_count": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "5597"
+        },
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2008-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "San Francisco"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "tourism industry"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.airbnb.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q63327"
+        }
+      },
+      "name": "Airbnb"
+    },
+    "airmeet": {
+      "domain": "airmeet.com",
+      "facts": {
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "video conference"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.airmeet.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q107243109"
+        }
+      },
+      "name": "Airmeet"
+    },
+    "airtable": {
+      "domain": "airtable.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2012-01-01"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://airtable.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q23016614"
+        }
+      },
+      "name": "Airtable"
+    },
+    "algolia": {
+      "domain": "algolia.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2012-10-08"
+        },
+        "github_open_source_signal": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/algolia",
+          "value": true
+        },
+        "github_org": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/algolia",
+          "value": "algolia"
+        },
+        "github_public_repos": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/algolia",
+          "value": 543
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Paris"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "wholesale (business-to-business) of computers, computer peripheral equipment and software"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "http://www.algolia.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q17150241"
+        }
+      },
+      "name": "Algolia"
+    },
+    "amagi": {
+      "domain": "amagi.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "1961-01-01"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.town.amagi.lg.jp/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q1350711"
+        }
+      },
+      "name": "Amagi"
+    },
+    "amplitude": {
+      "domain": "amplitude.com",
+      "facts": {
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://amplitude.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q81969219"
+        }
+      },
+      "name": "Amplitude"
+    },
+    "anduril": {
+      "domain": "anduril.com",
+      "facts": {
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "http://anduril.org/site/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q4760313"
+        }
+      },
+      "name": "Anduril"
+    },
+    "angel-one": {
+      "domain": "angelone.in",
+      "facts": {},
+      "name": "Angel One"
+    },
+    "anthropic": {
+      "domain": "anthropic.com",
+      "facts": {
+        "employee_count": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2500"
+        },
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2021-01-26"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "San Francisco"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "artificial intelligence"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.anthropic.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q116758847"
+        }
+      },
+      "name": "Anthropic"
+    },
+    "appsmith": {
+      "domain": "appsmith.com",
+      "facts": {},
+      "name": "Appsmith"
+    },
+    "asana": {
+      "domain": "asana.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2011-01-01"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://asana.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q4468073"
+        }
+      },
+      "name": "Asana"
+    },
+    "atlan": {
+      "domain": "atlan.com",
+      "facts": {
+        "employee_count": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "556"
+        },
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2019-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "New York City"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "artificial intelligence"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://atlan.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q137792087"
+        }
+      },
+      "name": "Atlan"
+    },
+    "atlassian": {
+      "domain": "atlassian.com",
+      "facts": {
+        "employee_count": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "4907"
+        },
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2002-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Sydney"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "software industry"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.atlassian.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q757307"
+        }
+      },
+      "name": "Atlassian"
+    },
+    "attentive": {
+      "domain": "attentive.com",
+      "facts": {},
+      "name": "Attentive"
+    },
+    "autodesk": {
+      "domain": "autodesk.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "1982-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "San Francisco"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "software development"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.autodesk.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q628051"
+        }
+      },
+      "name": "Autodesk"
+    },
+    "automattic": {
+      "domain": "automattic.com",
+      "facts": {
+        "employee_count": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "940"
+        },
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2005-01-01"
+        },
+        "github_open_source_signal": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/automattic",
+          "value": true
+        },
+        "github_org": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/automattic",
+          "value": "Automattic"
+        },
+        "github_public_repos": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/automattic",
+          "value": 1388
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "San Francisco"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Internet"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://automattic.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q2872634"
+        }
+      },
+      "name": "Automattic"
+    },
+    "baseten": {
+      "domain": "baseten.co",
+      "facts": {},
+      "name": "Baseten"
+    },
+    "boat": {
+      "domain": "boat-lifestyle.com",
+      "facts": {},
+      "name": "boAt"
+    },
+    "braze": {
+      "domain": "braze.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2011-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "New York City"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "software industry"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.braze.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q20880554"
+        }
+      },
+      "name": "Braze"
+    },
+    "brex": {
+      "domain": "brex.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2017-01-03"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "San Francisco"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "fintech"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "http://brex.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q60741065"
+        }
+      },
+      "name": "Brex"
+    },
+    "browserstack": {
+      "domain": "browserstack.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2011-01-01"
+        },
+        "github_open_source_signal": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/browserstack",
+          "value": true
+        },
+        "github_org": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/browserstack",
+          "value": "browserstack"
+        },
+        "github_public_repos": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/browserstack",
+          "value": 263
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.browserstack.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q22906936"
+        }
+      },
+      "name": "BrowserStack"
+    },
+    "buffer": {
+      "domain": "buffer.com",
+      "facts": {
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://buffer.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q15633715"
+        }
+      },
+      "name": "Buffer"
+    },
+    "cal-com": {
+      "domain": "cal.com",
+      "facts": {
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://cal.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q134218991"
+        }
+      },
+      "name": "Cal.com"
+    },
+    "calendly": {
+      "domain": "calendly.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2013-01-01"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://calendly.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q111946817"
+        }
+      },
+      "name": "Calendly"
+    },
+    "canva": {
+      "domain": "canva.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2013-01-01"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.canva.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q23498528"
+        }
+      },
+      "name": "Canva"
+    },
+    "capillary-technologies": {
+      "domain": "capillarytech.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2008-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Singapore"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "retail"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "http://www.capillarytech.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q5035390"
+        }
+      },
+      "name": "Capillary Technologies"
+    },
+    "cardekho": {
+      "domain": "cardekho.com",
+      "facts": {},
+      "name": "CarDekho"
+    },
+    "cars24": {
+      "domain": "cars24.com",
+      "facts": {},
+      "name": "Cars24"
+    },
+    "carta": {
+      "domain": "carta.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "1958-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Jerusalem"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://carta.co.il/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q11758671"
+        }
+      },
+      "name": "Carta"
+    },
+    "cashfree": {
+      "domain": "cashfree.com",
+      "facts": {},
+      "name": "Cashfree"
+    },
+    "chargebee": {
+      "domain": "chargebee.com",
+      "facts": {},
+      "name": "Chargebee"
+    },
+    "checkout-com": {
+      "domain": "checkout.com",
+      "facts": {
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.checkout.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q110815500"
+        }
+      },
+      "name": "Checkout.com"
+    },
+    "cleartax": {
+      "domain": "cleartax.in",
+      "facts": {},
+      "name": "ClearTax"
+    },
+    "cleartrip": {
+      "domain": "cleartrip.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2006-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Mumbai"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "http://www.cleartrip.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q23679955"
+        }
+      },
+      "name": "Cleartrip"
+    },
+    "clevertap": {
+      "domain": "clevertap.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2013-05-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Mountain View"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "mobile marketing"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "http://clevertap.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q48966378"
+        }
+      },
+      "name": "CleverTap"
+    },
+    "cohere": {
+      "domain": "cohere.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2019-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "San Francisco"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://cohere.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q110363143"
+        }
+      },
+      "name": "Cohere"
+    },
+    "coinbase": {
+      "domain": "coinbase.com",
+      "facts": {
+        "employee_count": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "1249"
+        },
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2012-06-20"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "San Francisco"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Bitcoin"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.coinbase.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q16972754"
+        }
+      },
+      "name": "Coinbase"
+    },
+    "confluent": {
+      "domain": "confluent.io",
+      "facts": {},
+      "name": "Confluent"
+    },
+    "contentsquare": {
+      "domain": "contentsquare.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2008-04-28"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "8th arrondissement of Paris"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "publishing of application software"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://contentsquare.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q86676634"
+        }
+      },
+      "name": "Contentsquare"
+    },
+    "country-delight": {
+      "domain": "countrydelight.in",
+      "facts": {},
+      "name": "Country Delight"
+    },
+    "cred": {
+      "domain": "cred.club",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2018-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Bengaluru"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "fintech"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://cred.club/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q106455641"
+        }
+      },
+      "name": "CRED"
+    },
+    "cult-fit": {
+      "domain": "cult.fit",
+      "facts": {},
+      "name": "Cult.fit"
+    },
+    "culture-amp": {
+      "domain": "cultureamp.com",
+      "facts": {},
+      "name": "Culture Amp"
+    },
+    "cursor": {
+      "domain": "cursor.com",
+      "facts": {
+        "github_open_source_signal": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/cursor",
+          "value": true
+        },
+        "github_org": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/cursor",
+          "value": "cursor"
+        },
+        "github_public_repos": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/cursor",
+          "value": 10
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.cursor.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q131980386"
+        }
+      },
+      "name": "Cursor"
+    },
+    "customer-io": {
+      "domain": "customer.io",
+      "facts": {},
+      "name": "Customer.io"
+    },
+    "darwinbox": {
+      "domain": "darwinbox.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2015-01-01"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "software industry"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://darwinbox.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q137785225"
+        }
+      },
+      "name": "Darwinbox"
+    },
+    "databricks": {
+      "domain": "databricks.com",
+      "facts": {
+        "employee_count": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "4000"
+        },
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2013-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "San Francisco"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "software industry"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "http://databricks.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q18350420"
+        }
+      },
+      "name": "Databricks"
+    },
+    "datadog": {
+      "domain": "datadoghq.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2010-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "New York City"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "IT performance management"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.datadoghq.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q16248637"
+        }
+      },
+      "name": "Datadog"
+    },
+    "decagon": {
+      "domain": "decagon.ai",
+      "facts": {},
+      "name": "Decagon"
+    },
+    "decentro": {
+      "domain": "decentro.tech",
+      "facts": {},
+      "name": "Decentro"
+    },
+    "deel": {
+      "domain": "deel.com",
+      "facts": {},
+      "name": "Deel"
+    },
+    "delhivery": {
+      "domain": "delhivery.com",
+      "facts": {
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "logistics"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "http://www.delhivery.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q55609321"
+        }
+      },
+      "name": "Delhivery"
+    },
+    "dhan": {
+      "domain": "dhan.co",
+      "facts": {},
+      "name": "Dhan"
+    },
+    "doist": {
+      "domain": "doist.com",
+      "facts": {
+        "github_open_source_signal": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/doist",
+          "value": true
+        },
+        "github_org": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/doist",
+          "value": "Doist"
+        },
+        "github_public_repos": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/doist",
+          "value": 172
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Santiago"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "http://doist.io"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q16249122"
+        }
+      },
+      "name": "Doist"
+    },
+    "dream11": {
+      "domain": "dream11.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2020-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Mumbai"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.dream11.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q53080990"
+        }
+      },
+      "name": "Dream11"
+    },
+    "dropbox": {
+      "domain": "dropbox.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2007-01-01"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "cloud storage"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.dropbox.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q142539"
+        }
+      },
+      "name": "Dropbox"
+    },
+    "druva": {
+      "domain": "druva.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2008-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Sunnyvale"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "http://www.druva.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q96376660"
+        }
+      },
+      "name": "Druva"
+    },
+    "duolingo": {
+      "domain": "duolingo.com",
+      "facts": {
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://en.duolingo.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q2918660"
+        }
+      },
+      "name": "Duolingo"
+    },
+    "eightfold-ai": {
+      "domain": "eightfold.ai",
+      "facts": {},
+      "name": "Eightfold AI"
+    },
+    "elastic": {
+      "domain": "elastic.co",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2012-02-01"
+        },
+        "github_open_source_signal": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/elastic",
+          "value": true
+        },
+        "github_org": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/elastic",
+          "value": "elastic"
+        },
+        "github_public_repos": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/elastic",
+          "value": 952
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Mountain View"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "software industry"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "http://www.elastic.co/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q22074922"
+        }
+      },
+      "name": "Elastic"
+    },
+    "elevenlabs": {
+      "domain": "elevenlabs.io",
+      "facts": {
+        "employee_count": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "50"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "technology"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://elevenlabs.io/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q116798355"
+        }
+      },
+      "name": "ElevenLabs"
+    },
+    "exotel": {
+      "domain": "exotel.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2011-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Bengaluru"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "http://exotel.in/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q17053065"
+        }
+      },
+      "name": "Exotel"
+    },
+    "facilio": {
+      "domain": "facilio.com",
+      "facts": {},
+      "name": "Facilio"
+    },
+    "faire": {
+      "domain": "faire.com",
+      "facts": {
+        "employee_count": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "920"
+        },
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2017-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "San Francisco"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.faire.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q139785345"
+        }
+      },
+      "name": "Faire"
+    },
+    "fareye": {
+      "domain": "fareye.com",
+      "facts": {},
+      "name": "FarEye"
+    },
+    "fi-money": {
+      "domain": "fi.money",
+      "facts": {},
+      "name": "Fi Money"
+    },
+    "figma": {
+      "domain": "figma.com",
+      "facts": {
+        "employee_count": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "324"
+        },
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2012-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "San Francisco"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.figma.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q96186334"
+        }
+      },
+      "name": "Figma"
+    },
+    "fivetran": {
+      "domain": "fivetran.com",
+      "facts": {
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.fivetran.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q109827378"
+        }
+      },
+      "name": "Fivetran"
+    },
+    "flipkart": {
+      "domain": "flipkart.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2007-10-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Bengaluru"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "e-commerce"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.flipkart.com/"
+        },
+        "parent_company": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q483551"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q1381966"
+        }
+      },
+      "name": "Flipkart"
+    },
+    "freshworks": {
+      "domain": "freshworks.com",
+      "facts": {
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "San Mateo"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.freshworks.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q117782453"
+        }
+      },
+      "name": "Freshworks"
+    },
+    "fyle": {
+      "domain": "fylehq.com",
+      "facts": {},
+      "name": "Fyle"
+    },
+    "games24x7": {
+      "domain": "games24x7.com",
+      "facts": {},
+      "name": "Games24x7"
+    },
+    "gamma": {
+      "domain": "gamma.app",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "1971-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Leusden"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "retail"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.gamma.nl/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q2294120"
+        }
+      },
+      "name": "Gamma"
+    },
+    "ghost": {
+      "domain": "ghost.org",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "1995-01-01"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "http://ghost.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q1058586"
+        }
+      },
+      "name": "Ghost"
+    },
+    "gitlab": {
+      "domain": "gitlab.com",
+      "facts": {
+        "github_open_source_signal": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/gitlab",
+          "value": true
+        },
+        "github_org": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/gitlab",
+          "value": "GitLab"
+        },
+        "github_public_repos": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/gitlab",
+          "value": 2
+        }
+      },
+      "name": "GitLab"
+    },
+    "glance": {
+      "domain": "glance.com",
+      "facts": {
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "http://www.glance.com"
+        },
+        "parent_company": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "InMobi"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q105334142"
+        }
+      },
+      "name": "Glance"
+    },
+    "google": {
+      "domain": "google.com",
+      "facts": {
+        "employee_count": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "187000"
+        },
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "1998-09-04"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Mountain View"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Internet"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://about.google/"
+        },
+        "parent_company": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Alphabet Inc."
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q95"
+        }
+      },
+      "name": "Google"
+    },
+    "grafana-labs": {
+      "domain": "grafana.com",
+      "facts": {
+        "github_open_source_signal": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/grafana",
+          "value": true
+        },
+        "github_org": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/grafana",
+          "value": "grafana"
+        },
+        "github_public_repos": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/grafana",
+          "value": 589
+        }
+      },
+      "name": "Grafana Labs"
+    },
+    "grammarly": {
+      "domain": "grammarly.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2009-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "San Francisco"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.grammarly.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q16840770"
+        }
+      },
+      "name": "Grammarly"
+    },
+    "groww": {
+      "domain": "groww.in",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2016-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Bengaluru"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "financial services"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://groww.in"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q85764693"
+        }
+      },
+      "name": "Groww"
+    },
+    "gupshup": {
+      "domain": "gupshup.io",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2004-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "San Francisco"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Conversational commerce"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "http://www.gupshup.io/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q55639833"
+        }
+      },
+      "name": "Gupshup"
+    },
+    "gusto": {
+      "domain": "gusto.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2011-11-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "San Francisco"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "software industry"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://gusto.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q20540697"
+        }
+      },
+      "name": "Gusto"
+    },
+    "hackerrank": {
+      "domain": "hackerrank.com",
+      "facts": {},
+      "name": "Hackerrank"
+    },
+    "harvey": {
+      "domain": "harvey.ai",
+      "facts": {},
+      "name": "Harvey"
+    },
+    "hashicorp": {
+      "domain": "hashicorp.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2012-11-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "San Francisco"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "IT infrastructure"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://hashicorp.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q21463167"
+        }
+      },
+      "name": "HashiCorp"
+    },
+    "hasura": {
+      "domain": "hasura.io",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2015-01-01"
+        },
+        "github_open_source_signal": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/hasura",
+          "value": true
+        },
+        "github_org": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/hasura",
+          "value": "hasura"
+        },
+        "github_public_repos": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/hasura",
+          "value": 464
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Bengaluru"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "software industry"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://hasura.io/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q56676515"
+        }
+      },
+      "name": "Hasura"
+    },
+    "headout": {
+      "domain": "headout.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2014-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "New York City"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "tourism"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.headout.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q56290808"
+        }
+      },
+      "name": "Headout"
+    },
+    "healthifyme": {
+      "domain": "healthifyme.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2012-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Bengaluru"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.healthifyme.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q28402748"
+        }
+      },
+      "name": "HealthifyMe"
+    },
+    "highradius": {
+      "domain": "highradius.com",
+      "facts": {},
+      "name": "HighRadius"
+    },
+    "hiver": {
+      "domain": "hiverhq.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2011-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Palo Alto"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "collaborative software"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://hiverhq.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q5608053"
+        }
+      },
+      "name": "Hiver"
+    },
+    "hotjar": {
+      "domain": "hotjar.com",
+      "facts": {
+        "github_open_source_signal": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/hotjar",
+          "value": true
+        },
+        "github_org": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/hotjar",
+          "value": "hotjar"
+        },
+        "github_public_repos": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/hotjar",
+          "value": 2
+        }
+      },
+      "name": "Hotjar"
+    },
+    "hotstar": {
+      "domain": "hotstar.com",
+      "facts": {},
+      "name": "Hotstar"
+    },
+    "housing-com": {
+      "domain": "housing.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2012-06-07"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Mumbai"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://housing.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q18125739"
+        }
+      },
+      "name": "Housing.com"
+    },
+    "hugging-face": {
+      "domain": "huggingface.co",
+      "facts": {
+        "employee_count": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "160"
+        },
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2016-01-01"
+        },
+        "github_open_source_signal": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/huggingface",
+          "value": true
+        },
+        "github_org": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/huggingface",
+          "value": "huggingface"
+        },
+        "github_public_repos": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/huggingface",
+          "value": 467
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Brooklyn"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://huggingface.co/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q108943604"
+        }
+      },
+      "name": "Hugging Face"
+    },
+    "icertis": {
+      "domain": "icertis.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2009-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Bellevue"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.icertis.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q28406980"
+        }
+      },
+      "name": "Icertis"
+    },
+    "indmoney": {
+      "domain": "indmoney.com",
+      "facts": {},
+      "name": "INDmoney"
+    },
+    "innovaccer": {
+      "domain": "innovaccer.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2012-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "San Francisco"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "health care industry"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "http://www.innovaccer.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q30687515"
+        }
+      },
+      "name": "Innovaccer"
+    },
+    "intercom": {
+      "domain": "intercom.com",
+      "facts": {
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "http://www.intercom.org.br"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q10303090"
+        }
+      },
+      "name": "Intercom"
+    },
+    "iterable": {
+      "domain": "iterable.com",
+      "facts": {},
+      "name": "Iterable"
+    },
+    "ixigo": {
+      "domain": "ixigo.com",
+      "facts": {},
+      "name": "Ixigo"
+    },
+    "jupiter": {
+      "domain": "jupiter.money",
+      "facts": {
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.jupiter.fl.us"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q986329"
+        }
+      },
+      "name": "Jupiter"
+    },
+    "juspay": {
+      "domain": "juspay.in",
+      "facts": {},
+      "name": "Juspay"
+    },
+    "kapture-cx": {
+      "domain": "kapture.cx",
+      "facts": {},
+      "name": "Kapture CX"
+    },
+    "keka": {
+      "domain": "keka.com",
+      "facts": {
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.keka.io/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q105950097"
+        }
+      },
+      "name": "Keka"
+    },
+    "khatabook": {
+      "domain": "khatabook.com",
+      "facts": {},
+      "name": "Khatabook"
+    },
+    "kissflow": {
+      "domain": "kissflow.com",
+      "facts": {
+        "employee_count": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "100"
+        },
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2003-01-01"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "software industry"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://kissflow.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q30525109"
+        }
+      },
+      "name": "Kissflow"
+    },
+    "klarna": {
+      "domain": "klarna.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2007-09-05"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Stockholm"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "mobile payment industry"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.klarna.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q1165072"
+        }
+      },
+      "name": "Klarna"
+    },
+    "klaviyo": {
+      "domain": "klaviyo.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2012-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Boston"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "information technology"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.klaviyo.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q106631196"
+        }
+      },
+      "name": "Klaviyo"
+    },
+    "kovai-co": {
+      "domain": "kovai.co",
+      "facts": {},
+      "name": "Kovai.co"
+    },
+    "kreditbee": {
+      "domain": "kreditbee.in",
+      "facts": {},
+      "name": "KreditBee"
+    },
+    "kuku-fm": {
+      "domain": "kukufm.com",
+      "facts": {},
+      "name": "Kuku FM"
+    },
+    "lambdatest": {
+      "domain": "lambdatest.com",
+      "facts": {
+        "github_open_source_signal": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/lambdatest",
+          "value": true
+        },
+        "github_org": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/lambdatest",
+          "value": "LambdaTest"
+        },
+        "github_public_repos": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/lambdatest",
+          "value": 444
+        }
+      },
+      "name": "LambdaTest"
+    },
+    "langchain": {
+      "domain": "langchain.com",
+      "facts": {
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://langchain.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q117340550"
+        }
+      },
+      "name": "LangChain"
+    },
+    "lattice": {
+      "domain": "lattice.com",
+      "facts": {
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://lattice.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q99939433"
+        }
+      },
+      "name": "Lattice"
+    },
+    "launchdarkly": {
+      "domain": "launchdarkly.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2014-01-01"
+        },
+        "github_open_source_signal": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/launchdarkly",
+          "value": true
+        },
+        "github_org": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/launchdarkly",
+          "value": "launchdarkly"
+        },
+        "github_public_repos": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/launchdarkly",
+          "value": 314
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "United States"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://launchdarkly.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q140599516"
+        }
+      },
+      "name": "LaunchDarkly"
+    },
+    "leadsquared": {
+      "domain": "leadsquared.com",
+      "facts": {},
+      "name": "LeadSquared"
+    },
+    "lenskart": {
+      "domain": "lenskart.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2008-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "New Delhi"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.lenskart.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q17068753"
+        }
+      },
+      "name": "Lenskart"
+    },
+    "licious": {
+      "domain": "licious.in",
+      "facts": {},
+      "name": "Licious"
+    },
+    "linear": {
+      "domain": "linear.app",
+      "facts": {},
+      "name": "Linear"
+    },
+    "locus": {
+      "domain": "locus.sh",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "1986-05-16"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "London"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "http://locus.delivery"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q11350886"
+        }
+      },
+      "name": "Locus"
+    },
+    "lovable": {
+      "domain": "lovable.dev",
+      "facts": {
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Grassobbio"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.lovable.it/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q122223926"
+        }
+      },
+      "name": "Lovable"
+    },
+    "m2p-fintech": {
+      "domain": "m2pfintech.com",
+      "facts": {},
+      "name": "M2P Fintech"
+    },
+    "magicbricks": {
+      "domain": "magicbricks.com",
+      "facts": {},
+      "name": "Magicbricks"
+    },
+    "makemytrip": {
+      "domain": "makemytrip.com",
+      "facts": {
+        "employee_count": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "3426"
+        },
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2000-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Gurgaon"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.makemytrip.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q3630923"
+        }
+      },
+      "name": "MakeMyTrip"
+    },
+    "mamaearth": {
+      "domain": "mamaearth.in",
+      "facts": {},
+      "name": "Mamaearth"
+    },
+    "meesho": {
+      "domain": "meesho.com",
+      "facts": {
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Karnataka"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "information technology"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://meesho.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q55622683"
+        }
+      },
+      "name": "Meesho"
+    },
+    "mercor": {
+      "domain": "mercor.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "1988-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Gda\u0144sk"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://mercor.com.pl/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q11777443"
+        }
+      },
+      "name": "Mercor"
+    },
+    "mercury": {
+      "domain": "mercury.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "1993-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Moscow"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "retail"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "http://www.mercury.ru/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q4044023"
+        }
+      },
+      "name": "Mercury"
+    },
+    "microsoft": {
+      "domain": "microsoft.com",
+      "facts": {
+        "employee_count": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "228000"
+        },
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "1975-04-04"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Redmond"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "software development"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.microsoft.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q2283"
+        }
+      },
+      "name": "Microsoft"
+    },
+    "mindtickle": {
+      "domain": "mindtickle.com",
+      "facts": {},
+      "name": "Mindtickle"
+    },
+    "miro": {
+      "domain": "miro.com",
+      "facts": {
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://miro.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q94126521"
+        }
+      },
+      "name": "Miro"
+    },
+    "mixpanel": {
+      "domain": "mixpanel.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2009-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "San Francisco"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "analytics"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "http://mixpanel.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q25048114"
+        }
+      },
+      "name": "Mixpanel"
+    },
+    "mobile-premier-league": {
+      "domain": "mpl.live",
+      "facts": {},
+      "name": "Mobile Premier League"
+    },
+    "modal": {
+      "domain": "modal.com",
+      "facts": {},
+      "name": "Modal"
+    },
+    "moengage": {
+      "domain": "moengage.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2014-01-01"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "marketing automation"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.moengage.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q140914206"
+        }
+      },
+      "name": "MoEngage"
+    },
+    "moglix": {
+      "domain": "moglix.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2015-01-01"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.moglix.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q116046149"
+        }
+      },
+      "name": "Moglix"
+    },
+    "mongodb": {
+      "domain": "mongodb.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2009-01-01"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.mongodb.com/products/platform"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q1165204"
+        }
+      },
+      "name": "MongoDB"
+    },
+    "monzo": {
+      "domain": "monzo.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2015-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "United Kingdom"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "financial services"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://monzo.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q25206290"
+        }
+      },
+      "name": "Monzo"
+    },
+    "motive": {
+      "domain": "gomotive.com",
+      "facts": {},
+      "name": "Motive"
+    },
+    "myntra": {
+      "domain": "myntra.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2007-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Bengaluru"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "e-commerce"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.myntra.com/"
+        },
+        "parent_company": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Flipkart"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q6947830"
+        }
+      },
+      "name": "Myntra"
+    },
+    "n26": {
+      "domain": "n26.com",
+      "facts": {
+        "employee_count": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "700"
+        },
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2013-02-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Berlin"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "financial services"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://n26.com/fr-fr"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q27479372"
+        }
+      },
+      "name": "N26"
+    },
+    "navi": {
+      "domain": "navi.com",
+      "facts": {},
+      "name": "Navi"
+    },
+    "nazara": {
+      "domain": "nazara.com",
+      "facts": {},
+      "name": "Nazara"
+    },
+    "netcore-cloud": {
+      "domain": "netcorecloud.com",
+      "facts": {
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://netcorecloud.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q134587534"
+        }
+      },
+      "name": "Netcore Cloud"
+    },
+    "netlify": {
+      "domain": "netlify.com",
+      "facts": {
+        "employee_count": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "200"
+        },
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2014-01-27"
+        },
+        "github_open_source_signal": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/netlify",
+          "value": true
+        },
+        "github_org": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/netlify",
+          "value": "netlify"
+        },
+        "github_public_repos": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/netlify",
+          "value": 381
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "San Francisco"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "cloud computing"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.netlify.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q56102498"
+        }
+      },
+      "name": "Netlify"
+    },
+    "netradyne": {
+      "domain": "netradyne.com",
+      "facts": {},
+      "name": "Netradyne"
+    },
+    "nobroker": {
+      "domain": "nobroker.in",
+      "facts": {},
+      "name": "NoBroker"
+    },
+    "notion": {
+      "domain": "notion.so",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2016-01-01"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.notion.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q60747998"
+        }
+      },
+      "name": "Notion"
+    },
+    "nova-benefits": {
+      "domain": "novabenefits.com",
+      "facts": {},
+      "name": "Nova Benefits"
+    },
+    "nutanix": {
+      "domain": "nutanix.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2009-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "San Jose"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Hyper-converged infrastructure"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "http://www.nutanix.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q16959629"
+        }
+      },
+      "name": "Nutanix"
+    },
+    "nvidia": {
+      "domain": "nvidia.com",
+      "facts": {},
+      "name": "NVIDIA"
+    },
+    "nykaa": {
+      "domain": "nykaa.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2012-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Mumbai"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "e-commerce"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "http://nykaa.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q22907412"
+        }
+      },
+      "name": "Nykaa"
+    },
+    "observe-ai": {
+      "domain": "observe.ai",
+      "facts": {},
+      "name": "Observe.AI"
+    },
+    "ola": {
+      "domain": "olacabs.com",
+      "facts": {},
+      "name": "Ola"
+    },
+    "open-financial": {
+      "domain": "open.money",
+      "facts": {},
+      "name": "Open Financial"
+    },
+    "openai": {
+      "domain": "openai.com",
+      "facts": {
+        "employee_count": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "4500"
+        },
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2015-12-08"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "San Francisco"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "artificial intelligence"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://openai.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q21708200"
+        }
+      },
+      "name": "OpenAI"
+    },
+    "oscar-health": {
+      "domain": "hioscar.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2012-01-01"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "insurance industry"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.hioscar.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q24204297"
+        }
+      },
+      "name": "Oscar Health"
+    },
+    "paytm": {
+      "domain": "paytm.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2010-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Noida"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "economics of banking"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.paytm.com"
+        },
+        "parent_company": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "One97 Communications"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q19757718"
+        }
+      },
+      "name": "Paytm"
+    },
+    "pendo": {
+      "domain": "pendo.io",
+      "facts": {},
+      "name": "Pendo"
+    },
+    "pepperfry": {
+      "domain": "pepperfry.com",
+      "facts": {},
+      "name": "Pepperfry"
+    },
+    "perfios": {
+      "domain": "perfios.com",
+      "facts": {},
+      "name": "Perfios"
+    },
+    "perplexity": {
+      "domain": "perplexity.ai",
+      "facts": {
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.perplexity.ai/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q123403392"
+        }
+      },
+      "name": "Perplexity"
+    },
+    "pharmeasy": {
+      "domain": "pharmeasy.in",
+      "facts": {},
+      "name": "PharmEasy"
+    },
+    "phonepe": {
+      "domain": "phonepe.com",
+      "facts": {
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Bengaluru"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.phonepe.com"
+        },
+        "parent_company": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Flipkart"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q30324297"
+        }
+      },
+      "name": "PhonePe"
+    },
+    "physicswallah": {
+      "domain": "pw.live",
+      "facts": {},
+      "name": "PhysicsWallah"
+    },
+    "pika": {
+      "domain": "pika.art",
+      "facts": {},
+      "name": "Pika"
+    },
+    "plaid": {
+      "domain": "plaid.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2013-05-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "San Francisco"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "fintech"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://plaid.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q30610132"
+        }
+      },
+      "name": "Plaid"
+    },
+    "plum": {
+      "domain": "plumhq.com",
+      "facts": {},
+      "name": "Plum"
+    },
+    "pocket-fm": {
+      "domain": "pocketfm.com",
+      "facts": {
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Bengaluru"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://pocketfm.com/gb"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q124153646"
+        }
+      },
+      "name": "Pocket FM"
+    },
+    "policybazaar": {
+      "domain": "policybazaar.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2008-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Gurgaon"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "insurance industry"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.policybazaar.com/"
+        },
+        "parent_company": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "PB Fintech Ltd"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q55643321"
+        }
+      },
+      "name": "Policybazaar"
+    },
+    "porter": {
+      "domain": "porter.in",
+      "facts": {},
+      "name": "Porter"
+    },
+    "posthog": {
+      "domain": "posthog.com",
+      "facts": {
+        "github_open_source_signal": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/posthog",
+          "value": true
+        },
+        "github_org": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/posthog",
+          "value": "PostHog"
+        },
+        "github_public_repos": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/posthog",
+          "value": 363
+        }
+      },
+      "name": "PostHog"
+    },
+    "postman": {
+      "domain": "postman.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2013-01-01"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.postman.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q105538901"
+        }
+      },
+      "name": "Postman"
+    },
+    "postscript": {
+      "domain": "postscript.io",
+      "facts": {},
+      "name": "Postscript"
+    },
+    "practo": {
+      "domain": "practo.com",
+      "facts": {},
+      "name": "Practo"
+    },
+    "pratilipi": {
+      "domain": "pratilipi.com",
+      "facts": {},
+      "name": "Pratilipi"
+    },
+    "purplle": {
+      "domain": "purplle.com",
+      "facts": {},
+      "name": "Purplle"
+    },
+    "ramp": {
+      "domain": "ramp.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2019-03-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "New York"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "fintech"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://ramp.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q123190361"
+        }
+      },
+      "name": "Ramp"
+    },
+    "rapido": {
+      "domain": "rapido.bike",
+      "facts": {},
+      "name": "Rapido"
+    },
+    "razorpay": {
+      "domain": "razorpay.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2014-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "India"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "software industry"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://razorpay.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q109985545"
+        }
+      },
+      "name": "Razorpay"
+    },
+    "refyne": {
+      "domain": "refyne.co.in",
+      "facts": {},
+      "name": "Refyne"
+    },
+    "remote": {
+      "domain": "remote.com",
+      "facts": {
+        "github_open_source_signal": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/remote",
+          "value": false
+        },
+        "github_org": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/remote",
+          "value": "Remote"
+        },
+        "github_public_repos": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/remote",
+          "value": 0
+        }
+      },
+      "name": "Remote"
+    },
+    "replit": {
+      "domain": "replit.com",
+      "facts": {
+        "github_open_source_signal": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/replit",
+          "value": true
+        },
+        "github_org": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/replit",
+          "value": "replit"
+        },
+        "github_public_repos": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/replit",
+          "value": 118
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "San Francisco"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://replit.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q60768699"
+        }
+      },
+      "name": "Replit"
+    },
+    "retool": {
+      "domain": "retool.com",
+      "facts": {
+        "github_open_source_signal": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/retool",
+          "value": true
+        },
+        "github_org": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/retool",
+          "value": "retool"
+        },
+        "github_public_repos": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/retool",
+          "value": 5
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Internet"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://retool.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q25038492"
+        }
+      },
+      "name": "Retool"
+    },
+    "revolut": {
+      "domain": "revolut.com",
+      "facts": {
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "financial services"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.revolut.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q22908307"
+        }
+      },
+      "name": "Revolut"
+    },
+    "rippling": {
+      "domain": "rippling.com",
+      "facts": {},
+      "name": "Rippling"
+    },
+    "rocketlane": {
+      "domain": "rocketlane.com",
+      "facts": {},
+      "name": "Rocketlane"
+    },
+    "rupeek": {
+      "domain": "rupeek.com",
+      "facts": {},
+      "name": "Rupeek"
+    },
+    "salesforce": {
+      "domain": "salesforce.com",
+      "facts": {
+        "employee_count": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "35000"
+        },
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "1999-02-03"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "San Francisco"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "automation"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.salesforce.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q941127"
+        }
+      },
+      "name": "Salesforce"
+    },
+    "samsara": {
+      "domain": "samsara.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2015-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "San Francisco"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.samsara.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q79543668"
+        }
+      },
+      "name": "Samsara"
+    },
+    "scale-ai": {
+      "domain": "scale.com",
+      "facts": {
+        "employee_count": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "900"
+        },
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2016-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "San Francisco"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.scale.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q112629176"
+        }
+      },
+      "name": "Scale AI"
+    },
+    "scaler": {
+      "domain": "scaler.com",
+      "facts": {},
+      "name": "Scaler"
+    },
+    "scripbox": {
+      "domain": "scripbox.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2012-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Bengaluru"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "financial services"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "http://scripbox.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q55632737"
+        }
+      },
+      "name": "Scripbox"
+    },
+    "sendbird": {
+      "domain": "sendbird.com",
+      "facts": {},
+      "name": "Sendbird"
+    },
+    "setu": {
+      "domain": "setu.co",
+      "facts": {},
+      "name": "Setu"
+    },
+    "sharechat": {
+      "domain": "sharechat.com",
+      "facts": {},
+      "name": "ShareChat"
+    },
+    "shiprocket": {
+      "domain": "shiprocket.in",
+      "facts": {},
+      "name": "Shiprocket"
+    },
+    "shopify": {
+      "domain": "shopify.com",
+      "facts": {
+        "employee_count": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "8300"
+        },
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2006-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Ottawa"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "e-commerce"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.shopify.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q7501150"
+        }
+      },
+      "name": "Shopify"
+    },
+    "signal": {
+      "domain": "signal.org",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2014-07-29"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://signal.org"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q19718090"
+        }
+      },
+      "name": "Signal"
+    },
+    "signeasy": {
+      "domain": "signeasy.com",
+      "facts": {},
+      "name": "Signeasy"
+    },
+    "signzy": {
+      "domain": "signzy.com",
+      "facts": {},
+      "name": "Signzy"
+    },
+    "sirionlabs": {
+      "domain": "sirionlabs.com",
+      "facts": {},
+      "name": "SirionLabs"
+    },
+    "slice": {
+      "domain": "sliceit.com",
+      "facts": {},
+      "name": "slice"
+    },
+    "smallcase": {
+      "domain": "smallcase.com",
+      "facts": {},
+      "name": "smallcase"
+    },
+    "snowflake": {
+      "domain": "snowflake.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "1878-01-01"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "http://ci.snowflake.az.us"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q1012644"
+        }
+      },
+      "name": "Snowflake"
+    },
+    "sourcegraph": {
+      "domain": "sourcegraph.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2017-01-01"
+        },
+        "github_open_source_signal": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/sourcegraph",
+          "value": true
+        },
+        "github_org": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/sourcegraph",
+          "value": "sourcegraph"
+        },
+        "github_public_repos": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/sourcegraph",
+          "value": 601
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "information technology"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://sourcegraph.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q108106907"
+        }
+      },
+      "name": "Sourcegraph"
+    },
+    "spinny": {
+      "domain": "spinny.com",
+      "facts": {},
+      "name": "Spinny"
+    },
+    "spotify": {
+      "domain": "spotify.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2006-04-23"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.spotify.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q689141"
+        }
+      },
+      "name": "Spotify"
+    },
+    "springworks": {
+      "domain": "springworks.in",
+      "facts": {},
+      "name": "Springworks"
+    },
+    "sprinto": {
+      "domain": "sprinto.com",
+      "facts": {},
+      "name": "Sprinto"
+    },
+    "squarespace": {
+      "domain": "squarespace.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2004-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "New York City"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.squarespace.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q7582097"
+        }
+      },
+      "name": "Squarespace"
+    },
+    "stripe": {
+      "domain": "stripe.com",
+      "facts": {
+        "employee_count": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2500"
+        },
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2010-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "San Francisco"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "financial services"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://stripe.com/"
+        },
+        "parent_company": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q140991293"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q7624104"
+        }
+      },
+      "name": "Stripe"
+    },
+    "supabase": {
+      "domain": "supabase.com",
+      "facts": {
+        "github_open_source_signal": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/supabase",
+          "value": true
+        },
+        "github_org": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/supabase",
+          "value": "supabase"
+        },
+        "github_public_repos": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/supabase",
+          "value": 166
+        }
+      },
+      "name": "Supabase"
+    },
+    "swiggy": {
+      "domain": "swiggy.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2014-08-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Bengaluru"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "food delivery service"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.swiggy.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q65944364"
+        }
+      },
+      "name": "Swiggy"
+    },
+    "target": {
+      "domain": "target.com",
+      "facts": {},
+      "name": "Target"
+    },
+    "tata-1mg": {
+      "domain": "1mg.com",
+      "facts": {},
+      "name": "Tata 1mg"
+    },
+    "testsigma": {
+      "domain": "testsigma.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2019-01-01"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://testsigma.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q127424905"
+        }
+      },
+      "name": "Testsigma"
+    },
+    "the-souled-store": {
+      "domain": "thesouledstore.com",
+      "facts": {},
+      "name": "The Souled Store"
+    },
+    "toggl": {
+      "domain": "toggl.com",
+      "facts": {
+        "github_open_source_signal": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/toggl",
+          "value": true
+        },
+        "github_org": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/toggl",
+          "value": "toggl"
+        },
+        "github_public_repos": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/toggl",
+          "value": 41
+        }
+      },
+      "name": "Toggl"
+    },
+    "tooljet": {
+      "domain": "tooljet.com",
+      "facts": {
+        "github_open_source_signal": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/tooljet",
+          "value": true
+        },
+        "github_org": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/tooljet",
+          "value": "ToolJet"
+        },
+        "github_public_repos": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/tooljet",
+          "value": 9
+        }
+      },
+      "name": "ToolJet"
+    },
+    "turtlemint": {
+      "domain": "turtlemint.com",
+      "facts": {},
+      "name": "Turtlemint"
+    },
+    "twilio": {
+      "domain": "twilio.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2008-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "San Francisco"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Voice over IP"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "http://www.twilio.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q7858039"
+        }
+      },
+      "name": "Twilio"
+    },
+    "typeform": {
+      "domain": "typeform.com",
+      "facts": {},
+      "name": "Typeform"
+    },
+    "uber": {
+      "domain": "uber.com",
+      "facts": {
+        "employee_count": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "12000"
+        },
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2009-03-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "San Francisco"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "information technology"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.uber.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q780442"
+        }
+      },
+      "name": "Uber"
+    },
+    "udaan": {
+      "domain": "udaan.com",
+      "facts": {},
+      "name": "Udaan"
+    },
+    "unacademy": {
+      "domain": "unacademy.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2015-01-01"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "http://www.unacademy.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q42417624"
+        }
+      },
+      "name": "Unacademy"
+    },
+    "uniphore": {
+      "domain": "uniphore.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2008-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Tharamani"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "software industry"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "http://www.uniphore.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q28169245"
+        }
+      },
+      "name": "Uniphore"
+    },
+    "upgrad": {
+      "domain": "upgrad.com",
+      "facts": {},
+      "name": "upGrad"
+    },
+    "upstox": {
+      "domain": "upstox.com",
+      "facts": {},
+      "name": "Upstox"
+    },
+    "urban-company": {
+      "domain": "urbancompany.com",
+      "facts": {},
+      "name": "Urban Company"
+    },
+    "vedantu": {
+      "domain": "vedantu.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2014-04-13"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Bengaluru"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "educational technology"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "http://www.vedantu.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q22909616"
+        }
+      },
+      "name": "Vedantu"
+    },
+    "vercel": {
+      "domain": "vercel.com",
+      "facts": {
+        "github_open_source_signal": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/vercel",
+          "value": true
+        },
+        "github_org": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/vercel",
+          "value": "vercel"
+        },
+        "github_public_repos": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/vercel",
+          "value": 240
+        }
+      },
+      "name": "Vercel"
+    },
+    "volopay": {
+      "domain": "volopay.com",
+      "facts": {},
+      "name": "Volopay"
+    },
+    "wakefit": {
+      "domain": "wakefit.co",
+      "facts": {},
+      "name": "Wakefit"
+    },
+    "webengage": {
+      "domain": "webengage.com",
+      "facts": {},
+      "name": "WebEngage"
+    },
+    "webflow": {
+      "domain": "webflow.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2013-08-05"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "San Francisco"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Internet industry"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://webflow.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q20160951"
+        }
+      },
+      "name": "Webflow"
+    },
+    "whatfix": {
+      "domain": "whatfix.com",
+      "facts": {},
+      "name": "Whatfix"
+    },
+    "wise": {
+      "domain": "wise.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2011-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "London"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "finance"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://wise.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q7833987"
+        }
+      },
+      "name": "Wise"
+    },
+    "workday": {
+      "domain": "workday.com",
+      "facts": {},
+      "name": "Workday"
+    },
+    "yellow-ai": {
+      "domain": "yellow.ai",
+      "facts": {
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "San Mateo"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://yellow.ai/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q115821945"
+        }
+      },
+      "name": "Yellow.ai"
+    },
+    "yubi": {
+      "domain": "go-yubi.com",
+      "facts": {},
+      "name": "Yubi"
+    },
+    "zapier": {
+      "domain": "zapier.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2012-01-01"
+        },
+        "github_open_source_signal": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/zapier",
+          "value": true
+        },
+        "github_org": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/zapier",
+          "value": "zapier"
+        },
+        "github_public_repos": {
+          "as_of": "2026-08-13",
+          "source": "https://api.github.com/orgs/zapier",
+          "value": 298
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "cloud computing"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "http://zapier.com"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q27150165"
+        }
+      },
+      "name": "Zapier"
+    },
+    "zepto": {
+      "domain": "zepto.co.in",
+      "facts": {},
+      "name": "Zepto"
+    },
+    "zerodha": {
+      "domain": "zerodha.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2010-01-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Bengaluru"
+        },
+        "industry": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "financial services"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://zerodha.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q8069628"
+        }
+      },
+      "name": "Zerodha"
+    },
+    "zeta": {
+      "domain": "zeta.tech",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "1973-01-01"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.zeta.nu"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q10724505"
+        }
+      },
+      "name": "Zeta"
+    },
+    "zetwerk": {
+      "domain": "zetwerk.com",
+      "facts": {},
+      "name": "Zetwerk"
+    },
+    "zluri": {
+      "domain": "zluri.com",
+      "facts": {},
+      "name": "Zluri"
+    },
+    "zoho": {
+      "domain": "zoho.com",
+      "facts": {},
+      "name": "Zoho"
+    },
+    "zomato": {
+      "domain": "zomato.com",
+      "facts": {
+        "founded": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "2008-07-01"
+        },
+        "headquarters": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "New Delhi"
+        },
+        "official_website": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "https://www.zomato.com/"
+        },
+        "wikidata_id": {
+          "as_of": "2026-08-13",
+          "source": "https://query.wikidata.org/sparql",
+          "value": "Q8073715"
+        }
+      },
+      "name": "Zomato"
+    }
+  },
+  "generated_at": "2026-08-13",
+  "sources": {
+    "github": "https://api.github.com/orgs/{org}",
+    "wikidata": "https://query.wikidata.org/sparql"
+  }
+}

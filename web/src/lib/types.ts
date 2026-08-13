@@ -66,6 +66,24 @@ export interface Job {
 
   match_score: number
   match_reasons: string[]
+  quality: JobQuality
+}
+
+export interface JobQuality {
+  days_open: number | null
+  days_open_basis: "first_seen_in_history" | "ats_posted_date" | "not_enough_job_history"
+  repost_count: number | null
+  always_open: boolean | null
+  description_specificity: number
+  description_specificity_method: string
+  company_posting_velocity: {
+    current: number
+    historical_median: number | null
+    ratio: number | null
+    status: "ok" | "not_enough_history"
+  }
+  history_days: number
+  verdict: string
 }
 
 export interface Place {
@@ -101,6 +119,18 @@ export interface CompanyInfo {
   contacts: CompanyContacts
   linkedin: LinkedInLinks
   open_roles: number
+}
+
+export interface CompanyFact<T = string | number | boolean | null> {
+  value: T
+  source: string
+  as_of: string
+}
+
+export interface CompanyDossier {
+  name: string
+  domain: string | null
+  facts: Record<string, CompanyFact>
 }
 
 export interface Band {

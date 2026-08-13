@@ -249,6 +249,13 @@ def parse_smartrecruiters(payload, company: str, slug: str) -> list[Job]:
         )
         if loc.get("remote"):
             location = f"{location} (Remote)".strip()
+        # The list endpoint omits the body; fetch_ats stitches the real sections
+        # on from the per-posting endpoint before this runs.
+        sections = ((item.get("jobAd") or {}).get("sections") or {})
+        body = " ".join(
+            (sections.get(key) or {}).get("text") or ""
+            for key in ("companyDescription", "jobDescription", "qualifications", "additionalInformation")
+        ).strip()
         jobs.append(
             Job(
                 id=job_id(company, title, url),
@@ -257,15 +264,31 @@ def parse_smartrecruiters(payload, company: str, slug: str) -> list[Job]:
                 company_slug=slug,
                 source="smartrecruiters",
                 url=url,
-                # The list endpoint omits the body; the board falls back to the
-                # title and department, and the detail link still works.
-                description_text="",
+                description_text=html_to_text(body),
                 location_raw=location,
                 department=(item.get("department") or {}).get("label"),
                 posted_at=_iso(item.get("releasedDate")),
             )
         )
     return jobs
+
+
+def _smartrecruiters_details(slug: str, postings: list[dict], *, cache_hours: float) -> list[dict]:
+    """Fetch each posting's job ad, which the list endpoint leaves out."""
+    enriched: list[dict] = []
+    for item in postings[:60]:
+        posting_id = item.get("id")
+        if not posting_id:
+            enriched.append(item)
+            continue
+        detail, error = fetch_json(
+            f"https://api.smartrecruiters.com/v1/companies/{slug}/postings/{posting_id}",
+            cache_hours=cache_hours,
+        )
+        if not error and isinstance(detail, dict) and detail.get("jobAd"):
+            item = {**item, "jobAd": detail["jobAd"]}
+        enriched.append(item)
+    return enriched
 
 
 # ---------------------------------------------------------------------------
@@ -498,6 +521,15 @@ def fetch_ats(
                     postings[item.get("externalPath") or item.get("title") or str(len(postings))] = item
         if payload is not None:
             payload = {**payload, "jobPostings": list(postings.values())}
+    elif ats == "smartrecruiters":
+        payload, error = fetch_json(url_fn(slug), cache_hours=cache_hours)
+        if isinstance(payload, dict):
+            payload = {
+                **payload,
+                "content": _smartrecruiters_details(
+                    slug, payload.get("content", []) or [], cache_hours=cache_hours
+                ),
+            }
     elif ats == "bamboohr":
         payload, error = fetch_json(url_fn(slug), cache_hours=cache_hours)
         if isinstance(payload, dict):

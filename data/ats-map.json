@@ -1,9 +1,10 @@
 {
   "acko": {
     "ats": null,
-    "checked_at": 1786563202.191608,
+    "checked_at": 1786590672.928471,
+    "confidence": "none",
     "domain": "acko.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Acko",
     "slug": null
   },
@@ -27,9 +28,10 @@
   },
   "airmeet": {
     "ats": null,
-    "checked_at": 1786563165.500337,
+    "checked_at": 1786590617.788049,
+    "confidence": "none",
     "domain": "airmeet.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Airmeet",
     "slug": null
   },
@@ -53,9 +55,10 @@
   },
   "amagi": {
     "ats": null,
-    "checked_at": 1786562836.8642821,
+    "checked_at": 1786590542.761201,
+    "confidence": "none",
     "domain": "amagi.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Amagi",
     "slug": null
   },
@@ -79,9 +82,10 @@
   },
   "angel one": {
     "ats": null,
-    "checked_at": 1786562769.556202,
+    "checked_at": 1786590477.195681,
+    "confidence": "none",
     "domain": "angelone.in",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Angel One",
     "slug": null
   },
@@ -96,9 +100,10 @@
   },
   "appsmith": {
     "ats": null,
-    "checked_at": 1786563175.494327,
+    "checked_at": 1786590641.227975,
+    "confidence": "none",
     "domain": "appsmith.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Appsmith",
     "slug": null
   },
@@ -122,9 +127,10 @@
   },
   "atlassian": {
     "ats": null,
-    "checked_at": 1786563028.208527,
+    "checked_at": 1786590584.777396,
+    "confidence": "none",
     "domain": "atlassian.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Atlassian",
     "slug": null
   },
@@ -148,9 +154,10 @@
   },
   "automattic": {
     "ats": null,
-    "checked_at": 1786563043.883596,
+    "checked_at": 1786590601.406594,
+    "confidence": "none",
     "domain": "automattic.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Automattic",
     "slug": null
   },
@@ -165,9 +172,10 @@
   },
   "boat": {
     "ats": null,
-    "checked_at": 1786562776.185822,
+    "checked_at": 1786590524.4128141,
+    "confidence": "none",
     "domain": "boat-lifestyle.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "boAt",
     "slug": null
   },
@@ -209,9 +217,10 @@
   },
   "cal.com": {
     "ats": null,
-    "checked_at": 1786563162.150424,
+    "checked_at": 1786590680.768322,
+    "confidence": "none",
     "domain": "cal.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Cal.com",
     "slug": null
   },
@@ -225,36 +234,40 @@
     "slug": "calendly"
   },
   "canva": {
-    "ats": null,
-    "checked_at": 1786563003.772426,
+    "ats": "smartrecruiters",
+    "checked_at": 1786590570.5011258,
+    "confidence": "verified",
     "domain": "canva.com",
-    "how": "probe error: ValueError",
+    "how": "slug guessed from name; board is named 'Canva'; company domain appears in posting URLs",
     "name": "Canva",
-    "slug": null
+    "slug": "canva"
   },
   "capillary technologies": {
     "ats": null,
-    "checked_at": 1786563169.198439,
+    "checked_at": 1786590706.564069,
+    "confidence": "none",
     "domain": "capillarytech.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Capillary Technologies",
     "slug": null
   },
   "cardekho": {
     "ats": null,
-    "checked_at": 1786563200.357613,
+    "checked_at": 1786590696.605676,
+    "confidence": "none",
     "domain": "cardekho.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "CarDekho",
     "slug": null
   },
   "cars24": {
-    "ats": null,
-    "checked_at": 1786563203.8399098,
+    "ats": "smartrecruiters",
+    "checked_at": 1786590659.5486531,
+    "confidence": "verified",
     "domain": "cars24.com",
-    "how": "probe error: ValueError",
+    "how": "slug guessed from name; board is named 'Cars24'; company domain appears in posting URLs; 1 of 1 postings are in India",
     "name": "Cars24",
-    "slug": null
+    "slug": "cars24"
   },
   "carta": {
     "ats": "greenhouse",
@@ -267,49 +280,55 @@
   },
   "cashfree": {
     "ats": null,
-    "checked_at": 1786562762.7532742,
+    "checked_at": 1786590482.970198,
+    "confidence": "none",
     "domain": "cashfree.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Cashfree",
     "slug": null
   },
   "chargebee": {
     "ats": null,
-    "checked_at": 1786562802.2810812,
+    "checked_at": 1786590507.5143418,
+    "confidence": "none",
     "domain": "chargebee.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Chargebee",
     "slug": null
   },
   "checkout.com": {
     "ats": null,
-    "checked_at": 1786563121.5277371,
+    "checked_at": 1786590666.3367941,
+    "confidence": "none",
     "domain": "checkout.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Checkout.com",
     "slug": null
   },
   "cleartax": {
     "ats": null,
-    "checked_at": 1786562767.078702,
+    "checked_at": 1786590464.8134232,
+    "confidence": "none",
     "domain": "cleartax.in",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "ClearTax",
     "slug": null
   },
   "cleartrip": {
     "ats": null,
-    "checked_at": 1786563203.598884,
+    "checked_at": 1786590700.250893,
+    "confidence": "none",
     "domain": "cleartrip.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Cleartrip",
     "slug": null
   },
   "clevertap": {
     "ats": null,
-    "checked_at": 1786562801.437818,
+    "checked_at": 1786590519.814968,
+    "confidence": "none",
     "domain": "clevertap.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "CleverTap",
     "slug": null
   },
@@ -351,9 +370,10 @@
   },
   "country delight": {
     "ats": null,
-    "checked_at": 1786562781.781749,
+    "checked_at": 1786590536.203939,
+    "confidence": "none",
     "domain": "countrydelight.in",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Country Delight",
     "slug": null
   },
@@ -368,9 +388,10 @@
   },
   "cult.fit": {
     "ats": null,
-    "checked_at": 1786562851.357087,
+    "checked_at": 1786590603.227749,
+    "confidence": "none",
     "domain": "cult.fit",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Cult.fit",
     "slug": null
   },
@@ -403,9 +424,10 @@
   },
   "darwinbox": {
     "ats": null,
-    "checked_at": 1786562815.948311,
+    "checked_at": 1786590517.369931,
+    "confidence": "none",
     "domain": "darwinbox.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Darwinbox",
     "slug": null
   },
@@ -438,49 +460,55 @@
   },
   "decentro": {
     "ats": null,
-    "checked_at": 1786562768.699463,
+    "checked_at": 1786590468.027318,
+    "confidence": "none",
     "domain": "decentro.tech",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Decentro",
     "slug": null
   },
   "deel": {
     "ats": null,
-    "checked_at": 1786563154.4796212,
+    "checked_at": 1786590629.757473,
+    "confidence": "none",
     "domain": "deel.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Deel",
     "slug": null
   },
   "delhivery": {
     "ats": null,
-    "checked_at": 1786562777.304132,
+    "checked_at": 1786590489.523527,
+    "confidence": "none",
     "domain": "delhivery.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Delhivery",
     "slug": null
   },
   "dhan": {
     "ats": null,
-    "checked_at": 1786562765.022206,
+    "checked_at": 1786590454.887341,
+    "confidence": "none",
     "domain": "dhan.co",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Dhan",
     "slug": null
   },
   "doist": {
     "ats": null,
-    "checked_at": 1786563152.5807118,
+    "checked_at": 1786590604.282995,
+    "confidence": "none",
     "domain": "doist.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Doist",
     "slug": null
   },
   "dream11": {
     "ats": null,
-    "checked_at": 1786562849.306475,
+    "checked_at": 1786590566.161095,
+    "confidence": "none",
     "domain": "dream11.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Dream11",
     "slug": null
   },
@@ -513,9 +541,10 @@
   },
   "eightfold ai": {
     "ats": null,
-    "checked_at": 1786562841.038829,
+    "checked_at": 1786590639.096564,
+    "confidence": "none",
     "domain": "eightfold.ai",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Eightfold AI",
     "slug": null
   },
@@ -539,17 +568,19 @@
   },
   "exotel": {
     "ats": null,
-    "checked_at": 1786562825.9507918,
+    "checked_at": 1786590539.1256268,
+    "confidence": "none",
     "domain": "exotel.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Exotel",
     "slug": null
   },
   "facilio": {
     "ats": null,
-    "checked_at": 1786562816.77037,
+    "checked_at": 1786590540.348386,
+    "confidence": "none",
     "domain": "facilio.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Facilio",
     "slug": null
   },
@@ -564,9 +595,10 @@
   },
   "fareye": {
     "ats": null,
-    "checked_at": 1786562833.796906,
+    "checked_at": 1786590538.555128,
+    "confidence": "none",
     "domain": "fareye.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "FarEye",
     "slug": null
   },
@@ -599,9 +631,10 @@
   },
   "flipkart": {
     "ats": null,
-    "checked_at": 1786562768.54877,
+    "checked_at": 1786590474.913771,
+    "confidence": "none",
     "domain": "flipkart.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Flipkart",
     "slug": null
   },
@@ -616,17 +649,19 @@
   },
   "fyle": {
     "ats": null,
-    "checked_at": 1786563184.421822,
+    "checked_at": 1786590665.535986,
+    "confidence": "none",
     "domain": "fylehq.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Fyle",
     "slug": null
   },
   "games24x7": {
     "ats": null,
-    "checked_at": 1786562978.576063,
+    "checked_at": 1786590600.837919,
+    "confidence": "none",
     "domain": "games24x7.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Games24x7",
     "slug": null
   },
@@ -668,9 +703,10 @@
   },
   "google": {
     "ats": null,
-    "checked_at": 1786562998.5970979,
+    "checked_at": 1786590573.205589,
+    "confidence": "none",
     "domain": "google.com",
-    "how": "probe error: ValueError",
+    "how": "recruitee/google: board looks like a demo account ('Senior Marketer (Sample)')",
     "name": "Google",
     "slug": null
   },
@@ -685,9 +721,10 @@
   },
   "grammarly": {
     "ats": null,
-    "checked_at": 1786563045.5269408,
+    "checked_at": 1786590585.8159811,
+    "confidence": "none",
     "domain": "grammarly.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Grammarly",
     "slug": null
   },
@@ -702,9 +739,10 @@
   },
   "gupshup": {
     "ats": null,
-    "checked_at": 1786562826.65504,
+    "checked_at": 1786590538.918475,
+    "confidence": "none",
     "domain": "gupshup.io",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Gupshup",
     "slug": null
   },
@@ -737,33 +775,37 @@
   },
   "hashicorp": {
     "ats": null,
-    "checked_at": 1786563007.437183,
+    "checked_at": 1786590584.778968,
+    "confidence": "none",
     "domain": "hashicorp.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "HashiCorp",
     "slug": null
   },
   "hasura": {
     "ats": null,
-    "checked_at": 1786562795.155909,
+    "checked_at": 1786590536.6071548,
+    "confidence": "none",
     "domain": "hasura.io",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Hasura",
     "slug": null
   },
   "headout": {
     "ats": null,
-    "checked_at": 1786563213.8280551,
+    "checked_at": 1786590691.419588,
+    "confidence": "none",
     "domain": "headout.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Headout",
     "slug": null
   },
   "healthifyme": {
     "ats": null,
-    "checked_at": 1786562846.182823,
+    "checked_at": 1786590555.225389,
+    "confidence": "none",
     "domain": "healthifyme.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "HealthifyMe",
     "slug": null
   },
@@ -778,9 +820,10 @@
   },
   "hiver": {
     "ats": null,
-    "checked_at": 1786563192.5163991,
+    "checked_at": 1786590666.749826,
+    "confidence": "none",
     "domain": "hiverhq.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Hiver",
     "slug": null
   },
@@ -804,9 +847,10 @@
   },
   "housing.com": {
     "ats": null,
-    "checked_at": 1786563203.371729,
+    "checked_at": 1786590717.20477,
+    "confidence": "none",
     "domain": "housing.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Housing.com",
     "slug": null
   },
@@ -821,25 +865,28 @@
   },
   "icertis": {
     "ats": null,
-    "checked_at": 1786562822.871847,
+    "checked_at": 1786590538.050901,
+    "confidence": "none",
     "domain": "icertis.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Icertis",
     "slug": null
   },
   "indmoney": {
     "ats": null,
-    "checked_at": 1786562762.851722,
+    "checked_at": 1786590453.084831,
+    "confidence": "none",
     "domain": "indmoney.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "INDmoney",
     "slug": null
   },
   "innovaccer": {
     "ats": null,
-    "checked_at": 1786562810.008367,
+    "checked_at": 1786590524.625385,
+    "confidence": "none",
     "domain": "innovaccer.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Innovaccer",
     "slug": null
   },
@@ -862,66 +909,74 @@
     "slug": "iterable"
   },
   "ixigo": {
-    "ats": null,
-    "checked_at": 1786563203.093317,
+    "ats": "smartrecruiters",
+    "checked_at": 1786590669.502578,
+    "confidence": "verified",
     "domain": "ixigo.com",
-    "how": "probe error: ValueError",
+    "how": "slug guessed from name; board is named 'ixigo'; company domain appears in posting URLs; 9 of 9 postings are in India",
     "name": "Ixigo",
-    "slug": null
+    "slug": "ixigo"
   },
   "jupiter": {
     "ats": null,
-    "checked_at": 1786562741.4175549,
+    "checked_at": 1786590453.856576,
+    "confidence": "none",
     "domain": "jupiter.money",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Jupiter",
     "slug": null
   },
   "juspay": {
     "ats": null,
-    "checked_at": 1786562759.611178,
+    "checked_at": 1786590454.364078,
+    "confidence": "none",
     "domain": "juspay.in",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Juspay",
     "slug": null
   },
   "kapture cx": {
     "ats": null,
-    "checked_at": 1786563186.471655,
+    "checked_at": 1786590711.541219,
+    "confidence": "none",
     "domain": "kapture.cx",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Kapture CX",
     "slug": null
   },
   "keka": {
     "ats": null,
-    "checked_at": 1786563183.960406,
+    "checked_at": 1786590652.9584389,
+    "confidence": "none",
     "domain": "keka.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Keka",
     "slug": null
   },
   "khatabook": {
     "ats": null,
-    "checked_at": 1786562770.4687748,
+    "checked_at": 1786590467.818044,
+    "confidence": "none",
     "domain": "khatabook.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Khatabook",
     "slug": null
   },
   "kissflow": {
     "ats": null,
-    "checked_at": 1786563176.358685,
+    "checked_at": 1786590636.5870779,
+    "confidence": "none",
     "domain": "kissflow.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Kissflow",
     "slug": null
   },
   "klarna": {
     "ats": null,
-    "checked_at": 1786563140.9114199,
+    "checked_at": 1786590601.66341,
+    "confidence": "none",
     "domain": "klarna.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Klarna",
     "slug": null
   },
@@ -935,34 +990,38 @@
     "slug": "klaviyo"
   },
   "kovai.co": {
-    "ats": null,
-    "checked_at": 1786563209.424478,
+    "ats": "smartrecruiters",
+    "checked_at": 1786590623.736728,
+    "confidence": "verified",
     "domain": "kovai.co",
-    "how": "probe error: ValueError",
+    "how": "slug guessed from name; board is named 'Kovai.co'; company domain appears in posting URLs; 4 of 4 postings are in India",
     "name": "Kovai.co",
-    "slug": null
+    "slug": "kovaico"
   },
   "kreditbee": {
     "ats": null,
-    "checked_at": 1786562762.26938,
+    "checked_at": 1786590449.808665,
+    "confidence": "none",
     "domain": "kreditbee.in",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "KreditBee",
     "slug": null
   },
   "kuku fm": {
     "ats": null,
-    "checked_at": 1786563210.057633,
+    "checked_at": 1786590713.649178,
+    "confidence": "none",
     "domain": "kukufm.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Kuku FM",
     "slug": null
   },
   "lambdatest": {
     "ats": null,
-    "checked_at": 1786563175.365868,
+    "checked_at": 1786590625.631551,
+    "confidence": "none",
     "domain": "lambdatest.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "LambdaTest",
     "slug": null
   },
@@ -995,25 +1054,28 @@
   },
   "leadsquared": {
     "ats": null,
-    "checked_at": 1786562811.8597918,
+    "checked_at": 1786590524.6564732,
+    "confidence": "none",
     "domain": "leadsquared.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "LeadSquared",
     "slug": null
   },
   "lenskart": {
     "ats": null,
-    "checked_at": 1786562771.4447849,
+    "checked_at": 1786590480.5216289,
+    "confidence": "none",
     "domain": "lenskart.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Lenskart",
     "slug": null
   },
   "licious": {
     "ats": null,
-    "checked_at": 1786562777.753749,
+    "checked_at": 1786590480.9920452,
+    "confidence": "none",
     "domain": "licious.in",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Licious",
     "slug": null
   },
@@ -1028,9 +1090,10 @@
   },
   "locus": {
     "ats": null,
-    "checked_at": 1786562828.960927,
+    "checked_at": 1786590539.426694,
+    "confidence": "none",
     "domain": "locus.sh",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Locus",
     "slug": null
   },
@@ -1045,33 +1108,37 @@
   },
   "m2p fintech": {
     "ats": null,
-    "checked_at": 1786562763.60377,
+    "checked_at": 1786590476.602514,
+    "confidence": "none",
     "domain": "m2pfintech.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "M2P Fintech",
     "slug": null
   },
   "magicbricks": {
     "ats": null,
-    "checked_at": 1786563199.552269,
+    "checked_at": 1786590672.365003,
+    "confidence": "none",
     "domain": "magicbricks.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Magicbricks",
     "slug": null
   },
   "makemytrip": {
     "ats": null,
-    "checked_at": 1786563268.144045,
+    "checked_at": 1786590747.660945,
+    "confidence": "none",
     "domain": "makemytrip.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "MakeMyTrip",
     "slug": null
   },
   "mamaearth": {
     "ats": null,
-    "checked_at": 1786562774.642842,
+    "checked_at": 1786590482.6420171,
+    "confidence": "none",
     "domain": "mamaearth.in",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Mamaearth",
     "slug": null
   },
@@ -1104,9 +1171,10 @@
   },
   "microsoft": {
     "ats": null,
-    "checked_at": 1786562990.5317109,
+    "checked_at": 1786590578.663014,
+    "confidence": "none",
     "domain": "microsoft.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Microsoft",
     "slug": null
   },
@@ -1139,9 +1207,10 @@
   },
   "mobile premier league": {
     "ats": null,
-    "checked_at": 1786562980.499645,
+    "checked_at": 1786590617.7510011,
+    "confidence": "none",
     "domain": "mpl.live",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Mobile Premier League",
     "slug": null
   },
@@ -1156,17 +1225,19 @@
   },
   "moengage": {
     "ats": null,
-    "checked_at": 1786562801.350409,
+    "checked_at": 1786590517.497474,
+    "confidence": "none",
     "domain": "moengage.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "MoEngage",
     "slug": null
   },
   "moglix": {
     "ats": null,
-    "checked_at": 1786562775.6059232,
+    "checked_at": 1786590489.995591,
+    "confidence": "none",
     "domain": "moglix.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Moglix",
     "slug": null
   },
@@ -1199,9 +1270,10 @@
   },
   "myntra": {
     "ats": null,
-    "checked_at": 1786562839.238436,
+    "checked_at": 1786590536.4676201,
+    "confidence": "none",
     "domain": "myntra.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Myntra",
     "slug": null
   },
@@ -1216,25 +1288,28 @@
   },
   "navi": {
     "ats": null,
-    "checked_at": 1786562759.0987148,
+    "checked_at": 1786590452.833754,
+    "confidence": "none",
     "domain": "navi.com",
-    "how": "probe error: ValueError",
+    "how": "ashby/navi: no Indian postings on an Indian company's board (7 jobs) \u2014 probably a namesake; recruitee/navi: board looks like a demo account ('Senior Marketer (Sample)')",
     "name": "Navi",
     "slug": null
   },
   "nazara": {
     "ats": null,
-    "checked_at": 1786562885.025693,
+    "checked_at": 1786590595.957463,
+    "confidence": "none",
     "domain": "nazara.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Nazara",
     "slug": null
   },
   "netcore cloud": {
     "ats": null,
-    "checked_at": 1786562821.268727,
+    "checked_at": 1786590554.1181922,
+    "confidence": "none",
     "domain": "netcorecloud.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Netcore Cloud",
     "slug": null
   },
@@ -1257,12 +1332,13 @@
     "slug": "netradyne"
   },
   "nobroker": {
-    "ats": null,
-    "checked_at": 1786563197.9296472,
+    "ats": "smartrecruiters",
+    "checked_at": 1786590649.926937,
+    "confidence": "verified",
     "domain": "nobroker.in",
-    "how": "probe error: ValueError",
+    "how": "slug guessed from name; board is named 'NoBroker'; company domain appears in posting URLs",
     "name": "NoBroker",
-    "slug": null
+    "slug": "nobroker"
   },
   "notion": {
     "ats": "ashby",
@@ -1275,17 +1351,19 @@
   },
   "nova benefits": {
     "ats": null,
-    "checked_at": 1786563193.0576031,
+    "checked_at": 1786590715.866888,
+    "confidence": "none",
     "domain": "novabenefits.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Nova Benefits",
     "slug": null
   },
   "nutanix": {
     "ats": null,
-    "checked_at": 1786563007.90297,
+    "checked_at": 1786590563.136571,
+    "confidence": "none",
     "domain": "nutanix.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Nutanix",
     "slug": null
   },
@@ -1300,9 +1378,10 @@
   },
   "nykaa": {
     "ats": null,
-    "checked_at": 1786562771.435637,
+    "checked_at": 1786590467.767286,
+    "confidence": "none",
     "domain": "nykaa.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Nykaa",
     "slug": null
   },
@@ -1317,17 +1396,19 @@
   },
   "ola": {
     "ats": null,
-    "checked_at": 1786562978.8530939,
+    "checked_at": 1786590580.952636,
+    "confidence": "none",
     "domain": "olacabs.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Ola",
     "slug": null
   },
   "open financial": {
     "ats": null,
-    "checked_at": 1786562769.548096,
+    "checked_at": 1786590502.8440242,
+    "confidence": "none",
     "domain": "open.money",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Open Financial",
     "slug": null
   },
@@ -1369,17 +1450,19 @@
   },
   "pepperfry": {
     "ats": null,
-    "checked_at": 1786563202.510247,
+    "checked_at": 1786590677.3365629,
+    "confidence": "none",
     "domain": "pepperfry.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Pepperfry",
     "slug": null
   },
   "perfios": {
     "ats": null,
-    "checked_at": 1786562806.5857139,
+    "checked_at": 1786590491.9393961,
+    "confidence": "none",
     "domain": "perfios.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Perfios",
     "slug": null
   },
@@ -1394,9 +1477,10 @@
   },
   "pharmeasy": {
     "ats": null,
-    "checked_at": 1786562846.83202,
+    "checked_at": 1786590567.2176661,
+    "confidence": "none",
     "domain": "pharmeasy.in",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "PharmEasy",
     "slug": null
   },
@@ -1411,9 +1495,10 @@
   },
   "physicswallah": {
     "ats": null,
-    "checked_at": 1786562846.552704,
+    "checked_at": 1786590566.447862,
+    "confidence": "none",
     "domain": "pw.live",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "PhysicsWallah",
     "slug": null
   },
@@ -1437,33 +1522,37 @@
   },
   "plum": {
     "ats": null,
-    "checked_at": 1786563193.6966012,
+    "checked_at": 1786590673.692336,
+    "confidence": "none",
     "domain": "plumhq.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Plum",
     "slug": null
   },
   "pocket fm": {
     "ats": null,
-    "checked_at": 1786563209.2518022,
+    "checked_at": 1786590718.949056,
+    "confidence": "none",
     "domain": "pocketfm.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Pocket FM",
     "slug": null
   },
   "policybazaar": {
     "ats": null,
-    "checked_at": 1786563193.0321002,
+    "checked_at": 1786590685.086549,
+    "confidence": "none",
     "domain": "policybazaar.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Policybazaar",
     "slug": null
   },
   "porter": {
     "ats": null,
-    "checked_at": 1786562778.8117278,
+    "checked_at": 1786590495.2033741,
+    "confidence": "none",
     "domain": "porter.in",
-    "how": "probe error: ValueError",
+    "how": "lever/porter: no Indian postings on an Indian company's board (28 jobs) \u2014 probably a namesake",
     "name": "Porter",
     "slug": null
   },
@@ -1496,25 +1585,28 @@
   },
   "practo": {
     "ats": null,
-    "checked_at": 1786562849.774255,
+    "checked_at": 1786590562.8503501,
+    "confidence": "none",
     "domain": "practo.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Practo",
     "slug": null
   },
   "pratilipi": {
     "ats": null,
-    "checked_at": 1786563209.52829,
+    "checked_at": 1786590697.0578718,
+    "confidence": "none",
     "domain": "pratilipi.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Pratilipi",
     "slug": null
   },
   "purplle": {
     "ats": null,
-    "checked_at": 1786562775.027789,
+    "checked_at": 1786590509.4028711,
+    "confidence": "none",
     "domain": "purplle.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Purplle",
     "slug": null
   },
@@ -1529,9 +1621,10 @@
   },
   "rapido": {
     "ats": null,
-    "checked_at": 1786562778.051722,
+    "checked_at": 1786590494.128903,
+    "confidence": "none",
     "domain": "rapido.bike",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Rapido",
     "slug": null
   },
@@ -1545,12 +1638,13 @@
     "slug": "razorpaysoftwareprivatelimited"
   },
   "refyne": {
-    "ats": null,
-    "checked_at": 1786563192.524106,
+    "ats": "smartrecruiters",
+    "checked_at": 1786590643.64767,
+    "confidence": "verified",
     "domain": "refyne.co.in",
-    "how": "probe error: ValueError",
+    "how": "slug guessed from name; board is named 'Refyne'; company domain appears in posting URLs; 9 of 10 postings are in India",
     "name": "Refyne",
-    "slug": null
+    "slug": "refyne"
   },
   "remote": {
     "ats": "greenhouse",
@@ -1572,41 +1666,46 @@
   },
   "retool": {
     "ats": null,
-    "checked_at": 1786563167.941513,
+    "checked_at": 1786590615.501023,
+    "confidence": "none",
     "domain": "retool.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Retool",
     "slug": null
   },
   "revolut": {
     "ats": null,
-    "checked_at": 1786563106.199969,
+    "checked_at": 1786590597.8652549,
+    "confidence": "none",
     "domain": "revolut.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Revolut",
     "slug": null
   },
   "rippling": {
-    "ats": null,
-    "checked_at": 1786563152.878264,
+    "ats": "bamboohr",
+    "checked_at": 1786590602.404489,
+    "confidence": "likely",
     "domain": "rippling.com",
-    "how": "probe error: ValueError",
+    "how": "slug guessed from name; company domain appears in posting URLs",
     "name": "Rippling",
-    "slug": null
+    "slug": "rippling"
   },
   "rocketlane": {
     "ats": null,
-    "checked_at": 1786563192.812356,
+    "checked_at": 1786590625.643029,
+    "confidence": "none",
     "domain": "rocketlane.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Rocketlane",
     "slug": null
   },
   "rupeek": {
     "ats": null,
-    "checked_at": 1786562769.542355,
+    "checked_at": 1786590474.201675,
+    "confidence": "none",
     "domain": "rupeek.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Rupeek",
     "slug": null
   },
@@ -1639,17 +1738,19 @@
   },
   "scaler": {
     "ats": null,
-    "checked_at": 1786562978.2849941,
+    "checked_at": 1786590552.653739,
+    "confidence": "none",
     "domain": "scaler.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Scaler",
     "slug": null
   },
   "scripbox": {
     "ats": null,
-    "checked_at": 1786562765.46479,
+    "checked_at": 1786590491.435543,
+    "confidence": "none",
     "domain": "scripbox.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Scripbox",
     "slug": null
   },
@@ -1664,33 +1765,37 @@
   },
   "setu": {
     "ats": null,
-    "checked_at": 1786562761.1575198,
+    "checked_at": 1786590454.8792992,
+    "confidence": "none",
     "domain": "setu.co",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Setu",
     "slug": null
   },
   "sharechat": {
     "ats": null,
-    "checked_at": 1786562979.52117,
+    "checked_at": 1786590570.5873642,
+    "confidence": "none",
     "domain": "sharechat.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "ShareChat",
     "slug": null
   },
   "shiprocket": {
     "ats": null,
-    "checked_at": 1786562781.64506,
+    "checked_at": 1786590497.987304,
+    "confidence": "none",
     "domain": "shiprocket.in",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Shiprocket",
     "slug": null
   },
   "shopify": {
     "ats": null,
-    "checked_at": 1786562990.2383249,
+    "checked_at": 1786590582.853256,
+    "confidence": "none",
     "domain": "shopify.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Shopify",
     "slug": null
   },
@@ -1705,41 +1810,46 @@
   },
   "signeasy": {
     "ats": null,
-    "checked_at": 1786563173.738164,
+    "checked_at": 1786590661.150166,
+    "confidence": "none",
     "domain": "signeasy.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Signeasy",
     "slug": null
   },
   "signzy": {
     "ats": null,
-    "checked_at": 1786562762.487008,
+    "checked_at": 1786590454.8103878,
+    "confidence": "none",
     "domain": "signzy.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Signzy",
     "slug": null
   },
   "sirionlabs": {
     "ats": null,
-    "checked_at": 1786562835.6897469,
+    "checked_at": 1786590558.5305889,
+    "confidence": "none",
     "domain": "sirionlabs.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "SirionLabs",
     "slug": null
   },
   "slice": {
     "ats": null,
-    "checked_at": 1786562763.0002592,
+    "checked_at": 1786590465.8076422,
+    "confidence": "none",
     "domain": "sliceit.com",
-    "how": "probe error: ValueError",
+    "how": "greenhouse/slice: no Indian postings on an Indian company's board (43 jobs) \u2014 probably a namesake",
     "name": "slice",
     "slug": null
   },
   "smallcase": {
     "ats": null,
-    "checked_at": 1786562768.9536262,
+    "checked_at": 1786590457.490504,
+    "confidence": "none",
     "domain": "smallcase.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "smallcase",
     "slug": null
   },
@@ -1763,9 +1873,10 @@
   },
   "spinny": {
     "ats": null,
-    "checked_at": 1786563238.3526368,
+    "checked_at": 1786590707.149527,
+    "confidence": "none",
     "domain": "spinny.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Spinny",
     "slug": null
   },
@@ -1780,9 +1891,10 @@
   },
   "springworks": {
     "ats": null,
-    "checked_at": 1786562837.907857,
+    "checked_at": 1786590549.4784,
+    "confidence": "none",
     "domain": "springworks.in",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Springworks",
     "slug": null
   },
@@ -1823,12 +1935,13 @@
     "slug": "supabase"
   },
   "swiggy": {
-    "ats": null,
-    "checked_at": 1786562771.7071319,
+    "ats": "smartrecruiters",
+    "checked_at": 1786590467.4014452,
+    "confidence": "verified",
     "domain": "swiggy.com",
-    "how": "probe error: ValueError",
+    "how": "slug guessed from name; board is named 'SWIGGY'; company domain appears in posting URLs; 24 of 36 postings are in India",
     "name": "Swiggy",
-    "slug": null
+    "slug": "swiggy"
   },
   "target": {
     "ats": "workday",
@@ -1841,51 +1954,57 @@
   },
   "tata 1mg": {
     "ats": null,
-    "checked_at": 1786562941.1714718,
+    "checked_at": 1786590649.536733,
+    "confidence": "none",
     "domain": "1mg.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Tata 1mg",
     "slug": null
   },
   "testsigma": {
     "ats": null,
-    "checked_at": 1786563168.550029,
+    "checked_at": 1786590646.1819131,
+    "confidence": "none",
     "domain": "testsigma.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Testsigma",
     "slug": null
   },
   "the souled store": {
     "ats": null,
-    "checked_at": 1786563203.538986,
+    "checked_at": 1786590718.070772,
+    "confidence": "none",
     "domain": "thesouledstore.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "The Souled Store",
     "slug": null
   },
   "toggl": {
     "ats": null,
-    "checked_at": 1786563154.479625,
+    "checked_at": 1786590610.051454,
+    "confidence": "none",
     "domain": "toggl.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Toggl",
     "slug": null
   },
   "tooljet": {
     "ats": null,
-    "checked_at": 1786563180.035042,
+    "checked_at": 1786590653.236678,
+    "confidence": "none",
     "domain": "tooljet.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "ToolJet",
     "slug": null
   },
   "turtlemint": {
-    "ats": null,
-    "checked_at": 1786563192.7100391,
+    "ats": "smartrecruiters",
+    "checked_at": 1786590643.869236,
+    "confidence": "verified",
     "domain": "turtlemint.com",
-    "how": "probe error: ValueError",
+    "how": "slug guessed from name; board is named 'Turtlemint'; company domain appears in posting URLs",
     "name": "Turtlemint",
-    "slug": null
+    "slug": "turtlemint"
   },
   "twilio": {
     "ats": "greenhouse",
@@ -1907,27 +2026,30 @@
   },
   "uber": {
     "ats": null,
-    "checked_at": 1786562999.3535109,
+    "checked_at": 1786590615.495969,
+    "confidence": "none",
     "domain": "uber.com",
-    "how": "probe error: ValueError",
+    "how": "smartrecruiters/uber: board looks like a demo account ('Test UAT')",
     "name": "Uber",
     "slug": null
   },
   "udaan": {
     "ats": null,
-    "checked_at": 1786562806.6010082,
+    "checked_at": 1786590519.8218958,
+    "confidence": "none",
     "domain": "udaan.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Udaan",
     "slug": null
   },
   "unacademy": {
-    "ats": null,
-    "checked_at": 1786562840.187108,
+    "ats": "smartrecruiters",
+    "checked_at": 1786590542.7359202,
+    "confidence": "verified",
     "domain": "unacademy.com",
-    "how": "probe error: ValueError",
+    "how": "slug guessed from name; board is named 'Unacademy'; company domain appears in posting URLs; 3 of 3 postings are in India",
     "name": "Unacademy",
-    "slug": null
+    "slug": "unacademy"
   },
   "uniphore": {
     "ats": "workday",
@@ -1940,33 +2062,37 @@
   },
   "upgrad": {
     "ats": null,
-    "checked_at": 1786562983.2551382,
+    "checked_at": 1786590554.365463,
+    "confidence": "none",
     "domain": "upgrad.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "upGrad",
     "slug": null
   },
   "upstox": {
-    "ats": null,
-    "checked_at": 1786562765.668792,
+    "ats": "smartrecruiters",
+    "checked_at": 1786590451.578161,
+    "confidence": "verified",
     "domain": "upstox.com",
-    "how": "probe error: ValueError",
+    "how": "slug guessed from name; board is named 'upstox'; company domain appears in posting URLs",
     "name": "Upstox",
-    "slug": null
+    "slug": "upstox"
   },
   "urban company": {
     "ats": null,
-    "checked_at": 1786562785.8135061,
+    "checked_at": 1786590557.523914,
+    "confidence": "none",
     "domain": "urbancompany.com",
-    "how": "probe error: ValueError",
+    "how": "bamboohr/urban: no Indian postings on an Indian company's board (19 jobs) \u2014 probably a namesake",
     "name": "Urban Company",
     "slug": null
   },
   "vedantu": {
     "ats": null,
-    "checked_at": 1786562847.3928719,
+    "checked_at": 1786590552.974533,
+    "confidence": "none",
     "domain": "vedantu.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Vedantu",
     "slug": null
   },
@@ -1981,25 +2107,28 @@
   },
   "volopay": {
     "ats": null,
-    "checked_at": 1786563184.1614609,
+    "checked_at": 1786590655.576821,
+    "confidence": "none",
     "domain": "volopay.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Volopay",
     "slug": null
   },
   "wakefit": {
     "ats": null,
-    "checked_at": 1786563199.652202,
+    "checked_at": 1786590701.1766841,
+    "confidence": "none",
     "domain": "wakefit.co",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Wakefit",
     "slug": null
   },
   "webengage": {
     "ats": null,
-    "checked_at": 1786563181.5662541,
+    "checked_at": 1786590630.568013,
+    "confidence": "none",
     "domain": "webengage.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "WebEngage",
     "slug": null
   },
@@ -2014,9 +2143,10 @@
   },
   "whatfix": {
     "ats": null,
-    "checked_at": 1786562796.519886,
+    "checked_at": 1786590510.978312,
+    "confidence": "none",
     "domain": "whatfix.com",
-    "how": "probe error: ValueError",
+    "how": "smartrecruiters/whatfix: board looks like a demo account ('test')",
     "name": "Whatfix",
     "slug": null
   },
@@ -2040,17 +2170,19 @@
   },
   "yellow.ai": {
     "ats": null,
-    "checked_at": 1786562840.4441721,
+    "checked_at": 1786590614.290588,
+    "confidence": "none",
     "domain": "yellow.ai",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Yellow.ai",
     "slug": null
   },
   "yubi": {
     "ats": null,
-    "checked_at": 1786562763.1535869,
+    "checked_at": 1786590579.556467,
+    "confidence": "none",
     "domain": "go-yubi.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Yubi",
     "slug": null
   },
@@ -2064,18 +2196,20 @@
     "slug": "zapier"
   },
   "zepto": {
-    "ats": null,
-    "checked_at": 1786562770.2636318,
+    "ats": "bamboohr",
+    "checked_at": 1786590468.725554,
+    "confidence": "likely",
     "domain": "zepto.co.in",
-    "how": "probe error: ValueError",
+    "how": "slug guessed from name; company domain appears in posting URLs; company named in 3 of 3 descriptions",
     "name": "Zepto",
-    "slug": null
+    "slug": "zepto"
   },
   "zerodha": {
     "ats": null,
-    "checked_at": 1786562731.121118,
+    "checked_at": 1786590449.122406,
+    "confidence": "none",
     "domain": "zerodha.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Zerodha",
     "slug": null
   },
@@ -2090,33 +2224,37 @@
   },
   "zetwerk": {
     "ats": null,
-    "checked_at": 1786562784.4549031,
+    "checked_at": 1786590489.515829,
+    "confidence": "none",
     "domain": "zetwerk.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Zetwerk",
     "slug": null
   },
   "zluri": {
     "ats": null,
-    "checked_at": 1786562810.093743,
+    "checked_at": 1786590529.828824,
+    "confidence": "none",
     "domain": "zluri.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Zluri",
     "slug": null
   },
   "zoho": {
     "ats": null,
-    "checked_at": 1786562783.5838249,
+    "checked_at": 1786590505.372011,
+    "confidence": "none",
     "domain": "zoho.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Zoho",
     "slug": null
   },
   "zomato": {
     "ats": null,
-    "checked_at": 1786562839.9214542,
+    "checked_at": 1786590546.592278,
+    "confidence": "none",
     "domain": "zomato.com",
-    "how": "probe error: ValueError",
+    "how": "no public board found",
     "name": "Zomato",
     "slug": null
   }

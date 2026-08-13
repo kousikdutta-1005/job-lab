@@ -42,6 +42,13 @@ def snapshot_for(jobs: list[Job], *, today: date | None = None) -> dict:
         "job_count": len(jobs),
         "eligible_count": sum(1 for job in jobs if job.eligible),
         "per_company": dict(Counter(job.company for job in jobs).most_common()),
+        "job_keys": sorted(
+            {
+                f"{job.company.strip().lower()}|{job.title.strip().lower()}"
+                for job in jobs
+                if job.company and job.title
+            }
+        ),
         "per_city": dict(Counter(city for job in jobs for city in job.cities).most_common()),
         "per_seniority": dict(Counter(job.seniority_label for job in jobs).most_common()),
         "median_disclosed_pay_inr": _median_pay(jobs),

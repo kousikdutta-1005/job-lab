@@ -18,6 +18,7 @@ from pathlib import Path
 from . import __version__
 from .benchmarks import export_benchmarks
 from .classify import enrich, keep
+from .company import build_company_dossiers
 from .contacts import email_guesses, linkedin_links
 from .corpus import build_idf, corpus_stats
 from .insights import build_insights
@@ -27,6 +28,7 @@ from .registry import load_registry, resolve_boards
 from .relocation import build_relocation
 from .salary import attach_salaries, benchmarks
 from .score import load_profile, score_job
+from .quality import attach_quality
 from .sources.aggregators import AGGREGATORS
 from .sources.ats import fetch_ats
 from .trends import build_trends
@@ -44,6 +46,8 @@ SOURCE_PRIORITY = {
     "workable": 9,
     "smartrecruiters": 9,
     "recruitee": 9,
+    "teamtailor": 9,
+    "bamboohr": 9,
     "remotive": 5,
     "himalayas": 4,
     "weworkremotely": 4,
@@ -200,7 +204,9 @@ def run(*, force_detect: bool = False, workers: int = 10, write: bool = True) ->
     idf = build_idf(jobs)
     news, news_health = collect_news()
     trends = build_trends(jobs, write=write)
+    quality_health = attach_quality(jobs, today=today)
     salary_benchmarks = export_benchmarks()
+    company_dossiers = build_company_dossiers(companies, write=write)
     pay["tiers"] = {
         "tier_1": "Crawled disclosed salary bands from live postings.",
         "tier_2": "Published benchmarks from data/benchmarks.yaml, with source and confidence.",
@@ -329,7 +335,9 @@ def run(*, force_detect: bool = False, workers: int = 10, write: bool = True) ->
             "salary_disclosed": disclosed,
             "news_items": len(news["items"]),
             "insights": len(insights["insights"]),
+            "company_dossiers": len(company_dossiers.get("companies", {})),
         },
+        "quality": quality_health,
         "by_source": dict(Counter(j.source for j in jobs).most_common()),
         "by_seniority": dict(Counter(j.seniority_label for j in jobs).most_common()),
         "by_workplace": dict(Counter(j.workplace for j in jobs).most_common()),
@@ -354,6 +362,7 @@ def run(*, force_detect: bool = False, workers: int = 10, write: bool = True) ->
         (OUT_DIR / "relocation.json").write_text(json.dumps(relocation, separators=(",", ":")))
         (OUT_DIR / "insights.json").write_text(json.dumps(insights, separators=(",", ":")))
         (OUT_DIR / "benchmarks.json").write_text(json.dumps(salary_benchmarks, separators=(",", ":")))
+        (OUT_DIR / "company.json").write_text(json.dumps(company_dossiers, separators=(",", ":")))
         (OUT_DIR / "health.json").write_text(json.dumps(health, indent=2))
         (OUT_DIR / "profile.json").write_text(json.dumps(profile.to_dict(), indent=2))
 
