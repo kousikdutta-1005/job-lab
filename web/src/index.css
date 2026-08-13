@@ -1350,3 +1350,20 @@ input[type="checkbox"] {
 .vet-src { color: var(--ink-3); text-decoration: none; display: inline-block; margin-top: 3px; }
 a.vet-src { border-bottom: 1px dotted var(--line); }
 a.vet-src:hover { color: var(--accent-text); }
+
+.job-when.when-warn {
+  color: var(--warn);
+}
+
+.job-when.when-bad {
+  color: var(--bad);
+}
+
+.tag-stale {
+  font-size: 10px;
+  padding: 1px 5px;
+  border-radius: 4px;
+  color: var(--bad);
+  background: color-mix(in oklab, var(--bad) 12%, transparent);
+  flex-shrink: 0;
+}

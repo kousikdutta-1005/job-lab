@@ -1,6 +1,41 @@
 import { useEffect } from "react"
 import type { Application, Job } from "@/lib/types"
 import { ago, logoFor, scoreClass } from "@/lib/format"
+import { vet } from "@/lib/vetting"
+
+/**
+ * Freshness is already on every row as "1mo ago", but only someone who knows
+ * design-hiring norms can tell that 42 days is a problem. Colouring the age
+ * says what the number means without adding an element to every row — most
+ * rows stay quiet and only the ones worth hesitating over speak up.
+ */
+function whenClass(tone: string): string {
+  if (tone === "bad") return "when-bad"
+  if (tone === "warn") return "when-warn"
+  return "dimmer"
+}
+
+/** The tone of the age signal alone, ignoring the rest of the verdict. */
+function ageTone(job: Job): string {
+  const signal = vet(job).signals.find((s) => s.label === "Posted" || s.label === "Open")
+  return signal?.tone ?? "neutral"
+}
+
+/**
+ * On a flagged row, say the real number.
+ *
+ * ago() rounds anything past a month to "1mo ago", which is the exact
+ * fuzziness that hides a 52-day posting — and it reads posted_at, while the
+ * colour comes from quality.days_open (the older of the employer's date and
+ * the day we first saw it). Leaving them on different sources lets the number
+ * and the reason for its colour disagree on the same row.
+ */
+function whenLabel(job: Job, tone: string): string {
+  const days = job.quality?.days_open
+  if (days == null || (tone !== "warn" && tone !== "bad")) return ago(job.posted_at)
+  if (days >= 90) return `${Math.round(days / 30)}mo open`
+  return `${days}d open`
+}
 
 export type Sort = "match" | "fresh" | "pay" | "company"
 
@@ -203,6 +238,11 @@ export function JobList({
           const tracked = appByJob.get(job.id)
           const logo = logoFor(job.company_domain)
           const isDismissed = dismissed.includes(job.id)
+          // The overall verdict folds in how specifically the posting is
+          // written, so a fresh but vague role comes back "warn". Colouring
+          // the age by that would blame the date for a different problem, so
+          // this reads the age signal on its own.
+          const tone = ageTone(job)
           return (
             <div
               key={job.id}
@@ -240,7 +280,17 @@ export function JobList({
                     {job.cities[0] ??
                       (job.workplace === "remote" ? "Remote" : job.location_raw || "—")}
                   </span>
-                  <span className="dimmer job-when">{ago(job.posted_at)}</span>
+                  <span className={`job-when ${whenClass(tone)}`}>
+                    {whenLabel(job, tone)}
+                  </span>
+                  {tone === "bad" && (
+                    <span
+                      className="tag-stale"
+                      title="Open long past the point where design shortlists close. Ask before you tailor."
+                    >
+                      ghost?
+                    </span>
+                  )}
                   {!job.eligible && (
                     <span className="tag-locked">{job.region_lock ?? "locked"}</span>
                   )}

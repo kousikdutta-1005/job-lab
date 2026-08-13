@@ -420,6 +420,36 @@ if (realErrors.length) {
   fail(`${realErrors.length} console errors`)
 }
 
+
+/* --- the board says how stale a role is, not just how old ---------------- */
+await page.locator('.nav button:has-text("Board")').first().click()
+await page.waitForTimeout(900)
+
+const warnAges = await page.locator(".job-when.when-warn").allInnerTexts()
+const badAges = await page.locator(".job-when.when-bad").allInnerTexts()
+const plainAges = await page.locator(".job-when.dimmer").allInnerTexts()
+
+// Every flagged row must state a real number. "1mo ago" is the rounding that
+// hid a 52-day posting.
+if (warnAges.every((t) => /^\d+d open$/.test(t))) pass("flagged rows show an exact age")
+else fail(`flagged rows rounded their age: ${warnAges.slice(0, 4).join(" | ")}`)
+
+if (badAges.every((t) => /^\d+mo open$/.test(t))) pass("very old rows are counted in months")
+else fail(`bad-age rows mislabelled: ${badAges.slice(0, 4).join(" | ")}`)
+
+// Colour comes from the age signal alone; a fresh-but-vague posting must not
+// paint its date amber.
+const tooFresh = warnAges.filter((t) => Number(t.match(/^(\d+)d/)?.[1] ?? 0) <= 30)
+if (tooFresh.length === 0) pass("nothing under a month is flagged as stale")
+else fail(`fresh roles flagged stale: ${tooFresh.join(" | ")}`)
+
+if (plainAges.every((t) => !/open$/.test(t))) pass("unflagged rows keep the relative wording")
+else fail(`unflagged rows changed wording: ${plainAges.slice(0, 4).join(" | ")}`)
+
+const ghostTags = await page.locator(".tag-stale").count()
+if (ghostTags === badAges.length) pass(`the ghost tag rides only with a bad age (${ghostTags})`)
+else fail(`ghost tags ${ghostTags} but ${badAges.length} bad ages`)
+
 await browser.close()
 console.log(failures ? `\nFAIL — ${failures} problem(s)` : "\nPASS — seeded views all render")
 process.exit(failures ? 1 : 0)
