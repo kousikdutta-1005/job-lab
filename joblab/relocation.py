@@ -9,6 +9,7 @@ precision score.
 
 from __future__ import annotations
 
+import math
 import statistics
 from collections import defaultdict
 from datetime import datetime, timezone
@@ -75,6 +76,36 @@ COUNTRY_TAX_AND_VISA: dict[str, dict[str, Any]] = {
     "AE": {"effective_tax_rate": 0.02, "tax_note": "No federal personal income tax; estimate leaves room for fees and mandatory costs.", "visa_difficulty": "medium", "visa_note": "Work residency is employer-sponsored; easier than lottery systems but tied to the job.", "sources": ["https://u.ae/en/information-and-services/jobs/work-visas"]},
 }
 
+# Roughly, the chance a determined senior designer actually lands the move
+# within a year or two. The H-1B lottery alone has run near a quarter in recent
+# years, and that is after finding a sponsor willing to file, so "very high"
+# difficulty is deliberately harsh. These are judgement calls, not measurements,
+# which is why they are named and shown rather than folded silently into a score.
+# PPP factors are static country averages and the tax rates are estimates, so a
+# gap inside this band is not evidence of anything. The pill uses it too.
+COMPARABLE_BAND_PCT = 15
+
+VISA_ATTAINABILITY: dict[str, float] = {
+    "home": 1.0,
+    "low": 0.9,
+    "medium": 0.7,
+    "medium_high": 0.5,
+    "high": 0.35,
+    "very_high": 0.15,
+    "unknown": 0.4,
+}
+
+VISA_LABEL: dict[str, str] = {
+    "home": "no visa needed",
+    "low": "low",
+    "medium": "medium",
+    "medium_high": "medium-high",
+    "high": "high",
+    "very_high": "very high",
+    "unknown": "unknown",
+}
+
+
 UNKNOWN_FOREIGN_TAX_AND_VISA: dict[str, Any] = {
     "effective_tax_rate": None,
     "tax_note": "No committed tax estimate for this country yet.",
@@ -84,6 +115,15 @@ UNKNOWN_FOREIGN_TAX_AND_VISA: dict[str, Any] = {
 }
 
 COUNTRY_ALIASES = {"USA": "US", "United States": "US", "UK": "GB", "United Kingdom": "GB", "Germany": "DE", "Singapore": "SG", "Canada": "CA", "Australia": "AU", "India": "IN", "United Arab Emirates": "AE"}
+
+
+def _shown(pct: float) -> int:
+    """The integer the UI will display, so prose and pill never disagree.
+
+    Python rounds half to even and JavaScript rounds half up, which put "66%"
+    in a sentence directly beneath a pill reading "+67%" for the same number.
+    """
+    return math.floor(abs(pct) + 0.5)
 
 
 def _worldbank_ind_ppp() -> tuple[float, str, str | None]:
@@ -212,6 +252,9 @@ def build_relocation(jobs: list, *, profile: Profile | None = None, ppp_override
                     "ppp_adjusted_vs_bengaluru_pct": None,
                     "effective_tax_rate": info["effective_tax_rate"],
                     "visa_difficulty": info["visa_difficulty"],
+                    "visa_difficulty_label": VISA_LABEL.get(info["visa_difficulty"], info["visa_difficulty"]),
+                    "visa_attainability": VISA_ATTAINABILITY.get(info["visa_difficulty"], VISA_ATTAINABILITY["unknown"]),
+                    "expected_uplift_pct": None,
                     "visa_note": info["visa_note"],
                     "verdict": "No crawled salary sample or published benchmark for this city yet, so relocation pay cannot be compared honestly.",
                 }
@@ -230,6 +273,9 @@ def build_relocation(jobs: list, *, profile: Profile | None = None, ppp_override
                     "ppp_adjusted_vs_bengaluru_pct": None,
                     "effective_tax_rate": info["effective_tax_rate"],
                     "visa_difficulty": info["visa_difficulty"],
+                    "visa_difficulty_label": VISA_LABEL.get(info["visa_difficulty"], info["visa_difficulty"]),
+                    "visa_attainability": VISA_ATTAINABILITY.get(info["visa_difficulty"], VISA_ATTAINABILITY["unknown"]),
+                    "expected_uplift_pct": None,
                     "visa_note": info["visa_note"],
                     "verdict": "Salary was disclosed, but PPP, tax or visa data is missing for this country, so relocation value is not ranked.",
                 }
@@ -245,13 +291,18 @@ def build_relocation(jobs: list, *, profile: Profile | None = None, ppp_override
         if vs_blr is None:
             verdict = "Not enough Bengaluru salary evidence to compare honestly."
         elif country != "IN" and difficulty in {"very_high", "high"}:
-            verdict = f"Looks {abs(vs_blr):.0f}% {'better' if vs_blr > 0 else 'worse'} on real pay, compared against the {baseline_basis['kind'].replace('_', ' ')} Bengaluru {seniority} band; visa difficulty is {difficulty}, so treat as a long shot."
-        elif vs_blr > 15:
-            verdict = f"Real pay is about {vs_blr:.0f}% above Bengaluru after PPP, tax and cost adjustment, compared against the {baseline_basis['kind'].replace('_', ' ')} Bengaluru {seniority} band."
-        elif vs_blr < -15:
-            verdict = f"Real pay is about {abs(vs_blr):.0f}% below Bengaluru after adjustment, compared against the {baseline_basis['kind'].replace('_', ' ')} Bengaluru {seniority} band."
+            verdict = f"Looks {_shown(vs_blr)}% {'better' if vs_blr > 0 else 'worse'} on real pay, compared against the {baseline_basis['kind'].replace('_', ' ')} Bengaluru {seniority} band; visa difficulty is {VISA_LABEL.get(difficulty, difficulty)}, so treat as a long shot."
+        elif vs_blr > COMPARABLE_BAND_PCT:
+            verdict = f"Real pay is about {_shown(vs_blr)}% above Bengaluru after PPP, tax and cost adjustment, compared against the {baseline_basis['kind'].replace('_', ' ')} Bengaluru {seniority} band."
+        elif vs_blr < -COMPARABLE_BAND_PCT:
+            verdict = f"Real pay is about {_shown(vs_blr)}% below Bengaluru after adjustment, compared against the {baseline_basis['kind'].replace('_', ' ')} Bengaluru {seniority} band."
         else:
             verdict = f"Real pay is roughly comparable to Bengaluru once PPP, tax and local cost are included, using the {baseline_basis['kind'].replace('_', ' ')} Bengaluru {seniority} band."
+        # The page promises that visa difficulty is weighted, so it has to be.
+        # If the move does not come off you stay where you are, so the discount
+        # applies to the upside only — a lottery does not rescue a pay cut.
+        attainability = VISA_ATTAINABILITY.get(difficulty, VISA_ATTAINABILITY["unknown"])
+        expected = None if vs_blr is None else round(vs_blr * attainability if vs_blr > 0 else vs_blr, 1)
         rows.append(
             {
                 "city": city,
@@ -264,6 +315,9 @@ def build_relocation(jobs: list, *, profile: Profile | None = None, ppp_override
                 "ppp_adjusted_vs_bengaluru_pct": vs_blr,
                 "effective_tax_rate": info["effective_tax_rate"],
                 "visa_difficulty": difficulty,
+                "visa_difficulty_label": VISA_LABEL.get(difficulty, difficulty),
+                "visa_attainability": attainability,
+                "expected_uplift_pct": expected,
                 "visa_note": info["visa_note"],
                 "verdict": verdict,
             }
@@ -274,6 +328,7 @@ def build_relocation(jobs: list, *, profile: Profile | None = None, ppp_override
         "baseline": {"city": "Bengaluru", "seniority": seniority, "nominal_median_pay_inr": baseline_nominal, "basis": baseline_basis, "real_after_tax_ppp": round(baseline_real, 2) if baseline_real else None},
         "ppp": {"source": ppp_source, "worldbank_url": WORLDBANK_IND_PPP_URL, "error": ppp_error, "table": ppp_table},
         "tax_and_visa": COUNTRY_TAX_AND_VISA,
-        "cities": sorted(rows, key=lambda r: (r["ppp_adjusted_vs_bengaluru_pct"] is None, -(r["ppp_adjusted_vs_bengaluru_pct"] or -999), -r["salary_samples"])),
+        "comparable_band_pct": COMPARABLE_BAND_PCT,
+        "cities": sorted(rows, key=lambda r: (r["expected_uplift_pct"] is None, -(r["expected_uplift_pct"] if r["expected_uplift_pct"] is not None else -999), -r["salary_samples"])),
         "remote": remote,
     }

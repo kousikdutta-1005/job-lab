@@ -57,6 +57,9 @@ interface City {
   salary_samples?: number
   nominal_median_pay_inr?: number
   ppp_adjusted_vs_bengaluru_pct?: number
+  expected_uplift_pct?: number | null
+  visa_attainability?: number
+  visa_difficulty_label?: string
   effective_tax_rate?: number
   visa_difficulty?: string
   visa_note?: string
@@ -73,7 +76,12 @@ export interface Advisor {
     latest: Record<string, unknown>
     comparisons: Record<string, unknown>
   }
-  relocation?: { generated_at: string; baseline: unknown; cities: City[] }
+  relocation?: {
+    generated_at: string
+    baseline: unknown
+    cities: City[]
+    comparable_band_pct?: number
+  }
 }
 
 const CONFIDENCE_CLASS: Record<string, string> = {
@@ -186,12 +194,10 @@ export function AdvisorView({ advisor }: { advisor: Advisor }) {
 
   const insights = advisor.insights?.insights ?? []
   const news = advisor.news?.items ?? []
-  const cities = (advisor.relocation?.cities ?? [])
-    .slice()
-    .sort(
-      (a, b) =>
-        (b.ppp_adjusted_vs_bengaluru_pct ?? -999) - (a.ppp_adjusted_vs_bengaluru_pct ?? -999),
-    )
+  const cities = advisor.relocation?.cities ?? []
+  // Same band the verdict prose uses, so a card cannot call a gap "roughly
+  // comparable" while colouring it red beside the sentence.
+  const band = advisor.relocation?.comparable_band_pct ?? 15
   const trends = advisor.trends
 
   return (
@@ -253,9 +259,10 @@ export function AdvisorView({ advisor }: { advisor: Advisor }) {
               <h3>How to read this</h3>
               <p className="tiny dim" style={{ margin: 0 }}>
                 Pay is adjusted for purchasing power, so the percentage is what the money actually
-                buys rather than what it converts to. Visa difficulty is weighted deliberately: a
-                role paying double that needs a lottery you will probably not win is not a better
-                job, and this page will not pretend otherwise.
+                buys rather than what it converts to. The order is the second number: real pay
+                multiplied by roughly how likely the visa is, because a role paying double that
+                needs a lottery you will probably not win is not a better job. A pay cut is never
+                discounted that way — not getting the visa cannot rescue it.
               </p>
             </div>
 
@@ -263,6 +270,11 @@ export function AdvisorView({ advisor }: { advisor: Advisor }) {
 
             {cities.map((city) => {
               const delta = city.ppp_adjusted_vs_bengaluru_pct
+              const expected = city.expected_uplift_pct
+              const discounted =
+                delta !== undefined && delta !== null &&
+                expected !== undefined && expected !== null &&
+                Math.round(expected) !== Math.round(delta)
               return (
                 <div className="card" key={city.city}>
                   <div className="row-between" style={{ marginBottom: 6 }}>
@@ -272,15 +284,23 @@ export function AdvisorView({ advisor }: { advisor: Advisor }) {
                     <div className="row" style={{ gap: 6 }}>
                       {delta !== undefined && delta !== null && (
                         <span
-                          className={`pill ${delta > 5 ? "pill-good" : delta < -5 ? "pill-bad" : ""}`}
+                          className={`pill ${delta > band ? "pill-good" : delta < -band ? "pill-bad" : ""}`}
                         >
                           {delta > 0 ? "+" : ""}
                           {Math.round(delta)}% real pay
                         </span>
                       )}
+                      {discounted && (
+                        <span className="pill" title="Real pay discounted by how likely the visa is">
+                          {expected! > 0 ? "+" : ""}
+                          {Math.round(expected!)}% once the visa odds are counted
+                        </span>
+                      )}
                       {city.visa_difficulty && (
                         <span className={`pill ${VISA_CLASS[city.visa_difficulty] ?? ""}`}>
-                          visa {city.visa_difficulty.replace("_", " ")}
+                          {city.visa_difficulty === "home"
+                            ? "no visa needed"
+                            : `visa ${city.visa_difficulty_label ?? city.visa_difficulty.replace("_", " ")}`}
                         </span>
                       )}
                     </div>
@@ -291,7 +311,11 @@ export function AdvisorView({ advisor }: { advisor: Advisor }) {
                   </p>
 
                   <div className="row wrap tiny dimmer" style={{ gap: 12 }}>
-                    {city.jobs !== undefined && <span>{city.jobs} open design roles</span>}
+                    {city.jobs !== undefined && (
+                      <span>
+                        {city.jobs} open design {city.jobs === 1 ? "role" : "roles"}
+                      </span>
+                    )}
                     {city.nominal_median_pay_inr ? (
                       <span>median {inr(city.nominal_median_pay_inr)} nominal</span>
                     ) : null}
