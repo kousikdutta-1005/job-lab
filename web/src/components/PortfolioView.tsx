@@ -59,6 +59,16 @@ export function PortfolioView({ jobs, projects, onChange }: Props) {
             {result.verdict}
           </p>
 
+          {result.gaps.length === 0 && (
+            <div
+              className="row-between kicker"
+              style={{ margin: "14px 0 2px", paddingRight: 2 }}
+            >
+              <span style={{ margin: 0 }}>What they ask for</span>
+              <span style={{ margin: 0 }}>Share of those roles asking</span>
+            </div>
+          )}
+
           <div style={{ marginTop: 12 }}>
             {result.gaps.length > 0
               ? result.gaps.map((gap) => (

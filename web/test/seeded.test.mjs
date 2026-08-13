@@ -462,10 +462,15 @@ else fail(`unflagged rows changed wording: ${plainAges.slice(0, 4).join(" | ")}`
 // They used to read from two different sources, so a row could say "52d open"
 // under a header that said "1mo ago".
 if (warnAges.length > 0) {
-  await page.locator(".job-row").first().click()
+  // Open a row that actually carries an age chip. Clicking .job-row first
+  // assumed the flagged row was also the top row, which held until a rebuild
+  // reordered the board and the assertion started failing on a row that had
+  // nothing to repeat.
+  const aged = page.locator(".job-row").filter({ has: page.locator(".job-when.when-warn") }).first()
+  await aged.click()
   await page.waitForTimeout(800)
   const detail = await page.locator(".detail").first().innerText()
-  const rowAge = (await page.locator(".job-row").first().innerText()).match(/(\d+)(d|mo) open/)
+  const rowAge = (await aged.innerText()).match(/(\d+)(d|mo) open/)
   if (rowAge && detail.includes(rowAge[0])) pass(`the header repeats the row's age (${rowAge[0]})`)
   else fail(`row age ${rowAge?.[0]} missing from the detail header`)
   if (!/\dmo ago/.test(detail)) pass("the detail never rounds a flagged age to months-ago")

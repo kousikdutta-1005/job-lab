@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-08-13T03:26:40+00:00",
+  "generated_at": "2026-08-13T05:27:12+00:00",
   "version": "0.1.0",
-  "duration_seconds": 167.4,
+  "duration_seconds": 26.5,
   "detection": {
     "total": 251,
     "cached": 251,
@@ -12,15 +12,15 @@
   "counts": {
     "companies_in_registry": 251,
     "companies_with_board": 125,
-    "raw_design_postings": 370,
-    "duplicates_removed": 19,
-    "jobs": 351,
-    "eligible": 78,
-    "ineligible": 273,
-    "on_map": 277,
-    "off_map": 74,
+    "raw_design_postings": 343,
+    "duplicates_removed": 13,
+    "jobs": 330,
+    "eligible": 76,
+    "ineligible": 254,
+    "on_map": 260,
+    "off_map": 70,
     "places": 43,
-    "salary_disclosed": 181,
+    "salary_disclosed": 167,
     "news_items": 60,
     "insights": 8,
     "company_dossiers": 251
@@ -30,32 +30,32 @@
     "job_key_history_days": 1
   },
   "by_source": {
-    "greenhouse": 150,
+    "greenhouse": 139,
     "ashby": 58,
-    "workday": 52,
-    "weworkremotely": 22,
-    "jobicy": 19,
-    "himalayas": 13,
+    "workday": 47,
+    "weworkremotely": 20,
+    "jobicy": 18,
     "arbeitnow": 11,
+    "himalayas": 11,
     "hn-whoishiring": 11,
     "lever": 7,
     "smartrecruiters": 4,
     "remoteok": 4
   },
   "by_seniority": {
-    "Mid-level": 108,
-    "Senior": 81,
-    "Staff": 66,
+    "Senior": 103,
+    "Staff": 76,
+    "Mid-level": 55,
     "Director": 28,
     "Manager": 24,
     "Lead": 20,
-    "Principal": 16,
+    "Principal": 15,
     "Head of Design": 5,
-    "Junior": 3
+    "Junior": 4
   },
   "by_workplace": {
-    "onsite": 190,
-    "remote": 145,
+    "onsite": 174,
+    "remote": 140,
     "hybrid": 16
   },
   "sources": [
@@ -70,26 +70,9 @@
       "error": null
     },
     {
-      "kind": "company",
-      "name": "Anduril",
-      "ats": "greenhouse",
-      "slug": "andurilindustries",
-      "confidence": "verified",
-      "postings": 2223,
-      "jobs": 23,
-      "error": null
-    },
-    {
       "kind": "aggregator",
       "name": "weworkremotely",
       "postings": 93,
-      "jobs": 23,
-      "error": null
-    },
-    {
-      "kind": "aggregator",
-      "name": "himalayas",
-      "postings": 1200,
       "jobs": 21,
       "error": null
     },
@@ -97,7 +80,14 @@
       "kind": "aggregator",
       "name": "jobicy",
       "postings": 100,
-      "jobs": 19,
+      "jobs": 18,
+      "error": null
+    },
+    {
+      "kind": "aggregator",
+      "name": "himalayas",
+      "postings": 1200,
+      "jobs": 17,
       "error": null
     },
     {
@@ -115,6 +105,16 @@
       "name": "arbeitnow",
       "postings": 576,
       "jobs": 12,
+      "error": null
+    },
+    {
+      "kind": "company",
+      "name": "Anduril",
+      "ats": "greenhouse",
+      "slug": "andurilindustries",
+      "confidence": "verified",
+      "postings": 2223,
+      "jobs": 11,
       "error": null
     },
     {
@@ -141,16 +141,6 @@
       "slug": "autodesk.wd1/Ext",
       "confidence": "likely",
       "postings": 57,
-      "jobs": 9,
-      "error": null
-    },
-    {
-      "kind": "company",
-      "name": "NVIDIA",
-      "ats": "workday",
-      "slug": "nvidia.wd5/NVIDIAExternalCareerSite",
-      "confidence": "likely",
-      "postings": 60,
       "jobs": 9,
       "error": null
     },
@@ -753,6 +743,16 @@
     },
     {
       "kind": "company",
+      "name": "NVIDIA",
+      "ats": "workday",
+      "slug": "nvidia.wd5/NVIDIAExternalCareerSite",
+      "confidence": "likely",
+      "postings": 60,
+      "jobs": 1,
+      "error": null
+    },
+    {
+      "kind": "company",
       "name": "Paytm",
       "ats": "lever",
       "slug": "paytm",
@@ -1019,7 +1019,7 @@
       "kind": "news",
       "name": "Hacker News \u2014 layoffs",
       "url": "https://hn.algolia.com/api/v1/search_by_date?query=layoffs&tags=story",
-      "items": 19,
+      "items": 15,
       "error": null
     },
     {
@@ -1916,285 +1916,285 @@
     }
   ],
   "corpus": {
-    "documents": 351,
-    "distinct_terms": 145,
+    "documents": 330,
+    "distinct_terms": 151,
     "most_common": [
       {
         "term": "ai",
-        "jobs": 282,
-        "share": 0.803,
-        "idf": 1.2182
+        "jobs": 266,
+        "share": 0.806,
+        "idf": 1.2149
       },
       {
         "term": "platform",
-        "jobs": 208,
-        "share": 0.593,
-        "idf": 1.5213
-      },
-      {
-        "term": "vision",
-        "jobs": 173,
-        "share": 0.493,
-        "idf": 1.7046
+        "jobs": 232,
+        "share": 0.703,
+        "idf": 1.3511
       },
       {
         "term": "strategy",
         "jobs": 172,
-        "share": 0.49,
-        "idf": 1.7103
+        "share": 0.521,
+        "idf": 1.6488
+      },
+      {
+        "term": "vision",
+        "jobs": 160,
+        "share": 0.485,
+        "idf": 1.7207
+      },
+      {
+        "term": "design system",
+        "jobs": 146,
+        "share": 0.442,
+        "idf": 1.8117
       },
       {
         "term": "hiring",
-        "jobs": 145,
-        "share": 0.413,
-        "idf": 1.88
+        "jobs": 133,
+        "share": 0.403,
+        "idf": 1.9043
       },
       {
         "term": "prototyping",
-        "jobs": 135,
-        "share": 0.385,
-        "idf": 1.951
+        "jobs": 130,
+        "share": 0.394,
+        "idf": 1.9269
       },
       {
         "term": "figma",
         "jobs": 127,
-        "share": 0.362,
-        "idf": 2.0116
+        "share": 0.385,
+        "idf": 1.9501
       },
       {
-        "term": "design system",
-        "jobs": 97,
-        "share": 0.276,
-        "idf": 2.2787
+        "term": "insight",
+        "jobs": 114,
+        "share": 0.345,
+        "idf": 2.0572
+      },
+      {
+        "term": "enterprise",
+        "jobs": 99,
+        "share": 0.3,
+        "idf": 2.1969
       },
       {
         "term": "influence",
-        "jobs": 97,
-        "share": 0.276,
-        "idf": 2.2787
+        "jobs": 98,
+        "share": 0.297,
+        "idf": 2.207
       },
       {
         "term": "accessibility",
         "jobs": 88,
-        "share": 0.251,
-        "idf": 2.375
-      },
-      {
-        "term": "interaction design",
-        "jobs": 81,
-        "share": 0.231,
-        "idf": 2.4569
+        "share": 0.267,
+        "idf": 2.3135
       },
       {
         "term": "visual design",
-        "jobs": 81,
-        "share": 0.231,
-        "idf": 2.4569
+        "jobs": 83,
+        "share": 0.252,
+        "idf": 2.3713
       },
       {
-        "term": "enterprise",
-        "jobs": 81,
-        "share": 0.231,
-        "idf": 2.4569
+        "term": "interaction design",
+        "jobs": 82,
+        "share": 0.248,
+        "idf": 2.3833
+      },
+      {
+        "term": "principle",
+        "jobs": 78,
+        "share": 0.236,
+        "idf": 2.4327
       },
       {
         "term": "consumer",
-        "jobs": 69,
-        "share": 0.197,
-        "idf": 2.6151
+        "jobs": 61,
+        "share": 0.185,
+        "idf": 2.675
+      },
+      {
+        "term": "roadmap",
+        "jobs": 58,
+        "share": 0.176,
+        "idf": 2.7246
       },
       {
         "term": "agentic",
         "jobs": 56,
-        "share": 0.16,
-        "idf": 2.8206
+        "share": 0.17,
+        "idf": 2.7591
       },
       {
         "term": "layout",
         "jobs": 52,
-        "share": 0.148,
-        "idf": 2.8933
+        "share": 0.158,
+        "idf": 2.8318
       },
       {
         "term": "discovery",
         "jobs": 52,
-        "share": 0.148,
-        "idf": 2.8933
+        "share": 0.158,
+        "idf": 2.8318
       },
       {
         "term": "user research",
         "jobs": 50,
-        "share": 0.142,
-        "idf": 2.9318
+        "share": 0.152,
+        "idf": 2.8703
       },
       {
         "term": "b2b",
         "jobs": 49,
-        "share": 0.14,
-        "idf": 2.9516
+        "share": 0.148,
+        "idf": 2.8901
       },
       {
         "term": "saas",
         "jobs": 48,
-        "share": 0.137,
-        "idf": 2.9718
+        "share": 0.145,
+        "idf": 2.9103
+      },
+      {
+        "term": "critique",
+        "jobs": 45,
+        "share": 0.136,
+        "idf": 2.9735
       },
       {
         "term": "mentoring",
-        "jobs": 44,
-        "share": 0.125,
-        "idf": 3.057
-      },
-      {
-        "term": "roadmap",
-        "jobs": 44,
-        "share": 0.125,
-        "idf": 3.057
-      },
-      {
-        "term": "documentation",
-        "jobs": 43,
-        "share": 0.123,
-        "idf": 3.0794
-      },
-      {
-        "term": "typography",
         "jobs": 41,
-        "share": 0.117,
-        "idf": 3.126
-      },
-      {
-        "term": "css",
-        "jobs": 40,
-        "share": 0.114,
-        "idf": 3.1501
+        "share": 0.124,
+        "idf": 3.0644
       }
     ],
     "most_distinctive": [
       {
         "term": "contextual inquiry",
         "jobs": 1,
-        "idf": 6.1705
+        "idf": 6.109
       },
       {
         "term": "confluence",
         "jobs": 1,
-        "idf": 6.1705
-      },
-      {
-        "term": "sprint",
-        "jobs": 1,
-        "idf": 6.1705
+        "idf": 6.109
       },
       {
         "term": "section 508",
         "jobs": 1,
-        "idf": 6.1705
-      },
-      {
-        "term": "user interviews",
-        "jobs": 1,
-        "idf": 6.1705
-      },
-      {
-        "term": "multivariate",
-        "jobs": 1,
-        "idf": 6.1705
+        "idf": 6.109
       },
       {
         "term": "fullstory",
         "jobs": 1,
-        "idf": 6.1705
+        "idf": 6.109
       },
       {
-        "term": "svelte",
+        "term": "multivariate",
         "jobs": 1,
-        "idf": 6.1705
-      },
-      {
-        "term": "vue",
-        "jobs": 1,
-        "idf": 6.1705
-      },
-      {
-        "term": "blender",
-        "jobs": 1,
-        "idf": 6.1705
+        "idf": 6.109
       },
       {
         "term": "low fidelity",
         "jobs": 1,
-        "idf": 6.1705
+        "idf": 6.109
       },
       {
-        "term": "whimsical",
+        "term": "user interviews",
         "jobs": 1,
-        "idf": 6.1705
+        "idf": 6.109
       },
       {
-        "term": "tokens studio",
+        "term": "blender",
         "jobs": 1,
-        "idf": 6.1705
+        "idf": 6.109
       },
       {
-        "term": "figma variables",
+        "term": "data visualisation",
         "jobs": 1,
-        "idf": 6.1705
+        "idf": 6.109
       },
       {
         "term": "maze",
         "jobs": 1,
-        "idf": 6.1705
+        "idf": 6.109
+      },
+      {
+        "term": "svelte",
+        "jobs": 1,
+        "idf": 6.109
+      },
+      {
+        "term": "vue",
+        "jobs": 1,
+        "idf": 6.109
+      },
+      {
+        "term": "whimsical",
+        "jobs": 1,
+        "idf": 6.109
+      },
+      {
+        "term": "north star metric",
+        "jobs": 1,
+        "idf": 6.109
+      },
+      {
+        "term": "tokens studio",
+        "jobs": 1,
+        "idf": 6.109
+      },
+      {
+        "term": "figma variables",
+        "jobs": 1,
+        "idf": 6.109
       },
       {
         "term": "concept development",
         "jobs": 1,
-        "idf": 6.1705
+        "idf": 6.109
       },
       {
         "term": "spline",
         "jobs": 1,
-        "idf": 6.1705
+        "idf": 6.109
+      },
+      {
+        "term": "heuristic evaluation",
+        "jobs": 1,
+        "idf": 6.109
       },
       {
         "term": "rive",
         "jobs": 1,
-        "idf": 6.1705
+        "idf": 6.109
       },
       {
         "term": "okrs",
         "jobs": 2,
-        "idf": 5.765
+        "idf": 5.7035
       },
       {
         "term": "scrum",
         "jobs": 2,
-        "idf": 5.765
+        "idf": 5.7035
+      },
+      {
+        "term": "grid system",
+        "jobs": 2,
+        "idf": 5.7035
       },
       {
         "term": "evangelism",
         "jobs": 2,
-        "idf": 5.765
-      },
-      {
-        "term": "lottie",
-        "jobs": 2,
-        "idf": 5.765
+        "idf": 5.7035
       },
       {
         "term": "protopie",
         "jobs": 2,
-        "idf": 5.765
-      },
-      {
-        "term": "jobs to be done",
-        "jobs": 2,
-        "idf": 5.765
-      },
-      {
-        "term": "dovetail",
-        "jobs": 2,
-        "idf": 5.765
+        "idf": 5.7035
       }
     ]
   }
