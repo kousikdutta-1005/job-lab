@@ -153,6 +153,38 @@ const find = (actions, kind) => actions.find((a) => a.kind === kind)
   check("an offer still leads everything", actions[0]?.kind === "offer", actions[0]?.kind)
 }
 
+/* --- the queue must not argue with itself ------------------------------- */
+{
+  // A job old enough for the vetting card to distrust must never also be
+  // recommended as a plain "apply to this". The queue used to name the same
+  // company in both, two rows apart.
+  const stale = jobs.filter((j) => j.eligible && (j.quality?.days_open ?? 0) > 30)
+  const actions = briefing(jobs, [], [], settings, idf, [])
+  const applyIds = new Set(actions.filter((a) => a.kind === "apply").map((a) => a.jobId))
+  const overlap = stale.filter((j) => applyIds.has(j.id))
+  check(
+    "no stale role is offered as a straight apply",
+    overlap.length === 0,
+    overlap.slice(0, 3).map((j) => `${j.company} ${j.quality?.days_open}d`).join(", "),
+  )
+
+  const expiring = actions.filter((a) => a.kind === "expiring")
+  check("stale roles are collapsed into at most two cards", expiring.length <= 2, `${expiring.length}`)
+  check(
+    "and none of them tells you to apply now",
+    !expiring.some((a) => /apply now/i.test(a.detail)),
+    expiring.map((a) => a.detail.slice(0, 60)).join(" | "),
+  )
+  const veryOld = actions.find((a) => a.id.startsWith("ghost-"))
+  if (veryOld) {
+    check(
+      "postings over 90 days are ranked below fresh applications",
+      veryOld.urgency < 70,
+      `urgency ${veryOld.urgency}`,
+    )
+  }
+}
+
 console.log(
   failures ? `\nFAIL — ${failures} problem(s)` : "\nPASS — the funnel and the portfolio agree",
 )

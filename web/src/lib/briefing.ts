@@ -16,6 +16,7 @@ import { matchResume } from "./resume"
 import { daysAgo } from "./format"
 import { funnel } from "./funnel"
 import { audit, criteria, type Project } from "./portfolio"
+import { vet } from "./vetting"
 
 export type ActionKind =
   | "offer"
@@ -194,11 +195,22 @@ function followUps(applications: Application[]): Action[] {
     })
 }
 
-/** Strong matches you have not touched, best first. */
+/**
+ * Strong matches you have not touched, best first.
+ *
+ * Anything the vetting card is suspicious of is left out. The queue used to
+ * name Hackerrank in a "past the month mark, check it is live" card and then
+ * say "Apply to Hackerrank" two rows below it, which is the app arguing with
+ * itself in the space of one screen.
+ */
 function worthApplying(jobs: Job[], applications: Application[]): Action[] {
   const touched = new Set(applications.map((a) => a.job_id).filter(Boolean) as string[])
   return jobs
     .filter((job) => job.eligible && job.match_score >= 70 && !touched.has(job.id))
+    .filter((job) => {
+      const tone = vet(job).tone
+      return tone !== "warn" && tone !== "bad"
+    })
     .slice(0, 5)
     .map((job, index) => ({
       id: `apply-${job.id}`,
@@ -212,26 +224,76 @@ function worthApplying(jobs: Job[], applications: Application[]): Action[] {
     }))
 }
 
-/** Good roles going cold. Design roles are usually shortlisted within a month. */
+/**
+ * Roles worth deciding about now, either because the window is closing or
+ * because it has closed and the posting may not be real.
+ *
+ * This used to say "apply now or let it go" about anything 21–45 days old,
+ * which contradicted the job page: the vetting card calls a 42-day posting a
+ * warning and tells you to check it is live before spending an hour on it.
+ * Two surfaces giving opposite advice about the same job is worse than either
+ * being wrong on its own, so both now read from vet().
+ */
 function expiring(jobs: Job[], applications: Application[]): Action[] {
   const touched = new Set(applications.map((a) => a.job_id).filter(Boolean) as string[])
-  return jobs
+  const candidates = jobs
     .filter((job) => {
       if (!job.eligible || touched.has(job.id) || job.match_score < 62) return false
-      const age = daysAgo(job.posted_at)
-      return age !== null && age >= 21 && age <= 45
+      const age = job.quality?.days_open ?? daysAgo(job.posted_at)
+      return age !== null && age >= 21
     })
-    .slice(0, 3)
-    .map((job) => ({
-      id: `expiring-${job.id}`,
-      kind: "expiring" as const,
+    .map((job) => ({ job, vetting: vet(job) }))
+
+  const closing = candidates.filter((c) => c.vetting.tone === "warn")
+  const suspect = candidates.filter((c) => c.vetting.tone === "bad")
+
+  const out: Action[] = []
+
+  // Collapsed into one card. Three consecutive near-identical rows reading
+  // "X is going cold" is the fastest way to teach someone to skim past the
+  // queue, and the queue only works if every row is worth reading.
+  if (closing.length) {
+    const [first, ...rest] = closing
+    const age = first.job.quality?.days_open ?? daysAgo(first.job.posted_at) ?? 0
+    out.push({
+      id: `expiring-${first.job.id}`,
+      kind: "expiring",
       urgency: 80,
-      title: `${job.title} at ${job.company} is going cold`,
-      detail: `Posted ${daysAgo(job.posted_at)} days ago and still open, but most design shortlists are drawn inside a month. Apply now or let it go deliberately.`,
-      evidence: `Scores ${job.match_score}`,
-      jobId: job.id,
-      view: "board" as const,
-    }))
+      title: rest.length
+        ? `${rest.length + 1} strong roles are past the month mark`
+        : `${first.job.title} at ${first.job.company} is past the month mark`,
+      detail: rest.length
+        ? `${[first, ...rest]
+            .slice(0, 4)
+            .map((c) => `${c.job.company} (${c.job.quality?.days_open ?? daysAgo(c.job.posted_at)}d)`)
+            .join(", ")}. Design shortlists are usually drawn inside a month, so these are either hard to fill — which is leverage — or being kept warm. One line to the recruiter asking where they are in the process costs a minute and decides all of them.`
+        : `Open ${age} days. Past the month where shortlists usually close, so ask whether it is still live before you spend an hour tailoring for it.`,
+      evidence: `Scores ${first.job.match_score}`,
+      jobId: first.job.id,
+      view: "board",
+    })
+  }
+
+  if (suspect.length) {
+    const [first, ...rest] = suspect
+    out.push({
+      id: `ghost-${first.job.id}`,
+      kind: "expiring",
+      urgency: 44,
+      title: rest.length
+        ? `${rest.length + 1} roles look like they may not be real`
+        : `${first.job.title} at ${first.job.company} may not be real`,
+      detail: `${[first, ...rest]
+        .slice(0, 4)
+        .map((c) => `${c.job.company} (${Math.round((c.job.quality?.days_open ?? 0) / 30)}mo)`)
+        .join(", ")}. Around a fifth of listings are ghosts, and age is the strongest signal available from outside. Do not tailor for these. Send two lines to someone on the team and let the silence answer it.`,
+      evidence: `Scores ${first.job.match_score}`,
+      jobId: first.job.id,
+      view: "board",
+    })
+  }
+
+  return out
 }
 
 /**
