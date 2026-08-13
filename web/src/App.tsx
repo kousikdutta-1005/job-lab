@@ -130,11 +130,16 @@ export default function App() {
   const actions = useMemo(
     () =>
       bundle
-        ? briefing(bundle.data.jobs, applications, contacts, settings, bundle.idf).filter(
-            (a) => a.kind !== "nothing",
-          )
+        ? briefing(
+            bundle.data.jobs,
+            applications,
+            contacts,
+            settings,
+            bundle.idf,
+            projects,
+          ).filter((a) => a.kind !== "nothing")
         : [],
-    [bundle, applications, contacts, settings],
+    [bundle, applications, contacts, settings, projects],
   )
 
   const appByJob = useMemo(() => {

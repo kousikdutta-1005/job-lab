@@ -14,9 +14,13 @@
 import type { Application, Contact, Job, Settings } from "./types"
 import { matchResume } from "./resume"
 import { daysAgo } from "./format"
+import { funnel } from "./funnel"
+import { audit, criteria, type Project } from "./portfolio"
 
 export type ActionKind =
   | "offer"
+  | "portfolio"
+  | "funnel"
   | "interview"
   | "apply"
   | "follow_up"
@@ -34,7 +38,85 @@ export interface Action {
   detail: string
   evidence?: string
   jobId?: string
-  view?: "board" | "tracker" | "contacts" | "settings" | "pay" | "negotiate"
+  view?: "board" | "tracker" | "contacts" | "settings" | "pay" | "negotiate" | "portfolio"
+}
+
+/**
+ * The two halves of the tool talking to each other.
+ *
+ * The funnel knows which step is leaking. The portfolio audit knows what your
+ * case studies do not show. Separately they are two dashboards; together they
+ * answer the actual question, which is what to do with the next hour.
+ */
+function diagnosis(
+  applications: Application[],
+  projects: Project[],
+  jobs: Job[],
+): Action[] {
+  const out: Action[] = []
+  const shape = funnel(applications)
+
+  if (shape.weakest && shape.enough) {
+    out.push({
+      id: `funnel-${shape.weakest.key}`,
+      kind: "funnel",
+      urgency: 88,
+      title:
+        shape.weakest.key === "replied"
+          ? "Sending more applications will not fix this"
+          : shape.weakest.key === "interview"
+            ? "You are getting in the room and not getting past it"
+            : "The top of your funnel is working — stop tuning it",
+      detail: shape.verdict,
+      evidence: `Measured across ${shape.steps[0].count} applications you have tracked`,
+      view: "tracker",
+    })
+  }
+
+  if (projects.length === 0) {
+    // Only worth raising once there is evidence the portfolio is the bottleneck,
+    // or you have applied enough that it is about to become one.
+    const applied = applications.filter((a) => a.date_applied).length
+    if (applied >= 5) {
+      out.push({
+        id: "portfolio-empty",
+        kind: "portfolio",
+        urgency: 64,
+        title: "Your case studies have never been checked against the board",
+        detail:
+          "Everything else here optimises the resume, which gets six seconds. The portfolio gets the decision. Adding the three you actually send takes five minutes and tells you which one is carrying the others.",
+        view: "portfolio",
+      })
+    }
+    return out
+  }
+
+  const list = criteria(jobs)
+  const result = audit(projects, list)
+  const worst = result.gaps.find((g) => g.covered === 0)
+
+  if (worst) {
+    const interviewing = applications.filter((a) =>
+      ["interview", "offer", "accepted"].includes(a.stage),
+    ).length
+    const converted = applications.filter((a) => ["offer", "accepted"].includes(a.stage)).length
+    const stuckAtPortfolio = interviewing >= 3 && converted === 0
+
+    out.push({
+      id: `portfolio-${worst.criterion.key}`,
+      kind: "portfolio",
+      // If interviews are not converting, this stops being housekeeping.
+      urgency: stuckAtPortfolio ? 93 : 66,
+      title: `No case study of yours shows ${worst.criterion.label.toLowerCase()}`,
+      detail: stuckAtPortfolio
+        ? `${interviewing} interviews and no offer, and this is the one thing ${worst.criterion.demandCount} of your eligible roles ask about that none of your work demonstrates. That is the likeliest thing being asked in the room that you have no answer to.`
+        : `${worst.criterion.demandCount} of the roles you can take ask about it. ${worst.criterion.asks} Usually this is a rewrite of a case study you already have rather than new work.`,
+      evidence: `Asked for in ${Math.round(worst.criterion.demand * 100)}% of eligible postings`,
+      view: "portfolio",
+    })
+  }
+
+  return out
 }
 
 /**
@@ -262,8 +344,7 @@ function profileGaps(settings: Settings): Action[] {
   return out
 }
 
-/** Companies you are in a process with, where you know nobody. */
-function networkGaps(applications: Application[], contacts: Contact[]): Action[] {
+/** Companies you are in a process with, where you know nobody. */function networkGaps(applications: Application[], contacts: Contact[]): Action[] {
   const known = new Set(contacts.map((c) => c.company.toLowerCase()))
   const live = applications.filter((a) =>
     ["applied", "phone_screen", "interview"].includes(a.stage),
@@ -290,9 +371,11 @@ export function briefing(
   contacts: Contact[],
   settings: Settings,
   idf: Record<string, number>,
+  projects: Project[] = [],
 ): Action[] {
   const actions = [
     ...liveOffers(applications),
+    ...diagnosis(applications, projects, jobs),
     ...interviewing(applications),
     ...profileGaps(settings),
     ...followUps(applications),

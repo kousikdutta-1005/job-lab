@@ -14,6 +14,8 @@ interface Props {
 const KIND_LABEL: Record<ActionKind, string> = {
   offer: "offer",
   interview: "interview",
+  portfolio: "portfolio",
+  funnel: "diagnosis",
   apply: "apply",
   follow_up: "chase",
   expiring: "going cold",
@@ -26,6 +28,8 @@ const KIND_LABEL: Record<ActionKind, string> = {
 const KIND_CLASS: Record<ActionKind, string> = {
   offer: "pill-good",
   interview: "pill-accent",
+  portfolio: "pill-warn",
+  funnel: "pill-warn",
   apply: "pill-accent",
   follow_up: "pill-warn",
   expiring: "pill-bad",
@@ -42,6 +46,8 @@ const LABEL_FOR: Partial<Record<ActionKind, string>> = {
   expiring: "Open the role",
   follow_up: "Open applications",
   network: "Find someone",
+  portfolio: "Check the portfolio",
+  funnel: "See the funnel",
 }
 
 function greeting(): string {
