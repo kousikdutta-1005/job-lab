@@ -20,6 +20,7 @@ from joblab.insights import build_insights
 from joblab.models import Job
 from joblab.news import collect_news
 from joblab.registry import load_registry, resolve_boards
+from joblab.salary import attach_salaries, benchmarks
 from joblab.relocation import build_relocation
 from joblab.score import load_profile
 from joblab.trends import build_trends
@@ -116,6 +117,37 @@ def cmd_benchmarks(_: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_reprice(_: argparse.Namespace) -> int:
+    """Re-read pay out of the descriptions we already have.
+
+    The parser improves more often than the postings change, and a full build
+    re-fetches several hundred boards to learn nothing new about them. This
+    replays the salary stage over the last crawl so a parser fix reaches the
+    board in seconds instead of overnight.
+    """
+    path = OUT_DIR / "jobs.json"
+    payload = json.loads(path.read_text())
+    jobs = [Job(**row) for row in payload.get("jobs", [])]
+    before = sum(1 for job in jobs if job.salary_parsed)
+
+    disclosed = attach_salaries(jobs)
+    payload["jobs"] = [job.to_dict() for job in jobs]
+
+    pay = benchmarks(jobs)
+    pay["tiers"] = payload.get("pay", {}).get("tiers", {})
+    pay["published_benchmarks"] = payload.get("pay", {}).get("published_benchmarks", {})
+    payload["pay"] = pay
+
+    path.write_text(json.dumps(payload, separators=(",", ":")))
+
+    total = len(jobs) or 1
+    print(
+        f"repriced {total} jobs: {before} -> {disclosed} disclose pay "
+        f"({100 * disclosed // total}%)"
+    )
+    return 0
+
+
 def cmd_insights(_: argparse.Namespace) -> int:
     jobs = _load_built_jobs()
     idf_path = OUT_DIR / "idf.json"
@@ -160,8 +192,11 @@ def main() -> int:
     insights = sub.add_parser("insights", help="refresh evidence-backed recommendations JSON")
     insights.set_defaults(func=cmd_insights)
 
-    benchmarks = sub.add_parser("benchmarks", help="print and export published salary benchmarks")
-    benchmarks.set_defaults(func=cmd_benchmarks)
+    published = sub.add_parser("benchmarks", help="print and export published salary benchmarks")
+    published.set_defaults(func=cmd_benchmarks)
+
+    reprice = sub.add_parser("reprice", help="re-read pay from the last crawl without refetching")
+    reprice.set_defaults(func=cmd_reprice)
 
     args = parser.parse_args()
     return args.func(args)
