@@ -73,6 +73,19 @@ export function claimable(
     .map((entry) => entry.term)
 }
 
+/** Sentences that point at a link have nothing to say without one.
+ *
+ * The portfolio slot used to fall back to the words "my portfolio", which
+ * produced "My portfolio is the shortest version of that: my portfolio" and
+ * "Everything you would need is here: my portfolio". Both read as finished
+ * prose while saying nothing, so they survive a skim and go out in a real
+ * email. A slot that expects a URL and does not have one should take the
+ * clause with it, leaving a sentence that is still true and still English.
+ */
+function linkClause(url: string | undefined, lead: string, tail = ""): string {
+  return url ? `${lead} ${url}${tail}` : ""
+}
+
 function signature(me: Settings): string {
   const lines = [me.full_name || "—"]
   if (me.portfolio) lines.push(me.portfolio)
@@ -99,7 +112,6 @@ export function drafts(
   const proven = claimable(job, idf, me.resume_text || "", strengths, 2)
   const strength = proven.join(" and ")
   const years = me.years || 5
-  const portfolio = me.portfolio || "my portfolio"
   const who = firstName(me)
 
   return [
@@ -107,14 +119,14 @@ export function drafts(
       key: "hiring_manager",
       label: "To the hiring manager",
       when: "Best first move. Send before or just after you apply.",
-      subject: `${job.title} — ${me.full_name || "portfolio"}`,
+      subject: me.full_name ? `${job.title} — ${me.full_name}` : job.title,
       body: `Hi ${contactName},
 
 I saw the ${job.title} role at ${job.company} and the parts about ${focus} are what made me write rather than only apply.
 
 I am a product designer with ${years} years on ${
         job.india ? "India-first products" : "product teams"
-      }, and most of my work has been the unglamorous half of design: making a system hold together as it grows, and making the interface honest about what it is doing. My portfolio is the shortest version of that: ${portfolio}
+      }, and most of my work has been the unglamorous half of design: making a system hold together as it grows, and making the interface honest about what it is doing.${linkClause(me.portfolio, " My portfolio is the shortest version of that:")}
 
 If it is useful I can walk through how I would approach ${topics[0] ?? "the first problem on your list"} here — happy to do that in fifteen minutes or in writing, whichever suits.
 
@@ -133,7 +145,7 @@ You are at ${job.company}, and there is a ${job.title} opening I am seriously co
 
 No pressure at all — if you do not know the team or would rather not, that is a completely fine answer and I will not ask twice.
 
-If you do know them, would you be willing to pass my name along? Everything you would need is here: ${portfolio}
+If you do know them, would you be willing to pass my name along?${linkClause(me.portfolio, " Everything you would need is here:")}
 
 Short version: ${years} years in product design${
         strength ? `, strongest on ${strength}` : ""
@@ -155,7 +167,7 @@ I have applied for the ${job.title} role${
 
 ${years} years in product design.${
         strength ? ` The overlap with your posting is closest on ${strength}.` : ""
-      } Portfolio and case studies: ${portfolio}
+      }${linkClause(me.portfolio, " Portfolio and case studies:")}
 
 If the role has already moved on, I would still be glad to be kept in mind for design work at ${job.company}.
 
@@ -213,12 +225,8 @@ export function linkedinDrafts(
      to send a longer note. So the note is built in descending order of what
      matters and the first version that fits is the one you get. */
   const connect = [
-    `Hi ${first} — I'm applying for the ${role} role at ${company}. ${years} years in product design${honest ? `, mostly ${focus}` : ""}. Not asking you to do anything with it; I'd just rather the application had a face attached. Work is at ${
-      me.portfolio || "my profile"
-    }.`,
-    `Hi ${first} — I'm applying for the ${role} role at ${company}. ${years} years in product design${honest ? `, mostly ${focus}` : ""}. Work is at ${
-      me.portfolio || "my profile"
-    }.`,
+    `Hi ${first} — I'm applying for the ${role} role at ${company}. ${years} years in product design${honest ? `, mostly ${focus}` : ""}. Not asking you to do anything with it; I'd just rather the application had a face attached.${linkClause(me.portfolio, " Work is at", ".")}`,
+    `Hi ${first} — I'm applying for the ${role} role at ${company}. ${years} years in product design${honest ? `, mostly ${focus}` : ""}.${linkClause(me.portfolio, " Work is at", ".")}`,
     `Hi ${first} — applying for the ${role} role at ${company}. ${years} years in product design. ${
       me.portfolio || ""
     }`.trim(),
@@ -249,9 +257,7 @@ Direct version: there's a ${role} opening at ${company}${
         job?.url ? ` (${job.url})` : ""
       } and I'm applying either way. If you know the team and think it's a fit, a referral would help a lot. If you don't, or would rather not, that's a completely fine answer and I won't ask again.
 
-${years} years in product design, strongest on ${focus}. Everything's here: ${
-        me.portfolio || "my profile"
-      }.
+${years} years in product design, strongest on ${focus}.${linkClause(me.portfolio, " Everything's here:", ".")}
 
 Either way, thanks for the two minutes.`,
     },

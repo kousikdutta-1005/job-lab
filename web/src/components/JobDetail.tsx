@@ -653,9 +653,17 @@ export function JobDetail({
                 <textarea readOnly rows={17} value={draft.body} />
               </div>
 
-              {!settings.full_name && (
+              {(!settings.full_name || !settings.portfolio) && (
                 <p className="tiny" style={{ color: "var(--warn)" }}>
-                  Add your name and portfolio in Settings and these drafts fill themselves in.
+                  {!settings.portfolio
+                    ? !settings.full_name
+                      ? "No name or portfolio link in Settings yet, so the draft is unsigned and the sentence offering your work has been left out rather than pointed at nothing."
+                      : "No portfolio link in Settings yet, so the sentence offering your work has been left out rather than pointed at nothing."
+                    : "No name in Settings yet, so the draft is unsigned."}{" "}
+                  Add {[!settings.full_name && "your name", !settings.portfolio && "a portfolio URL"]
+                    .filter(Boolean)
+                    .join(" and ")}{" "}
+                  in Settings and every draft fills itself in.
                 </p>
               )}
 
@@ -674,8 +682,10 @@ export function JobDetail({
                 </a>
               </div>
               <p className="tiny dimmer" style={{ marginTop: 10, marginBottom: 0 }}>
-                Attachments cannot be added by a link, so attach your resume in the mail app. Your
-                portfolio goes in as a URL, which is better anyway — it never bounces for size.
+                Attachments cannot be added by a link, so attach your resume in the mail app.
+                {settings.portfolio
+                  ? " Your portfolio goes in as a URL, which is better anyway — it never bounces for size."
+                  : ""}
               </p>
             </div>
           </>

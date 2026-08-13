@@ -147,6 +147,79 @@ ok(
   "when the resume backs nothing, a profile claim is still allowed",
 )
 
+// --- An empty slot must take its clause with it ---------------------------
+// "my portfolio" as a fallback URL produced "My portfolio is the shortest
+// version of that: my portfolio" — finished-looking prose that says nothing,
+// in the one artefact the user actually sends to a stranger.
+
+const BLANK = { years: 5, resume_text: ME.resume_text }
+const blankDrafts = drafts(JOB, BLANK, IDF, "there", STRENGTHS)
+const blankBodies = blankDrafts.map((d) => d.body).join("\n")
+const blankSubjects = blankDrafts.map((d) => d.subject).join("\n")
+const blankLi = linkedinDrafts(JOB, BLANK, IDF, "Priya", "Head of Design", STRENGTHS)
+  .map((d) => d.body)
+  .join("\n")
+
+ok(!/my portfolio\b/i.test(blankBodies), "no email says the words 'my portfolio' in a URL slot")
+ok(!/my profile\b/i.test(blankLi), "no LinkedIn note says 'my profile' in a URL slot")
+ok(
+  !/shortest version of that:\s*$|shortest version of that:\s*\n/m.test(blankBodies),
+  "the portfolio sentence is removed, not left dangling after its colon",
+)
+for (const [label, re] of [
+  ["here:", /(is here|Everything's here):\s*(\n|$|\.)/m],
+  ["case studies:", /case studies:\s*(\n|$|\.)/m],
+  ["work at", /Work is at\s*(\.|\n|$)/m],
+]) {
+  ok(!re.test(blankBodies + blankLi), `no clause is left pointing at nothing (${label})`)
+}
+ok(!/\s+\./.test(blankBodies), "removing a clause leaves no space before a full stop")
+ok(!/ {2}/.test(blankBodies), "and no doubled spaces")
+ok(
+  !blankSubjects.split("\n").some((x) => /—\s*portfolio$/.test(x)),
+  "a missing name never becomes the subject line's signatory",
+)
+ok(
+  blankDrafts[0].subject === JOB.title,
+  `an unnamed sender gets a plain role subject (${blankDrafts[0].subject})`,
+)
+ok(
+  blankBodies.includes("unglamorous half of design"),
+  "the surrounding paragraph survives intact",
+)
+ok(
+  blankLi.split("\n").every((l) => l.length <= 300),
+  "the LinkedIn notes still respect the 300-character limit",
+)
+
+// The filled case must be unaffected.
+const fullBodies = drafts(JOB, ME, IDF, "there", STRENGTHS).map((d) => d.body).join("\n")
+ok(
+  fullBodies.includes(`shortest version of that: ${ME.portfolio}`),
+  "with a portfolio set, the sentence is present and carries the URL",
+)
+ok(
+  (fullBodies.match(new RegExp(ME.portfolio.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g")) || []).length >= 3,
+  "and every draft that offers work still links it",
+)
+ok(
+  linkedinDrafts(JOB, ME, IDF, "Priya", "Head of Design", STRENGTHS)[0].body.includes(ME.portfolio),
+  "the connection note links it too",
+)
+ok(
+  drafts(JOB, ME, IDF, "there", STRENGTHS)[0].subject === `${JOB.title} — ${ME.full_name}`,
+  "and a named sender still signs the subject",
+)
+
+// Portfolio present but name missing, and the reverse.
+const noName = drafts(JOB, { ...ME, full_name: "" }, IDF, "there", STRENGTHS)
+ok(noName[0].body.includes(ME.portfolio), "a missing name does not remove the portfolio sentence")
+const noLink = drafts(JOB, { ...ME, portfolio: "" }, IDF, "there", STRENGTHS)
+ok(
+  noLink[0].subject === `${JOB.title} — ${ME.full_name}`,
+  "a missing portfolio does not remove the name from the subject",
+)
+
 console.log(
   failed === 0
     ? `\nPASS — ${passed} assertions on draft claims`
