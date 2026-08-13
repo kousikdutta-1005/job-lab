@@ -1,32 +1,130 @@
+/*
+ * Preset fonts, self-hosted from npm so nothing is fetched from a CDN at
+ * runtime and the app still works offline.
+ *
+ * Declared by hand rather than importing the packages' index.css, which pulls
+ * Cyrillic, Greek and Vietnamese too — around 300kB of glyphs this app will
+ * never render. Geist keeps latin-ext because contact and company names carry
+ * European accents; Merriweather only sets headings, so latin is enough.
+ */
+@font-face {
+  font-family: "Geist Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("@fontsource-variable/geist/files/geist-latin-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Geist Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("@fontsource-variable/geist/files/geist-latin-ext-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+    U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0,
+    U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "Merriweather Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 300 900;
+  src: url("@fontsource-variable/merriweather/files/merriweather-latin-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+
+/*
+ * Theme: shadcn preset b4XJl04a52.
+ *
+ * The preset ships a light and a dark scale, an indigo primary, radius
+ * 0.625rem and Geist/Merriweather. This app is not a Tailwind project, so the
+ * preset is applied where it actually matters — the token layer every rule
+ * already reads from — rather than by bolting on a utility framework whose
+ * output nothing here would consume.
+ *
+ * Dark stays the default because that is this app's identity; the preset's
+ * light scale is now available as a real second theme instead of being
+ * discarded.
+ */
 :root {
-  color-scheme: dark;
-
-  --bg: #08090b;
-  --bg-raised: #0e1013;
-  --bg-panel: #121519;
-  --bg-hover: #171b20;
-  --line: #22272e;
-  --line-soft: #191d23;
-
-  --ink: #eceef1;
-  --ink-2: #a8b0ba;
-  --ink-3: #6d7681;
-  --ink-4: #4a525c;
-
-  --accent: #e8b56b;
-  --accent-dim: #8a6b3f;
-  --good: #6bcf9f;
-  --warn: #e0a355;
-  --bad: #e07a6b;
-  --link: #7fb2e5;
-
-  --radius: 10px;
+  --radius: 0.625rem;
   --radius-sm: 7px;
 
-  --sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --sans: "Geist Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --heading: "Merriweather Variable", ui-serif, Georgia, serif;
   --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
+}
 
-  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 28px rgba(0, 0, 0, 0.35);
+/* Dark — preset .dark scale. */
+:root,
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: oklch(0.148 0.004 228.8);
+  --bg-raised: oklch(0.183 0.006 226);
+  --bg-panel: oklch(0.218 0.008 223.9);
+  --bg-hover: oklch(0.275 0.011 216.9);
+  --line: oklch(0.32 0.012 220);
+  --line-soft: oklch(0.248 0.009 222);
+
+  --ink: oklch(0.987 0.002 197.1);
+  --ink-2: oklch(0.723 0.014 214.4);
+  --ink-3: oklch(0.56 0.021 213.5);
+  --ink-4: oklch(0.45 0.016 216);
+
+  /* Solid fills use the preset primary; --accent-text is the same hue lifted
+     to a lightness that can actually be read as text on --bg. The preset
+     assumes primary is only ever a button fill, but this app also uses it for
+     labels and section headers. */
+  --accent: oklch(0.488 0.243 264.376);
+  --accent-hover: oklch(0.552 0.235 264);
+  --accent-ink: oklch(0.97 0.014 254.604);
+  --accent-text: oklch(0.782 0.123 261);
+  --accent-dim: oklch(0.424 0.199 265.638);
+
+  --good: oklch(0.78 0.148 162);
+  --warn: oklch(0.808 0.128 76);
+  --bad: oklch(0.704 0.191 22.216);
+  --link: oklch(0.782 0.123 261);
+
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 28px rgb(0 0 0 / 0.35);
+}
+
+/* Light — preset :root scale. */
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --bg: oklch(0.987 0.002 197.1);
+  --bg-raised: oklch(1 0 0);
+  --bg-panel: oklch(1 0 0);
+  --bg-hover: oklch(0.963 0.002 197.1);
+  --line: oklch(0.925 0.005 214.3);
+  --line-soft: oklch(0.955 0.004 214.3);
+
+  --ink: oklch(0.148 0.004 228.8);
+  --ink-2: oklch(0.42 0.018 215);
+  --ink-3: oklch(0.56 0.021 213.5);
+  --ink-4: oklch(0.66 0.017 214);
+
+  --accent: oklch(0.488 0.243 264.376);
+  --accent-hover: oklch(0.424 0.199 265.638);
+  --accent-ink: oklch(0.97 0.014 254.604);
+  --accent-text: oklch(0.488 0.243 264.376);
+  --accent-dim: oklch(0.809 0.105 251.813);
+
+  --good: oklch(0.52 0.128 162);
+  --warn: oklch(0.55 0.12 68);
+  --bad: oklch(0.577 0.245 27.325);
+  --link: oklch(0.488 0.243 264.376);
+
+  --shadow: 0 1px 2px rgb(16 24 40 / 0.06), 0 8px 28px rgb(16 24 40 / 0.08);
 }
 
 * {
@@ -38,6 +136,16 @@ body,
 #root {
   height: 100%;
   margin: 0;
+}
+
+h1,
+h2,
+h3,
+.pane-title,
+.brand-name {
+  font-family: var(--heading);
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
 body {
@@ -75,7 +183,7 @@ a:hover {
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--accent-text);
   outline-offset: 2px;
   border-radius: 4px;
 }
@@ -90,13 +198,13 @@ a:hover {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #232830;
+  background: var(--bg-hover);
   border-radius: 6px;
   border: 3px solid var(--bg);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #2e343d;
+  background: var(--line);
 }
 
 /* ---------------------------------------------------------------- shell */
@@ -135,7 +243,7 @@ a:hover {
   height: 9px;
   border-radius: 50%;
   background: var(--accent);
-  box-shadow: 0 0 12px rgba(232, 181, 107, 0.55);
+  box-shadow: 0 0 12px color-mix(in oklab, var(--accent-text) 55%, transparent);
 }
 
 .nav {
@@ -279,17 +387,13 @@ textarea {
 
 .btn-primary {
   background: var(--accent);
-  color: #191100;
+  color: var(--accent-ink);
   box-shadow: none;
   font-weight: 600;
 }
 
 .btn-primary:hover {
-  background: #f0c versus;
-}
-
-.btn-primary:hover {
-  background: #f2c583;
+  background: var(--accent-hover);
 }
 
 .btn-sm {
@@ -371,9 +475,9 @@ textarea {
 }
 
 .chip.on {
-  color: var(--accent);
+  color: var(--accent-text);
   box-shadow: inset 0 0 0 1px var(--accent-dim);
-  background: rgba(232, 181, 107, 0.09);
+  background: color-mix(in oklab, var(--accent-text) 9%, transparent);
 }
 
 .chip .n {
@@ -421,13 +525,13 @@ textarea {
 }
 
 .s-hot {
-  color: #1a1200;
+  color: var(--accent-ink);
   background: var(--accent);
 }
 
 .s-good {
-  color: var(--accent);
-  background: rgba(232, 181, 107, 0.14);
+  color: var(--accent-text);
+  background: color-mix(in oklab, var(--accent-text) 14%, transparent);
 }
 
 .s-mid {
@@ -500,7 +604,7 @@ textarea {
   font-size: 10px;
   padding: 1px 5px;
   border-radius: 4px;
-  background: rgba(224, 122, 107, 0.12);
+  background: color-mix(in oklab, var(--bad) 12%, transparent);
   color: var(--bad);
   font-family: var(--mono);
 }
@@ -509,7 +613,7 @@ textarea {
   font-size: 10px;
   padding: 1px 5px;
   border-radius: 4px;
-  background: rgba(107, 207, 159, 0.13);
+  background: color-mix(in oklab, var(--good) 13%, transparent);
   color: var(--good);
   font-family: var(--mono);
 }
@@ -520,7 +624,7 @@ textarea {
   position: relative;
   overflow: hidden;
   background:
-    radial-gradient(1200px 680px at 60% 38%, #0e1319 0%, #08090b 68%);
+    radial-gradient(1200px 680px at 60% 38%, var(--bg-raised) 0%, var(--bg) 68%);
 }
 
 .map-svg {
@@ -535,8 +639,8 @@ textarea {
 }
 
 .country {
-  fill: #191f27;
-  stroke: #2b333e;
+  fill: var(--bg-raised);
+  stroke: var(--line-soft);
   stroke-width: 0.8;
   vector-effect: non-scaling-stroke;
 }
@@ -544,8 +648,8 @@ textarea {
 /* Countries that are actually hiring sit forward of the rest, so the map
    answers "where is there work" before you read a single label. */
 .country.has {
-  fill: #232c38;
-  stroke: #3a4653;
+  fill: var(--bg-hover);
+  stroke: var(--line);
 }
 
 .place-hit {
@@ -554,17 +658,17 @@ textarea {
 }
 
 .place-halo {
-  fill: rgba(232, 181, 107, 0.1);
+  fill: color-mix(in oklab, var(--accent-text) 10%, transparent);
   pointer-events: none;
 }
 
 .place-dot {
-  fill: var(--accent);
+  fill: var(--accent-text);
   pointer-events: none;
 }
 
 .place-dot.none {
-  fill: #59626d;
+  fill: var(--ink-3);
 }
 
 .place-label {
@@ -574,7 +678,7 @@ textarea {
   letter-spacing: -0.01em;
   pointer-events: none;
   paint-order: stroke;
-  stroke: rgba(8, 9, 11, 0.92);
+  stroke: color-mix(in oklab, var(--bg) 92%, transparent);
   stroke-linejoin: round;
   dominant-baseline: middle;
 }
@@ -584,7 +688,7 @@ textarea {
   font-family: var(--mono);
   pointer-events: none;
   paint-order: stroke;
-  stroke: rgba(8, 9, 11, 0.92);
+  stroke: color-mix(in oklab, var(--bg) 92%, transparent);
   stroke-linejoin: round;
   dominant-baseline: middle;
 }
@@ -621,7 +725,7 @@ textarea {
   font-size: 11px;
   color: var(--ink-4);
   font-family: var(--mono);
-  background: rgba(8, 9, 11, 0.72);
+  background: color-mix(in oklab, var(--bg) 72%, transparent);
   backdrop-filter: blur(8px);
   padding: 7px 10px;
   border-radius: var(--radius-sm);
@@ -634,7 +738,7 @@ textarea {
   left: 14px;
   top: 14px;
   width: 208px;
-  background: rgba(14, 16, 19, 0.9);
+  background: color-mix(in oklab, var(--bg-raised) 90%, transparent);
   backdrop-filter: blur(10px);
   border-radius: var(--radius);
   box-shadow: inset 0 0 0 1px var(--line), var(--shadow);
@@ -658,7 +762,7 @@ textarea {
 .remote-big {
   font-family: var(--mono);
   font-size: 26px;
-  color: var(--accent);
+  color: var(--accent-text);
   line-height: 1.1;
   margin: 6px 0 2px;
 }
@@ -809,22 +913,22 @@ h2.title {
 
 .pill-good {
   color: var(--good);
-  background: rgba(107, 207, 159, 0.11);
+  background: color-mix(in oklab, var(--good) 11%, transparent);
 }
 
 .pill-bad {
   color: var(--bad);
-  background: rgba(224, 122, 107, 0.11);
+  background: color-mix(in oklab, var(--bad) 11%, transparent);
 }
 
 .pill-warn {
   color: var(--warn);
-  background: rgba(224, 163, 85, 0.11);
+  background: color-mix(in oklab, var(--warn) 11%, transparent);
 }
 
 .pill-accent {
-  color: var(--accent);
-  background: rgba(232, 181, 107, 0.11);
+  color: var(--accent-text);
+  background: color-mix(in oklab, var(--accent-text) 11%, transparent);
 }
 
 /* detail */
@@ -1051,7 +1155,7 @@ table.data tr.row-detail .card {
 
 .tabs button.on {
   color: var(--ink);
-  border-bottom-color: var(--accent);
+  border-bottom-color: var(--accent-text);
 }
 
 .split {
@@ -1201,7 +1305,7 @@ table.data tr.row-detail .card {
   bottom: -3px;
   width: 2px;
   background: var(--ink);
-  box-shadow: 0 0 0 1px rgba(8, 9, 11, 0.9);
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--bg) 90%, transparent);
   border-radius: 1px;
 }
 
@@ -1245,4 +1349,4 @@ input[type="checkbox"] {
 .vet-row p { margin: 4px 0 0; color: var(--ink-2); max-width: 62ch; }
 .vet-src { color: var(--ink-3); text-decoration: none; display: inline-block; margin-top: 3px; }
 a.vet-src { border-bottom: 1px dotted var(--line); }
-a.vet-src:hover { color: var(--accent); }
+a.vet-src:hover { color: var(--accent-text); }

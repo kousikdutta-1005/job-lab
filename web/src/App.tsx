@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react"
 import { loadBundle, type Bundle } from "@/lib/data"
+import { applyTheme, readTheme, watchSystem, type Theme } from "./lib/theme"
 import { endSession, hasSession } from "@/lib/auth"
 import {
   loadDismissed,
@@ -54,6 +55,7 @@ export default function App() {
   const [bundle, setBundle] = useState<Bundle | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [view, setView] = useState<View>("today")
+  const [theme, setTheme] = useState<Theme>(() => readTheme())
 
   const [applications, setApplications] = useState<Application[]>(() => loadApplications())
   const [contacts, setContacts] = useState<Contact[]>(() => loadContacts())
@@ -77,6 +79,13 @@ export default function App() {
       .then(setBundle)
       .catch((e: Error) => setError(e.message))
   }, [authed])
+
+  // Paint before anything else reads a colour, and keep following the OS
+  // while the preference is "system".
+  useEffect(() => {
+    applyTheme(theme)
+    return watchSystem(theme, () => applyTheme(theme))
+  }, [theme])
 
   useEffect(() => saveApplications(applications), [applications])
   useEffect(() => saveContacts(contacts), [contacts])
@@ -297,6 +306,15 @@ export default function App() {
         </nav>
 
         <div className="topbar-right">
+          <button
+            className="chip"
+            title={`Theme: ${theme}. Click to change.`}
+            onClick={() =>
+              setTheme(theme === "dark" ? "light" : theme === "light" ? "system" : "dark")
+            }
+          >
+            {theme === "dark" ? "dark" : theme === "light" ? "light" : "auto"}
+          </button>
           <span title={bundle.health.generated_at}>
             rebuilt {ago(bundle.health.generated_at.slice(0, 10))}
           </span>
