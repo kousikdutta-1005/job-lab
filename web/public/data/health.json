@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-08-13T05:27:12+00:00",
+  "generated_at": "2026-08-13T05:36:52+00:00",
   "version": "0.1.0",
-  "duration_seconds": 26.5,
+  "duration_seconds": 24.1,
   "detection": {
     "total": 251,
     "cached": 251,
@@ -2087,12 +2087,12 @@
         "idf": 6.109
       },
       {
-        "term": "fullstory",
+        "term": "multivariate",
         "jobs": 1,
         "idf": 6.109
       },
       {
-        "term": "multivariate",
+        "term": "fullstory",
         "jobs": 1,
         "idf": 6.109
       },
@@ -2122,12 +2122,12 @@
         "idf": 6.109
       },
       {
-        "term": "svelte",
+        "term": "vue",
         "jobs": 1,
         "idf": 6.109
       },
       {
-        "term": "vue",
+        "term": "svelte",
         "jobs": 1,
         "idf": 6.109
       },
@@ -2142,12 +2142,12 @@
         "idf": 6.109
       },
       {
-        "term": "tokens studio",
+        "term": "figma variables",
         "jobs": 1,
         "idf": 6.109
       },
       {
-        "term": "figma variables",
+        "term": "tokens studio",
         "jobs": 1,
         "idf": 6.109
       },
@@ -2182,12 +2182,12 @@
         "idf": 5.7035
       },
       {
-        "term": "grid system",
+        "term": "evangelism",
         "jobs": 2,
         "idf": 5.7035
       },
       {
-        "term": "evangelism",
+        "term": "grid system",
         "jobs": 2,
         "idf": 5.7035
       },

@@ -63,8 +63,10 @@ interface City {
   effective_tax_rate?: number
   visa_difficulty?: string
   visa_note?: string
+  tax_note?: string
   verdict?: string
   baseline_basis?: unknown
+  pay_basis?: { tier?: number; kind?: string; samples?: number }
 }
 
 export interface Advisor {
@@ -317,12 +319,30 @@ export function AdvisorView({ advisor }: { advisor: Advisor }) {
                       </span>
                     )}
                     {city.nominal_median_pay_inr ? (
-                      <span>median {inr(city.nominal_median_pay_inr)} nominal</span>
+                      <span>
+                        median {inr(city.nominal_median_pay_inr)} nominal{" "}
+                        {/* Where the median came from. Printed next to a role count
+                            it reads as the median of those roles, and for a city
+                            like Dallas -- one open role, zero disclosed bands --
+                            it is the published benchmark instead. */}
+                        {city.pay_basis?.kind === "crawled_disclosed_bands"
+                          ? `from ${city.pay_basis.samples} disclosed ${
+                              city.pay_basis.samples === 1 ? "band" : "bands"
+                            }`
+                          : "from the published benchmark, not from these postings"}
+                      </span>
                     ) : null}
                     {city.effective_tax_rate !== undefined && (
-                      <span>~{Math.round(city.effective_tax_rate * 100)}% effective tax</span>
+                      <span>
+                        ~{Math.round(city.effective_tax_rate * 100)}% effective tax, country-wide
+                      </span>
                     )}
                   </div>
+                  {city.tax_note && (
+                    <p className="tiny dimmer" style={{ margin: "6px 0 0" }}>
+                      {city.tax_note}
+                    </p>
+                  )}
 
                   {city.visa_note && (
                     <p className="tiny dimmer" style={{ margin: "8px 0 0" }}>

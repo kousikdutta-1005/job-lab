@@ -78,13 +78,103 @@ def main() -> int:
                    f"{c['city']}: {raw}% is discounted to {c['expected_uplift_pct']}%")
                 break
 
-        verdicts_ok = True
-        for c in ranked:
-            raw = c["ppp_adjusted_vs_bengaluru_pct"]
-            if abs(raw) <= COMPARABLE_BAND_PCT and c["visa_difficulty"] == "home":
-                if "roughly comparable" not in c["verdict"]:
-                    verdicts_ok = False
-        ok(verdicts_ok, "everything inside the band is called roughly comparable")
+        # Inside the band means the estimate cannot tell the cities apart, and
+        # that is true whatever the visa costs. The visa branch used to sit in
+        # front of this test and swallow it, so Dallas read "Looks 10% better on
+        # real pay" beside a neutral pill that meant the opposite.
+        strays = [
+            c["city"]
+            for c in ranked
+            if c["ppp_adjusted_vs_bengaluru_pct"] is not None
+            and abs(c["ppp_adjusted_vs_bengaluru_pct"]) <= COMPARABLE_BAND_PCT
+            and "roughly comparable" not in c["verdict"]
+        ]
+        ok(not strays, f"everything inside the band is called roughly comparable ({strays})")
+
+        boasts = [
+            c["city"]
+            for c in ranked
+            if c["ppp_adjusted_vs_bengaluru_pct"] is not None
+            and abs(c["ppp_adjusted_vs_bengaluru_pct"]) <= COMPARABLE_BAND_PCT
+            and ("% better" in c["verdict"] or "% above" in c["verdict"] or "% below" in c["verdict"])
+        ]
+        ok(not boasts, f"and none of them claims a direction anyway ({boasts})")
+
+        # The visa caveat must survive the reorder rather than be replaced by it.
+        hard = [c for c in ranked if c.get("visa_difficulty") in {"high", "very_high"}]
+        ok(bool(hard), "the fixture contains a hard-visa city")
+        ok(
+            all("long shot" in c["verdict"] for c in hard),
+            "every hard-visa city still says it is a long shot",
+        )
+        inside_hard = [
+            c
+            for c in hard
+            if c["ppp_adjusted_vs_bengaluru_pct"] is not None
+            and abs(c["ppp_adjusted_vs_bengaluru_pct"]) <= COMPARABLE_BAND_PCT
+        ]
+        ok(
+            all(
+                "roughly comparable" in c["verdict"] and "long shot" in c["verdict"]
+                for c in inside_hard
+            ),
+            "a hard-visa city inside the band states both facts, not one of them",
+        )
+        outside = [
+            c
+            for c in ranked
+            if c["ppp_adjusted_vs_bengaluru_pct"] is not None
+            and abs(c["ppp_adjusted_vs_bengaluru_pct"]) > COMPARABLE_BAND_PCT
+        ]
+        ok(
+            all("roughly comparable" not in c["verdict"] for c in outside),
+            "and a city outside the band is never called comparable",
+        )
+
+        # Every city must be able to say where its median came from. The row
+        # prints the median beside an open-role count, which reads as "the
+        # median of those roles" -- true for Seattle, where six postings
+        # disclosed a band, and false for Dallas, which had one open role, zero
+        # disclosed bands, and a median taken from the published benchmark.
+        ok(
+            all(c.get("pay_basis", {}).get("kind") for c in ranked),
+            "every city states the basis of its median",
+        )
+        mismatched = [
+            c["city"]
+            for c in ranked
+            if c["pay_basis"].get("kind") == "crawled_disclosed_bands"
+            and not c["pay_basis"].get("samples")
+        ]
+        ok(
+            not mismatched,
+            f"no city claims crawled bands without samples ({mismatched})",
+        )
+        benchmarked = [c for c in ranked if c["pay_basis"].get("kind") == "published_benchmark"]
+        ok(
+            all(not c["pay_basis"].get("samples") for c in benchmarked),
+            "and a benchmark-based median never reports crawled samples",
+        )
+
+        # The tax figure is a country rate shown on a city row. Seattle, Dallas
+        # and Palo Alto sit in three different state regimes and all read 32%,
+        # so the caveat the data already carries has to travel with it.
+        taxed = [c for c in ranked if c.get("effective_tax_rate") is not None]
+        ok(bool(taxed), "at least one city carries a tax rate")
+        ok(
+            all(c.get("tax_note") for c in taxed),
+            "every city with a tax rate also carries its caveat",
+        )
+        us = [c for c in taxed if c.get("country") == "US"]
+        if us:
+            ok(
+                len({c["effective_tax_rate"] for c in us}) == 1,
+                "the US rate really is one country-wide number, not a per-city one",
+            )
+            ok(
+                all("vary" in (c.get("tax_note") or "") for c in us),
+                "and the US note says the underlying rates vary",
+            )
 
     print()
     if FAILURES:

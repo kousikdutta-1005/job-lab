@@ -251,6 +251,7 @@ def build_relocation(jobs: list, *, profile: Profile | None = None, ppp_override
                     "baseline_basis": baseline_basis,
                     "ppp_adjusted_vs_bengaluru_pct": None,
                     "effective_tax_rate": info["effective_tax_rate"],
+                    "tax_note": info["tax_note"],
                     "visa_difficulty": info["visa_difficulty"],
                     "visa_difficulty_label": VISA_LABEL.get(info["visa_difficulty"], info["visa_difficulty"]),
                     "visa_attainability": VISA_ATTAINABILITY.get(info["visa_difficulty"], VISA_ATTAINABILITY["unknown"]),
@@ -272,6 +273,7 @@ def build_relocation(jobs: list, *, profile: Profile | None = None, ppp_override
                     "baseline_basis": baseline_basis,
                     "ppp_adjusted_vs_bengaluru_pct": None,
                     "effective_tax_rate": info["effective_tax_rate"],
+                    "tax_note": info["tax_note"],
                     "visa_difficulty": info["visa_difficulty"],
                     "visa_difficulty_label": VISA_LABEL.get(info["visa_difficulty"], info["visa_difficulty"]),
                     "visa_attainability": VISA_ATTAINABILITY.get(info["visa_difficulty"], VISA_ATTAINABILITY["unknown"]),
@@ -288,16 +290,39 @@ def build_relocation(jobs: list, *, profile: Profile | None = None, ppp_override
         real = after_tax_local / float(ppp["ppp"]) / CITY_COST_INDEX.get(city, 1.0)
         vs_blr = round((real / baseline_real - 1) * 100, 1) if baseline_real else None
         difficulty = info["visa_difficulty"]
+        # Two independent facts, so they are composed rather than nested. The
+        # visa test used to sit in front of the band test and short-circuit it,
+        # which is how Dallas came to say "Looks 10% better on real pay" beside
+        # a neutral pill: the pill reads the band, the sentence never got there.
+        # The band exists because PPP, tax and cost estimates cannot resolve a
+        # difference under 15%, and that is a fact about the measurement -- it
+        # stays true however hard the visa is.
+        basis_name = baseline_basis["kind"].replace("_", " ") if baseline_basis else "published"
         if vs_blr is None:
             verdict = "Not enough Bengaluru salary evidence to compare honestly."
-        elif country != "IN" and difficulty in {"very_high", "high"}:
-            verdict = f"Looks {_shown(vs_blr)}% {'better' if vs_blr > 0 else 'worse'} on real pay, compared against the {baseline_basis['kind'].replace('_', ' ')} Bengaluru {seniority} band; visa difficulty is {VISA_LABEL.get(difficulty, difficulty)}, so treat as a long shot."
-        elif vs_blr > COMPARABLE_BAND_PCT:
-            verdict = f"Real pay is about {_shown(vs_blr)}% above Bengaluru after PPP, tax and cost adjustment, compared against the {baseline_basis['kind'].replace('_', ' ')} Bengaluru {seniority} band."
-        elif vs_blr < -COMPARABLE_BAND_PCT:
-            verdict = f"Real pay is about {_shown(vs_blr)}% below Bengaluru after adjustment, compared against the {baseline_basis['kind'].replace('_', ' ')} Bengaluru {seniority} band."
         else:
-            verdict = f"Real pay is roughly comparable to Bengaluru once PPP, tax and local cost are included, using the {baseline_basis['kind'].replace('_', ' ')} Bengaluru {seniority} band."
+            if vs_blr > COMPARABLE_BAND_PCT:
+                verdict = (
+                    f"Real pay is about {_shown(vs_blr)}% above Bengaluru after PPP, tax and cost "
+                    f"adjustment, compared against the {basis_name} Bengaluru {seniority} band."
+                )
+            elif vs_blr < -COMPARABLE_BAND_PCT:
+                verdict = (
+                    f"Real pay is about {_shown(vs_blr)}% below Bengaluru after adjustment, "
+                    f"compared against the {basis_name} Bengaluru {seniority} band."
+                )
+            else:
+                verdict = (
+                    f"Real pay is roughly comparable to Bengaluru once PPP, tax and local cost are "
+                    f"included — {_shown(vs_blr)}% is inside the {COMPARABLE_BAND_PCT}% band where "
+                    f"these estimates cannot tell two cities apart. Compared against the "
+                    f"{basis_name} Bengaluru {seniority} band."
+                )
+            if country != "IN" and difficulty in {"very_high", "high"}:
+                verdict += (
+                    f" Visa difficulty is {VISA_LABEL.get(difficulty, difficulty)}, "
+                    "so treat as a long shot."
+                )
         # The page promises that visa difficulty is weighted, so it has to be.
         # If the move does not come off you stay where you are, so the discount
         # applies to the upside only — a lottery does not rescue a pay cut.
@@ -314,6 +339,7 @@ def build_relocation(jobs: list, *, profile: Profile | None = None, ppp_override
                 "baseline_basis": baseline_basis,
                 "ppp_adjusted_vs_bengaluru_pct": vs_blr,
                 "effective_tax_rate": info["effective_tax_rate"],
+                "tax_note": info["tax_note"],
                 "visa_difficulty": difficulty,
                 "visa_difficulty_label": VISA_LABEL.get(difficulty, difficulty),
                 "visa_attainability": attainability,
