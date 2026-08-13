@@ -1,11 +1,15 @@
 import { useMemo, useState } from "react"
-import type { Application, Contact } from "@/lib/types"
+import type { Application, Contact, Job, Settings } from "@/lib/types"
 import { today, uid } from "@/lib/store"
-import { ago, initials, titleCase } from "@/lib/format"
+import { ago, copy, initials, titleCase } from "@/lib/format"
+import { drafts as emailDrafts, linkedinDrafts, mailto } from "@/lib/email"
 
 interface Props {
   contacts: Contact[]
   applications: Application[]
+  jobs: Job[]
+  settings: Settings
+  idf: Record<string, number>
   onChange: (rows: Contact[]) => void
 }
 
@@ -27,10 +31,38 @@ const BLANK = {
   notes: "",
 }
 
-export function Contacts({ contacts, applications, onChange }: Props) {
+export function Contacts({ contacts, applications, jobs, settings, idf, onChange }: Props) {
   const [form, setForm] = useState(BLANK)
   const [query, setQuery] = useState("")
   const [editing, setEditing] = useState<string | null>(null)
+  const [writingTo, setWritingTo] = useState<string | null>(null)
+  const [draftKey, setDraftKey] = useState<string>("li_connect")
+  const [copied, setCopied] = useState(false)
+
+
+  /* The role you are chasing at their company, so a draft can name it. Falls
+     back to any live posting there, then to nothing — a message with no role in
+     it is still a legitimate thing to send. */
+  function jobFor(contact: Contact): Job | null {
+    const company = contact.company.toLowerCase().trim()
+    const tracked = applications.find(
+      (a) => a.company.toLowerCase().trim() === company && a.job_id,
+    )
+    if (tracked?.job_id) {
+      const found = jobs.find((j) => j.id === tracked.job_id)
+      if (found) return found
+    }
+    const onBoard = jobs.filter((j) => j.company.toLowerCase().trim() === company)
+    if (!onBoard.length) return null
+    return onBoard.sort((a, b) => b.match_score - a.match_score)[0]
+  }
+
+  function draftsFor(contact: Contact) {
+    const job = jobFor(contact)
+    const li = linkedinDrafts(job, settings, idf, contact.name, contact.title)
+    const mail = job ? emailDrafts(job, settings, idf, contact.name.split(/\s+/)[0] || "there") : []
+    return { job, all: [...li, ...mail] }
+  }
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()
@@ -240,6 +272,16 @@ export function Contacts({ contacts, applications, onChange }: Props) {
                       <div className="row" style={{ gap: 6, justifyContent: "flex-end" }}>
                         <button
                           className="chip"
+                          onClick={() => {
+                            setWritingTo(writingTo === contact.id ? null : contact.id)
+                            setDraftKey("li_connect")
+                            setCopied(false)
+                          }}
+                        >
+                          {writingTo === contact.id ? "close" : "write"}
+                        </button>
+                        <button
+                          className="chip"
                           onClick={() => setEditing(editing === contact.id ? null : contact.id)}
                         >
                           {editing === contact.id ? "done" : "edit"}
@@ -257,6 +299,105 @@ export function Contacts({ contacts, applications, onChange }: Props) {
                 ))}
               </tbody>
             </table>
+
+            {writingTo &&
+              (() => {
+                const contact = contacts.find((c) => c.id === writingTo)
+                if (!contact) return null
+                const { job, all } = draftsFor(contact)
+                const draft = all.find((d) => d.key === draftKey) ?? all[0]
+                if (!draft) return null
+                const over = draft.limit ? draft.body.length - draft.limit : 0
+                return (
+                  <div className="card" style={{ marginTop: 12 }}>
+                    <div className="row-between" style={{ marginBottom: 4 }}>
+                      <h3 style={{ margin: 0 }}>
+                        Writing to {contact.name.split(/\s+/)[0]}
+                        {job ? <span className="dim"> about {job.title}</span> : null}
+                      </h3>
+                      {contact.linkedin_url && (
+                        <a
+                          href={contact.linkedin_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="tiny"
+                        >
+                          their profile →
+                        </a>
+                      )}
+                    </div>
+                    {!job && (
+                      <p className="tiny dimmer" style={{ marginTop: 0 }}>
+                        Nothing on the board at {contact.company} right now, so these are written
+                        without a role in them. That is often the better message anyway.
+                      </p>
+                    )}
+
+                    <div className="row wrap" style={{ gap: 6, margin: "8px 0 10px" }}>
+                      {all.map((d) => (
+                        <button
+                          key={d.key}
+                          className={`chip ${d.key === draft.key ? "on" : ""}`}
+                          onClick={() => {
+                            setDraftKey(d.key)
+                            setCopied(false)
+                          }}
+                        >
+                          {d.medium === "linkedin" ? "in · " : "@ · "}
+                          {d.label}
+                        </button>
+                      ))}
+                    </div>
+
+                    <p className="tiny dimmer" style={{ margin: "0 0 8px" }}>
+                      {draft.when}
+                    </p>
+
+                    {draft.subject && (
+                      <div className="field">
+                        <label>Subject</label>
+                        <input readOnly value={draft.subject} />
+                      </div>
+                    )}
+
+                    <textarea readOnly rows={draft.medium === "linkedin" ? 7 : 12} value={draft.body} />
+
+                    <div className="row-between" style={{ marginTop: 8 }}>
+                      <span
+                        className="tiny mono"
+                        style={{ color: over > 0 ? "var(--bad)" : "var(--ink-4)" }}
+                      >
+                        {draft.limit
+                          ? over > 0
+                            ? `${draft.body.length} characters — ${over} over LinkedIn's ${draft.limit} limit`
+                            : `${draft.body.length} of ${draft.limit} characters`
+                          : `${draft.body.length} characters`}
+                      </span>
+                      <div className="row" style={{ gap: 6 }}>
+                        <button
+                          className="chip"
+                          onClick={() => {
+                            copy(draft.body)
+                            setCopied(true)
+                            update(contact.id, { last_contacted: today() })
+                          }}
+                        >
+                          {copied ? "copied, and logged" : "copy"}
+                        </button>
+                        {draft.medium !== "linkedin" && contact.email && (
+                          <a
+                            className="btn btn-sm"
+                            href={mailto(contact.email, draft.subject, draft.body)}
+                            onClick={() => update(contact.id, { last_contacted: today() })}
+                          >
+                            Open in mail
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )
+              })()}
 
             {editing && (
               <div className="card" style={{ marginTop: 12 }}>

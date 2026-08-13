@@ -374,7 +374,14 @@ export default function App() {
         )}
 
         {view === "contacts" && (
-          <Contacts contacts={contacts} onChange={setContacts} applications={applications} />
+          <Contacts
+            contacts={contacts}
+            onChange={setContacts}
+            applications={applications}
+            jobs={bundle.data.jobs}
+            settings={settings}
+            idf={bundle.idf}
+          />
         )}
 
         {view === "pay" && (

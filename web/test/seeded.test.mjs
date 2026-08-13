@@ -321,6 +321,22 @@ for (const name of ["Anita Raghavan", "Vikram Shetty", "Priya Nair", "Daniel Ose
 }
 if (/Director of Design/.test(contactsText)) pass("contact titles render")
 else fail("contact titles missing")
+
+// Reaching out is the point of keeping contacts at all.
+await page.locator("table.data tbody tr", { hasText: "Anita Raghavan" }).locator('button:has-text("write")').click()
+await page.waitForTimeout(400)
+const writer = await page.locator(".pane").innerText()
+if (/Writing to Anita/.test(writer)) pass("a draft opens from a contact row")
+else fail("clicking write on a contact opened nothing")
+if (/Connection note/.test(writer) && /Referral ask/.test(writer)) pass("LinkedIn drafts offered")
+else fail("no LinkedIn-specific drafts")
+
+// A connection note over 300 characters cannot be sent at all.
+const counter = await page.locator(".pane .card .mono").last().innerText()
+console.log(`  connection note: ${counter}`)
+if (/over LinkedIn/.test(counter)) fail(`the default connection note exceeds LinkedIn's limit: ${counter}`)
+else pass(`connection note fits (${counter})`)
+
 await page.screenshot({ path: join(shots, "12-contacts.png"), fullPage: true })
 
 /* ------------------------------------------------- today, now with a load */

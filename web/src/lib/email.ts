@@ -14,6 +14,10 @@ export interface Draft {
   when: string
   subject: string
   body: string
+  /** Where this is meant to be sent, which decides how it should read. */
+  medium?: "email" | "linkedin"
+  /** LinkedIn enforces one; email does not. */
+  limit?: number
 }
 
 /** The two or three most distinctive things this posting asks for. */
@@ -118,6 +122,113 @@ I am still very interested, particularly in ${topics[0] ?? "the direction of the
 If the answer is no, that is genuinely fine and I would appreciate knowing so I can stop checking.
 
 ${signature(me)}`,
+    },
+  ]
+}
+
+/**
+ * LinkedIn is not email with a different envelope.
+ *
+ * A connection note is capped at 300 characters, is read on a phone, and
+ * arrives with no subject line and no context beyond your headline. Pasting an
+ * email into it produces the thing everyone ignores. These are written to the
+ * medium: one specific reason, one small ask, no preamble.
+ */
+export function linkedinDrafts(
+  job: Job | null,
+  me: Settings,
+  idf: Record<string, number>,
+  contactName = "there",
+  contactTitle = "",
+): Draft[] {
+  const who = firstName(me)
+  const topics = job ? hooks(job, idf, 2) : []
+  const focus = topics[0] ?? "the work your team is doing"
+  const years = me.years || 5
+  const company = job?.company ?? "your team"
+  const role = job?.title ?? "design roles"
+  const first = (contactName || "there").split(/\s+/)[0]
+  const leads = /head|director|vp|chief|lead|principal/i.test(contactTitle)
+
+  /* 300 characters is a hard limit, not a guideline: LinkedIn silently refuses
+     to send a longer note. So the note is built in descending order of what
+     matters and the first version that fits is the one you get. */
+  const connect = [
+    `Hi ${first} — I'm applying for the ${role} role at ${company}. ${years} years in product design, mostly ${focus}. Not asking you to do anything with it; I'd just rather the application had a face attached. Work is at ${
+      me.portfolio || "my profile"
+    }.`,
+    `Hi ${first} — I'm applying for the ${role} role at ${company}. ${years} years in product design, mostly ${focus}. Work is at ${
+      me.portfolio || "my profile"
+    }.`,
+    `Hi ${first} — applying for the ${role} role at ${company}. ${years} years in product design. ${
+      me.portfolio || ""
+    }`.trim(),
+    `Hi ${first} — applying for the ${role} role at ${company}. ${years} years in product design.`,
+  ].find((text) => text.length <= 300)
+
+  return [
+    {
+      key: "li_connect",
+      label: "Connection note",
+      when: "300 characters, hard limit. This is the whole first impression.",
+      medium: "linkedin",
+      limit: 300,
+      subject: "",
+      body:
+        connect ??
+        `Hi ${first} — applying for a design role at ${company}. ${years} years in product design.`,
+    },
+    {
+      key: "li_referral",
+      label: "Referral ask",
+      when: "Once they have accepted. Make it small and easy to refuse.",
+      medium: "linkedin",
+      subject: "",
+      body: `Thanks for connecting, ${first}.
+
+Direct version: there's a ${role} opening at ${company}${
+        job?.url ? ` (${job.url})` : ""
+      } and I'm applying either way. If you know the team and think it's a fit, a referral would help a lot. If you don't, or would rather not, that's a completely fine answer and I won't ask again.
+
+${years} years in product design, strongest on ${focus}. Everything's here: ${
+        me.portfolio || "my profile"
+      }.
+
+Either way, thanks for the two minutes.`,
+    },
+    {
+      key: "li_informational",
+      label: "Ask for fifteen minutes",
+      when: leads
+        ? "To someone senior. Ask about the work, not the job — it is a far easier yes."
+        : "When there is no open role, or you want to be known before there is.",
+      medium: "linkedin",
+      subject: "",
+      body: `Hi ${first},
+
+I've been following ${company}${
+        topics.length ? ` and the way the team is approaching ${focus}` : ""
+      }. I'm a product designer, ${years} years in, and I'd like to understand how design actually works there before I decide whether to apply.
+
+Would you be open to fifteen minutes? I'll come with three specific questions and I'll keep to the fifteen.
+
+If it's not a good time, no reply needed at all.
+
+${who}`,
+    },
+    {
+      key: "li_after_rejection",
+      label: "After a no",
+      when: "The most under-used message in a job search. Costs nothing, pays later.",
+      medium: "linkedin",
+      subject: "",
+      body: `Hi ${first},
+
+I didn't get the ${role} role, which is fair enough. Thank you for the time the team spent on it.
+
+If anything opens later that you think fits better, I'd genuinely like to hear about it. And if there was one thing that would have made the difference, I'd take that feedback seriously — no obligation to give it.
+
+${who}`,
     },
   ]
 }
