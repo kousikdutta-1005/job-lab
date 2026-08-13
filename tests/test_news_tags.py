@@ -14,7 +14,7 @@ import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))
 
-from joblab.news import _RELEVANCE_TERMS, _keep_item, _tags_for
+from joblab.news import _RELEVANCE_TERMS, _keep_item, _tags_for, strip_feed_chrome
 
 PASSES: list[str] = []
 FAILURES: list[str] = []
@@ -71,6 +71,54 @@ def main() -> int:
         feed = [i for i in items if i["source"] == LAYOFF_FEED]
         ok(all("layoffs" in i["tags"] or "career" in i["tags"] for i in feed),
            f"every story kept from the layoffs feed is about work ({len(feed)} items)")
+
+    # --- Feed chrome is the publication's words, not the story's -------------
+    # Medium signs every item "Continue reading on UX Collective ». The masthead
+    # contains "ux", so the design tag was being awarded by the sign-off.
+    loom = "90 years of loom engineering went into teaching machines to catch their mistakes.\n Continue reading on UX Collective \u00bb"
+    ok("design" in _tags_for("The loom that raised its hand", loom),
+       "the raw teaser does earn a design tag, which is the bug")
+    cleaned = strip_feed_chrome(loom, "UX Collective")
+    ok("Continue reading" not in cleaned, "the sign-off is stripped")
+    ok("UX Collective" not in cleaned, "and the masthead with it")
+    ok("loom engineering" in cleaned, "while the story's own sentence survives")
+    ok(not _tags_for("The loom that raised its hand", cleaned),
+       "a loom story about manufacturing earns no tag once the masthead is gone")
+
+    keep, tags = _keep_item("The loom that raised its hand", cleaned, source="UX Collective")
+    ok(not keep, "and it is no longer kept, because having any tag is the relevance gate")
+
+    egg = "On the next hack for our humanity, in the age of AI\n Continue reading on UX Collective \u00bb"
+    egg_tags = _tags_for("The side of the egg", strip_feed_chrome(egg, "UX Collective"))
+    ok("design" not in egg_tags, "an AI essay stops claiming to be a design story")
+    ok("product" in egg_tags, "but keeps the tag its own words earned")
+
+    # A story that genuinely is about design keeps its tag, so the strip is not
+    # simply deleting evidence.
+    real = "A practical guide to design systems for product teams.\n Continue reading on UX Collective \u00bb"
+    ok("design" in _tags_for("Design systems that scale", strip_feed_chrome(real, "UX Collective")),
+       "a genuine design piece is untouched")
+
+    ok(strip_feed_chrome("Design at Smashing Magazine is fun.", "Smashing Magazine").strip() == "Design at is fun.",
+       "the publication name is removed wherever it appears")
+    ok("design" in strip_feed_chrome("Notes on design", "UX Collective"),
+       "a source whose name is absent leaves the text alone")
+    ok(strip_feed_chrome("On design", "Hacker News \u2014 design") == "On design",
+       "a compound feed label never strips a word from the story")
+    ok(strip_feed_chrome("", "UX Collective") == "", "empty text is safe")
+
+    for pub, tail in (("A List Apart", "The post Foo appeared first on A List Apart."),
+                      ("Smashing Magazine", "Read more on Smashing Magazine")):
+        ok(not strip_feed_chrome(f"A story. {tail}", pub).replace("A story.", "").strip(),
+           f"{pub} sign-off removed")
+
+    stored = pathlib.Path(__file__).resolve().parent.parent / "web/public/data/news.json"
+    if stored.exists():
+        items = json.loads(stored.read_text()).get("items", [])
+        dirty = [i["title"] for i in items if "continue reading on" in (i.get("summary") or "").lower()]
+        ok(not dirty, f"no stored summary still carries feed chrome ({len(items)} items)")
+        for t in dirty[:3]:
+            print(f"     chrome left on {t[:50]}")
 
     print()
     if FAILURES:

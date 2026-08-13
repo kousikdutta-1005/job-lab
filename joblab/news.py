@@ -34,6 +34,9 @@ RSS_SOURCES: tuple[tuple[str, str], ...] = (
 # arriving from the layoffs feed, which put the tag on a diagramming tool, and
 # it was not in this table at all — so a genuine layoffs piece from any other
 # source could never earn it.
+#
+# The same principle is why feed chrome has to go before any of this runs: see
+# strip_feed_chrome below.
 _RELEVANCE_TERMS: dict[str, tuple[str, ...]] = {
     "design": ("design", "designer", "ux", "ui", "research", "accessibility", "figma"),
     "product": ("product", "saas", "startup", "ai", "strategy", "roadmap"),
@@ -97,6 +100,38 @@ def _tags_for(*texts: str) -> list[str]:
     return [tag for tag, patterns in _TERM_RE.items() if any(r.search(blob) for r in patterns)]
 
 
+# Feed chrome is the publication talking about itself, not the story. Medium
+# signs every item with "Continue reading on UX Collective »", and "UX
+# Collective" contains "ux" — so before this stripping existed, every story on
+# that feed earned the "design" tag from the masthead. Two of sixty stories on
+# the board were kept for no other reason, because _keep_item treats "has any
+# tag" as the relevance gate. The 500-character truncation hid the sign-off on
+# long items, so it only bit the short teasers: exactly the stories with the
+# least real evidence, where one spurious match decides the whole question.
+_CHROME_PATTERNS = (
+    re.compile(r"continue reading on\b.*", re.I | re.S),
+    re.compile(r"\bthe post\b.*?\bappeared first on\b.*", re.I | re.S),
+    re.compile(r"\bread (?:more|the rest)\s+(?:on|at)\b.*", re.I | re.S),
+    re.compile(r"\boriginally published (?:on|at|in)\b.*", re.I | re.S),
+)
+
+
+def strip_feed_chrome(text: str, source: str) -> str:
+    """Drop the publication's sign-off so a tag can only come from the story.
+
+    Removes the known RSS boilerplate tails, then any standalone mention of the
+    publication's own name. Both are the feed's words about itself; neither is
+    evidence of what the story covers.
+    """
+    out = text or ""
+    for pattern in _CHROME_PATTERNS:
+        out = pattern.sub(" ", out)
+    name = source.strip()
+    if len(name) > 3 and "—" not in name:
+        out = re.sub(rf"(?<![a-z0-9]){re.escape(name)}(?![a-z0-9])", " ", out, flags=re.I)
+    return re.sub(r"\s+", " ", out).strip()
+
+
 def _keep_item(title: str, summary: str, *, source: str) -> tuple[bool, list[str]]:
     tags = _tags_for(title, summary)
     if source == "Hacker News — layoffs":
@@ -129,7 +164,7 @@ def _hn_items(url: str, source: str) -> tuple[list[dict], dict]:
     for hit in payload.get("hits") or []:
         title = (hit.get("title") or hit.get("story_title") or "").strip()
         item_url = hit.get("url") or hit.get("story_url") or ""
-        summary = html_to_text(hit.get("story_text") or hit.get("comment_text") or "")[:500]
+        summary = strip_feed_chrome(html_to_text(hit.get("story_text") or hit.get("comment_text") or ""), source)[:500]
         keep, tags = _keep_item(title, summary, source=source)
         if not title or not item_url or not keep:
             continue
@@ -161,7 +196,8 @@ def _rss_items(name: str, url: str) -> tuple[list[dict], dict]:
     rows: list[dict] = []
     for entry in feed.entries[:40]:
         title = html_to_text(entry.get("title", ""))
-        summary = html_to_text(entry.get("summary") or entry.get("description") or "")[:500]
+        raw = html_to_text(entry.get("summary") or entry.get("description") or "")
+        summary = strip_feed_chrome(raw, name)[:500]
         keep, tags = _keep_item(title, summary, source=name)
         if not title or not keep:
             continue

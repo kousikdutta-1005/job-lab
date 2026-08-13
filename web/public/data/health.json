@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-08-13T05:36:52+00:00",
+  "generated_at": "2026-08-13T05:42:07+00:00",
   "version": "0.1.0",
-  "duration_seconds": 24.1,
+  "duration_seconds": 26.6,
   "detection": {
     "total": 251,
     "cached": 251,
@@ -1320,7 +1320,7 @@
       "kind": "news",
       "name": "UX Collective",
       "url": "https://uxdesign.cc/feed",
-      "items": 9,
+      "items": 7,
       "error": null
     },
     {
@@ -2087,12 +2087,12 @@
         "idf": 6.109
       },
       {
-        "term": "multivariate",
+        "term": "fullstory",
         "jobs": 1,
         "idf": 6.109
       },
       {
-        "term": "fullstory",
+        "term": "multivariate",
         "jobs": 1,
         "idf": 6.109
       },
@@ -2122,12 +2122,12 @@
         "idf": 6.109
       },
       {
-        "term": "vue",
+        "term": "svelte",
         "jobs": 1,
         "idf": 6.109
       },
       {
-        "term": "svelte",
+        "term": "vue",
         "jobs": 1,
         "idf": 6.109
       },
@@ -2192,7 +2192,7 @@
         "idf": 5.7035
       },
       {
-        "term": "protopie",
+        "term": "lottie",
         "jobs": 2,
         "idf": 5.7035
       }
