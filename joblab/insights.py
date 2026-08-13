@@ -98,19 +98,41 @@ def build_insights(jobs: list, profile: Profile, idf: dict[str, float], trends: 
             examples.setdefault(term, []).append({"company": job.company, "title": job.title, "url": job.url})
 
     gaps = [
-        {"term": term, "senior_jobs": count, "idf": idf.get(term, 0), "examples": examples.get(term, [])[:3]}
+        {
+            "term": term,
+            "senior_jobs": count,
+            "share": round(count / len(senior_jobs), 3) if senior_jobs else 0.0,
+            "idf": idf.get(term, 0),
+            # How much of the senior market a term unlocks, damped by how
+            # common it is. Sorting on idf alone ranked the *rarest* terms
+            # first, which surfaced things like "aria" and "lottie" — each in
+            # 2 of 183 senior postings — while ignoring "ai" in 162 of them.
+            # Worse, 19 terms tied at the same idf, so the top five were just
+            # the alphabetically first five of that tie.
+            "leverage": round(count * idf.get(term, 0), 1),
+            "examples": examples.get(term, [])[:3],
+        }
         for term, count in skill_counts.items()
-        if count >= 2
+        # A term in a handful of postings is trivia, not a gap. Ask for a real
+        # share of the senior market before calling it one.
+        if count >= max(4, round(0.05 * len(senior_jobs)))
     ]
-    gaps.sort(key=lambda row: (-row["idf"], -row["senior_jobs"], row["term"]))
+    gaps.sort(key=lambda row: (-row["leverage"], -row["senior_jobs"], row["term"]))
     if gaps:
         top = gaps[:5]
+        lead = top[0]
+        share = round(lead["share"] * 100)
         insights.append(
             _insight(
                 "Close the highest-signal senior skill gaps",
-                "These terms appear in multiple senior-or-higher postings but are not listed in the public profile strengths. Treat them as portfolio proof points only if they are genuinely true.",
+                f"These terms carry the most weight across senior-or-higher postings and are not in the public profile "
+                f"strengths — {share}% of the {len(senior_jobs)} senior roles on the board mention {lead['term']}. "
+                f"Ranked by how many senior roles each unlocks, discounted for how common the term is. "
+                f"Treat them as portfolio proof points only if they are genuinely true.",
                 top,
-                "medium" if len(top) >= 3 else "low",
+                # Confidence tracks the evidence, not how many rows fit on
+                # screen. It used to read "medium" whenever three rows existed.
+                "high" if lead["senior_jobs"] >= 0.25 * len(senior_jobs) else "medium" if lead["senior_jobs"] >= 8 else "low",
             )
         )
 

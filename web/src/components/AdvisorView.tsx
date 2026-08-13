@@ -24,6 +24,8 @@ interface EvidenceCompany {
 interface EvidenceTerm {
   term: string
   senior_jobs?: number
+  share?: number
+  leverage?: number
   mid_jobs?: number
   jobs?: number
   lift?: number
@@ -156,7 +158,11 @@ function Evidence({ evidence }: { evidence: unknown }) {
               )}
               {row.jobs !== undefined && <span className="dimmer tiny">{row.jobs} jobs</span>}
               {row.idf !== undefined && (
-                <span className="dimmer tiny">rarity {Number(row.idf).toFixed(2)}</span>
+                <span className="dimmer tiny">
+                  {row.share !== undefined
+                    ? `${Math.round(row.share * 100)}% of senior roles`
+                    : `rarity ${Number(row.idf).toFixed(2)}`}
+                </span>
               )}
             </div>
             {row.examples && row.examples.length > 0 && <RoleLinks roles={row.examples} />}
