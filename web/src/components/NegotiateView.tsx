@@ -203,6 +203,10 @@ export function NegotiateView({ benchmarks, settings, applications }: Props) {
                 <p className="tiny dimmer" style={{ margin: "4px 0 0" }}>
                   Band runs {inr(read.band.low_inr)} to {inr(read.band.high_inr)}, tick is the
                   median, white line is this offer.
+                  {base > read.band.high_inr &&
+                    " The line is pinned to the right edge because the offer is above the band, not at the top of it."}
+                  {base < read.band.low_inr &&
+                    " The line is pinned to the left edge because the offer is below the band, not at the floor of it."}
                 </p>
               </>
             )}

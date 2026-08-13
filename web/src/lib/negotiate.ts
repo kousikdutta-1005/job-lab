@@ -112,7 +112,30 @@ export function readOffer(
   let counter: number | null
   let counterRationale: string
 
-  if (pct <= 25) {
+  /* Outside the band is not the edge of the band. percentileIn clamps to 0 and
+     100, which made an offer below the published minimum read as "near the
+     floor" - merely low rather than the level problem it usually is - and an
+     offer above the maximum read as "near the top of the published band" when
+     it is not in the band at all. Both ends now say where the number actually
+     sits, and by how much. */
+  if (input.base < band.low_inr) {
+    const under = Math.round(((band.low_inr - input.base) / band.low_inr) * 100)
+    counter = Math.round(band.median_inr)
+    position = `The offer is below the published band entirely — ${formatShort(
+      input.base,
+    )} against a floor of ${formatShort(band.low_inr)}, about ${under}% under it.`
+    counterRationale = `Counter at the median, ${formatShort(
+      counter,
+    )}. Below the floor is rarely a budget conversation: either they have you at a lower level than the title suggests, or the band does not apply to this team. Ask which, before you argue about the number.`
+  } else if (input.base > band.high_inr) {
+    const over = Math.round(((input.base - band.high_inr) / band.high_inr) * 100)
+    counter = null
+    position = `The offer is above the top of the published band — ${formatShort(
+      input.base,
+    )} against a ceiling of ${formatShort(band.high_inr)}, about ${over}% over it.`
+    counterRationale =
+      "There is no market evidence left to argue with, and asking for more base invites someone to re-examine the number. Take it, and spend the goodwill on level, scope and a review date instead."
+  } else if (pct <= 25) {
     counter = Math.round(band.median_inr)
     position = `The offer sits at roughly the ${pct}th percentile of the published band for ${input.level} designers in ${input.city} — near the floor.`
     counterRationale = `Counter at the median, ${formatShort(
