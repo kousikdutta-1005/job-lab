@@ -12,6 +12,8 @@ interface Props {
 }
 
 const KIND_LABEL: Record<ActionKind, string> = {
+  offer: "offer",
+  interview: "interview",
   apply: "apply",
   follow_up: "chase",
   expiring: "going cold",
@@ -22,6 +24,8 @@ const KIND_LABEL: Record<ActionKind, string> = {
 }
 
 const KIND_CLASS: Record<ActionKind, string> = {
+  offer: "pill-good",
+  interview: "pill-accent",
   apply: "pill-accent",
   follow_up: "pill-warn",
   expiring: "pill-bad",
@@ -29,6 +33,15 @@ const KIND_CLASS: Record<ActionKind, string> = {
   profile: "pill-warn",
   network: "",
   nothing: "",
+}
+
+const LABEL_FOR: Partial<Record<ActionKind, string>> = {
+  offer: "Read the offer",
+  interview: "Prepare",
+  apply: "Open the role",
+  expiring: "Open the role",
+  follow_up: "Open applications",
+  network: "Find someone",
 }
 
 function greeting(): string {
@@ -124,13 +137,7 @@ export function TodayView({
               <span className="tiny dimmer">{action.evidence ?? ""}</span>
               {action.view && (
                 <button className="btn btn-sm" onClick={() => onGo(action)}>
-                  {action.kind === "apply" || action.kind === "expiring"
-                    ? "Open the role"
-                    : action.kind === "follow_up"
-                      ? "Open applications"
-                      : action.kind === "network"
-                        ? "Find someone"
-                        : "Fix it"}
+                  {LABEL_FOR[action.kind] ?? "Fix it"}
                 </button>
               )}
             </div>

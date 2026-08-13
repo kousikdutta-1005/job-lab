@@ -995,6 +995,28 @@ table.data tr:hover td {
   background: var(--bg-hover);
 }
 
+table.data tr.row-click {
+  cursor: pointer;
+}
+
+table.data tr.row-open td {
+  background: var(--bg-hover);
+  border-bottom-color: transparent;
+}
+
+table.data tr.row-detail td {
+  padding: 0 0 14px;
+  background: var(--bg-hover);
+}
+
+table.data tr.row-detail:hover td {
+  background: var(--bg-hover);
+}
+
+table.data tr.row-detail .card {
+  margin: 0 9px;
+}
+
 .empty {
   text-align: center;
   padding: 44px 20px;

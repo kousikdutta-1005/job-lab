@@ -103,5 +103,8 @@ class Job:
     match_score: int = 0
     match_reasons: list[str] = field(default_factory=list)
 
+    # Filled in by the quality stage.
+    quality: dict = field(default_factory=dict)
+
     def to_dict(self) -> dict:
         return asdict(self)

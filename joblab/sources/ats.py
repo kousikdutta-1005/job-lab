@@ -20,22 +20,30 @@ from ..net import fetch_json, fetch_text, post_json
 def slug_candidates(name: str, domain: str | None = None) -> list[str]:
     """Board tokens worth trying for a company, most likely first."""
     base = (name or "").strip().lower()
-    alnum = re.sub(r"[^a-z0-9]+", "", base)
-    hyphen = re.sub(r"[^a-z0-9]+", "-", base).strip("-")
-    first = re.sub(r"[^a-z0-9]+", "", base.split()[0]) if base.split() else ""
+    suffix_re = re.compile(
+        r"\b(inc|incorporated|technologies|technology|labs|software|systems|solutions|"
+        r"private|limited|pvt|ltd|llc|corp|corporation)\b",
+        re.I,
+    )
+
+    variants = [base, suffix_re.sub(" ", base)]
+    if domain:
+        variants.append(domain.split(".")[0])
 
     out: list[str] = []
-    for candidate in (alnum, hyphen, first):
-        if candidate and candidate not in out:
-            out.append(candidate)
+    for variant in variants:
+        variant = (variant or "").strip().lower()
+        parts = [p for p in re.split(r"[^a-z0-9]+", variant) if p]
+        candidates = [
+            "".join(parts),
+            "-".join(parts),
+            parts[0] if parts else "",
+        ]
+        for candidate in candidates:
+            if candidate and candidate not in out:
+                out.append(candidate)
 
-    if domain:
-        root = domain.split(".")[0]
-        root = re.sub(r"[^a-z0-9]+", "", root.lower())
-        if root and root not in out:
-            out.append(root)
-
-    return out[:3]
+    return out[:8]
 
 
 def _iso(value) -> str | None:
@@ -337,6 +345,107 @@ def parse_workday(payload, company: str, slug: str) -> list[Job]:
 
 
 # ---------------------------------------------------------------------------
+# Teamtailor
+# ---------------------------------------------------------------------------
+
+def teamtailor_url(slug: str) -> str:
+    return f"https://{slug}/jobs.json"
+
+
+def parse_teamtailor(payload, company: str, slug: str) -> list[Job]:
+    jobs: list[Job] = []
+    for item in (payload or {}).get("items", []) or []:
+        if not isinstance(item, dict):
+            continue
+        schema = item.get("_jobposting") or {}
+        title = item.get("title") or schema.get("title") or ""
+        url = item.get("url") or ""
+        locations = []
+        for loc in schema.get("jobLocation") or []:
+            address = (loc or {}).get("address") or {}
+            locations.append(
+                ", ".join(
+                    str(x)
+                    for x in (
+                        address.get("addressLocality"),
+                        address.get("addressRegion"),
+                        address.get("addressCountry"),
+                    )
+                    if x
+                )
+            )
+        jobs.append(
+            Job(
+                id=job_id(company, title, url),
+                title=title,
+                company=company,
+                company_slug=slug,
+                source="teamtailor",
+                url=url,
+                location_raw=", ".join(x for x in locations if x),
+                description_text=html_to_text(
+                    schema.get("description") or item.get("content_html") or ""
+                ),
+                department=schema.get("occupationalCategory"),
+                posted_at=_iso(item.get("date_published") or schema.get("datePosted")),
+            )
+        )
+    return jobs
+
+
+# ---------------------------------------------------------------------------
+# BambooHR
+# ---------------------------------------------------------------------------
+
+def bamboohr_url(slug: str) -> str:
+    return f"https://{slug}.bamboohr.com/careers/list"
+
+
+def parse_bamboohr(payload, company: str, slug: str) -> list[Job]:
+    jobs: list[Job] = []
+    for item in (payload or {}).get("result", []) or []:
+        if not isinstance(item, dict):
+            continue
+        title = item.get("jobOpeningName") or ""
+        job_id_value = item.get("id") or ""
+        url = item.get("jobOpeningShareUrl") or (
+            f"https://{slug}.bamboohr.com/careers/{job_id_value}" if job_id_value else ""
+        )
+        loc = item.get("location") or item.get("atsLocation") or {}
+        location = ", ".join(
+            str(x)
+            for x in (
+                loc.get("city"),
+                loc.get("state") or loc.get("province"),
+                loc.get("country"),
+            )
+            if x
+        )
+        if item.get("isRemote") or item.get("locationType") == "2":
+            location = f"{location} (Remote)".strip()
+        jobs.append(
+            Job(
+                id=job_id(company, title, url),
+                title=title,
+                company=company,
+                company_slug=slug,
+                source="bamboohr",
+                url=url,
+                location_raw=location,
+                description_text=html_to_text(
+                    item.get("description")
+                    or item.get("jobDescription")
+                    or item.get("jobOpeningDescription")
+                    or ""
+                ),
+                department=item.get("departmentLabel"),
+                posted_at=_iso(item.get("postedDate") or item.get("datePosted")),
+            )
+        )
+    return jobs
+
+
+# ---------------------------------------------------------------------------
 # Registry of supported ATS platforms
 # ---------------------------------------------------------------------------
 
@@ -352,6 +461,8 @@ ATS_PLATFORMS: tuple[ATSDef, ...] = (
     ("smartrecruiters", smartrecruiters_url, parse_smartrecruiters),
     ("workable", workable_url, parse_workable),
     ("recruitee", recruitee_url, parse_recruitee),
+    ("teamtailor", teamtailor_url, parse_teamtailor),
+    ("bamboohr", bamboohr_url, parse_bamboohr),
 )
 
 ATS_BY_NAME = {name: (url_fn, parse_fn) for name, url_fn, parse_fn in ATS_PLATFORMS}
@@ -366,6 +477,10 @@ def fetch_ats(
         return [], f"unknown ats '{ats}'"
     url_fn, parse_fn = entry
     if ats == "workday":
+        try:
+            _workday_parts(slug)
+        except ValueError:
+            return [], "invalid workday slug"
         postings: dict[str, dict] = {}
         payload, error = None, None
         for term in ("design", "ux", "product designer", ""):
@@ -383,6 +498,19 @@ def fetch_ats(
                     postings[item.get("externalPath") or item.get("title") or str(len(postings))] = item
         if payload is not None:
             payload = {**payload, "jobPostings": list(postings.values())}
+    elif ats == "bamboohr":
+        payload, error = fetch_json(url_fn(slug), cache_hours=cache_hours)
+        if isinstance(payload, dict):
+            enriched = []
+            for item in payload.get("result", []) or []:
+                detail_url = item.get("id") and f"https://{slug}.bamboohr.com/careers/{item['id']}/detail"
+                if detail_url:
+                    detail, detail_error = fetch_json(detail_url, cache_hours=cache_hours)
+                    opening = ((detail or {}).get("result") or {}).get("jobOpening") or {}
+                    if not detail_error and opening:
+                        item = {**item, **opening}
+                enriched.append(item)
+            payload = {**payload, "result": enriched}
     else:
         payload, error = fetch_json(url_fn(slug), cache_hours=cache_hours)
     if error:
@@ -409,6 +537,10 @@ def probe(ats: str, slug: str) -> bool:
         return False
     url_fn, parse_fn = entry
     if ats == "workday":
+        try:
+            _workday_parts(slug)
+        except ValueError:
+            return False
         payload, error = post_json(
             url_fn(slug),
             json_body={"appliedFacets": {}, "limit": 20, "offset": 0, "searchText": ""},
@@ -447,6 +579,8 @@ _BOARD_LINK_PATTERNS: tuple[tuple[str, str], ...] = (
     ("recruitee", r"([a-z0-9_-]{2,60})\.recruitee\.com"),
     ("workday", r"https?://([a-z0-9-]+\.wd\d+)\.myworkdayjobs\.com/(?:[a-z]{2}-[A-Z]{2}/)?([A-Za-z0-9_-]{2,80})"),
     ("workday", r"([a-z0-9-]+\.wd\d+)\.myworkdayjobs\.com/wday/cxs/[a-z0-9-]+/([A-Za-z0-9_-]{2,80})/jobs"),
+    ("teamtailor", r"https?://((?:[a-z0-9-]+\.)+[a-z]{2,})/(?:jobs|departments|locations)(?:[/?#][^\"'\s<]*)?"),
+    ("bamboohr", r"https?://([a-z0-9-]+)\.bamboohr\.com/careers"),
 )
 
 _COMPILED_BOARD_LINKS = [(ats, re.compile(p, re.I)) for ats, p in _BOARD_LINK_PATTERNS]
@@ -455,6 +589,7 @@ _COMPILED_BOARD_LINKS = [(ats, re.compile(p, re.I)) for ats, p in _BOARD_LINK_PA
 _BOARD_TOKEN_NOISE = {
     "embed", "job_board", "www", "api", "jobs", "careers", "static", "assets",
     "app", "help", "support", "blog", "about", "search", "images", "img",
+    "www", "teamtailor",
 }
 
 _CAREERS_PATHS = (
@@ -602,6 +737,12 @@ def board_identity(ats: str, slug: str) -> str | None:
             if name:
                 return name
         return None
+
+    if ats == "teamtailor":
+        payload, error = fetch_json(teamtailor_url(slug), cache_hours=24 * 7)
+        if error or not isinstance(payload, dict):
+            return None
+        return payload.get("title")
 
     return None
 

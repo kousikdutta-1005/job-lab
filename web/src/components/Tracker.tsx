@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+import { Fragment, useMemo, useState } from "react"
 import type { Application, Contact, Stage } from "@/lib/types"
 import { STAGES, today, uid } from "@/lib/store"
 import { ago, inr, logoFor } from "@/lib/format"
@@ -71,7 +71,89 @@ export function Tracker({ applications, onChange, onOpenJob }: Props) {
   }
   const rate = stats.applied ? Math.round((stats.interviews / stats.applied) * 100) : 0
 
-  const open = applications.find((a) => a.id === openId) ?? null
+  /* The detail lives directly under the row you clicked, not at the foot of
+     the table — with twenty applications the old placement meant clicking a
+     row and watching nothing appear to happen. */
+  function detailFor(open: Application) {
+    return (
+          <div className="card" style={{ marginTop: 14 }}>
+            <div className="row-between">
+              <h3 style={{ margin: 0 }}>
+                {open.title} · <span className="dim">{open.company}</span>
+              </h3>
+              <a href={open.url} target="_blank" rel="noopener noreferrer" className="tiny">
+                posting →
+              </a>
+            </div>
+
+            <div className="split" style={{ marginTop: 12 }}>
+              <div className="field">
+                <label>Date applied</label>
+                <input
+                  type="date"
+                  value={open.date_applied ?? ""}
+                  onChange={(e) => update(open.id, { date_applied: e.target.value })}
+                />
+              </div>
+              <div className="field">
+                <label>Follow up on</label>
+                <input
+                  type="date"
+                  value={open.follow_up_date ?? ""}
+                  onChange={(e) => update(open.id, { follow_up_date: e.target.value })}
+                />
+              </div>
+            </div>
+
+            <div className="field">
+              <label>Notes</label>
+              <textarea
+                rows={4}
+                value={open.notes ?? ""}
+                placeholder="Who you spoke to, what they asked, what you promised to send…"
+                onChange={(e) => update(open.id, { notes: e.target.value })}
+              />
+            </div>
+
+            <div className="row wrap" style={{ gap: 6, marginBottom: 12 }}>
+              {(
+                [
+                  ["email_sent", "Logged email"],
+                  ["call_made", "Logged call"],
+                  ["interview", "Logged interview"],
+                  ["note", "Note"],
+                ] as Array<[Application["activities"][number]["type"], string]>
+              ).map(([type, label]) => (
+                <button key={type} className="chip" onClick={() => logActivity(open.id, type, label)}>
+                  + {label}
+                </button>
+              ))}
+            </div>
+
+            {open.activities.length > 0 && (
+              <>
+                <div className="kicker">History</div>
+                <div className="link-list">
+                  {open.activities.map((activity) => (
+                    <div key={activity.id} className="link-row">
+                      <span>{activity.title}</span>
+                      <span className="dimmer tiny mono">{activity.date}</span>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+
+            <button
+              className="chip"
+              style={{ marginTop: 12, color: "var(--bad)" }}
+              onClick={() => remove(open.id)}
+            >
+              Delete this application
+            </button>
+          </div>
+    )
+  }
 
   return (
     <div className="pane">
@@ -165,8 +247,18 @@ export function Tracker({ applications, onChange, onOpenJob }: Props) {
             <tbody>
               {rows.map((row) => {
                 const logo = logoFor(row.company_domain)
+                const isOpen = openId === row.id
                 return (
-                  <tr key={row.id}>
+                  <Fragment key={row.id}>
+                  <tr
+                    className={isOpen ? "row-open" : "row-click"}
+                    onClick={(e) => {
+                      // Let the stage dropdown and the buttons do their own job.
+                      const el = e.target as HTMLElement
+                      if (el.closest("select, button, a, input")) return
+                      setOpenId(isOpen ? null : row.id)
+                    }}
+                  >
                     <td>
                       <div className="row" style={{ gap: 7 }}>
                         {logo && (
@@ -208,101 +300,29 @@ export function Tracker({ applications, onChange, onOpenJob }: Props) {
                     </td>
                     <td>
                       <div className="row" style={{ gap: 6, justifyContent: "flex-end" }}>
-                        <button className="chip" onClick={() => setOpenId(row.id === openId ? null : row.id)}>
-                          {openId === row.id ? "close" : "notes"}
+                        <button className="chip" onClick={() => setOpenId(isOpen ? null : row.id)}>
+                          {isOpen ? "close" : "open"}
                         </button>
                         {row.job_id && (
                           <button className="chip" onClick={() => onOpenJob(row.job_id!)}>
-                            open
+                            posting
                           </button>
                         )}
                       </div>
                     </td>
                   </tr>
+                  {isOpen && (
+                    <tr className="row-detail">
+                      <td colSpan={5}>{detailFor(row)}</td>
+                    </tr>
+                  )}
+                  </Fragment>
                 )
               })}
             </tbody>
           </table>
         )}
 
-        {open && (
-          <div className="card" style={{ marginTop: 14 }}>
-            <div className="row-between">
-              <h3 style={{ margin: 0 }}>
-                {open.title} · <span className="dim">{open.company}</span>
-              </h3>
-              <a href={open.url} target="_blank" rel="noopener noreferrer" className="tiny">
-                posting →
-              </a>
-            </div>
-
-            <div className="split" style={{ marginTop: 12 }}>
-              <div className="field">
-                <label>Date applied</label>
-                <input
-                  type="date"
-                  value={open.date_applied ?? ""}
-                  onChange={(e) => update(open.id, { date_applied: e.target.value })}
-                />
-              </div>
-              <div className="field">
-                <label>Follow up on</label>
-                <input
-                  type="date"
-                  value={open.follow_up_date ?? ""}
-                  onChange={(e) => update(open.id, { follow_up_date: e.target.value })}
-                />
-              </div>
-            </div>
-
-            <div className="field">
-              <label>Notes</label>
-              <textarea
-                rows={4}
-                value={open.notes ?? ""}
-                placeholder="Who you spoke to, what they asked, what you promised to send…"
-                onChange={(e) => update(open.id, { notes: e.target.value })}
-              />
-            </div>
-
-            <div className="row wrap" style={{ gap: 6, marginBottom: 12 }}>
-              {(
-                [
-                  ["email_sent", "Logged email"],
-                  ["call_made", "Logged call"],
-                  ["interview", "Logged interview"],
-                  ["note", "Note"],
-                ] as Array<[Application["activities"][number]["type"], string]>
-              ).map(([type, label]) => (
-                <button key={type} className="chip" onClick={() => logActivity(open.id, type, label)}>
-                  + {label}
-                </button>
-              ))}
-            </div>
-
-            {open.activities.length > 0 && (
-              <>
-                <div className="kicker">History</div>
-                <div className="link-list">
-                  {open.activities.map((activity) => (
-                    <div key={activity.id} className="link-row">
-                      <span>{activity.title}</span>
-                      <span className="dimmer tiny mono">{activity.date}</span>
-                    </div>
-                  ))}
-                </div>
-              </>
-            )}
-
-            <button
-              className="chip"
-              style={{ marginTop: 12, color: "var(--bad)" }}
-              onClick={() => remove(open.id)}
-            >
-              Delete this application
-            </button>
-          </div>
-        )}
       </div>
     </div>
   )

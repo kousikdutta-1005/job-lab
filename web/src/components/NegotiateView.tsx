@@ -31,13 +31,29 @@ export function NegotiateView({ benchmarks, settings, applications }: Props) {
 
   const offers = applications.filter((a) => a.stage === "offer" || a.stage === "accepted")
 
-  const [base, setBase] = useState<number>(0)
+  // If the tracker already holds an offer, the number is in there. Asking you to
+  // retype it is how a tool tells you it is not really paying attention.
+  const first = offers[0]
+  const cityFromOffer = (row?: Application): string | null => {
+    if (!row?.location) return null
+    return cities.find((c) => row.location.toLowerCase().includes(c.toLowerCase())) ?? null
+  }
+
+  const [base, setBase] = useState<number>(first?.salary_min ?? 0)
   const [competing, setCompeting] = useState<number>(0)
-  const [city, setCity] = useState(cities[0] ?? "Bengaluru")
+  const [city, setCity] = useState(cityFromOffer(first) ?? cities[0] ?? "Bengaluru")
   const [level, setLevel] = useState(levelFor(settings.years || 5))
-  const [company, setCompany] = useState(offers[0]?.company ?? "")
-  const [role, setRole] = useState(offers[0]?.title ?? "")
+  const [company, setCompany] = useState(first?.company ?? "")
+  const [role, setRole] = useState(first?.title ?? "")
   const [copied, setCopied] = useState(false)
+
+  function loadOffer(row: Application) {
+    setBase(row.salary_min ?? 0)
+    setCompany(row.company)
+    setRole(row.title)
+    const matched = cityFromOffer(row)
+    if (matched) setCity(matched)
+  }
 
   const read = useMemo(
     () =>
@@ -71,6 +87,26 @@ export function NegotiateView({ benchmarks, settings, applications }: Props) {
 
         <div className="card">
           <h3>The offer</h3>
+          {offers.length > 0 && (
+            <div className="link-list" style={{ marginBottom: 12 }}>
+              {offers.map((row) => (
+                <div key={row.id} className="link-row">
+                  <div>
+                    <span style={{ fontWeight: 550 }}>{row.company}</span>
+                    <span className="dim tiny dot-sep">{row.title}</span>
+                    {row.salary_min ? (
+                      <span className="dimmer tiny dot-sep mono">{inr(row.salary_min)}</span>
+                    ) : (
+                      <span className="dimmer tiny dot-sep">no figure saved</span>
+                    )}
+                  </div>
+                  <button className="chip" onClick={() => loadOffer(row)}>
+                    {company === row.company && role === row.title ? "loaded" : "use this"}
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
           <div className="split">
             <div className="field">
               <label>Base offered (₹ per year)</label>

@@ -16,6 +16,8 @@ import { matchResume } from "./resume"
 import { daysAgo } from "./format"
 
 export type ActionKind =
+  | "offer"
+  | "interview"
   | "apply"
   | "follow_up"
   | "expiring"
@@ -32,7 +34,56 @@ export interface Action {
   detail: string
   evidence?: string
   jobId?: string
-  view?: "board" | "tracker" | "contacts" | "settings" | "pay"
+  view?: "board" | "tracker" | "contacts" | "settings" | "pay" | "negotiate"
+}
+
+/**
+ * An open offer outranks everything else on this page and it is not close.
+ * A week of applying might move your odds a few percent; an hour on a counter
+ * moves the number itself, permanently, and compounds into every later offer.
+ */
+function liveOffers(applications: Application[]): Action[] {
+  return applications
+    .filter((row) => row.stage === "offer")
+    .map((row) => {
+      const figure = row.salary_min ? ` at ${Math.round(row.salary_min / 100000)}L` : ""
+      const dated = row.activities.find((a) => a.type === "offer")?.date
+      const age = dated ? daysAgo(dated) : null
+      return {
+        id: `offer-${row.id}`,
+        kind: "offer" as const,
+        urgency: 100,
+        title: `Answer the ${row.company} offer${figure}`,
+        detail: row.salary_min
+          ? "Read it against the published band before you reply. Almost every offer has room, and the only cost of asking once, well, is the discomfort of asking."
+          : "No figure saved against this yet. Put the number in the tracker so it can be read against the published band.",
+        evidence:
+          age !== null
+            ? `${row.title} · offer logged ${age === 0 ? "today" : `${age} days ago`}`
+            : row.title,
+        view: "negotiate" as const,
+      }
+    })
+}
+
+/** Something is booked or in flight; preparation beats another application. */
+function interviewing(applications: Application[]): Action[] {
+  return applications
+    .filter((row) => row.stage === "phone_screen" || row.stage === "interview")
+    .slice(0, 3)
+    .map((row) => ({
+      id: `prep-${row.id}`,
+      kind: "interview" as const,
+      urgency: row.stage === "interview" ? 98 : 96,
+      title: `Prepare for ${row.company}`,
+      detail:
+        row.stage === "interview"
+          ? "You are past the screen. This is the stage where preparation shows most: have the two case studies chosen, and the numbers in them ready."
+          : "A screen is a filter, not a conversation. Know the salary you will say out loud before they ask.",
+      evidence: row.title,
+      jobId: row.job_id ?? undefined,
+      view: row.job_id ? ("board" as const) : ("tracker" as const),
+    }))
 }
 
 /** Applied a week or more ago, nothing since, still worth one polite chase. */
@@ -49,7 +100,10 @@ function followUps(applications: Application[]): Action[] {
       return {
         id: `follow-${row.id}`,
         kind: "follow_up" as const,
-        urgency: 90 + Math.min(9, age - 7),
+        // Chasing is cheap and low-stakes. It should sit under anything that
+        // is actually in play — an offer, an interview, or the one resume edit
+        // that lifts a dozen applications at once.
+        urgency: 78 + Math.min(8, age - 7),
         title: `Follow up with ${row.company}`,
         detail: `You applied ${age} days ago and have not chased it. One follow-up is expected and often the thing that surfaces an application; a second is not.`,
         evidence: row.title,
@@ -143,15 +197,35 @@ function resumeLeverage(
     .slice(0, 3)
     .filter((row) => row.jobs >= Math.max(3, Math.round(top.length * 0.25)))
 
-  return ranked.map((row, index) => ({
-    id: `resume-${row.term}`,
-    kind: "resume" as const,
-    urgency: 85 - index,
-    title: `Your resume never mentions "${row.term}"`,
-    detail: `${row.jobs} of your ${top.length} best matches ask for it. One honest line of evidence lifts all ${row.jobs} at once — which is worth more than sending ${row.jobs} more applications.`,
-    evidence: `Rarity ${row.idf.toFixed(2)} across the board`,
-    view: "settings" as const,
-  }))
+  if (ranked.length === 0) return []
+
+  // Three near-identical cards saying "your resume never mentions X" is three
+  // times the space for one decision. It is one editing session, so it is one card.
+  const quoted = ranked.map((r) => `“${r.term}”`)
+  const phrase =
+    quoted.length === 1
+      ? quoted[0]
+      : `${quoted.slice(0, -1).join(", ")} and ${quoted[quoted.length - 1]}`
+  const reach = Math.max(...ranked.map((r) => r.jobs))
+
+  return [
+    {
+      id: `resume-${ranked.map((r) => r.term).join("-")}`,
+      kind: "resume" as const,
+      urgency: 85,
+      title:
+        ranked.length === 1
+          ? `Your resume never mentions ${phrase}`
+          : `Your resume never mentions ${phrase}`,
+      detail: `${ranked
+        .map((r) => `${r.term} — ${r.jobs}`)
+        .join(", ")} of your ${top.length} best matches ask for these. One editing session lifts up to ${reach} applications at once, which beats sending ${reach} more.`,
+      evidence: `Ranked by how many roles ask × how rare the term is (${ranked
+        .map((r) => `${r.term} ${r.idf.toFixed(2)}`)
+        .join(", ")})`,
+      view: "settings" as const,
+    },
+  ]
 }
 
 /** Things that are switched off until you fill in a field. */
@@ -218,6 +292,8 @@ export function briefing(
   idf: Record<string, number>,
 ): Action[] {
   const actions = [
+    ...liveOffers(applications),
+    ...interviewing(applications),
     ...profileGaps(settings),
     ...followUps(applications),
     ...resumeLeverage(jobs, settings, idf),
