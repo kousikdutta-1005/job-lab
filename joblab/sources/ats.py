@@ -351,6 +351,11 @@ def parse_workday(payload, company: str, slug: str) -> list[Job]:
         path = item.get("externalPath") or ""
         url = f"https://{host}.myworkdayjobs.com/en-US/{site}{path}" if path else f"https://{host}.myworkdayjobs.com/{site}"
         location = item.get("locationsText") or ", ".join(item.get("locations") or [])
+        # The listing endpoint's bulletFields are just the requisition id
+        # ("R167937"), so the real description is stitched on by fetch_ats from
+        # the per-job endpoint. Without it every Workday posting reached the
+        # board as nine characters of nothing.
+        description = item.get("jobDescription") or " ".join(item.get("bulletFields") or [])
         jobs.append(
             Job(
                 id=job_id(company, title, url),
@@ -360,11 +365,48 @@ def parse_workday(payload, company: str, slug: str) -> list[Job]:
                 source="workday",
                 url=url,
                 location_raw=location,
-                description_text=html_to_text(" ".join(item.get("bulletFields") or [])),
+                description_text=html_to_text(description),
                 posted_at=_iso(item.get("startDate") or item.get("postedOn")),
             )
         )
     return jobs
+
+
+def _workday_details(slug: str, postings: list[dict], *, cache_hours: float) -> list[dict]:
+    """Fetch each posting's real description.
+
+    Workday's list endpoint returns titles and requisition ids and nothing
+    else, which meant 54 of 54 Workday jobs — Adobe Bangalore, NVIDIA Pune,
+    Hotstar — arrived with a nine-character description. Those are the India
+    roles, so the keyword extraction, the resume match, the salary parser and
+    the portfolio demand weights were all blind on exactly the postings that
+    matter most here.
+
+    One extra GET per posting, cached like everything else, and capped so a
+    company with a huge board cannot stall the crawl.
+    """
+    host, tenant, site = _workday_parts(slug)
+    enriched: list[dict] = []
+    for item in postings[:60]:
+        path = item.get("externalPath")
+        if not path:
+            enriched.append(item)
+            continue
+        detail, error = fetch_json(
+            f"https://{host}.myworkdayjobs.com/wday/cxs/{tenant}/{site}{path}",
+            cache_hours=cache_hours,
+            headers={"Accept": "application/json"},
+        )
+        info = ((detail or {}).get("jobPostingInfo") or {}) if not error else {}
+        if info.get("jobDescription"):
+            item = {
+                **item,
+                "jobDescription": info["jobDescription"],
+                "startDate": info.get("startDate") or item.get("startDate"),
+                "locationsText": info.get("location") or item.get("locationsText"),
+            }
+        enriched.append(item)
+    return enriched
 
 
 # ---------------------------------------------------------------------------
@@ -520,7 +562,12 @@ def fetch_ats(
                 for item in page.get("jobPostings", []) or []:
                     postings[item.get("externalPath") or item.get("title") or str(len(postings))] = item
         if payload is not None:
-            payload = {**payload, "jobPostings": list(postings.values())}
+            payload = {
+                **payload,
+                "jobPostings": _workday_details(
+                    slug, list(postings.values()), cache_hours=cache_hours
+                ),
+            }
     elif ats == "smartrecruiters":
         payload, error = fetch_json(url_fn(slug), cache_hours=cache_hours)
         if isinstance(payload, dict):
