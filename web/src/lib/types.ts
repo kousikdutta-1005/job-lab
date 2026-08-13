@@ -145,6 +145,8 @@ export interface Band {
 export interface Pay {
   coverage: { jobs: number; disclosed: number; share: number; india_disclosed: number }
   by_seniority: Record<string, Band>
+  /** Postings that never said what level they were. Not a rung, so not on the ladder. */
+  unstated_level: Band | null
   by_city: Record<string, Band>
   india_by_seniority: Record<string, Band>
   remote_eligible: Band | null

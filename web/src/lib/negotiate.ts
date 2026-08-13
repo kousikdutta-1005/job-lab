@@ -212,3 +212,45 @@ If base is fixed, I am flexible about how we get there — a joining bonus, an e
 
 Happy to talk it through on a call if that is easier.`
 }
+
+/**
+ * Runs of adjacent levels whose medians sit within `tolerance` of each other.
+ *
+ * Sorting bars by median produces an order whether or not the numbers differ,
+ * and a reader takes that order as a ladder. Naming the ties is the fix -- but
+ * only the real ones. Testing each level against its neighbours and then
+ * printing the survivors as one list chains a relation that is not transitive:
+ * Manager sits within 5% of Principal and Senior sits within 5% of Lead, and
+ * that says nothing about Manager and Senior, which were 41% apart.
+ *
+ * Input must already be sorted by median. Returns one array per genuine
+ * cluster, each of length two or more; levels that tie with nothing are absent.
+ */
+export function tiedLevels(
+  bands: [string, { median: number }][],
+  tolerance = 0.05,
+): string[][] {
+  const runs: string[][] = []
+  let run: string[] = []
+  for (let i = 0; i < bands.length; i++) {
+    const prev = bands[i - 1]
+    const here = bands[i]
+    const near =
+      prev && Math.abs(prev[1].median - here[1].median) / Math.max(prev[1].median, here[1].median) < tolerance
+    if (near) {
+      if (run.length === 0) run.push(prev[0])
+      run.push(here[0])
+    } else {
+      if (run.length > 1) runs.push(run)
+      run = []
+    }
+  }
+  if (run.length > 1) runs.push(run)
+  return runs
+}
+
+/** "A and B" / "A, B and C" — for reading, not for parsing. */
+export function listPhrase(items: string[]): string {
+  if (items.length <= 1) return items[0] ?? ""
+  return `${items.slice(0, -1).join(", ")} and ${items[items.length - 1]}`
+}

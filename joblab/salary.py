@@ -381,11 +381,26 @@ def benchmarks(jobs: list[Job]) -> dict:
             "share": round(len(disclosed) / len(jobs), 3) if jobs else 0,
             "india_disclosed": len(india),
         },
-        "by_seniority": collect(lambda j: j.seniority_label),
+        # Only postings that said what level they are. A req that never states a
+        # level is not evidence about any rung, and folding it into mid-level
+        # put Ramp's $172k-$440k whole-ladder band into the mid bucket, which
+        # then outranked senior and lead on the chart.
+        "by_seniority": collect(lambda j: j.seniority_label if j.seniority_stated else None),
         "by_city": collect(lambda j: j.cities[0] if j.cities else None),
+        "unstated_level": _band(
+            [
+                (j.salary_parsed["inr_low"] + j.salary_parsed["inr_high"]) // 2
+                for j in disclosed
+                if not j.seniority_stated
+            ]
+        )
+        if len([j for j in disclosed if not j.seniority_stated]) >= 3
+        else None,
         "india_by_seniority": {
             k: v
-            for k, v in collect(lambda j: j.seniority_label if j.india else None).items()
+            for k, v in collect(
+                lambda j: j.seniority_label if (j.india and j.seniority_stated) else None
+            ).items()
         },
         "remote_eligible": _band(
             [(j.salary_parsed["inr_low"] + j.salary_parsed["inr_high"]) // 2 for j in remote]

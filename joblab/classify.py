@@ -10,6 +10,7 @@ from .config import (
     TERM_TO_GROUP,
     is_design_role,
     seniority_from_title,
+    seniority_from_years,
     years_required,
 )
 from .geo import classify as classify_location
@@ -56,12 +57,26 @@ def enrich(job: Job) -> Job:
     # and is listed off-map rather than dropped or invented onto a centroid.
     job.points = locate(job.location_raw)
 
-    job.seniority = seniority_from_title(job.title)
-    label, _, _ = SENIORITY_META.get(job.seniority, ("Mid-level", 2, 6))
-    job.seniority_label = label
-
     lo, hi = years_required(job.description_text)
     job.years_min, job.years_max = lo, hi
+
+    # The title is the strongest signal because it is what the employer chose to
+    # advertise. Stated years are the next best, and are real evidence: Airtable
+    # writes "Product Designer (8+ YOE)", which is a staff-weight ask however the
+    # title reads. Only when neither says anything do we fall back to a working
+    # assumption, and then we record that it was one.
+    stated = seniority_from_title(job.title)
+    if stated:
+        job.seniority, job.seniority_source, job.seniority_stated = stated, "title", True
+    else:
+        implied = seniority_from_years(lo)
+        if implied:
+            job.seniority, job.seniority_source, job.seniority_stated = implied, "years", True
+        else:
+            job.seniority, job.seniority_source, job.seniority_stated = "mid", "assumed", False
+
+    label, _, _ = SENIORITY_META.get(job.seniority, ("Mid-level", 2, 6))
+    job.seniority_label = label
 
     job.keywords, job.keyword_groups = extract_keywords(job.description_text or job.title)
     return job

@@ -269,17 +269,42 @@ SENIORITY_META = {k: (label, lo, hi) for k, label, lo, hi in SENIORITY_LADDER}
 SENIORITY_ORDER = [k for k, _, _, _ in SENIORITY_LADDER]
 
 
-def seniority_from_title(title: str) -> str:
-    """Best-guess seniority key from the title alone. Defaults to mid-level.
+def seniority_from_title(title: str) -> str | None:
+    """The seniority the title actually states, or None if it states nothing.
 
-    An unmarked "Product Designer" at a product company is a mid-level role, not
-    a junior one, so the default sits at mid rather than at the bottom.
+    Returning None matters. An unmarked "Product Designer" is not a mid-level
+    role; at Ramp it is a single req spanning $172k-$440k, and at Airtable it
+    asks for 8+ years. Defaulting those to mid-level pushed the mid bucket above
+    both senior and lead on the pay chart, which read as a ladder saying you
+    earn less as you grow. The caller decides what to do with an unstated level;
+    this function does not invent one.
     """
     t = normalise_title(title)
     for key, rx in _SENIORITY_RE:
         if rx.search(t):
             return key
-    return "mid"
+    return None
+
+
+# Years of experience to an individual-contributor rung. Only the IC ladder is
+# inferable this way: manager and director are about scope and headcount, and
+# plenty of eight-year designers are neither.
+_YEARS_TO_SENIORITY: tuple[tuple[int, str], ...] = (
+    (7, "staff"),
+    (4, "senior"),
+    (2, "mid"),
+    (0, "junior"),
+)
+
+
+def seniority_from_years(years_min: int | None) -> str | None:
+    """The rung a stated years-of-experience minimum implies, or None."""
+    if years_min is None:
+        return None
+    for floor, key in _YEARS_TO_SENIORITY:
+        if years_min >= floor:
+            return key
+    return None
 
 
 # Years of experience, as written in job descriptions. Ordered so that ranges

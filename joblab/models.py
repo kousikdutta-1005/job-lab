@@ -88,6 +88,12 @@ class Job:
     eligibility_reason: str = ""
     seniority: str = "mid"
     seniority_label: str = "Mid-level"
+    # Did the posting actually say what level this is, or did we assume it?
+    # A plain "Product Designer" at Ramp spans $172k-$440k because it covers the
+    # whole ladder in one req. Treating that as mid-level pay is an invention,
+    # so anything that presents level as a ladder must filter on this.
+    seniority_stated: bool = False
+    seniority_source: str = "assumed"
     years_min: int | None = None
     years_max: int | None = None
     keywords: list[str] = field(default_factory=list)

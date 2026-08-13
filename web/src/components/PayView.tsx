@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { listPhrase, tiedLevels } from "@/lib/negotiate"
 import type { Band, Benchmarks, Health, Pay, Settings } from "@/lib/types"
 import { inr, money } from "@/lib/format"
 
@@ -110,8 +111,15 @@ export function PayView({ pay, benchmarks, settings, health }: Props) {
     }
   }
 
-  const seniorityBands = Object.entries(pay.by_seniority)
-  const maxCrawled = Math.max(1, ...seniorityBands.map(([, b]) => b.p75))
+  const seniorityBands = Object.entries(pay.by_seniority).sort((a, b) => b[1].median - a[1].median)
+  const unstated = pay.unstated_level
+  const maxCrawled = Math.max(1, ...seniorityBands.map(([, b]) => b.p75), unstated?.p75 ?? 1)
+
+  // Sorting bars by median produces an order whether or not the numbers differ.
+  // Where consecutive levels sit within a few percent on samples this small, the
+  // order is noise, and a reader taking it as a ladder would conclude the wrong
+  // thing about their own next step. Name them instead of letting the sort imply.
+  const tied = tiedLevels(seniorityBands)
 
   return (
     <div className="pane">
@@ -248,18 +256,41 @@ export function PayView({ pay, benchmarks, settings, health }: Props) {
               Converted to INR at a fixed rate and dominated by US remote roles. Useful for judging
               a foreign offer, misleading as an Indian anchor — which is why it is kept separate.
             </p>
-            {seniorityBands
-              .sort((a, b) => b[1].median - a[1].median)
-              .map(([label, band]: [string, Band]) => (
+            {seniorityBands.map(([label, band]: [string, Band]) => (
+              <BandBar
+                key={label}
+                label={`${label} (${band.n})`}
+                low={band.p25}
+                median={band.median}
+                high={band.p75}
+                max={maxCrawled}
+              />
+            ))}
+            {tied.length > 0 && (
+              <p className="tiny dimmer" style={{ marginTop: 10 }}>
+                {tied.map((run) => listPhrase(run)).join("; ")} sit within 5% of each other on
+                samples this small. Those are sorted because a chart has to put them in some order,
+                not because one pays more than the next.
+              </p>
+            )}
+            {unstated && (
+              <>
+                <p className="tiny dimmer" style={{ marginTop: 14 }}>
+                  Below the line: postings whose title and description never stated a level. They
+                  are not a rung, and they are not mid-level — a plain "Product Designer" req at a
+                  company like Ramp covers the whole ladder in one posting, which is why these are
+                  the best-paying group on the page. Counting them as mid-level would have said you
+                  earn more before a promotion than after one.
+                </p>
                 <BandBar
-                  key={label}
-                  label={`${label} (${band.n})`}
-                  low={band.p25}
-                  median={band.median}
-                  high={band.p75}
+                  label={`Level not stated (${unstated.n})`}
+                  low={unstated.p25}
+                  median={unstated.median}
+                  high={unstated.p75}
                   max={maxCrawled}
                 />
-              ))}
+              </>
+            )}
           </div>
         )}
 
