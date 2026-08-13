@@ -15,7 +15,8 @@
     "test:seeded": "node test/seeded.test.mjs",
     "test:diagnosis": "node --experimental-strip-types --import ./test/ts-resolve.mjs test/diagnosis.test.mjs",
     "test:vetting": "node --experimental-strip-types --import ./test/ts-resolve.mjs test/vetting.test.mjs",
-    "test:theme": "node test/theme.test.mjs"
+    "test:theme": "node test/theme.test.mjs",
+    "test:claimed": "node --experimental-strip-types --import ./test/ts-resolve.mjs test/resume_claimed.test.mjs"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.3.0",

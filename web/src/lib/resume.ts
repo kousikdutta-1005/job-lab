@@ -25,6 +25,8 @@ export interface Gap {
   group: string
   idf: number
   weight: number
+  /** True when your profile claims this term, so the gap is wording, not skill. */
+  claimed?: boolean
 }
 
 export interface FormatIssue {
@@ -41,6 +43,8 @@ export interface MatchResult {
   formatScore: number
   covered: Gap[]
   missing: Gap[]
+  /** Wanted, claimed in your profile, absent from the resume. Free to fix. */
+  unwritten: Gap[]
   coverage: number
   weightedCoverage: number
   issues: FormatIssue[]
@@ -151,9 +155,23 @@ export function formatIssues(resume: string): FormatIssue[] {
   return issues
 }
 
-export function matchResume(resume: string, job: Job, idf: Record<string, number>): MatchResult {
+export function matchResume(
+  resume: string,
+  job: Job,
+  idf: Record<string, number>,
+  /**
+   * What the profile says you can do. A term the posting wants, that you claim,
+   * and that your resume never says, is not a gap in your experience — it is a
+   * gap in your writing, and it is the cheapest thing on this page to fix. The
+   * board scores against these; the ATS only ever sees the resume. Without this
+   * split the same screen said "overlaps your strengths: enterprise" and listed
+   * enterprise under what you are missing.
+   */
+  strengths: string[] = [],
+): MatchResult {
   const body = normalise(resume)
   const terms = Array.from(new Set(job.keywords))
+  const claimed = new Set(strengths.map((s) => s.toLowerCase().trim()).filter(Boolean))
 
   const covered: Gap[] = []
   const missing: Gap[] = []
@@ -166,12 +184,14 @@ export function matchResume(resume: string, job: Job, idf: Record<string, number
         Object.entries(job.keyword_groups).find(([, list]) => list.includes(term))?.[0] ?? "other",
       idf: weight,
       weight,
+      claimed: claimed.has(term.toLowerCase()),
     }
     if (hasTerm(body, term)) covered.push(entry)
     else missing.push(entry)
   }
 
   missing.sort((a, b) => b.weight - a.weight)
+  const unwritten = missing.filter((g) => g.claimed)
   covered.sort((a, b) => b.weight - a.weight)
 
   const totalWeight = terms.reduce((sum, t) => sum + (idf[t] ?? 1), 0)
@@ -247,6 +267,7 @@ export function matchResume(resume: string, job: Job, idf: Record<string, number
     formatScore,
     covered,
     missing,
+    unwritten,
     coverage,
     weightedCoverage,
     issues,

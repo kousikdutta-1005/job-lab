@@ -318,6 +318,7 @@ function resumeLeverage(
   jobs: Job[],
   settings: Settings,
   idf: Record<string, number>,
+  strengths: string[] = [],
 ): Action[] {
   if (!settings.resume_text) {
     return [
@@ -336,21 +337,30 @@ function resumeLeverage(
   const top = jobs.filter((j) => j.eligible).slice(0, 25)
   if (top.length < 4) return []
 
-  const missingCounts = new Map<string, { jobs: number; idf: number }>()
+  const missingCounts = new Map<string, { jobs: number; idf: number; claimed: boolean }>()
   for (const job of top) {
-    const result = matchResume(settings.resume_text, job, idf)
+    const result = matchResume(settings.resume_text, job, idf, strengths)
     for (const gap of result.missing.slice(0, 12)) {
-      const current = missingCounts.get(gap.term) ?? { jobs: 0, idf: gap.idf }
+      const current = missingCounts.get(gap.term) ?? {
+        jobs: 0,
+        idf: gap.idf,
+        claimed: !!gap.claimed,
+      }
       current.jobs += 1
       missingCounts.set(gap.term, current)
     }
   }
 
-  const ranked = Array.from(missingCounts.entries())
+  const scored = Array.from(missingCounts.entries())
     .map(([term, stats]) => ({ term, ...stats, leverage: stats.jobs * stats.idf }))
-    .sort((a, b) => b.leverage - a.leverage)
-    .slice(0, 3)
     .filter((row) => row.jobs >= Math.max(3, Math.round(top.length * 0.25)))
+    .sort((a, b) => b.leverage - a.leverage)
+
+  // A term you already claim needs a sentence, not a career move. Those come
+  // first however rare the alternative is, because they are the only edits on
+  // this page that cost nothing but typing.
+  const free = scored.filter((r) => r.claimed)
+  const ranked = (free.length > 0 ? free : scored).slice(0, 3)
 
   if (ranked.length === 0) return []
 
@@ -368,13 +378,16 @@ function resumeLeverage(
       id: `resume-${ranked.map((r) => r.term).join("-")}`,
       kind: "resume" as const,
       urgency: 85,
-      title:
-        ranked.length === 1
-          ? `Your resume never mentions ${phrase}`
-          : `Your resume never mentions ${phrase}`,
+      title: free.length
+        ? `You claim ${phrase}. Your resume never says it.`
+        : `Your resume never mentions ${phrase}`,
       detail: `${ranked
         .map((r) => `${r.term} — ${r.jobs}`)
-        .join(", ")} of your ${top.length} best matches ask for these. One editing session lifts up to ${reach} applications at once, which beats sending ${reach} more.`,
+        .join(", ")} of your ${top.length} best matches ask for these. One editing session lifts up to ${reach} applications at once, which beats sending ${reach} more.${
+        free.length
+          ? " Your profile already lists these, so this is wording, not experience — the cheapest points you will find."
+          : ""
+      }`,
       evidence: `Ranked by how many roles ask × how rare the term is (${ranked
         .map((r) => `${r.term} ${r.idf.toFixed(2)}`)
         .join(", ")})`,
@@ -445,6 +458,7 @@ export function briefing(
   settings: Settings,
   idf: Record<string, number>,
   projects: Project[] = [],
+  strengths: string[] = [],
 ): Action[] {
   const actions = [
     ...liveOffers(applications),
@@ -452,7 +466,7 @@ export function briefing(
     ...interviewing(applications),
     ...profileGaps(settings),
     ...followUps(applications),
-    ...resumeLeverage(jobs, settings, idf),
+    ...resumeLeverage(jobs, settings, idf, strengths),
     ...expiring(jobs, applications),
     ...worthApplying(jobs, applications),
     ...networkGaps(applications, contacts),

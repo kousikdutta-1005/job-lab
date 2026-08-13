@@ -1,5 +1,13 @@
 import { useMemo, useState } from "react"
-import type { Application, CompanyDossier, CompanyInfo, Contact, Job, Settings } from "@/lib/types"
+import type {
+  Application,
+  CompanyDossier,
+  CompanyInfo,
+  Contact,
+  Job,
+  Profile,
+  Settings,
+} from "@/lib/types"
 import { copy, logoFor, money, scoreClass } from "@/lib/format"
 import { drafts, mailto, renderPattern } from "@/lib/email"
 import { matchResume } from "@/lib/resume"
@@ -9,6 +17,7 @@ import { vet, ageTone, postedLabel } from "@/lib/vetting"
 interface Props {
   job: Job
   company?: CompanyInfo
+  profile: Profile
   dossier?: CompanyDossier
   settings: Settings
   idf: Record<string, number>
@@ -27,6 +36,7 @@ export function JobDetail({
   job,
   company,
   dossier,
+  profile,
   settings,
   idf,
   application,
@@ -46,7 +56,10 @@ export function JobDetail({
   const vetting = useMemo(() => vet(job, dossier), [job, dossier])
 
   const match = useMemo(
-    () => (settings.resume_text ? matchResume(settings.resume_text, job, idf) : null),
+    () =>
+      settings.resume_text
+        ? matchResume(settings.resume_text, job, idf, profile.strengths ?? [])
+        : null,
     [settings.resume_text, job, idf],
   )
 
@@ -309,23 +322,52 @@ export function JobDetail({
                     </p>
                   </div>
 
-                  {match.missing.length > 0 && (
+                  {match.unwritten.length > 0 && (
                     <div className="card">
-                      <h3>Missing, most damaging first</h3>
+                      <h3>You can do these. Your resume never says so.</h3>
+                      <p className="tiny dimmer" style={{ marginTop: -4 }}>
+                        This posting asks for {match.unwritten.length === 1 ? "this" : "these"}, your
+                        profile says you have {match.unwritten.length === 1 ? "it" : "them"}, and the
+                        words are not in the file an ATS will read. Cheapest points on this page —
+                        no new experience needed, only the sentence you already earned.
+                      </p>
+                      <div className="wrap">
+                        {match.unwritten.map((gap) => (
+                          <span
+                            key={gap.term}
+                            className="pill pill-good"
+                            title={`In your profile, absent from your resume · ${gap.group}`}
+                          >
+                            {gap.term}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {match.missing.length > match.unwritten.length && (
+                    <div className="card">
+                      <h3>
+                        {match.unwritten.length > 0 ? "Genuinely missing" : "Missing"}, most damaging
+                        first
+                      </h3>
                       <p className="tiny dimmer" style={{ marginTop: -4 }}>
                         Ranked by how rare each term is across all {Object.keys(idf).length} terms
                         on the board. A rare term is a real requirement; a common one is filler.
                       </p>
                       <div className="wrap">
-                        {match.missing.slice(0, 18).map((gap) => (
-                          <span
-                            key={gap.term}
-                            className={`pill ${gap.idf > 2.4 ? "pill-bad" : gap.idf > 1.8 ? "pill-warn" : ""}`}
-                            title={`Rarity ${gap.idf.toFixed(2)} · ${gap.group}`}
-                          >
-                            {gap.term}
-                          </span>
-                        ))}
+                        {match.missing
+                          .filter((gap) => !gap.claimed)
+                          .slice(0, 18)
+                          .map((gap) => (
+                            <span
+                              key={gap.term}
+                              className={`pill ${gap.idf > 2.4 ? "pill-bad" : gap.idf > 1.8 ? "pill-warn" : ""}`}
+                              title={`Rarity ${gap.idf.toFixed(2)} · ${gap.group}`}
+                            >
+                              {gap.term}
+                            </span>
+                          ))}
                       </div>
                     </div>
                   )}

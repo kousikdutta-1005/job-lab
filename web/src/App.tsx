@@ -163,6 +163,7 @@ export default function App() {
             settings,
             bundle.idf,
             projects,
+            bundle.profile.strengths ?? [],
           ).filter((a) => a.kind !== "nothing")
         : [],
     [bundle, applications, contacts, settings, projects],
@@ -382,6 +383,7 @@ export default function App() {
               <JobDetail
                 job={selected}
                 company={bundle.data.companies[selected.company]}
+                profile={bundle.profile}
                 dossier={bundle.dossiers[slugFor(selected.company)]}
                 settings={settings}
                 idf={bundle.idf}

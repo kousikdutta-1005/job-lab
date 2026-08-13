@@ -497,6 +497,64 @@ if (await multi.count()) {
   } else fail("no clearable chip for the pinned set")
 }
 
+// One screen must not claim a term is both a strength and a gap. The board
+// scores against profile.json, the ATS panel against the resume in this
+// browser; before they were reconciled, "Overlaps your strengths: enterprise"
+// sat directly above "Missing: enterprise".
+{
+  await page.locator(".nav button", { hasText: "Board" }).first().click()
+  await page.waitForTimeout(400)
+  await page.locator(".job-row").first().click()
+  await page.waitForTimeout(600)
+
+  const roleText = (await page.locator(".detail").first().innerText()) || ""
+  const strengthLine = roleText.split("\n").find((l) => l.includes("Overlaps your strengths"))
+
+  const resumeTab = page.locator(".detail button").filter({ hasText: "Resume" }).first()
+  if ((await resumeTab.count()) > 0) {
+    await resumeTab.click()
+    await page.waitForTimeout(500)
+
+    const cards = await page.locator(".detail .card").allInnerTexts()
+    const genuine = cards.find((c) => c.includes("issing, most damaging first")) || ""
+    const free = cards.find((c) => c.includes("Your resume never says so")) || ""
+
+    if (strengthLine) {
+      const claimed = strengthLine
+        .split(":")
+        .slice(1)
+        .join(":")
+        .split(",")
+        .map((t) => t.trim().toLowerCase())
+        .filter(Boolean)
+
+      const contradicted = claimed.filter((t) => {
+        const body = genuine.split("filler.")[1] || ""
+        return body.toLowerCase().split("\n").map((x) => x.trim()).includes(t)
+      })
+
+      if (contradicted.length === 0)
+        pass(`no strength is also listed as a plain gap (checked ${claimed.length})`)
+      else fail(`claimed as a strength and listed as missing: ${contradicted.join(", ")}`)
+
+      const surfacedFree = claimed.filter((t) =>
+        free.toLowerCase().split("\n").map((x) => x.trim()).includes(t),
+      )
+      if (free.length === 0 || surfacedFree.length > 0)
+        pass(
+          free.length === 0
+            ? "no unwritten strengths on this role, so no free-wins card"
+            : `unwritten strengths are surfaced as free wins (${surfacedFree.join(", ")})`,
+        )
+      else fail("a free-wins card rendered but none of its terms are claimed strengths")
+    } else pass("this role cites no overlapping strengths, nothing to contradict")
+
+    if (!free.includes("most damaging") && !genuine.includes("never says so"))
+      pass("the free-wins and genuine-gap cards stayed separate")
+    else fail("the two gap cards bled into one another")
+  } else fail("no Resume tab on the job detail")
+}
+
 await browser.close()
 console.log(failures ? `\nFAIL — ${failures} problem(s)` : "\nPASS — seeded views all render")
 process.exit(failures ? 1 : 0)
