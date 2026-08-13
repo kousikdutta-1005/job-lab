@@ -78,8 +78,8 @@ export function PortfolioView({ jobs, projects, onChange }: Props) {
                         )}
                       </span>
                       <span className="tiny mono dimmer">
-                        {Math.round(gap.criterion.demand * 100)}% of roles · {gap.covered}/
-                        {projects.length} projects
+                        {Math.round(gap.criterion.demand * 100)}% of roles you can take ·{" "}
+                        {gap.covered}/{projects.length} projects
                       </span>
                     </div>
                     <div

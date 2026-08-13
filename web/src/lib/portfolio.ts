@@ -12,6 +12,7 @@
  * reading this — and the gaps get ranked by how many of your target roles ask.
  */
 
+import { hasTerm } from "./resume"
 import type { Job } from "./types"
 
 export interface Criterion {
@@ -87,7 +88,10 @@ const CRITERIA: Array<Omit<Criterion, "demand" | "demandCount">> = [
   {
     key: "ai",
     label: "Designed with or for AI",
-    asks: "The fastest-growing ask on this board. Have you shipped anything with a model behind it?",
+    // "Fastest-growing" was a claim about change over time, and this app holds
+    // two nights of history. It also read as a boast while the criterion sat
+    // fourth. Describe the ask; the percentage beside it already ranks it.
+    asks: "Have you shipped anything with a model behind it, rather than a concept deck?",
     terms: ["ai", "generative ai", "agentic", "llm", "machine learning", "copilot"],
   },
   {
@@ -113,7 +117,12 @@ export function criteria(jobs: Job[]): Criterion[] {
   return CRITERIA.map((c) => {
     let hits = 0
     for (const text of corpus) {
-      if (c.terms.some((term) => text.includes(term))) hits += 1
+      // hasTerm, not includes. "ai" as a substring is inside detail, email,
+      // available and Chennai, which put this criterion at 95% of the board
+      // and at the top of the to-do list. The true figure is 66%, which puts
+      // "a number at the end" first instead — a different career instruction
+      // built from the same data.
+      if (c.terms.some((term) => hasTerm(text, term))) hits += 1
     }
     return { ...c, demand: base ? hits / base : 0, demandCount: hits }
   }).sort((a, b) => b.demand - a.demand)
