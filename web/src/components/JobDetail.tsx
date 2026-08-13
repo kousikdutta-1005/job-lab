@@ -1,10 +1,10 @@
 import { useMemo, useState } from "react"
 import type { Application, CompanyDossier, CompanyInfo, Contact, Job, Settings } from "@/lib/types"
-import { ago, copy, logoFor, money, scoreClass } from "@/lib/format"
+import { copy, logoFor, money, scoreClass } from "@/lib/format"
 import { drafts, mailto, renderPattern } from "@/lib/email"
 import { matchResume } from "@/lib/resume"
 import { agenda, likelyQuestions, portfolioPlan } from "@/lib/prep"
-import { vet } from "@/lib/vetting"
+import { vet, ageTone, postedLabel } from "@/lib/vetting"
 
 interface Props {
   job: Job
@@ -115,7 +115,13 @@ export function JobDetail({
             </span>
           )}
           <span className="pill">{job.source}</span>
-          <span className="pill dim">{ago(job.posted_at)}</span>
+          <span
+            className={`pill ${
+              ageTone(job) === "bad" ? "pill-bad" : ageTone(job) === "warn" ? "pill-warn" : "dim"
+            }`}
+          >
+            {postedLabel(job)}
+          </span>
         </div>
 
         <div className="row" style={{ marginTop: 12, gap: 7 }}>

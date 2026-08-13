@@ -15,6 +15,7 @@
  */
 
 import type { CompanyDossier, Job } from "./types"
+import { ago } from "./format"
 
 export type Tone = "good" | "warn" | "bad" | "neutral"
 
@@ -230,4 +231,32 @@ export function vet(job: Job, dossier?: CompanyDossier | null): Vetting {
   }
 
   return { signals, headline, advice, tone }
+}
+
+/**
+ * The tone of the age signal on its own.
+ *
+ * vet().tone folds in how specifically the posting is written, so a fresh but
+ * vague role comes back "warn". Anything colouring a *date* wants this instead,
+ * or it blames the date for a different problem.
+ */
+export function ageTone(job: Job): Tone {
+  const signal = vet(job).signals.find((s) => s.label === "Posted" || s.label === "Open")
+  return signal?.tone ?? "neutral"
+}
+
+/**
+ * How to write a posting's age wherever it appears.
+ *
+ * ago() rounds anything past a month to "1mo ago", which is the rounding that
+ * hid a 52-day posting. Once a role is old enough to be worth hesitating over,
+ * the exact number is the whole point — and it is read from quality.days_open,
+ * the same source the colour and the vetting card use, so a row cannot show
+ * one figure while the card below it shows another.
+ */
+export function postedLabel(job: Job): string {
+  const days = job.quality?.days_open
+  const tone = ageTone(job)
+  if (days == null || (tone !== "warn" && tone !== "bad")) return ago(job.posted_at)
+  return days >= 90 ? `${Math.round(days / 30)}mo open` : `${days}d open`
 }

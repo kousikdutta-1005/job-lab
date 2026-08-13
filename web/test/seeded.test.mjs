@@ -446,6 +446,20 @@ else fail(`fresh roles flagged stale: ${tooFresh.join(" | ")}`)
 if (plainAges.every((t) => !/open$/.test(t))) pass("unflagged rows keep the relative wording")
 else fail(`unflagged rows changed wording: ${plainAges.slice(0, 4).join(" | ")}`)
 
+// The row, the header chip and the vetting card all describe the same date.
+// They used to read from two different sources, so a row could say "52d open"
+// under a header that said "1mo ago".
+if (warnAges.length > 0) {
+  await page.locator(".job-row").first().click()
+  await page.waitForTimeout(800)
+  const detail = await page.locator(".detail").first().innerText()
+  const rowAge = (await page.locator(".job-row").first().innerText()).match(/(\d+)(d|mo) open/)
+  if (rowAge && detail.includes(rowAge[0])) pass(`the header repeats the row's age (${rowAge[0]})`)
+  else fail(`row age ${rowAge?.[0]} missing from the detail header`)
+  if (!/\dmo ago/.test(detail)) pass("the detail never rounds a flagged age to months-ago")
+  else fail(`detail still rounds: ${detail.match(/\dmo ago/)?.[0]}`)
+}
+
 const ghostTags = await page.locator(".tag-stale").count()
 if (ghostTags === badAges.length) pass(`the ghost tag rides only with a bad age (${ghostTags})`)
 else fail(`ghost tags ${ghostTags} but ${badAges.length} bad ages`)
