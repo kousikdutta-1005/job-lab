@@ -4,6 +4,7 @@ import { STAGES, today, uid } from "@/lib/store"
 import { ago, inr, logoFor } from "@/lib/format"
 import { funnel } from "@/lib/funnel"
 import { learnOutcomes } from "@/lib/outcomes"
+import { blackHoleRead } from "@/lib/customer"
 
 interface Props {
   applications: Application[]
@@ -139,6 +140,8 @@ export function Tracker({ applications, contacts, jobs, onChange, onOpenJob }: P
      the table — with twenty applications the old placement meant clicking a
      row and watching nothing appear to happen. */
   function detailFor(open: Application) {
+    const linkedJob = open.job_id ? jobs.find((job) => job.id === open.job_id) : null
+    const blackHole = blackHoleRead(open, linkedJob)
     return (
           <div className="card" style={{ marginTop: 14 }}>
             <div className="row-between">
@@ -177,6 +180,19 @@ export function Tracker({ applications, contacts, jobs, onChange, onOpenJob }: P
                 placeholder="Who you spoke to, what they asked, what you promised to send…"
                 onChange={(e) => update(open.id, { notes: e.target.value })}
               />
+            </div>
+
+            <div className={`blackhole blackhole-${blackHole.tone}`}>
+              <div className="row-between" style={{ alignItems: "flex-start", marginBottom: 5 }}>
+                <div>
+                  <div className="kicker">Black-hole decoder</div>
+                  <strong>{blackHole.headline}</strong>
+                </div>
+                <span className={`pill ${blackHole.tone === "good" ? "pill-good" : blackHole.tone === "bad" ? "pill-bad" : blackHole.tone === "warn" ? "pill-warn" : ""}`}>
+                  {blackHole.tone}
+                </span>
+              </div>
+              <p>{blackHole.detail}</p>
             </div>
 
             <div className="row wrap" style={{ gap: 6, marginBottom: 12 }}>

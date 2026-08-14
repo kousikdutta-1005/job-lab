@@ -61,6 +61,7 @@ await page.waitForSelector(".shell", { timeout: 15000 }).catch(() => fail("did n
 await page.waitForSelector(".card, .empty", { timeout: 15000 }).catch(() => fail("today never populated"))
 const todayText = (await page.textContent(".main")) ?? ""
 if (!/Outcome learning/i.test(todayText)) fail("today outcome-learning panel missing")
+if (!/Burnout guard/i.test(todayText)) fail("today burnout guard missing")
 await page.locator('.nav button:has-text("Board")').first().click()
 await page.waitForSelector(".job, .empty", { timeout: 15000 }).catch(() => fail("board never populated"))
 
@@ -92,6 +93,13 @@ if (jobCount > 0) {
     }
     await button.click()
     await page.waitForTimeout(300)
+    const current = (await page.textContent(".detail")) ?? ""
+    if (tab === "Who to contact" && !/LinkedIn\/referral bridge/i.test(current)) {
+      fail("LinkedIn/referral bridge missing")
+    }
+    if (tab === "Prepare" && !/Interview story bank/i.test(current)) {
+      fail("interview story bank missing")
+    }
   }
   await page.screenshot({ path: join(shots, "04-job-write.png") })
 }

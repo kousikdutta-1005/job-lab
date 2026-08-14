@@ -1,6 +1,7 @@
 import type { Application, Contact, Job, Settings } from "@/lib/types"
 import type { Action, ActionKind } from "@/lib/briefing"
 import { learnOutcomes } from "@/lib/outcomes"
+import { burnoutPlan } from "@/lib/customer"
 
 interface Props {
   actions: Action[]
@@ -105,6 +106,7 @@ export function TodayView({
   const nextApply = [...eligible]
     .filter((job) => !touched.has(job.id))
     .sort((a, b) => b.match_score - a.match_score)[0]
+  const untouchedReady = eligible.filter((job) => !touched.has(job.id) && job.match_score >= 75).length
   const stale = applications.filter((app) => {
     if (!["applied", "phone_screen", "interview"].includes(app.stage)) return false
     const days = daysSince(app.follow_up_date ?? app.date_applied ?? app.date_saved)
@@ -135,6 +137,7 @@ export function TodayView({
     learning.interviewRate === null
       ? "log outcomes"
       : `${Math.round(learning.interviewRate * 100)}% interview rate`
+  const guard = burnoutPlan(applications, untouchedReady)
 
   return (
     <div className="pane">
@@ -357,6 +360,29 @@ export function TodayView({
               ))}
             </div>
           )}
+        </div>
+
+        <div className={`outcome-card guard-${guard.mode}`}>
+          <div className="row-between" style={{ alignItems: "flex-start", marginBottom: 12 }}>
+            <div>
+              <div className="kicker">Burnout guard</div>
+              <h3 style={{ margin: 0 }}>{guard.headline}</h3>
+            </div>
+            <span className={`pill ${guard.mode === "protect" ? "pill-warn" : guard.mode === "push" ? "pill-good" : "pill-accent"}`}>
+              {guard.quota} quality app{guard.quota === 1 ? "" : "s"} today
+            </span>
+          </div>
+          <p className="tiny" style={{ color: "var(--ink-2)", marginTop: -4 }}>
+            {guard.detail}
+          </p>
+          <div className="link-list" style={{ marginTop: 12 }}>
+            {guard.moves.map((move) => (
+              <div key={move} className="link-row">
+                <span>{move}</span>
+                <span className="pill">anti-spam</span>
+              </div>
+            ))}
+          </div>
         </div>
 
         {actions.length === 0 && (

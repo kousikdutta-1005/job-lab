@@ -14,6 +14,7 @@ import { matchResume } from "@/lib/resume"
 import { agenda, likelyQuestions, portfolioPlan } from "@/lib/prep"
 import { vet, ageTone, postedLabel } from "@/lib/vetting"
 import { worthYourHour } from "@/lib/outcomes"
+import { interviewStoryBank, linkedinBridge } from "@/lib/customer"
 
 interface Props {
   job: Job
@@ -185,6 +186,8 @@ export function JobDetail({
     resumeScore,
     portfolioSections.length > 0 || Boolean(settings.portfolio.trim() || profile.portfolio.trim()),
   )
+  const linkedinChecklist = linkedinBridge(job, settings, match)
+  const storyBank = interviewStoryBank(job, match)
   const rewriteIdeas = match
     ? [
         ...match.unwritten.slice(0, 3).map((gap) => ({
@@ -821,6 +824,27 @@ export function JobDetail({
             </div>
 
             <div className="card">
+              <h3>LinkedIn/referral bridge</h3>
+              <p className="tiny dimmer" style={{ marginTop: -4 }}>
+                Target customers keep saying referrals matter, but generic connection spam does not.
+                Before messaging a human, make the profile they click feel consistent with this role.
+              </p>
+              <div className="link-list">
+                {linkedinChecklist.map((item) => (
+                  <div key={item.label} className="link-row" style={{ alignItems: "flex-start" }}>
+                    <div>
+                      <div style={{ fontWeight: 550 }}>{item.label}</div>
+                      <div className="tiny dim">{item.detail}</div>
+                    </div>
+                    <span className={`pill ${item.ready ? "pill-good" : "pill-warn"}`}>
+                      {item.ready ? "ready" : "fix"}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="card">
               <h3>Work out their email</h3>
               {domain ? (
                 <>
@@ -961,6 +985,26 @@ export function JobDetail({
                 this company's actual process — no free source does — so treat it as the shape of
                 the conversation rather than the script.
               </p>
+            </div>
+
+            <div className="card">
+              <h3>Interview story bank</h3>
+              <p className="tiny dimmer" style={{ marginTop: -4 }}>
+                Designer candidates said portfolio interviews are where good applications still fail.
+                These are not scripts; they are the four stories to have ready before the call.
+              </p>
+              <div className="link-list">
+                {storyBank.map((story) => (
+                  <div key={story.question} className="story-row">
+                    <div className="row-between" style={{ alignItems: "flex-start", gap: 10 }}>
+                      <strong>{story.question}</strong>
+                      <span className="pill pill-accent">story</span>
+                    </div>
+                    <p>{story.story}</p>
+                    <small>{story.proof}</small>
+                  </div>
+                ))}
+              </div>
             </div>
 
             {portfolioPlan(job, idf).map((section) => (
