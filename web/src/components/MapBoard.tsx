@@ -29,7 +29,10 @@ export function MapBoard({ world, places, jobs, selectedPlace, onSelectPlace, el
     return () => observer.disconnect()
   }, [])
 
-  const countries = useMemo(() => pathsFor(world), [world])
+  const countries = useMemo(
+    () => pathsFor(world).sort((a, b) => (a.iso === "IN" ? 1 : b.iso === "IN" ? -1 : 0)),
+    [world],
+  )
 
   // The dots are counted from the roles actually on the board, not from the
   // precomputed totals in places.json. Those totals are the whole corpus, so a
@@ -72,6 +75,28 @@ export function MapBoard({ world, places, jobs, selectedPlace, onSelectPlace, el
       best: rows.reduce((max, j) => Math.max(max, j.match_score), 0),
     }
   }, [jobs, eligibleOnly])
+
+  const rankedPlaces = useMemo(
+    () =>
+      [...visible]
+        .sort((a, b) => (eligibleOnly ? b.eligible - a.eligible : b.jobs - a.jobs))
+        .slice(0, 4),
+    [visible, eligibleOnly],
+  )
+
+  const selected = useMemo(
+    () => live.find((place) => place.label === selectedPlace) ?? null,
+    [live, selectedPlace],
+  )
+
+  function choosePlace(place: Place & { jobs: number; eligible: number }) {
+    const on = selectedPlace === place.label
+    if (!on) {
+      const [cx, cy] = project(place.lon, place.lat)
+      setView((current) => clampView({ ...current, zoom: Math.max(current.zoom, 7.2), cx, cy }, aspect))
+    }
+    onSelectPlace(on ? null : place.label)
+  }
 
   useEffect(() => {
     const node = svgRef.current
@@ -131,6 +156,18 @@ export function MapBoard({ world, places, jobs, selectedPlace, onSelectPlace, el
 
   return (
     <div className="stage">
+      <div className="map-hud">
+        <div>
+          <div className="map-kicker">World map</div>
+          <div className="map-title">Political map, India view</div>
+        </div>
+        <div className="map-metrics">
+          <span>{visible.length} cities</span>
+          <span>{withJobs.size} countries</span>
+          <span>{remote.count} remote</span>
+        </div>
+      </div>
+
       <svg
         ref={svgRef}
         className="map-svg"
@@ -143,11 +180,26 @@ export function MapBoard({ world, places, jobs, selectedPlace, onSelectPlace, el
         role="img"
         aria-label="Map of open design roles"
       >
+        <defs>
+          <radialGradient id="job-dot" cx="38%" cy="32%" r="70%">
+            <stop offset="0%" stopColor="var(--accent-ink)" stopOpacity="0.95" />
+            <stop offset="38%" stopColor="var(--accent-text)" />
+            <stop offset="100%" stopColor="var(--accent)" />
+          </radialGradient>
+          <filter id="job-glow" x="-80%" y="-80%" width="260%" height="260%">
+            <feGaussianBlur stdDeviation={2.8 * k} result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+
         <g>
           {countries.map((country) => (
             <path
               key={country.iso + country.name}
-              className={`country${withJobs.has(country.iso) ? " has" : ""}`}
+              className={`country${withJobs.has(country.iso) ? " has" : ""}${country.iso === "IN" ? " india" : ""}`}
               d={country.d}
             />
           ))}
@@ -159,8 +211,10 @@ export function MapBoard({ world, places, jobs, selectedPlace, onSelectPlace, el
             const radius = r(place)
             const on = selectedPlace === place.label
             const count = eligibleOnly ? place.eligible : place.jobs
+            const hot = count >= maxJobs * 0.55
             return (
-              <g key={place.label}>
+              <g key={place.label} className={on ? "place on" : hot ? "place hot" : "place"}>
+                <circle className="place-pulse" cx={x} cy={y} r={radius * (on ? 3.4 : 2.5)} />
                 {on && <circle className="place-halo" cx={x} cy={y} r={radius * 2.6} />}
                 <circle
                   cx={x}
@@ -177,6 +231,7 @@ export function MapBoard({ world, places, jobs, selectedPlace, onSelectPlace, el
                   cy={y}
                   r={radius}
                   opacity={on ? 1 : 0.85}
+                  filter={place.eligible === 0 ? undefined : "url(#job-glow)"}
                 />
                 <circle
                   className="place-hit"
@@ -185,7 +240,7 @@ export function MapBoard({ world, places, jobs, selectedPlace, onSelectPlace, el
                   r={Math.max(radius * 1.9, 10 * k)}
                   onClick={(event) => {
                     event.stopPropagation()
-                    onSelectPlace(on ? null : place.label)
+                    choosePlace(place)
                   }}
                 >
                   <title>{`${place.label} — ${place.jobs} roles, ${place.eligible} you can take`}</title>
@@ -216,6 +271,26 @@ export function MapBoard({ world, places, jobs, selectedPlace, onSelectPlace, el
         </g>
       </svg>
 
+      <div className="map-places" aria-label="Top cities on this board">
+        {rankedPlaces.map((place) => {
+          const count = eligibleOnly ? place.eligible : place.jobs
+          const on = selectedPlace === place.label
+          return (
+            <button
+              key={place.label}
+              className={on ? "on" : ""}
+              onClick={() => choosePlace(place)}
+            >
+              <span>
+                <strong>{place.label}</strong>
+                <small>{place.eligible} you can take</small>
+              </span>
+              <b>{count}</b>
+            </button>
+          )
+        })}
+      </div>
+
       <div className="remote-card">
         <h4>Remote</h4>
         <div className="remote-big">{remote.count}</div>
@@ -232,9 +307,20 @@ export function MapBoard({ world, places, jobs, selectedPlace, onSelectPlace, el
         </button>
       </div>
 
+      {selected && (
+        <div className="map-selection">
+          <div className="map-kicker">Selected city</div>
+          <strong>{selected.label}</strong>
+          <span>
+            {selected.jobs} roles, {selected.eligible} you can take
+          </span>
+        </div>
+      )}
+
       <div className="map-legend">
         <div>Dot size = open roles</div>
         <div>Grey = none you can take</div>
+        <div>India boundary shown from India view</div>
         <div>Scroll to zoom, drag to pan</div>
       </div>
 

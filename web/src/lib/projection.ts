@@ -79,7 +79,7 @@ export function pathsFor(world: GeoJSON): Array<{ iso: string; name: string; d: 
 
 export const PRESETS: Record<string, View> = {
   world: { zoom: 1, cx: WORLD_W / 2, cy: WORLD_H / 2 },
-  india: { zoom: 5.4, cx: project(79, 22)[0], cy: project(79, 22)[1] },
+  india: { zoom: 6.4, cx: project(78.5, 20)[0], cy: project(78.5, 20)[1] },
   europe: { zoom: 5.5, cx: project(10, 50)[0], cy: project(10, 50)[1] },
   usa: { zoom: 4, cx: project(-98, 39)[0], cy: project(-98, 39)[1] },
   apac: { zoom: 3, cx: project(110, 5)[0], cy: project(110, 5)[1] },

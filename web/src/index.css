@@ -680,7 +680,77 @@ textarea {
   position: relative;
   overflow: hidden;
   background:
-    radial-gradient(1200px 680px at 60% 38%, var(--bg-raised) 0%, var(--bg) 68%);
+    radial-gradient(560px 360px at 62% 53%, color-mix(in oklab, var(--accent) 13%, transparent), transparent 68%),
+    radial-gradient(900px 520px at 38% 40%, var(--bg-raised) 0%, transparent 62%),
+    linear-gradient(140deg, color-mix(in oklab, var(--bg) 92%, black), var(--bg-raised) 52%, var(--bg));
+}
+
+.stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(color-mix(in oklab, var(--line-soft) 54%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklab, var(--line-soft) 54%, transparent) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(circle at 58% 48%, black, transparent 72%);
+  opacity: 0.22;
+}
+
+.stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 90px color-mix(in oklab, black 52%, transparent);
+}
+
+.map-hud {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  right: 14px;
+  z-index: 2;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  pointer-events: none;
+}
+
+.map-kicker {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--accent-text);
+  margin-bottom: 4px;
+}
+
+.map-title {
+  font-size: 15px;
+  font-weight: 650;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+
+.map-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
+  max-width: 48%;
+}
+
+.map-metrics span {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--ink-3);
+  padding: 4px 7px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--bg-raised) 84%, transparent);
+  box-shadow: inset 0 0 0 1px var(--line-soft), var(--shadow-sm);
 }
 
 .map-svg {
@@ -695,8 +765,8 @@ textarea {
 }
 
 .country {
-  fill: var(--bg-raised);
-  stroke: var(--line-soft);
+  fill: color-mix(in oklab, var(--bg-raised) 78%, var(--bg-hover));
+  stroke: color-mix(in oklab, var(--line) 72%, transparent);
   stroke-width: 0.8;
   vector-effect: non-scaling-stroke;
 }
@@ -704,8 +774,14 @@ textarea {
 /* Countries that are actually hiring sit forward of the rest, so the map
    answers "where is there work" before you read a single label. */
 .country.has {
-  fill: var(--bg-hover);
-  stroke: var(--line);
+  fill: color-mix(in oklab, var(--accent-text) 8%, var(--bg-hover));
+  stroke: color-mix(in oklab, var(--accent-text) 32%, var(--line));
+}
+
+.country.india {
+  fill: color-mix(in oklab, var(--accent-text) 8%, var(--bg-hover));
+  stroke: color-mix(in oklab, var(--accent-text) 45%, var(--line));
+  stroke-width: 0.85;
 }
 
 .place-hit {
@@ -713,18 +789,36 @@ textarea {
   cursor: pointer;
 }
 
+.place-pulse {
+  fill: color-mix(in oklab, var(--accent-text) 12%, transparent);
+  opacity: 0.34;
+  pointer-events: none;
+}
+
+.place.hot .place-pulse,
+.place.on .place-pulse {
+  fill: color-mix(in oklab, var(--accent-text) 18%, transparent);
+  opacity: 0.62;
+}
+
 .place-halo {
-  fill: color-mix(in oklab, var(--accent-text) 10%, transparent);
+  fill: none;
+  stroke: var(--accent-text);
+  stroke-width: 1.4;
+  stroke-dasharray: 3 3;
   pointer-events: none;
 }
 
 .place-dot {
-  fill: var(--accent-text);
+  fill: url("#job-dot");
+  stroke: color-mix(in oklab, var(--accent-ink) 58%, transparent);
+  stroke-width: 0.8;
   pointer-events: none;
 }
 
 .place-dot.none {
   fill: var(--ink-3);
+  stroke: var(--bg);
 }
 
 .place-label {
@@ -739,6 +833,11 @@ textarea {
   dominant-baseline: middle;
 }
 
+.place.hot .place-label,
+.place.on .place-label {
+  fill: var(--ink);
+}
+
 .place-count {
   fill: var(--ink-3);
   font-family: var(--mono);
@@ -747,6 +846,58 @@ textarea {
   stroke: color-mix(in oklab, var(--bg) 92%, transparent);
   stroke-linejoin: round;
   dominant-baseline: middle;
+}
+
+.map-places {
+  position: absolute;
+  right: 14px;
+  top: 78px;
+  z-index: 2;
+  display: grid;
+  gap: 7px;
+  width: min(230px, 28vw);
+}
+
+.map-places button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  text-align: left;
+  padding: 9px 10px;
+  border-radius: var(--radius-sm);
+  color: var(--ink);
+  background: color-mix(in oklab, var(--bg-raised) 84%, transparent);
+  box-shadow: inset 0 0 0 1px var(--line-soft), var(--shadow-sm);
+  backdrop-filter: blur(12px);
+}
+
+.map-places button:hover,
+.map-places button.on {
+  background: color-mix(in oklab, var(--accent-text) 12%, var(--bg-raised));
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklab, var(--accent-text) 35%, var(--line)),
+    var(--shadow-lift);
+}
+
+.map-places strong {
+  display: block;
+  font-size: 12px;
+  letter-spacing: -0.01em;
+}
+
+.map-places small {
+  display: block;
+  margin-top: 2px;
+  color: var(--ink-4);
+  font-size: 10.5px;
+}
+
+.map-places b {
+  font-family: var(--mono);
+  font-size: 18px;
+  color: var(--accent-text);
+  font-weight: 500;
 }
 
 .map-controls {
@@ -792,12 +943,15 @@ textarea {
 .remote-card {
   position: absolute;
   left: 14px;
-  top: 14px;
+  top: 82px;
   width: 208px;
-  background: color-mix(in oklab, var(--bg-raised) 90%, transparent);
-  backdrop-filter: blur(10px);
+  z-index: 2;
+  background:
+    linear-gradient(145deg, color-mix(in oklab, var(--accent-text) 10%, transparent), transparent 52%),
+    color-mix(in oklab, var(--bg-raised) 88%, transparent);
+  backdrop-filter: blur(12px);
   border-radius: var(--radius);
-  box-shadow: inset 0 0 0 1px var(--line), var(--shadow);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--accent-text) 18%, var(--line)), var(--shadow-lift);
   padding: 12px;
 }
 
@@ -821,6 +975,36 @@ textarea {
   color: var(--accent-text);
   line-height: 1.1;
   margin: 6px 0 2px;
+}
+
+.map-selection {
+  position: absolute;
+  left: 14px;
+  bottom: 88px;
+  z-index: 2;
+  width: 208px;
+  padding: 11px 12px;
+  border-radius: var(--radius-sm);
+  background: color-mix(in oklab, var(--bg-raised) 88%, transparent);
+  backdrop-filter: blur(12px);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklab, var(--accent-text) 28%, var(--line)),
+    var(--shadow-sm);
+}
+
+.map-selection strong,
+.map-selection span {
+  display: block;
+}
+
+.map-selection strong {
+  font-size: 13px;
+  margin-bottom: 3px;
+}
+
+.map-selection span {
+  color: var(--ink-3);
+  font-size: 11.5px;
 }
 
 /* ---------------------------------------------------------------- panels */
