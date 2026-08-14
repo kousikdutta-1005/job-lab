@@ -160,6 +160,63 @@ export function JobDetail({
               ? "Apply, but send a human check-in too"
               : "Apply properly now"
   const nextTone = blocked ? "bad" : warned || riskyPosting ? "warn" : "good"
+  const prepTerms = agenda(job, idf, 6)
+  const portfolioSections = portfolioPlan(job, idf)
+  const rewriteIdeas = match
+    ? [
+        ...match.unwritten.slice(0, 3).map((gap) => ({
+          label: `Add "${gap.term}"`,
+          detail: `Your profile already claims this, but the resume text does not. Add one truthful bullet using the term.`,
+        })),
+        ...match.missing
+          .filter((gap) => !gap.claimed)
+          .slice(0, Math.max(0, 3 - match.unwritten.length))
+          .map((gap) => ({
+            label: `Prove or skip "${gap.term}"`,
+            detail: `High-value ${gap.group} requirement. Only add it if a real project proves it.`,
+          })),
+      ].slice(0, 3)
+    : []
+  const primarySearch =
+    job.linkedin.searches.find((search) => search.kind === "decision-maker") ??
+    job.linkedin.searches.find((search) => search.kind === "recruiter") ??
+    job.linkedin.searches[0]
+  const kitCards = [
+    {
+      title: "Resume rewrite",
+      label: match ? `${match.score}/100 ATS` : "resume missing",
+      tone: !resumeReady ? "bad" : resumeScore !== null && resumeScore < 65 ? "warn" : "good",
+      detail: rewriteIdeas[0]?.detail ?? (resumeReady ? "Open Resume for keyword coverage and parser issues." : "Paste your resume once to unlock JD-specific rewrites."),
+      tab: "match" as Tab,
+    },
+    {
+      title: "Hiring team",
+      label: relatedContacts.length ? `${relatedContacts.length} saved` : primarySearch?.kind ?? "search",
+      tone: contactReady ? "good" : "warn",
+      detail: relatedContacts.length
+        ? `${relatedContacts[0].name} is already in your contact list.`
+        : primarySearch
+          ? `Start with ${primarySearch.label}; it is the shortest path to a human.`
+          : "No people path yet.",
+      tab: "people" as Tab,
+    },
+    {
+      title: "Outreach",
+      label: emailReady ? "email ready" : "draft ready",
+      tone: autofillReady && emailReady ? "good" : autofillReady ? "warn" : "bad",
+      detail: emailReady
+        ? "Email pattern, subject and body can be copied in one pass."
+        : "Drafts are ready; fill Settings/contact name to personalize them.",
+      tab: "write" as Tab,
+    },
+    {
+      title: "Portfolio proof",
+      label: prepTerms[0] ?? "case study",
+      tone: portfolioSections.length ? "good" : "warn",
+      detail: portfolioSections[0]?.items[0] ?? "Use the prep tab to choose the case study angle for this role.",
+      tab: "prep" as Tab,
+    },
+  ]
 
   async function flash(label: string, text: string) {
     if (await copy(text)) {
@@ -265,6 +322,16 @@ export function JobDetail({
                 </div>
                 <p className="tiny dimmer">{step.detail}</p>
               </div>
+            ))}
+          </div>
+
+          <div className="kit-grid">
+            {kitCards.map((card) => (
+              <button key={card.title} className={`kit-card ${card.tone}`} onClick={() => setTab(card.tab)}>
+                <span className="kicker">{card.title}</span>
+                <strong>{card.label}</strong>
+                <small>{card.detail}</small>
+              </button>
             ))}
           </div>
         </div>
@@ -509,6 +576,27 @@ export function JobDetail({
                     </div>
                   )}
 
+                  {rewriteIdeas.length > 0 && (
+                    <div className="card">
+                      <h3>ATS rewrite kit</h3>
+                      <p className="tiny dimmer" style={{ marginTop: -4 }}>
+                        These are wording tasks, not invented experience. If a line says prove or skip,
+                        do not fake it — use a real project or leave it out.
+                      </p>
+                      <div className="link-list">
+                        {rewriteIdeas.map((idea) => (
+                          <div key={idea.label} className="link-row" style={{ alignItems: "flex-start" }}>
+                            <div>
+                              <div style={{ fontWeight: 550 }}>{idea.label}</div>
+                              <div className="tiny dim">{idea.detail}</div>
+                            </div>
+                            <span className="pill pill-accent">rewrite</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
                   <div className="card">
                     <h3>Already covered</h3>
                     <div className="wrap">
@@ -537,6 +625,22 @@ export function JobDetail({
                 LinkedIn runs the search, which is why these keep working.
               </p>
               <div className="link-list">
+                {primarySearch && (
+                  <a
+                    className="link-row recommended-row"
+                    href={primarySearch.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span>
+                      <strong>Start here: {primarySearch.label}</strong>
+                      <span className="tiny dimmer" style={{ display: "block", marginTop: 2 }}>
+                        Highest-probability human path for this role.
+                      </span>
+                    </span>
+                    <span className="pill pill-accent">{primarySearch.kind}</span>
+                  </a>
+                )}
                 {job.linkedin.searches.map((search) => (
                   <a
                     key={search.url}
