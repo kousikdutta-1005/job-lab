@@ -74,7 +74,16 @@ const FILLER = `(function(){
   }
 
   function labelText(el){
-    var bits = [el.name||"", el.id||"", el.placeholder||"", el.getAttribute("aria-label")||"", el.getAttribute("autocomplete")||""];
+    var bits = [
+      el.name||"",
+      el.id||"",
+      el.placeholder||"",
+      el.getAttribute("aria-label")||"",
+      el.getAttribute("autocomplete")||"",
+      el.getAttribute("data-automation-id")||"",
+      el.getAttribute("data-testid")||"",
+      el.getAttribute("title")||""
+    ];
     if(el.id){
       // CSS.escape is missing in older Safari and in some embedded webviews,
       // and an unguarded call threw before a single field was filled.
@@ -85,6 +94,14 @@ const FILLER = `(function(){
         var lab = document.querySelector('label[for="' + safe + '"]');
         if(lab) bits.push(lab.textContent||"");
       } catch(e){}
+    }
+    var described = el.getAttribute("aria-describedby");
+    if(described){
+      var ids = described.split(/\\s+/);
+      for(var d=0;d<ids.length;d++){
+        var node = document.getElementById(ids[d]);
+        if(node) bits.push(node.textContent||"");
+      }
     }
     var wrap = el.closest("label,div,fieldset");
     if(wrap){
@@ -101,10 +118,10 @@ const FILLER = `(function(){
     [/last[\\s_-]*name|family[\\s_-]*name|surname|\\blname\\b/, P.last_name],
     [/full[\\s_-]*name|your name|candidate name|^name$|\\bname\\b(?!.*(company|school|university|referr|file))/, P.full_name],
     [/e-?mail/, P.email],
-    [/phone|mobile|contact number|telephone/, P.phone],
+    [/phone|mobile|contact number|telephone|(?:^|[^a-z])tel(?:$|[^a-z])/, P.phone],
     [/linked ?in/, P.linkedin],
     [/portfolio|dribbble|behance|personal[\\s_-]*(?:site|website)|(?:^|[^a-z])website(?![a-z])/, P.portfolio],
-    [/location|city|where are you based|current residence/, P.location]
+    [/location|city|where are you based|current[\\s_-]*residence/, P.location]
   ];
 
   var filled = 0, seen = {};
