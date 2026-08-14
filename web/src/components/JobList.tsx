@@ -1,6 +1,7 @@
 import { useEffect } from "react"
 import type { Application, Job } from "@/lib/types"
 import { logoFor, scoreClass } from "@/lib/format"
+import type { WorthScore } from "@/lib/outcomes"
 import { ageTone, postedLabel } from "@/lib/vetting"
 
 /**
@@ -15,7 +16,7 @@ function whenClass(tone: string): string {
   return "dimmer"
 }
 
-export type Sort = "match" | "fresh" | "pay" | "company"
+export type Sort = "worth" | "match" | "fresh" | "pay" | "company"
 
 interface Props {
   jobs: Job[]
@@ -37,6 +38,7 @@ interface Props {
   place: string | null
   onClearPlace: () => void
   appByJob: Map<string, Application>
+  worthByJob: Map<string, WorthScore>
   dismissed: string[]
   onDismiss: (id: string) => void
   showDismissed: boolean
@@ -53,6 +55,7 @@ const LEVELS: Array<[string, string]> = [
 ]
 
 const SORTS: Array<[Sort, string]> = [
+  ["worth", "Worth your hour"],
   ["match", "Best match"],
   ["fresh", "Newest"],
   ["pay", "Highest pay"],
@@ -79,6 +82,7 @@ export function JobList({
   place,
   onClearPlace,
   appByJob,
+  worthByJob,
   dismissed,
   onDismiss,
   showDismissed,
@@ -224,6 +228,7 @@ export function JobList({
 
         {jobs.map((job) => {
           const tracked = appByJob.get(job.id)
+          const worth = worthByJob.get(job.id)
           const logo = logoFor(job.company_domain)
           const isDismissed = dismissed.includes(job.id)
           // The overall verdict folds in how specifically the posting is
@@ -245,6 +250,7 @@ export function JobList({
                   <span className={`job-score ${scoreClass(job.match_score)}`}>
                     {job.match_score}
                   </span>
+                  {worth && <span className="job-hour">{worth.score}h</span>}
                   <span className="job-title">{job.title}</span>
                 </div>
                 <div className="job-meta">

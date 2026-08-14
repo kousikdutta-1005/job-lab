@@ -34,6 +34,8 @@ import { TodayView } from "@/components/TodayView"
 import { NegotiateView } from "@/components/NegotiateView"
 import { briefing, type Action } from "@/lib/briefing"
 import { ago } from "@/lib/format"
+import { matchResume } from "@/lib/resume"
+import { worthYourHour } from "@/lib/outcomes"
 
 type View =
   | "today"
@@ -124,6 +126,21 @@ export default function App() {
     })
   }, [jobs, query, eligibleOnly, seniority, workplace, pinned, dismissed, showDismissed])
 
+  const worthByJob = useMemo(() => {
+    const map = new Map<string, ReturnType<typeof worthYourHour>>()
+    if (!bundle) return map
+    for (const job of jobs) {
+      const resumeScore = settings.resume_text.trim()
+        ? matchResume(settings.resume_text, job, bundle.idf, bundle.profile.strengths ?? []).score
+        : null
+      map.set(
+        job.id,
+        worthYourHour(job, applications, contacts, jobs, resumeScore, projects.length > 0),
+      )
+    }
+    return map
+  }, [bundle, jobs, applications, contacts, settings.resume_text, projects.length])
+
   const filtered = useMemo(() => {
     const rows = onMap.filter((job) => {
       if (place === "__remote__" && job.workplace !== "remote") return false
@@ -141,10 +158,13 @@ export default function App() {
         (b.salary_parsed?.inr_high ?? -1) - (a.salary_parsed?.inr_high ?? -1) ||
         b.match_score - a.match_score,
       company: (a, b) => a.company.localeCompare(b.company) || b.match_score - a.match_score,
+      worth: (a, b) =>
+        (worthByJob.get(b.id)?.score ?? 0) - (worthByJob.get(a.id)?.score ?? 0) ||
+        b.match_score - a.match_score,
     }
 
     return [...rows].sort(sorters[sort])
-  }, [onMap, place, sort])
+  }, [onMap, place, sort, worthByJob])
 
   const selected = useMemo(
     () => jobs.find((j) => j.id === selectedId) ?? null,
@@ -374,6 +394,7 @@ export default function App() {
               place={place}
               onClearPlace={() => setPlace(null)}
               appByJob={appByJob}
+              worthByJob={worthByJob}
               dismissed={dismissed}
               onDismiss={toggleDismiss}
               showDismissed={showDismissed}
@@ -388,6 +409,8 @@ export default function App() {
                 settings={settings}
                 idf={bundle.idf}
                 application={appByJob.get(selected.id)}
+                applications={applications}
+                jobs={jobs}
                 contacts={contacts}
                 onApply={handleApply}
                 onStage={(job, stage) => upsertApplication(job, stage)}
@@ -426,6 +449,7 @@ export default function App() {
           <Tracker
             applications={applications}
             contacts={contacts}
+            jobs={jobs}
             onChange={setApplications}
             onOpenJob={(jobId) => {
               setSelectedId(jobId)

@@ -148,7 +148,7 @@ export const DEFAULT_BOARD: BoardState = {
   eligibleOnly: true,
   seniority: null,
   workplace: null,
-  sort: "match",
+  sort: "worth",
 }
 
 export const loadBoard = (): BoardState => ({

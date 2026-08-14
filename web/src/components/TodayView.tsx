@@ -1,5 +1,6 @@
 import type { Application, Contact, Job, Settings } from "@/lib/types"
 import type { Action, ActionKind } from "@/lib/briefing"
+import { learnOutcomes } from "@/lib/outcomes"
 
 interface Props {
   actions: Action[]
@@ -127,6 +128,13 @@ export function TodayView({
   ].filter(Boolean) as string[]
 
   const name = settings.full_name?.split(/\s+/)[0]
+  const learning = learnOutcomes(applications, jobs)
+  const replyLabel =
+    learning.replyRate === null ? "not learned yet" : `${Math.round(learning.replyRate * 100)}% reply rate`
+  const interviewLabel =
+    learning.interviewRate === null
+      ? "log outcomes"
+      : `${Math.round(learning.interviewRate * 100)}% interview rate`
 
   return (
     <div className="pane">
@@ -302,6 +310,53 @@ export function TodayView({
               </small>
             </button>
           </div>
+        </div>
+
+        <div className="outcome-card">
+          <div className="row-between" style={{ alignItems: "flex-start", marginBottom: 12 }}>
+            <div>
+              <div className="kicker">Outcome learning</div>
+              <h3 style={{ margin: 0 }}>What your applications are teaching the board</h3>
+            </div>
+            <span className={`pill ${learning.applied >= 10 ? "pill-good" : "pill-warn"}`}>
+              {learning.applied}/10 tracked
+            </span>
+          </div>
+          <p className="tiny" style={{ color: "var(--ink-2)", marginTop: -4 }}>
+            {learning.recommendation}
+          </p>
+          <div className="grid-3" style={{ marginTop: 12 }}>
+            <div className="stat compact">
+              <div className="n">{replyLabel}</div>
+              <div className="l">Response signal</div>
+            </div>
+            <div className="stat compact">
+              <div className="n">{interviewLabel}</div>
+              <div className="l">Interview signal</div>
+            </div>
+            <div className="stat compact">
+              <div className="n">{learning.strongestSignal}</div>
+              <div className="l">Best segment so far</div>
+            </div>
+          </div>
+          {learning.segments.length > 0 && (
+            <div className="link-list" style={{ marginTop: 12 }}>
+              {learning.segments.slice(0, 3).map((segment) => (
+                <div key={segment.key} className="link-row">
+                  <div>
+                    <span style={{ fontWeight: 550 }}>{segment.label}</span>
+                    <span className="dim tiny dot-sep">
+                      {segment.applied} applied · {segment.replies} replies · {segment.interviews} interviews
+                    </span>
+                  </div>
+                  <span className={`pill ${segment.lift >= 0 ? "pill-good" : "pill-warn"}`}>
+                    {segment.lift >= 0 ? "+" : ""}
+                    {Math.round(segment.lift * 100)} pts
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {actions.length === 0 && (

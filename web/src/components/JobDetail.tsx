@@ -13,6 +13,7 @@ import { drafts, mailto, renderPattern } from "@/lib/email"
 import { matchResume } from "@/lib/resume"
 import { agenda, likelyQuestions, portfolioPlan } from "@/lib/prep"
 import { vet, ageTone, postedLabel } from "@/lib/vetting"
+import { worthYourHour } from "@/lib/outcomes"
 
 interface Props {
   job: Job
@@ -22,6 +23,8 @@ interface Props {
   settings: Settings
   idf: Record<string, number>
   application?: Application
+  applications: Application[]
+  jobs: Job[]
   contacts: Contact[]
   onApply: (job: Job) => void
   onStage: (job: Job, stage: Application["stage"]) => void
@@ -62,6 +65,8 @@ export function JobDetail({
   settings,
   idf,
   application,
+  applications,
+  jobs,
   contacts,
   onApply,
   onStage,
@@ -172,6 +177,14 @@ export function JobDetail({
   const nextTone = blocked ? "bad" : warned || riskyPosting ? "warn" : "good"
   const prepTerms = agenda(job, idf, 6)
   const portfolioSections = portfolioPlan(job, idf)
+  const worth = worthYourHour(
+    job,
+    applications,
+    contacts,
+    jobs,
+    resumeScore,
+    portfolioSections.length > 0 || Boolean(settings.portfolio.trim() || profile.portfolio.trim()),
+  )
   const rewriteIdeas = match
     ? [
         ...match.unwritten.slice(0, 3).map((gap) => ({
@@ -196,6 +209,7 @@ export function JobDetail({
   )
   const packetLines = [
     `Role: ${job.title} at ${job.company} (${job.match_score}/100 fit).`,
+    `Worth your hour: ${worth.score}/100 — ${worth.label}.`,
     `Verdict: ${nextMove}.`,
     `Resume: ${
       match
@@ -336,7 +350,7 @@ export function JobDetail({
         <div className={`card decision decision-${nextTone}`}>
           <div className="row-between" style={{ alignItems: "flex-start", marginBottom: 12 }}>
             <div>
-              <div className="kicker">Next move</div>
+              <div className="kicker">Next move · Worth your hour {worth.score}/100</div>
               <h3>{nextMove}</h3>
             </div>
             <span className={`pill ${nextTone === "good" ? "pill-good" : nextTone === "bad" ? "pill-bad" : "pill-warn"}`}>
@@ -400,6 +414,11 @@ export function JobDetail({
 
               <div className="packet-grid">
                 <div>
+                  <div className="kicker">0 · Worth your hour</div>
+                  <strong>{worth.score}/100 · {worth.label}</strong>
+                  <p className="tiny dimmer">{worth.verdict}</p>
+                </div>
+                <div>
                   <div className="kicker">1 · Gate</div>
                   <strong>{nextMove}</strong>
                   <p className="tiny dimmer">{vetting.advice}</p>
@@ -447,6 +466,19 @@ export function JobDetail({
                   <strong>{application ? application.stage.replace("_", " ") : "not tracked yet"}</strong>
                   <p className="tiny dimmer">{followUpPlan(job)}</p>
                 </div>
+              </div>
+
+              <div className="worth-strip">
+                {worth.signals.map((signal) => (
+                  <div key={signal.label} className={`worth-signal tone-${signal.tone}`}>
+                    <div className="row-between">
+                      <span className="kicker">{signal.label}</span>
+                      <span className="mono tiny">{signal.points >= 0 ? "+" : ""}{signal.points}</span>
+                    </div>
+                    <strong>{signal.value}</strong>
+                    <p>{signal.detail}</p>
+                  </div>
+                ))}
               </div>
 
               <div className="field" style={{ marginTop: 12 }}>

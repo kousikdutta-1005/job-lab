@@ -59,6 +59,8 @@ await page.waitForSelector(".shell", { timeout: 15000 }).catch(() => fail("did n
 
 // The app now opens on Today; the board is one click away.
 await page.waitForSelector(".card, .empty", { timeout: 15000 }).catch(() => fail("today never populated"))
+const todayText = (await page.textContent(".main")) ?? ""
+if (!/Outcome learning/i.test(todayText)) fail("today outcome-learning panel missing")
 await page.locator('.nav button:has-text("Board")').first().click()
 await page.waitForSelector(".job, .empty", { timeout: 15000 }).catch(() => fail("board never populated"))
 
@@ -78,6 +80,8 @@ if (jobCount > 0) {
   await page.waitForSelector(".detail", { timeout: 8000 }).catch(() => fail("job detail never opened"))
   const title = await page.textContent(".detail h1").catch(() => null)
   console.log(`opened detail: ${JSON.stringify(title?.slice(0, 60))}`)
+  const detailText = (await page.textContent(".detail")) ?? ""
+  if (!/Worth your hour/i.test(detailText)) fail("job worth-your-hour score missing")
   await page.screenshot({ path: join(shots, "03-job-detail.png") })
 
   for (const tab of ["Apply packet", "Resume", "Who to contact", "Write to them", "Prepare"]) {

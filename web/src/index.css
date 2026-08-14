@@ -580,6 +580,17 @@ textarea {
   flex-shrink: 0;
 }
 
+.job-hour {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 1px 5px;
+  border-radius: 4px;
+  color: var(--good);
+  background: color-mix(in oklab, var(--good) 11%, transparent);
+  flex-shrink: 0;
+}
+
 .s-hot {
   color: var(--accent-ink);
   background: var(--accent);
@@ -1116,6 +1127,22 @@ h2.title {
   line-height: 1.5;
 }
 
+.stat.compact .n {
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.outcome-card {
+  background: var(--bg-raised);
+  border-radius: var(--radius);
+  box-shadow: inset 0 0 0 1px var(--line), var(--shadow-sm);
+  padding: 15px;
+  margin-bottom: 12px;
+  border-left: 3px solid var(--accent);
+}
+
 .command-center {
   background:
     radial-gradient(520px 220px at 20% 0%, color-mix(in oklab, var(--accent-text) 12%, transparent), transparent 72%),
@@ -1433,6 +1460,46 @@ h2.title {
   line-height: 1.45;
 }
 
+.worth-strip {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.worth-signal {
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  background: color-mix(in oklab, var(--bg) 78%, transparent);
+  box-shadow: inset 0 0 0 1px var(--line-soft);
+}
+
+.worth-signal strong {
+  display: block;
+  font-size: 12.5px;
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+
+.worth-signal p {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.45;
+  color: var(--ink-3);
+}
+
+.worth-signal.tone-good {
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--good) 35%, var(--line-soft));
+}
+
+.worth-signal.tone-warn {
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--warn) 35%, var(--line-soft));
+}
+
+.worth-signal.tone-bad {
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--bad) 35%, var(--line-soft));
+}
+
 .reasons {
   display: grid;
   gap: 5px;
@@ -1639,6 +1706,7 @@ table.data tr.row-detail .card {
   .command-grid,
   .kit-grid,
   .packet-grid,
+  .worth-strip,
   .decision-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1717,7 +1785,8 @@ table.data tr.row-detail .card {
 
   .command-grid,
   .kit-grid,
-  .packet-grid {
+  .packet-grid,
+  .worth-strip {
     grid-template-columns: 1fr;
   }
 

@@ -1,12 +1,14 @@
 import { Fragment, useMemo, useState } from "react"
-import type { Application, Contact, Stage } from "@/lib/types"
+import type { Application, Contact, Job, Stage } from "@/lib/types"
 import { STAGES, today, uid } from "@/lib/store"
 import { ago, inr, logoFor } from "@/lib/format"
 import { funnel } from "@/lib/funnel"
+import { learnOutcomes } from "@/lib/outcomes"
 
 interface Props {
   applications: Application[]
   contacts: Contact[]
+  jobs: Job[]
   onChange: (rows: Application[]) => void
   onOpenJob: (jobId: string) => void
 }
@@ -35,7 +37,7 @@ const lastTouch = (row: Application): number => {
   return times.length ? Math.max(...times) : 0
 }
 
-export function Tracker({ applications, contacts, onChange, onOpenJob }: Props) {
+export function Tracker({ applications, contacts, jobs, onChange, onOpenJob }: Props) {
   const [openId, setOpenId] = useState<string | null>(null)
   const [showClosed, setShowClosed] = useState(false)
   const [adding, setAdding] = useState(false)
@@ -131,6 +133,7 @@ export function Tracker({ applications, contacts, onChange, onOpenJob }: Props) 
     rejected: applications.filter((a) => a.stage === "rejected").length,
   }
   const shape = useMemo(() => funnel(applications), [applications])
+  const learning = useMemo(() => learnOutcomes(applications, jobs), [applications, jobs])
 
   /* The detail lives directly under the row you clicked, not at the foot of
      the table — with twenty applications the old placement meant clicking a
@@ -368,6 +371,55 @@ export function Tracker({ applications, contacts, onChange, onOpenJob }: Props) 
             )}
           </div>
         )}
+
+        <div className="card outcome-card">
+          <div className="row-between" style={{ alignItems: "flex-start", marginBottom: 12 }}>
+            <div>
+              <div className="kicker">Conversion brain</div>
+              <h3 style={{ margin: 0 }}>The tracker is now the recommendation engine</h3>
+            </div>
+            <span className={`pill ${learning.applied >= 10 ? "pill-good" : "pill-warn"}`}>
+              {learning.applied}/10 learning rows
+            </span>
+          </div>
+          <p className="tiny" style={{ color: "var(--ink-2)", marginTop: -4 }}>
+            {learning.recommendation}
+          </p>
+          <div className="grid-3" style={{ marginTop: 12 }}>
+            <div className="stat compact">
+              <div className="n">{learning.strongestSignal}</div>
+              <div className="l">Do more of this</div>
+            </div>
+            <div className="stat compact">
+              <div className="n">{learning.warningSignal}</div>
+              <div className="l">Spend less energy here</div>
+            </div>
+            <div className="stat compact">
+              <div className="n">
+                {learning.replyRate === null ? "—" : `${Math.round(learning.replyRate * 100)}%`}
+              </div>
+              <div className="l">Reply rate</div>
+            </div>
+          </div>
+          {learning.segments.length > 0 && (
+            <div className="link-list" style={{ marginTop: 12 }}>
+              {learning.segments.slice(0, 5).map((segment) => (
+                <div key={segment.key} className="link-row">
+                  <div>
+                    <span style={{ fontWeight: 550 }}>{segment.label}</span>
+                    <span className="dim tiny dot-sep">
+                      {segment.applied} applied · {Math.round(segment.replyRate * 100)}% replied
+                    </span>
+                  </div>
+                  <span className={`pill ${segment.lift >= 0 ? "pill-good" : "pill-warn"}`}>
+                    {segment.lift >= 0 ? "+" : ""}
+                    {Math.round(segment.lift * 100)} pts vs baseline
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
 
         {needsFollowUp.length > 0 && (
           <div className="card" style={{ borderLeft: "2px solid var(--accent)" }}>
