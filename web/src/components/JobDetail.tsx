@@ -30,7 +30,7 @@ interface Props {
   onClose: () => void
 }
 
-type Tab = "role" | "match" | "people" | "write" | "prep"
+type Tab = "packet" | "role" | "match" | "people" | "write" | "prep"
 
 interface DecisionStep {
   label: string
@@ -42,6 +42,16 @@ function stepClass(status: DecisionStep["status"]): string {
   if (status === "ready") return "pill-good"
   if (status === "blocked") return "pill-bad"
   return "pill-warn"
+}
+
+function followUpPlan(job: Job): string {
+  if (ageTone(job) === "bad") {
+    return "Today: ask a human if the role is still live. Day 7: archive it unless someone replies."
+  }
+  if (job.match_score >= 90) {
+    return "Today: apply and message one human. Day 3: short follow-up. Day 10: second and final follow-up."
+  }
+  return "Today: shortlist or apply only if the packet is ready. Day 5: one follow-up. Day 12: archive if cold."
 }
 
 export function JobDetail({
@@ -181,6 +191,27 @@ export function JobDetail({
     job.linkedin.searches.find((search) => search.kind === "decision-maker") ??
     job.linkedin.searches.find((search) => search.kind === "recruiter") ??
     job.linkedin.searches[0]
+  const readinessScore = Math.round(
+    decisionSteps.reduce((sum, step) => sum + (step.status === "ready" ? 25 : step.status === "warn" ? 12 : 0), 0),
+  )
+  const packetLines = [
+    `Role: ${job.title} at ${job.company} (${job.match_score}/100 fit).`,
+    `Verdict: ${nextMove}.`,
+    `Resume: ${
+      match
+        ? `${match.score}/100 ATS; ${
+            rewriteIdeas[0]?.label ?? "review keyword coverage before sending"
+          }`
+        : "resume missing; add it before applying"
+    }.`,
+    `Portfolio: ${portfolioSections[0]?.items[0] ?? "choose a case study that proves the strongest posting themes"}.`,
+    `Human path: ${
+      relatedContacts[0]?.name ??
+      (primarySearch ? `${primarySearch.label} on LinkedIn` : "find one recruiter or design lead")
+    }.`,
+    `Outreach: ${draft.subject}.`,
+    `Follow-up: ${followUpPlan(job)}`,
+  ].join("\n")
   const kitCards = [
     {
       title: "Resume rewrite",
@@ -339,6 +370,7 @@ export function JobDetail({
         <div className="tabs">
           {(
             [
+              ["packet", `Apply packet ${readinessScore}`],
               ["role", "The role"],
               ["match", match ? `Resume ${match.score}` : "Resume"],
               ["people", "Who to contact"],
@@ -351,6 +383,97 @@ export function JobDetail({
             </button>
           ))}
         </div>
+
+        {tab === "packet" && (
+          <>
+            <div className={`card packet packet-${nextTone}`}>
+              <div className="row-between" style={{ alignItems: "flex-start", marginBottom: 12 }}>
+                <div>
+                  <div className="kicker">Application assembly line</div>
+                  <h3>One packet for this role</h3>
+                </div>
+                <div className="packet-score">
+                  {readinessScore}
+                  <span>/100</span>
+                </div>
+              </div>
+
+              <div className="packet-grid">
+                <div>
+                  <div className="kicker">1 · Gate</div>
+                  <strong>{nextMove}</strong>
+                  <p className="tiny dimmer">{vetting.advice}</p>
+                </div>
+                <div>
+                  <div className="kicker">2 · Resume move</div>
+                  <strong>{match ? (rewriteIdeas[0]?.label ?? `${match.score}/100 ATS`) : "Add resume first"}</strong>
+                  <p className="tiny dimmer">
+                    {rewriteIdeas[0]?.detail ??
+                      (match
+                        ? "Resume is loaded; review coverage before sending."
+                        : "The app cannot tailor or score the packet without the resume text.")}
+                  </p>
+                </div>
+                <div>
+                  <div className="kicker">3 · Portfolio angle</div>
+                  <strong>{prepTerms.slice(0, 2).join(" + ") || "Case study proof"}</strong>
+                  <p className="tiny dimmer">
+                    {portfolioSections[0]?.items[0] ??
+                      "Pick the case study that proves the strongest theme in this posting."}
+                  </p>
+                </div>
+                <div>
+                  <div className="kicker">4 · Human path</div>
+                  <strong>{relatedContacts[0]?.name ?? primarySearch?.label ?? "Find a human"}</strong>
+                  <p className="tiny dimmer">
+                    {relatedContacts[0]
+                      ? `${relatedContacts[0].title || relatedContacts[0].relationship} is already saved.`
+                      : primarySearch
+                        ? `Open the ${primarySearch.kind} search before or right after applying.`
+                        : "Do not rely only on the ATS if there is no visible contact path."}
+                  </p>
+                </div>
+                <div>
+                  <div className="kicker">5 · Outreach copy</div>
+                  <strong>{draft.subject}</strong>
+                  <p className="tiny dimmer">
+                    {emailReady
+                      ? "Email pattern is available; fill the person name to generate an address."
+                      : "Draft is ready, but email pattern is unknown. LinkedIn note is safer."}
+                  </p>
+                </div>
+                <div>
+                  <div className="kicker">6 · Follow-up plan</div>
+                  <strong>{application ? application.stage.replace("_", " ") : "not tracked yet"}</strong>
+                  <p className="tiny dimmer">{followUpPlan(job)}</p>
+                </div>
+              </div>
+
+              <div className="field" style={{ marginTop: 12 }}>
+                <label>Copyable packet brief</label>
+                <textarea readOnly rows={9} value={packetLines} />
+              </div>
+
+              <div className="row wrap" style={{ gap: 7 }}>
+                <button className="btn btn-primary btn-sm" onClick={() => flash("packet", packetLines)}>
+                  {copied === "packet" ? "Copied" : "Copy packet"}
+                </button>
+                <button className="btn btn-sm" onClick={() => setTab("match")}>
+                  Fix resume
+                </button>
+                <button className="btn btn-sm" onClick={() => setTab("people")}>
+                  Find human
+                </button>
+                <button className="btn btn-sm" onClick={() => setTab("write")}>
+                  Write outreach
+                </button>
+                <button className="btn btn-sm" onClick={() => onStage(job, "wishlist")}>
+                  Save to pipeline
+                </button>
+              </div>
+            </div>
+          </>
+        )}
 
         {tab === "role" && (
           <>

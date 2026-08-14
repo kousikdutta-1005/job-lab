@@ -80,7 +80,7 @@ if (jobCount > 0) {
   console.log(`opened detail: ${JSON.stringify(title?.slice(0, 60))}`)
   await page.screenshot({ path: join(shots, "03-job-detail.png") })
 
-  for (const tab of ["Resume", "Who to contact", "Write to them", "Prepare"]) {
+  for (const tab of ["Apply packet", "Resume", "Who to contact", "Write to them", "Prepare"]) {
     const button = page.locator(`.tabs button:has-text("${tab}")`).first()
     if ((await button.count()) === 0) {
       fail(`tab "${tab}" missing`)
