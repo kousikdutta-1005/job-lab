@@ -32,6 +32,18 @@ interface Props {
 
 type Tab = "role" | "match" | "people" | "write" | "prep"
 
+interface DecisionStep {
+  label: string
+  status: "ready" | "warn" | "blocked"
+  detail: string
+}
+
+function stepClass(status: DecisionStep["status"]): string {
+  if (status === "ready") return "pill-good"
+  if (status === "blocked") return "pill-bad"
+  return "pill-warn"
+}
+
 export function JobDetail({
   job,
   company,
@@ -79,6 +91,75 @@ export function JobDetail({
   const relatedContacts = contacts.filter(
     (c) => c.company.toLowerCase() === job.company.toLowerCase(),
   )
+
+  const resumeReady = Boolean(settings.resume_text.trim())
+  const autofillReady = Boolean(
+    settings.full_name.trim() &&
+      settings.email.trim() &&
+      settings.phone.trim() &&
+      (settings.portfolio.trim() || profile.portfolio.trim()),
+  )
+  const contactReady = relatedContacts.length > 0 || job.linkedin.searches.length > 0
+  const emailReady = Boolean(domain && patterns.length > 0)
+  const resumeScore = match?.score ?? null
+  const oldPosting = ageTone(job) === "bad"
+  const riskyPosting = ageTone(job) === "warn" || vetting.tone === "bad" || vetting.tone === "warn"
+
+  const decisionSteps: DecisionStep[] = [
+    {
+      label: "Role fit",
+      status: job.eligible ? (oldPosting ? "warn" : "ready") : "blocked",
+      detail: job.eligible
+        ? oldPosting
+          ? "Ask if this is still live before tailoring."
+          : `${job.match_score}/100 profile fit, ${job.seniority_label.toLowerCase()}.`
+        : job.eligibility_reason,
+    },
+    {
+      label: "Resume",
+      status: !resumeReady ? "blocked" : resumeScore !== null && resumeScore < 65 ? "warn" : "ready",
+      detail: !resumeReady
+        ? "Paste one resume once in Settings."
+        : resumeScore !== null
+          ? `${resumeScore}/100 ATS match${resumeScore < 65 ? "; fix gaps first." : "."}`
+          : "Loaded; open Resume tab for the ATS read.",
+    },
+    {
+      label: "Human",
+      status: contactReady ? "ready" : "warn",
+      detail: relatedContacts.length
+        ? `${relatedContacts.length} saved contact${relatedContacts.length === 1 ? "" : "s"} at ${job.company}.`
+        : job.linkedin.searches.length
+          ? "LinkedIn searches are ready; find one person before applying."
+          : "No contact path yet; avoid a cold-only application.",
+    },
+    {
+      label: "Send",
+      status: autofillReady && emailReady ? "ready" : autofillReady ? "warn" : "blocked",
+      detail: !autofillReady
+        ? "Fill name, email, phone and portfolio in Settings."
+        : emailReady
+          ? "Autofill and email-pattern tools are ready."
+          : "Autofill is ready; email pattern is unknown.",
+    },
+  ]
+
+  const blocked = decisionSteps.some((step) => step.status === "blocked")
+  const warned = decisionSteps.some((step) => step.status === "warn")
+  const nextMove = !job.eligible
+    ? "Skip unless you can solve the location lock"
+    : oldPosting
+      ? "Verify with a human before tailoring"
+      : !resumeReady
+        ? "Add your resume before applying"
+        : resumeScore !== null && resumeScore < 65
+          ? "Fix the resume gaps first"
+          : !contactReady
+            ? "Find a recruiter or design lead first"
+            : riskyPosting
+              ? "Apply, but send a human check-in too"
+              : "Apply properly now"
+  const nextTone = blocked ? "bad" : warned || riskyPosting ? "warn" : "good"
 
   async function flash(label: string, text: string) {
     if (await copy(text)) {
@@ -164,6 +245,30 @@ export function JobDetail({
       </div>
 
       <div className="detail-body">
+        <div className={`card decision decision-${nextTone}`}>
+          <div className="row-between" style={{ alignItems: "flex-start", marginBottom: 12 }}>
+            <div>
+              <div className="kicker">Next move</div>
+              <h3>{nextMove}</h3>
+            </div>
+            <span className={`pill ${nextTone === "good" ? "pill-good" : nextTone === "bad" ? "pill-bad" : "pill-warn"}`}>
+              {nextTone === "good" ? "ready" : nextTone === "bad" ? "blocked" : "check first"}
+            </span>
+          </div>
+
+          <div className="decision-grid">
+            {decisionSteps.map((step) => (
+              <div key={step.label} className={`decision-step ${step.status}`}>
+                <div className="row-between" style={{ marginBottom: 5 }}>
+                  <strong>{step.label}</strong>
+                  <span className={`pill ${stepClass(step.status)}`}>{step.status}</span>
+                </div>
+                <p className="tiny dimmer">{step.detail}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
         <div className="tabs">
           {(
             [

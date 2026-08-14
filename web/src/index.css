@@ -1223,6 +1223,66 @@ h2.title {
   max-height: none;
 }
 
+.decision {
+  background:
+    radial-gradient(360px 180px at 12% 0%, color-mix(in oklab, var(--accent-text) 12%, transparent), transparent 72%),
+    var(--bg-raised);
+  border-left: 3px solid var(--line);
+}
+
+.decision-good {
+  border-left-color: var(--good);
+}
+
+.decision-warn {
+  border-left-color: var(--warn);
+}
+
+.decision-bad {
+  border-left-color: var(--bad);
+}
+
+.decision h3 {
+  margin: 0;
+  font-size: 16px;
+  letter-spacing: -0.025em;
+}
+
+.decision-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.decision-step {
+  min-width: 0;
+  border-radius: var(--radius-sm);
+  padding: 9px 10px;
+  background: color-mix(in oklab, var(--bg) 72%, transparent);
+  box-shadow: inset 0 0 0 1px var(--line-soft);
+}
+
+.decision-step.ready {
+  background: color-mix(in oklab, var(--good) 7%, var(--bg));
+}
+
+.decision-step.warn {
+  background: color-mix(in oklab, var(--warn) 7%, var(--bg));
+}
+
+.decision-step.blocked {
+  background: color-mix(in oklab, var(--bad) 7%, var(--bg));
+}
+
+.decision-step strong {
+  font-size: 12px;
+}
+
+.decision-step p {
+  margin: 0;
+  line-height: 1.45;
+}
+
 .reasons {
   display: grid;
   gap: 5px;
@@ -1421,6 +1481,9 @@ table.data tr.row-detail .card {
   .split {
     grid-template-columns: 1fr;
   }
+  .decision-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 /* On a phone the map is the thing to drop, not the list. Hiding the rail made
@@ -1488,6 +1551,10 @@ table.data tr.row-detail .card {
 
   .grid-3 {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .decision-grid {
+    grid-template-columns: 1fr;
   }
 
   .bar-row {
