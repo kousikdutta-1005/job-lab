@@ -99,8 +99,8 @@ for (const theme of ["dark", "light"]) {
     check(`${theme}: ${tone} tone on panel`, contrast(s[tone], s.panel) >= 3, contrast(s[tone], s.panel).toFixed(2))
   }
 
-  check(`${theme}: body uses the preset sans`, /Geist/.test(s.font), s.font)
-  check(`${theme}: headings use the preset serif`, /Merriweather/.test(s.heading), s.heading)
+  check(`${theme}: body uses the preset sans`, /DM Sans/.test(s.font), s.font)
+  check(`${theme}: headings use the preset sans`, /Geist/.test(s.heading), s.heading)
 
   const dark = luminance(s.body) < 0.2
   check(`${theme}: background matches the scale`, theme === "dark" ? dark : !dark, `luminance ${luminance(s.body).toFixed(3)}`)

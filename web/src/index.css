@@ -1,3 +1,11 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+/*
+ ---break---
+ */
+@custom-variant dark (&:is(.dark *));
+
 /*
  * Preset fonts, self-hosted from npm so nothing is fetched from a CDN at
  * runtime and the app still works offline.
@@ -5,7 +13,7 @@
  * Declared by hand rather than importing the packages' index.css, which pulls
  * Cyrillic, Greek and Vietnamese too — around 300kB of glyphs this app will
  * never render. Geist keeps latin-ext because contact and company names carry
- * European accents; Merriweather only sets headings, so latin is enough.
+ * European accents; DM Sans only sets body copy, so latin is enough.
  */
 @font-face {
   font-family: "Geist Variable";
@@ -30,36 +38,68 @@
 }
 
 @font-face {
-  font-family: "Merriweather Variable";
+  font-family: "DM Sans Variable";
   font-style: normal;
   font-display: swap;
-  font-weight: 300 900;
-  src: url("@fontsource-variable/merriweather/files/merriweather-latin-wght-normal.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  src: url("@fontsource-variable/dm-sans/files/dm-sans-latin-wght-normal.woff2") format("woff2-variations");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
     U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
     U+FEFF, U+FFFD;
 }
 
 /*
- * Theme: shadcn preset b4XJl04a52.
+ * Theme: shadcn preset b3ax5kfv1e.
  *
- * The preset ships a light and a dark scale, an indigo primary, radius
- * 0.625rem and Geist/Merriweather. This app is not a Tailwind project, so the
+ * The preset ships a light and a dark scale, neutral zinc surfaces, radius
+ * 0.625rem, DM Sans for body text and Geist for headings. This app is not a
+ * Tailwind project, so the
  * preset is applied where it actually matters — the token layer every rule
  * already reads from — rather than by bolting on a utility framework whose
  * output nothing here would consume.
  *
- * Dark stays the default because that is this app's identity; the preset's
- * light scale is now available as a real second theme instead of being
+ * Dark stays the default because that is this app's identity; the preset's light
+ * scale is now available as a real second theme instead of being
  * discarded.
  */
 :root {
   --radius: 0.625rem;
   --radius-sm: 7px;
 
-  --sans: "Geist Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --heading: "Merriweather Variable", ui-serif, Georgia, serif;
+  --sans: "DM Sans Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --heading: "Geist Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.141 0.005 285.823);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.141 0.005 285.823);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.141 0.005 285.823);
+  --primary: oklch(0.21 0.006 285.885);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.967 0.001 286.375);
+  --secondary-foreground: oklch(0.21 0.006 285.885);
+  --muted: oklch(0.967 0.001 286.375);
+  --muted-foreground: oklch(0.552 0.016 285.938);
+  --accent: oklch(0.967 0.001 286.375);
+  --accent-foreground: oklch(0.21 0.006 285.885);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.92 0.004 286.32);
+  --input: oklch(0.92 0.004 286.32);
+  --ring: oklch(0.705 0.015 286.067);
+  --chart-1: oklch(0.785 0.115 274.713);
+  --chart-2: oklch(0.585 0.233 277.117);
+  --chart-3: oklch(0.511 0.262 276.966);
+  --chart-4: oklch(0.457 0.24 277.023);
+  --chart-5: oklch(0.398 0.195 277.366);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.141 0.005 285.823);
+  --sidebar-primary: oklch(0.21 0.006 285.885);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.967 0.001 286.375);
+  --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
+  --sidebar-border: oklch(0.92 0.004 286.32);
+  --sidebar-ring: oklch(0.705 0.015 286.067);
 }
 
 /* Dark — preset .dark scale. */
@@ -67,32 +107,32 @@
 :root[data-theme="dark"] {
   color-scheme: dark;
 
-  --bg: oklch(0.148 0.004 228.8);
-  --bg-raised: oklch(0.183 0.006 226);
-  --bg-panel: oklch(0.218 0.008 223.9);
-  --bg-hover: oklch(0.275 0.011 216.9);
-  --line: oklch(0.32 0.012 220);
-  --line-soft: oklch(0.248 0.009 222);
+  --bg: oklch(0.141 0.005 285.823);
+  --bg-raised: oklch(0.21 0.006 285.885);
+  --bg-panel: oklch(0.21 0.006 285.885);
+  --bg-hover: oklch(0.274 0.006 286.033);
+  --line: oklch(1 0 0 / 10%);
+  --line-soft: oklch(1 0 0 / 15%);
 
   --ink: oklch(0.987 0.002 197.1);
-  --ink-2: oklch(0.723 0.014 214.4);
-  --ink-3: oklch(0.56 0.021 213.5);
-  --ink-4: oklch(0.45 0.016 216);
+  --ink-2: oklch(0.705 0.015 286.067);
+  --ink-3: oklch(0.705 0.015 286.067);
+  --ink-4: oklch(0.552 0.016 285.938);
 
   /* Solid fills use the preset primary; --accent-text is the same hue lifted
      to a lightness that can actually be read as text on --bg. The preset
      assumes primary is only ever a button fill, but this app also uses it for
      labels and section headers. */
-  --accent: oklch(0.488 0.243 264.376);
-  --accent-hover: oklch(0.552 0.235 264);
-  --accent-ink: oklch(0.97 0.014 254.604);
-  --accent-text: oklch(0.782 0.123 261);
-  --accent-dim: oklch(0.424 0.199 265.638);
+  --accent: oklch(0.92 0.004 286.32);
+  --accent-hover: oklch(0.705 0.015 286.067);
+  --accent-ink: oklch(0.21 0.006 285.885);
+  --accent-text: oklch(0.985 0 0);
+  --accent-dim: oklch(0.552 0.016 285.938);
 
   --good: oklch(0.78 0.148 162);
   --warn: oklch(0.808 0.128 76);
   --bad: oklch(0.704 0.191 22.216);
-  --link: oklch(0.782 0.123 261);
+  --link: oklch(0.785 0.115 274.713);
 
   --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 28px rgb(0 0 0 / 0.35);
 }
@@ -101,28 +141,28 @@
 :root[data-theme="light"] {
   color-scheme: light;
 
-  --bg: oklch(0.987 0.002 197.1);
+  --bg: oklch(1 0 0);
   --bg-raised: oklch(1 0 0);
   --bg-panel: oklch(1 0 0);
-  --bg-hover: oklch(0.963 0.002 197.1);
-  --line: oklch(0.925 0.005 214.3);
-  --line-soft: oklch(0.955 0.004 214.3);
+  --bg-hover: oklch(0.967 0.001 286.375);
+  --line: oklch(0.92 0.004 286.32);
+  --line-soft: oklch(0.92 0.004 286.32);
 
-  --ink: oklch(0.148 0.004 228.8);
-  --ink-2: oklch(0.42 0.018 215);
-  --ink-3: oklch(0.56 0.021 213.5);
-  --ink-4: oklch(0.66 0.017 214);
+  --ink: oklch(0.141 0.005 285.823);
+  --ink-2: oklch(0.552 0.016 285.938);
+  --ink-3: oklch(0.552 0.016 285.938);
+  --ink-4: oklch(0.705 0.015 286.067);
 
-  --accent: oklch(0.488 0.243 264.376);
-  --accent-hover: oklch(0.424 0.199 265.638);
-  --accent-ink: oklch(0.97 0.014 254.604);
-  --accent-text: oklch(0.488 0.243 264.376);
-  --accent-dim: oklch(0.809 0.105 251.813);
+  --accent: oklch(0.21 0.006 285.885);
+  --accent-hover: oklch(0.552 0.016 285.938);
+  --accent-ink: oklch(0.985 0 0);
+  --accent-text: oklch(0.21 0.006 285.885);
+  --accent-dim: oklch(0.705 0.015 286.067);
 
   --good: oklch(0.52 0.128 162);
   --warn: oklch(0.55 0.12 68);
   --bad: oklch(0.577 0.245 27.325);
-  --link: oklch(0.488 0.243 264.376);
+  --link: oklch(0.585 0.233 277.117);
 
   --shadow: 0 1px 2px rgb(16 24 40 / 0.06), 0 8px 28px rgb(16 24 40 / 0.08);
 }
@@ -1366,4 +1406,99 @@ a.vet-src:hover { color: var(--accent-text); }
   color: var(--bad);
   background: color-mix(in oklab, var(--bad) 12%, transparent);
   flex-shrink: 0;
+}
+/*
+ ---break---
+ */
+.dark {
+  --background: oklch(0.141 0.005 285.823);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.21 0.006 285.885);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.21 0.006 285.885);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.92 0.004 286.32);
+  --primary-foreground: oklch(0.21 0.006 285.885);
+  --secondary: oklch(0.274 0.006 286.033);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.274 0.006 286.033);
+  --muted-foreground: oklch(0.705 0.015 286.067);
+  --accent: oklch(0.274 0.006 286.033);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.552 0.016 285.938);
+  --chart-1: oklch(0.785 0.115 274.713);
+  --chart-2: oklch(0.585 0.233 277.117);
+  --chart-3: oklch(0.511 0.262 276.966);
+  --chart-4: oklch(0.457 0.24 277.023);
+  --chart-5: oklch(0.398 0.195 277.366);
+  --sidebar: oklch(0.21 0.006 285.885);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.274 0.006 286.033);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.552 0.016 285.938);
+}
+/*
+ ---break---
+ */
+@theme inline {
+  --font-sans: 'DM Sans Variable', sans-serif;
+  --font-heading: 'Geist Variable', sans-serif;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+/*
+ ---break---
+ */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
 }

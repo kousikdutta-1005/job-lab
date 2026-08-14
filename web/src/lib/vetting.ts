@@ -256,7 +256,16 @@ export function ageTone(job: Job): Tone {
  */
 export function postedLabel(job: Job): string {
   const days = job.quality?.days_open
-  const tone = ageTone(job)
-  if (days == null || (tone !== "warn" && tone !== "bad")) return ago(job.posted_at)
-  return days >= 90 ? `${Math.round(days / 30)}mo open` : `${days}d open`
+  // The good and neutral cases used to fall back to ago(posted_at), a second
+  // source, which made the paragraph above false for every row that was not
+  // already alarming. It only agreed with days_open by accident: while local
+  // history is shorter than the employer's stated date, the two are the same
+  // number. The moment a repost is detected — our history says sixty days, the
+  // posting says three — one row would read "3d ago" while the card below it
+  // read "Open 60 days", and two rows of identical age would print different
+  // figures depending only on which side of a threshold they fell.
+  if (days == null) return ago(job.posted_at)
+  if (days === 0) return "today"
+  if (days <= 30) return `${days}d ago`
+  return days > 90 ? `${Math.round(days / 30)}mo open` : `${days}d open`
 }
