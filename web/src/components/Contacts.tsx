@@ -47,6 +47,7 @@ export function Contacts({
   const [writingTo, setWritingTo] = useState<string | null>(null)
   const [draftKey, setDraftKey] = useState<string>("li_connect")
   const [copied, setCopied] = useState(false)
+  const [formProblem, setFormProblem] = useState<string | null>(null)
 
 
   /* The role you are chasing at their company, so a draft can name it. Falls
@@ -107,7 +108,23 @@ export function Contacts({
 
   function add(event: React.FormEvent) {
     event.preventDefault()
-    if (!form.name.trim() && !form.linkedin_url.trim()) return
+    if (!form.name.trim() && !form.linkedin_url.trim()) {
+      setFormProblem("Add a name or a LinkedIn profile so this contact can be identified.")
+      return
+    }
+    if (form.linkedin_url.trim()) {
+      try {
+        const url = new URL(form.linkedin_url)
+        if (!["http:", "https:"].includes(url.protocol)) throw new Error()
+      } catch {
+        setFormProblem("Enter a complete LinkedIn URL beginning with http:// or https://.")
+        return
+      }
+    }
+    if (form.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) {
+      setFormProblem("Check the email address. It should look like name@company.com.")
+      return
+    }
     onChange([
       {
         id: uid(),
@@ -118,6 +135,7 @@ export function Contacts({
       ...contacts,
     ])
     setForm(BLANK)
+    setFormProblem(null)
   }
 
   function update(id: string, patch: Partial<Contact>) {
@@ -127,7 +145,7 @@ export function Contacts({
   return (
     <div className="pane">
       <div className="pane-inner pane-wide">
-        <h2 className="title">Contacts</h2>
+        <h1 className="title">Contacts</h1>
         <p className="subtitle">
           Your own network, built by hand. When you find the head of design at a company you want,
           drop their LinkedIn URL here — this is the part no crawler can do for you, and the part
@@ -141,6 +159,7 @@ export function Contacts({
               <div className="field">
                 <label>Name</label>
                 <input
+                  aria-label="Contact name"
                   type="text"
                   value={form.name}
                   placeholder="Ananya Rao"
@@ -150,6 +169,7 @@ export function Contacts({
               <div className="field">
                 <label>Title</label>
                 <input
+                  aria-label="Contact title"
                   type="text"
                   value={form.title}
                   placeholder="Head of Design"
@@ -162,6 +182,7 @@ export function Contacts({
               <div className="field">
                 <label>Company</label>
                 <input
+                  aria-label="Contact company"
                   type="text"
                   value={form.company}
                   placeholder="Adobe"
@@ -171,6 +192,7 @@ export function Contacts({
               <div className="field">
                 <label>Relationship</label>
                 <select
+                  aria-label="Relationship"
                   value={form.relationship}
                   onChange={(e) =>
                     setForm({ ...form, relationship: e.target.value as Contact["relationship"] })
@@ -189,6 +211,7 @@ export function Contacts({
               <div className="field">
                 <label>LinkedIn URL</label>
                 <input
+                  aria-label="LinkedIn URL"
                   type="url"
                   value={form.linkedin_url}
                   placeholder="https://linkedin.com/in/…"
@@ -198,6 +221,7 @@ export function Contacts({
               <div className="field">
                 <label>Email</label>
                 <input
+                  aria-label="Contact email"
                   type="text"
                   value={form.email}
                   placeholder="ananya.rao@adobe.com"
@@ -209,6 +233,7 @@ export function Contacts({
             <div className="field">
               <label>Notes</label>
               <textarea
+                aria-label="Contact notes"
                 rows={2}
                 value={form.notes}
                 placeholder="How you found them, anything you know about the team…"
@@ -216,11 +241,26 @@ export function Contacts({
               />
             </div>
 
+            {formProblem && (
+              <p className="form-error" role="alert">
+                {formProblem}
+              </p>
+            )}
             <button className="btn btn-primary btn-sm" type="submit">
               Save contact
             </button>
           </form>
         </div>
+
+        {contacts.length === 0 && (
+          <div className="empty" data-state="empty-contacts">
+            <strong>No contacts saved yet.</strong>
+            <span>
+              Start with one recruiter, hiring manager, or teammate at a company you are actively
+              considering. A smaller useful network beats a bulk address book.
+            </span>
+          </div>
+        )}
 
         {contacts.length > 0 && (
           <>
@@ -229,6 +269,7 @@ export function Contacts({
                 {contacts.length} saved
               </div>
               <input
+                aria-label="Search contacts"
                 type="text"
                 placeholder="Search…"
                 value={query}
@@ -237,6 +278,15 @@ export function Contacts({
               />
             </div>
 
+            {filtered.length === 0 ? (
+              <div className="empty" data-state="no-contacts-results">
+                <strong>No saved contact matches “{query}”.</strong>
+                <span>Clear the search to return to the full network.</span>
+                <button className="btn btn-sm" onClick={() => setQuery("")}>
+                  Clear contact search
+                </button>
+              </div>
+            ) : (
             <table className="data">
               <thead>
                 <tr>
@@ -322,6 +372,7 @@ export function Contacts({
                         <button
                           className="chip"
                           style={{ color: "var(--bad)" }}
+                          aria-label={`Delete ${contact.name}`}
                           onClick={() => onChange(contacts.filter((c) => c.id !== contact.id))}
                         >
                           ✕
@@ -332,6 +383,7 @@ export function Contacts({
                 ))}
               </tbody>
             </table>
+            )}
 
             {writingTo &&
               (() => {
@@ -389,11 +441,16 @@ export function Contacts({
                     {draft.subject && (
                       <div className="field">
                         <label>Subject</label>
-                        <input readOnly value={draft.subject} />
+                        <input aria-label="Message subject" readOnly value={draft.subject} />
                       </div>
                     )}
 
-                    <textarea readOnly rows={draft.medium === "linkedin" ? 7 : 12} value={draft.body} />
+                    <textarea
+                      aria-label="Message draft"
+                      readOnly
+                      rows={draft.medium === "linkedin" ? 7 : 12}
+                      value={draft.body}
+                    />
 
                     <div className="row-between" style={{ marginTop: 8 }}>
                       <span
@@ -444,6 +501,7 @@ export function Contacts({
                         <div className="field">
                           <label>Email</label>
                           <input
+                            aria-label={`Email for ${contact.name}`}
                             type="text"
                             value={contact.email ?? ""}
                             onChange={(e) => update(contact.id, { email: e.target.value })}
@@ -452,6 +510,7 @@ export function Contacts({
                         <div className="field">
                           <label>Last contacted</label>
                           <input
+                            aria-label={`Last contacted date for ${contact.name}`}
                             type="date"
                             value={contact.last_contacted ?? ""}
                             onChange={(e) => update(contact.id, { last_contacted: e.target.value })}
@@ -461,6 +520,7 @@ export function Contacts({
                       <div className="field">
                         <label>Notes</label>
                         <textarea
+                          aria-label={`Notes for ${contact.name}`}
                           rows={3}
                           value={contact.notes ?? ""}
                           onChange={(e) => update(contact.id, { notes: e.target.value })}

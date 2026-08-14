@@ -11,23 +11,27 @@ interface Props {
 }
 
 export function SettingsView({ settings, onChange, health, onRestored }: Props) {
-  const [message, setMessage] = useState<string | null>(null)
+  const [message, setMessage] = useState<{ ok: boolean; text: string } | null>(null)
 
   const set = (patch: Partial<Settings>) => onChange({ ...settings, ...patch })
   const { ready, missing } = readiness(settings)
   const bookmarklet = bookmarkletFor(settings)
 
   async function restore(file: File) {
-    const text = await file.text()
-    const result = importAll(text)
-    setMessage(result.message)
-    if (result.ok) onRestored()
+    try {
+      const text = await file.text()
+      const result = importAll(text)
+      setMessage({ ok: result.ok, text: result.message })
+      if (result.ok) onRestored()
+    } catch (error) {
+      setMessage({ ok: false, text: `Could not open that file: ${(error as Error).message}` })
+    }
   }
 
   return (
     <div className="pane">
       <div className="pane-inner">
-        <h2 className="title">Settings</h2>
+        <h1 className="title">Settings</h1>
         <p className="subtitle">
           Everything on this page is stored in this browser and nowhere else. It is never sent
           anywhere, never committed to the repository, and never leaves your machine.
@@ -39,6 +43,7 @@ export function SettingsView({ settings, onChange, health, onRestored }: Props) 
             <div className="field">
               <label>Full name</label>
               <input
+                aria-label="Full name"
                 type="text"
                 value={settings.full_name}
                 onChange={(e) => set({ full_name: e.target.value })}
@@ -47,6 +52,7 @@ export function SettingsView({ settings, onChange, health, onRestored }: Props) 
             <div className="field">
               <label>Years of experience</label>
               <input
+                aria-label="Years of experience"
                 type="number"
                 min={0}
                 max={40}
@@ -59,11 +65,21 @@ export function SettingsView({ settings, onChange, health, onRestored }: Props) 
           <div className="split">
             <div className="field">
               <label>Email</label>
-              <input type="text" value={settings.email} onChange={(e) => set({ email: e.target.value })} />
+              <input
+                aria-label="Email"
+                type="text"
+                value={settings.email}
+                onChange={(e) => set({ email: e.target.value })}
+              />
             </div>
             <div className="field">
               <label>Phone</label>
-              <input type="text" value={settings.phone} onChange={(e) => set({ phone: e.target.value })} />
+              <input
+                aria-label="Phone"
+                type="text"
+                value={settings.phone}
+                onChange={(e) => set({ phone: e.target.value })}
+              />
             </div>
           </div>
 
@@ -71,6 +87,7 @@ export function SettingsView({ settings, onChange, health, onRestored }: Props) 
             <div className="field">
               <label>Portfolio URL</label>
               <input
+                aria-label="Portfolio URL"
                 type="url"
                 placeholder="https://kousikdutta.com"
                 value={settings.portfolio}
@@ -80,6 +97,7 @@ export function SettingsView({ settings, onChange, health, onRestored }: Props) 
             <div className="field">
               <label>LinkedIn URL</label>
               <input
+                aria-label="LinkedIn URL"
                 type="url"
                 value={settings.linkedin}
                 onChange={(e) => set({ linkedin: e.target.value })}
@@ -91,6 +109,7 @@ export function SettingsView({ settings, onChange, health, onRestored }: Props) 
             <div className="field">
               <label>Current CTC (₹ per year)</label>
               <input
+                aria-label="Current salary per year"
                 type="number"
                 value={settings.current_ctc ?? ""}
                 placeholder="1800000"
@@ -100,6 +119,7 @@ export function SettingsView({ settings, onChange, health, onRestored }: Props) 
             <div className="field">
               <label>Target CTC (₹ per year)</label>
               <input
+                aria-label="Target salary per year"
                 type="number"
                 value={settings.target_ctc ?? ""}
                 placeholder="2800000"
@@ -121,6 +141,7 @@ export function SettingsView({ settings, onChange, health, onRestored }: Props) 
           <div className="field">
             <label>Version label</label>
             <input
+              aria-label="Resume version label"
               type="text"
               placeholder="e.g. 2026 product design"
               value={settings.resume_name}
@@ -130,6 +151,7 @@ export function SettingsView({ settings, onChange, health, onRestored }: Props) 
           <div className="field">
             <label>Resume text ({settings.resume_text.length.toLocaleString()} characters)</label>
             <textarea
+              aria-label="Resume text"
               rows={12}
               value={settings.resume_text}
               placeholder="Paste here…"
@@ -199,8 +221,12 @@ export function SettingsView({ settings, onChange, health, onRestored }: Props) 
             </label>
           </div>
           {message && (
-            <p className="tiny" style={{ marginTop: 9, color: "var(--good)" }}>
-              {message}
+            <p
+              className="tiny"
+              role="status"
+              style={{ marginTop: 9, color: message.ok ? "var(--good)" : "var(--bad)" }}
+            >
+              {message.text}
             </p>
           )}
         </div>

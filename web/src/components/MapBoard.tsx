@@ -177,8 +177,8 @@ export function MapBoard({ world, places, jobs, selectedPlace, onSelectPlace, el
         onPointerMove={moveDrag}
         onPointerUp={endDrag}
         onPointerLeave={endDrag}
-        role="img"
-        aria-label="Map of open design roles"
+        role="group"
+        aria-label="Interactive map of open design roles. The job list and city buttons provide the same filtering without using the map."
       >
         <defs>
           <radialGradient id="job-dot" cx="38%" cy="32%" r="70%">
@@ -235,10 +235,20 @@ export function MapBoard({ world, places, jobs, selectedPlace, onSelectPlace, el
                 />
                 <circle
                   className="place-hit"
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`${place.label}: ${place.jobs} roles, ${place.eligible} you can take`}
+                  aria-pressed={on}
                   cx={x}
                   cy={y}
                   r={Math.max(radius * 1.9, 10 * k)}
                   onClick={(event) => {
+                    event.stopPropagation()
+                    choosePlace(place)
+                  }}
+                  onKeyDown={(event) => {
+                    if (event.key !== "Enter" && event.key !== " ") return
+                    event.preventDefault()
                     event.stopPropagation()
                     choosePlace(place)
                   }}

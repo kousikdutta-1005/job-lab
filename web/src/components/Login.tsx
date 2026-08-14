@@ -1,30 +1,38 @@
 import { useState } from "react"
 import { startSession, verify } from "@/lib/auth"
 
-export function Login({ onPass }: { onPass: () => void }) {
+export function Login({ onPass }: { onPass: (persisted: boolean) => void }) {
   const [user, setUser] = useState("")
   const [password, setPassword] = useState("")
   const [busy, setBusy] = useState(false)
-  const [failed, setFailed] = useState(false)
+  const [problem, setProblem] = useState<string | null>(null)
 
   async function submit(event: React.FormEvent) {
     event.preventDefault()
+    if (!user.trim() || !password) {
+      setProblem("Enter both your user name and password.")
+      return
+    }
     setBusy(true)
-    setFailed(false)
-    const ok = await verify(user, password)
-    setBusy(false)
-    if (ok) {
-      startSession()
-      onPass()
-    } else {
-      setFailed(true)
-      setPassword("")
+    setProblem(null)
+    try {
+      const ok = await verify(user, password)
+      if (ok) {
+        onPass(startSession())
+      } else {
+        setProblem("Those details do not match. Check both fields and try again.")
+        setPassword("")
+      }
+    } catch {
+      setProblem("This browser could not run the secure sign-in check. Update it or try another browser.")
+    } finally {
+      setBusy(false)
     }
   }
 
   return (
     <div className="login-wrap">
-      <form className="login" onSubmit={submit}>
+      <form className="login" onSubmit={submit} noValidate>
         <div className="brand" style={{ marginBottom: 20 }}>
           <span className="brand-dot" />
           job-lab
@@ -44,6 +52,8 @@ export function Login({ onPass }: { onPass: () => void }) {
             autoComplete="username"
             value={user}
             onChange={(e) => setUser(e.target.value)}
+            aria-invalid={Boolean(problem)}
+            required
             autoFocus
           />
         </div>
@@ -56,6 +66,8 @@ export function Login({ onPass }: { onPass: () => void }) {
             autoComplete="current-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            aria-invalid={Boolean(problem)}
+            required
           />
         </div>
 
@@ -63,7 +75,11 @@ export function Login({ onPass }: { onPass: () => void }) {
           {busy ? "checking…" : "Unlock"}
         </button>
 
-        {failed && <div className="error">That is not right. Try again.</div>}
+        {problem && (
+          <div className="error" role="alert" aria-live="polite">
+            {problem}
+          </div>
+        )}
 
         <p className="note">
           This is a lock, not a vault. The site is static, so the check runs in your browser against

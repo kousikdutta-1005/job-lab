@@ -78,7 +78,7 @@ export function NegotiateView({ benchmarks, settings, applications }: Props) {
   return (
     <div className="pane">
       <div className="pane-inner">
-        <h2 className="title">Negotiate</h2>
+        <h1 className="title">Negotiate</h1>
         <p className="subtitle">
           Every tracker stops at “offer” as though it were the outcome. It is the start of the only
           conversation in a job search with a six-figure spread, and the one you get least practice
@@ -111,6 +111,7 @@ export function NegotiateView({ benchmarks, settings, applications }: Props) {
             <div className="field">
               <label>Base offered (₹ per year)</label>
               <input
+                aria-label="Base offered per year"
                 type="number"
                 value={base || ""}
                 placeholder="2200000"
@@ -120,6 +121,7 @@ export function NegotiateView({ benchmarks, settings, applications }: Props) {
             <div className="field">
               <label>Competing offer, if any</label>
               <input
+                aria-label="Competing offer"
                 type="number"
                 value={competing || ""}
                 placeholder="Leave blank if none"
@@ -131,7 +133,7 @@ export function NegotiateView({ benchmarks, settings, applications }: Props) {
           <div className="split">
             <div className="field">
               <label>City</label>
-              <select value={city} onChange={(e) => setCity(e.target.value)}>
+              <select aria-label="Offer city" value={city} onChange={(e) => setCity(e.target.value)}>
                 {cities.map((c) => (
                   <option key={c} value={c}>
                     {c}
@@ -141,7 +143,7 @@ export function NegotiateView({ benchmarks, settings, applications }: Props) {
             </div>
             <div className="field">
               <label>Level</label>
-              <select value={level} onChange={(e) => setLevel(e.target.value)}>
+              <select aria-label="Offer level" value={level} onChange={(e) => setLevel(e.target.value)}>
                 {LEVELS.map((l) => (
                   <option key={l} value={l}>
                     {l}
@@ -154,11 +156,21 @@ export function NegotiateView({ benchmarks, settings, applications }: Props) {
           <div className="split">
             <div className="field">
               <label>Company</label>
-              <input type="text" value={company} onChange={(e) => setCompany(e.target.value)} />
+              <input
+                aria-label="Offer company"
+                type="text"
+                value={company}
+                onChange={(e) => setCompany(e.target.value)}
+              />
             </div>
             <div className="field">
               <label>Role</label>
-              <input type="text" value={role} onChange={(e) => setRole(e.target.value)} />
+              <input
+                aria-label="Offer role"
+                type="text"
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+              />
             </div>
           </div>
         </div>
@@ -238,7 +250,7 @@ export function NegotiateView({ benchmarks, settings, applications }: Props) {
           <div className="card">
             <h3>The counter, written out</h3>
             <div className="field">
-              <textarea readOnly rows={14} value={script} />
+              <textarea aria-label="Negotiation counter script" readOnly rows={14} value={script} />
             </div>
             <button
               className="btn btn-primary btn-sm"

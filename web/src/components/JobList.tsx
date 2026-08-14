@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import type { Application, Job } from "@/lib/types"
 import { logoFor, scoreClass } from "@/lib/format"
 import type { WorthScore } from "@/lib/outcomes"
@@ -43,6 +43,8 @@ interface Props {
   onDismiss: (id: string) => void
   showDismissed: boolean
   onShowDismissed: (value: boolean) => void
+  inactive?: boolean
+  shortcutsDisabled?: boolean
 }
 
 const LEVELS: Array<[string, string]> = [
@@ -87,13 +89,36 @@ export function JobList({
   onDismiss,
   showDismissed,
   onShowDismissed,
+  inactive = false,
+  shortcutsDisabled = false,
 }: Props) {
+  const [filtersOpen, setFiltersOpen] = useState(false)
   const countFor = (key: string) =>
     all.filter((j) => j.seniority === key && (!eligibleOnly || j.eligible)).length
+  const activeFilters =
+    Number(eligibleOnly) +
+    Number(Boolean(workplace)) +
+    Number(Boolean(seniority)) +
+    Number(Boolean(pinned)) +
+    Number(Boolean(place)) +
+    Number(showDismissed)
+
+  function clearBoardState(): void {
+    onQuery("")
+    onEligibleOnly(false)
+    onSeniority(null)
+    onWorkplace(null)
+    onClearPinned()
+    onClearPlace()
+    onShowDismissed(false)
+    setFiltersOpen(false)
+  }
 
   // j and k move through the list the way they do in every tool built for
   // people who will be here a lot. Escape returns to the map.
   useEffect(() => {
+    if (shortcutsDisabled) return
+
     function onKey(event: KeyboardEvent) {
       const target = event.target as HTMLElement | null
       if (target && /INPUT|TEXTAREA|SELECT/.test(target.tagName)) return
@@ -118,7 +143,7 @@ export function JobList({
 
     window.addEventListener("keydown", onKey)
     return () => window.removeEventListener("keydown", onKey)
-  }, [jobs, selectedId, onSelect])
+  }, [jobs, selectedId, onSelect, shortcutsDisabled])
 
   useEffect(() => {
     if (!selectedId) return
@@ -126,9 +151,11 @@ export function JobList({
   }, [selectedId])
 
   return (
-    <aside className="rail">
+    <aside className="rail" inert={inactive} aria-hidden={inactive || undefined}>
+      <h1 className="sr-only">Job Board</h1>
       <div className="rail-head">
         <input
+          aria-label="Search roles"
           type="text"
           className="search"
           placeholder="Search role, company, skill…"
@@ -136,41 +163,92 @@ export function JobList({
           onChange={(e) => onQuery(e.target.value)}
         />
 
-        <div className="filters">
+        <div className="rail-mobile-tools">
           <button
-            className={`chip${eligibleOnly ? " on" : ""}`}
-            onClick={() => onEligibleOnly(!eligibleOnly)}
-            title="Hide roles you cannot take from India"
+            className={`filter-toggle${activeFilters ? " on" : ""}`}
+            aria-expanded={filtersOpen}
+            aria-controls="board-filters"
+            onClick={() => setFiltersOpen((open) => !open)}
           >
-            Can apply
-            <span className="n">{all.filter((j) => j.eligible).length}</span>
+            <span>Filters and sort</span>
+            <b>{activeFilters || "All"}</b>
           </button>
-
-          {(["remote", "hybrid", "onsite"] as const).map((mode) => (
-            <button
-              key={mode}
-              className={`chip${workplace === mode ? " on" : ""}`}
-              onClick={() => onWorkplace(workplace === mode ? null : mode)}
-            >
-              {mode}
-              <span className="n">
-                {all.filter((j) => j.workplace === mode && (!eligibleOnly || j.eligible)).length}
-              </span>
-            </button>
-          ))}
+          <span>
+            {jobs.length} {jobs.length === 1 ? "role" : "roles"}
+          </span>
         </div>
 
-        <div className="filters">
-          {LEVELS.map(([key, label]) => (
+        <div id="board-filters" className={`filter-panel${filtersOpen ? " open" : ""}`}>
+          <div className="filters">
             <button
-              key={key}
-              className={`chip${seniority === key ? " on" : ""}`}
-              onClick={() => onSeniority(seniority === key ? null : key)}
+              className={`chip${eligibleOnly ? " on" : ""}`}
+              onClick={() => onEligibleOnly(!eligibleOnly)}
+              title="Hide roles you cannot take from India"
             >
-              {label}
-              <span className="n">{countFor(key)}</span>
+              Can apply
+              <span className="n">{all.filter((j) => j.eligible).length}</span>
             </button>
-          ))}
+
+            {(["remote", "hybrid", "onsite"] as const).map((mode) => (
+              <button
+                key={mode}
+                className={`chip${workplace === mode ? " on" : ""}`}
+                onClick={() => onWorkplace(workplace === mode ? null : mode)}
+              >
+                {mode}
+                <span className="n">
+                  {all.filter((j) => j.workplace === mode && (!eligibleOnly || j.eligible)).length}
+                </span>
+              </button>
+            ))}
+          </div>
+
+          <div className="filters">
+            {LEVELS.map(([key, label]) => (
+              <button
+                key={key}
+                className={`chip${seniority === key ? " on" : ""}`}
+                onClick={() => onSeniority(seniority === key ? null : key)}
+              >
+                {label}
+                <span className="n">{countFor(key)}</span>
+              </button>
+            ))}
+          </div>
+
+          <div className="row-between rail-summary">
+            <label className="tiny dimmer" htmlFor="board-sort">
+              Sort
+            </label>
+            <select
+              id="board-sort"
+              value={sort}
+              onChange={(e) => onSort(e.target.value as Sort)}
+              aria-label="Sort roles"
+            >
+              {SORTS.map(([key, label]) => (
+                <option key={key} value={key}>
+                  {label}
+                </option>
+              ))}
+            </select>
+
+            <span className="tiny dimmer">
+              {jobs.length} {jobs.length === 1 ? "role" : "roles"}
+              {dismissed.length > 0 && (
+                <>
+                  {" · "}
+                  <button
+                    className="dimmer"
+                    style={{ textDecoration: "underline" }}
+                    onClick={() => onShowDismissed(!showDismissed)}
+                  >
+                    {showDismissed ? "hide hidden" : `${dismissed.length} hidden`}
+                  </button>
+                </>
+              )}
+            </span>
+          </div>
         </div>
 
         {pinned && (
@@ -184,45 +262,18 @@ export function JobList({
             {place === "__remote__" ? "Remote only" : place} ✕
           </button>
         )}
-
-        <div className="row-between">
-          <select
-            value={sort}
-            onChange={(e) => onSort(e.target.value as Sort)}
-            style={{ width: "auto", padding: "4px 7px", fontSize: 11.5 }}
-            aria-label="Sort roles"
-          >
-            {SORTS.map(([key, label]) => (
-              <option key={key} value={key}>
-                {label}
-              </option>
-            ))}
-          </select>
-
-          <span className="tiny dimmer">
-            {jobs.length} {jobs.length === 1 ? "role" : "roles"}
-            {dismissed.length > 0 && (
-              <>
-                {" · "}
-                <button
-                  className="dimmer"
-                  style={{ textDecoration: "underline" }}
-                  onClick={() => onShowDismissed(!showDismissed)}
-                >
-                  {showDismissed ? "hide hidden" : `${dismissed.length} hidden`}
-                </button>
-              </>
-            )}
-          </span>
-        </div>
       </div>
 
       <div className="rail-list">
         {jobs.length === 0 && (
-          <div className="empty">
-            Nothing matches.
-            <br />
-            Try clearing a filter.
+          <div className="empty" data-state="no-results">
+            <strong>No roles match this view.</strong>
+            <span>
+              Your roles are still on the board. Clear the search and filters to bring them back.
+            </span>
+            <button className="btn btn-sm" onClick={clearBoardState}>
+              Clear search and filters
+            </button>
           </div>
         )}
 
@@ -296,6 +347,7 @@ export function JobList({
               <button
                 className="job-dismiss"
                 title={isDismissed ? "Bring this back" : "Not interested"}
+                aria-label={isDismissed ? `Restore ${job.title} at ${job.company}` : `Hide ${job.title} at ${job.company}`}
                 onClick={(event) => {
                   event.stopPropagation()
                   onDismiss(job.id)

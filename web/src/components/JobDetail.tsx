@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import type {
   Application,
   CompanyDossier,
@@ -35,6 +35,7 @@ interface Props {
 }
 
 type Tab = "packet" | "role" | "match" | "people" | "write" | "prep"
+const JOB_TABS: Tab[] = ["packet", "role", "match", "people", "write", "prep"]
 
 interface DecisionStep {
   label: string
@@ -80,6 +81,28 @@ export function JobDetail({
   const [copied, setCopied] = useState<string | null>(null)
   const [draftKey, setDraftKey] = useState("hiring_manager")
   const [person, setPerson] = useState({ first: "", last: "" })
+  const titleRef = useRef<HTMLHeadingElement>(null)
+
+  useEffect(() => {
+    if (window.matchMedia("(max-width: 760px)").matches) titleRef.current?.focus()
+  }, [job.id])
+
+  function moveTab(event: React.KeyboardEvent<HTMLButtonElement>, current: Tab): void {
+    let next: Tab | undefined
+    const index = JOB_TABS.indexOf(current)
+    if (event.key === "Home") next = JOB_TABS[0]
+    if (event.key === "End") next = JOB_TABS[JOB_TABS.length - 1]
+    if (event.key === "ArrowRight") {
+      next = JOB_TABS[(index + 1) % JOB_TABS.length]
+    }
+    if (event.key === "ArrowLeft") {
+      next = JOB_TABS[(index - 1 + JOB_TABS.length) % JOB_TABS.length]
+    }
+    if (!next) return
+    event.preventDefault()
+    setTab(next)
+    requestAnimationFrame(() => document.getElementById(`job-tab-${next}`)?.focus())
+  }
 
   const vetting = useMemo(() => vet(job, dossier), [job, dossier])
 
@@ -301,7 +324,7 @@ export function JobDetail({
           {application && <span className="tag-applied">{application.stage}</span>}
         </div>
 
-        <h1>{job.title}</h1>
+        <h1 ref={titleRef} tabIndex={-1}>{job.title}</h1>
 
         <div className="row wrap" style={{ marginTop: 9, gap: 6 }}>
           <span className="pill">{job.seniority_label}</span>
@@ -329,6 +352,7 @@ export function JobDetail({
           </button>
           {application ? (
             <select
+              aria-label={`Application stage for ${job.title}`}
               value={application.stage}
               onChange={(e) => onStage(job, e.target.value as Application["stage"])}
               style={{ width: "auto", padding: "7px 9px" }}
@@ -384,7 +408,7 @@ export function JobDetail({
           </div>
         </div>
 
-        <div className="tabs">
+        <div className="tabs" role="tablist" aria-label="Job detail sections">
           {(
             [
               ["packet", `Apply packet ${readinessScore}`],
@@ -395,12 +419,28 @@ export function JobDetail({
               ["prep", "Prepare"],
             ] as Array<[Tab, string]>
           ).map(([key, label]) => (
-            <button key={key} className={tab === key ? "on" : ""} onClick={() => setTab(key)}>
+            <button
+              key={key}
+              id={`job-tab-${key}`}
+              role="tab"
+              aria-selected={tab === key}
+              aria-controls={`job-panel-${key}`}
+              tabIndex={tab === key ? 0 : -1}
+              className={tab === key ? "on" : ""}
+              onClick={() => setTab(key)}
+              onKeyDown={(event) => moveTab(event, key)}
+            >
               {label}
             </button>
           ))}
         </div>
 
+        <div
+          id={`job-panel-${tab}`}
+          role="tabpanel"
+          aria-labelledby={`job-tab-${tab}`}
+          tabIndex={0}
+        >
         {tab === "packet" && (
           <>
             <div className={`card packet packet-${nextTone}`}>
@@ -486,7 +526,7 @@ export function JobDetail({
 
               <div className="field" style={{ marginTop: 12 }}>
                 <label>Copyable packet brief</label>
-                <textarea readOnly rows={9} value={packetLines} />
+                <textarea aria-label="Application packet brief" readOnly rows={9} value={packetLines} />
               </div>
 
               <div className="row wrap" style={{ gap: 7 }}>
@@ -852,6 +892,7 @@ export function JobDetail({
                     <div className="field" style={{ margin: 0 }}>
                       <label>Their first name</label>
                       <input
+                        aria-label="Contact first name"
                         type="text"
                         value={person.first}
                         placeholder="e.g. Ananya"
@@ -861,6 +902,7 @@ export function JobDetail({
                     <div className="field" style={{ margin: 0 }}>
                       <label>Last name</label>
                       <input
+                        aria-label="Contact last name"
                         type="text"
                         value={person.last}
                         placeholder="e.g. Rao"
@@ -1046,6 +1088,7 @@ export function JobDetail({
               <div className="field">
                 <label>Their name</label>
                 <input
+                  aria-label="Contact first name for draft"
                   type="text"
                   value={person.first}
                   placeholder="Leave blank for a neutral greeting"
@@ -1055,12 +1098,12 @@ export function JobDetail({
 
               <div className="field">
                 <label>Subject</label>
-                <input type="text" readOnly value={draft.subject} />
+                <input aria-label="Outreach subject" type="text" readOnly value={draft.subject} />
               </div>
 
               <div className="field">
                 <label>Body</label>
-                <textarea readOnly rows={17} value={draft.body} />
+                <textarea aria-label="Outreach message" readOnly rows={17} value={draft.body} />
               </div>
 
               {(!settings.full_name || !settings.portfolio) && (
@@ -1100,6 +1143,7 @@ export function JobDetail({
             </div>
           </>
         )}
+        </div>
       </div>
     </div>
   )

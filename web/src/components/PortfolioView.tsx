@@ -37,7 +37,7 @@ export function PortfolioView({ jobs, projects, onChange }: Props) {
   return (
     <div className="pane">
       <div className="pane-inner">
-        <h2 className="title">Portfolio</h2>
+        <h1 className="title">Portfolio</h1>
         <p className="subtitle">
           Every tool in this category optimises the resume, because a resume is text and text is
           easy to score. For a design role the resume gets six seconds and the portfolio gets the
@@ -171,6 +171,7 @@ export function PortfolioView({ jobs, projects, onChange }: Props) {
                       <button
                         className="chip"
                         style={{ color: "var(--bad)" }}
+                        aria-label={`Delete ${project.name || "untitled project"}`}
                         onClick={() => onChange(projects.filter((p) => p.id !== project.id))}
                       >
                         ✕
@@ -184,6 +185,7 @@ export function PortfolioView({ jobs, projects, onChange }: Props) {
                         <div className="field">
                           <label>Name</label>
                           <input
+                            aria-label="Project name"
                             value={open.name}
                             placeholder="Rebuilding checkout at …"
                             onChange={(e) => update(open.id, { name: e.target.value })}
@@ -192,6 +194,7 @@ export function PortfolioView({ jobs, projects, onChange }: Props) {
                         <div className="field">
                           <label>Link</label>
                           <input
+                            aria-label="Project link"
                             value={open.url}
                             placeholder="https://…"
                             onChange={(e) => update(open.id, { url: e.target.value })}
