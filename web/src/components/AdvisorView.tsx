@@ -100,6 +100,9 @@ const VISA_CLASS: Record<string, string> = {
   none: "pill-good",
 }
 
+type AdvisorTab = "advice" | "move" | "news" | "trends"
+const ADVISOR_TABS: AdvisorTab[] = ["advice", "move", "news", "trends"]
+
 function RoleLinks({ roles }: { roles: RoleRef[] }) {
   return (
     <div className="link-list" style={{ marginTop: 6 }}>
@@ -192,7 +195,7 @@ function Evidence({ evidence }: { evidence: unknown }) {
 }
 
 export function AdvisorView({ advisor }: { advisor: Advisor }) {
-  const [tab, setTab] = useState<"advice" | "move" | "news" | "trends">("advice")
+  const [tab, setTab] = useState<AdvisorTab>("advice")
 
   const insights = advisor.insights?.insights ?? []
   const news = advisor.news?.items ?? []
@@ -202,30 +205,63 @@ export function AdvisorView({ advisor }: { advisor: Advisor }) {
   const band = advisor.relocation?.comparable_band_pct ?? 15
   const trends = advisor.trends
 
+  function moveTab(event: React.KeyboardEvent<HTMLButtonElement>, current: AdvisorTab): void {
+    let next: AdvisorTab | undefined
+    const index = ADVISOR_TABS.indexOf(current)
+    if (event.key === "Home") next = ADVISOR_TABS[0]
+    if (event.key === "End") next = ADVISOR_TABS[ADVISOR_TABS.length - 1]
+    if (event.key === "ArrowRight") {
+      next = ADVISOR_TABS[(index + 1) % ADVISOR_TABS.length]
+    }
+    if (event.key === "ArrowLeft") {
+      next = ADVISOR_TABS[(index - 1 + ADVISOR_TABS.length) % ADVISOR_TABS.length]
+    }
+    if (!next) return
+    event.preventDefault()
+    setTab(next)
+    requestAnimationFrame(() => document.getElementById(`advisor-tab-${next}`)?.focus())
+  }
+
   return (
     <div className="pane">
       <div className="pane-inner pane-wide">
-        <h2 className="title">Advisor</h2>
+        <h1 className="title">Advisor</h1>
         <p className="subtitle">
           What the data says about your career, not what a model guessed. Every claim names the
           evidence it rests on, and declines to make the call when the evidence is thin.
         </p>
 
-        <div className="tabs">
+        <div className="tabs" role="tablist" aria-label="Advisor sections">
           {(
             [
               ["advice", `Advice ${insights.length ? `(${insights.length})` : ""}`],
               ["move", `Should I move? ${cities.length ? `(${cities.length})` : ""}`],
               ["news", `Industry ${news.length ? `(${news.length})` : ""}`],
               ["trends", "Trends"],
-            ] as Array<[typeof tab, string]>
+            ] as Array<[AdvisorTab, string]>
           ).map(([key, label]) => (
-            <button key={key} className={tab === key ? "on" : ""} onClick={() => setTab(key)}>
+            <button
+              key={key}
+              id={`advisor-tab-${key}`}
+              role="tab"
+              aria-selected={tab === key}
+              aria-controls={`advisor-panel-${key}`}
+              tabIndex={tab === key ? 0 : -1}
+              className={tab === key ? "on" : ""}
+              onClick={() => setTab(key)}
+              onKeyDown={(event) => moveTab(event, key)}
+            >
               {label}
             </button>
           ))}
         </div>
 
+        <div
+          id={`advisor-panel-${tab}`}
+          role="tabpanel"
+          aria-labelledby={`advisor-tab-${tab}`}
+          tabIndex={0}
+        >
         {tab === "advice" && (
           <>
             {insights.length === 0 && (
@@ -417,6 +453,7 @@ export function AdvisorView({ advisor }: { advisor: Advisor }) {
             )}
           </div>
         )}
+        </div>
       </div>
     </div>
   )

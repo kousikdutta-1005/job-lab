@@ -19,6 +19,18 @@ const KEYS = {
   projects: "joblab.projects",
 } as const
 
+export function canUseLocalStorage(): boolean {
+  const key = "joblab.storage-check"
+  try {
+    localStorage.setItem(key, "1")
+    const ok = localStorage.getItem(key) === "1"
+    localStorage.removeItem(key)
+    return ok
+  } catch {
+    return false
+  }
+}
+
 function read<T>(key: string, fallback: T): T {
   try {
     const raw = localStorage.getItem(key)

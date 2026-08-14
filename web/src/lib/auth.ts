@@ -65,11 +65,12 @@ export async function verify(user: string, password: string): Promise<boolean> {
   return safeEqual(bytesToHex(bits), CREDENTIAL.hash)
 }
 
-export function startSession(): void {
+export function startSession(): boolean {
   try {
     sessionStorage.setItem(SESSION_KEY, String(Date.now()))
+    return true
   } catch {
-    /* private browsing — the session simply will not persist */
+    return false
   }
 }
 

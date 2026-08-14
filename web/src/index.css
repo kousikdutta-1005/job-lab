@@ -236,6 +236,36 @@ a:hover {
   border-radius: 4px;
 }
 
+.skip-link {
+  position: fixed;
+  z-index: 100;
+  top: 8px;
+  left: 8px;
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 650;
+  transform: translateY(-160%);
+  transition: transform 0.12s;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -341,9 +371,16 @@ a:hover {
   font-family: var(--mono);
 }
 
+.mobile-current,
+.mobile-nav,
+.mobile-more-layer {
+  display: none;
+}
+
 .main {
   overflow: hidden;
   min-height: 0;
+  min-width: 0;
 }
 
 /* ---------------------------------------------------------------- login */
@@ -467,6 +504,12 @@ textarea {
   margin-top: 10px;
 }
 
+.form-error {
+  margin: 0 0 10px;
+  color: var(--bad);
+  font-size: 12.5px;
+}
+
 .note {
   font-size: 11.5px;
   color: var(--ink-4);
@@ -479,6 +522,7 @@ textarea {
 /* ---------------------------------------------------------------- board */
 
 .board {
+  position: relative;
   display: grid;
   grid-template-columns: 340px 1fr;
   height: 100%;
@@ -513,6 +557,29 @@ textarea {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
+}
+
+.filter-panel {
+  display: grid;
+  gap: 9px;
+}
+
+.rail-mobile-tools {
+  display: none;
+}
+
+.rail-summary {
+  justify-content: flex-end;
+}
+
+.rail-summary > label {
+  display: none;
+}
+
+.rail-summary select {
+  width: auto;
+  padding: 4px 7px;
+  font-size: 11.5px;
 }
 
 .chip {
@@ -800,6 +867,12 @@ textarea {
   cursor: pointer;
 }
 
+.place-hit:focus-visible {
+  outline: none;
+  stroke: var(--accent-text);
+  stroke-width: 2;
+}
+
 .place-pulse {
   fill: color-mix(in oklab, var(--accent-text) 12%, transparent);
   opacity: 0.34;
@@ -1035,6 +1108,7 @@ textarea {
   max-width: 1240px;
 }
 
+h1.title,
 h2.title {
   font-size: 20px;
   letter-spacing: -0.03em;
@@ -1168,7 +1242,7 @@ h2.title {
   min-height: 118px;
   padding: 11px;
   border-radius: var(--radius-sm);
-  background: color-mix(in oklab, var(--bg) 78%, transparent);
+  background: var(--bg);
   box-shadow: inset 0 0 0 1px var(--line-soft);
   color: var(--ink);
   transition: box-shadow 0.15s, transform 0.15s, background 0.15s;
@@ -1188,7 +1262,7 @@ h2.title {
 
 .command-card:disabled:hover {
   transform: none;
-  background: color-mix(in oklab, var(--bg) 78%, transparent);
+  background: var(--bg);
   box-shadow: inset 0 0 0 1px var(--line-soft);
 }
 
@@ -1370,7 +1444,7 @@ h2.title {
   min-width: 0;
   border-radius: var(--radius-sm);
   padding: 9px 10px;
-  background: color-mix(in oklab, var(--bg) 72%, transparent);
+  background: var(--bg);
   box-shadow: inset 0 0 0 1px var(--line-soft);
 }
 
@@ -1444,7 +1518,7 @@ h2.title {
   min-height: 128px;
   padding: 10px;
   border-radius: var(--radius-sm);
-  background: color-mix(in oklab, var(--bg) 74%, transparent);
+  background: var(--bg);
   box-shadow: inset 0 0 0 1px var(--line-soft);
 }
 
@@ -1470,7 +1544,7 @@ h2.title {
 .worth-signal {
   padding: 10px;
   border-radius: var(--radius-sm);
-  background: color-mix(in oklab, var(--bg) 78%, transparent);
+  background: var(--bg);
   box-shadow: inset 0 0 0 1px var(--line-soft);
 }
 
@@ -1512,7 +1586,7 @@ h2.title {
 .blackhole {
   padding: 10px;
   border-radius: var(--radius-sm);
-  background: color-mix(in oklab, var(--bg) 78%, transparent);
+  background: var(--bg);
   box-shadow: inset 0 0 0 1px var(--line-soft);
 }
 
@@ -1710,6 +1784,27 @@ table.data tr.row-detail .card {
   line-height: 1.6;
 }
 
+.empty strong,
+.empty span {
+  display: block;
+}
+
+.empty strong {
+  margin-bottom: 4px;
+  color: var(--ink-2);
+  font-family: var(--heading);
+  font-size: 15px;
+}
+
+.empty span {
+  max-width: 52ch;
+  margin: 0 auto;
+}
+
+.empty .btn {
+  margin-top: 14px;
+}
+
 .loading {
   height: 100%;
   display: grid;
@@ -1717,6 +1812,112 @@ table.data tr.row-detail .card {
   color: var(--ink-4);
   font-family: var(--mono);
   font-size: 12px;
+}
+
+.state-page {
+  min-height: 100%;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(520px 280px at 50% 35%, color-mix(in oklab, var(--bad) 8%, transparent), transparent 72%),
+    var(--bg);
+}
+
+.state-card {
+  width: min(100%, 480px);
+  padding: 24px;
+  border-radius: var(--radius);
+  background: var(--bg-raised);
+  box-shadow: inset 0 0 0 1px var(--line), var(--shadow);
+  text-align: center;
+}
+
+.state-mark {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 12px;
+  border-radius: 50%;
+  background: color-mix(in oklab, var(--bad) 12%, var(--bg));
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--bad) 35%, var(--line));
+  color: var(--bad);
+  font-family: var(--mono);
+  font-weight: 700;
+}
+
+.state-card h1 {
+  margin: 0 0 7px;
+  font-size: 22px;
+}
+
+.state-card p {
+  margin: 0 auto 14px;
+  color: var(--ink-2);
+  line-height: 1.6;
+}
+
+.state-card code {
+  display: block;
+  max-height: 90px;
+  margin-bottom: 16px;
+  padding: 9px 10px;
+  overflow: auto;
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  color: var(--bad);
+  font-size: 11px;
+  text-align: left;
+}
+
+.state-card .state-note {
+  margin: 14px 0 0;
+  color: var(--ink-4);
+  font-size: 11px;
+}
+
+.main.has-alert {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+.notice-stack {
+  position: relative;
+  z-index: 35;
+  display: grid;
+}
+
+.global-notice {
+  min-width: 0;
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 7px 14px;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg-raised);
+  color: var(--ink-2);
+  font-size: 12px;
+}
+
+.global-notice.warn {
+  box-shadow: inset 3px 0 0 var(--warn);
+}
+
+.global-notice.bad {
+  box-shadow: inset 3px 0 0 var(--bad);
+}
+
+.global-notice button {
+  min-height: 28px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 1px var(--line);
+  color: var(--ink);
+  font-size: 11px;
+  white-space: nowrap;
 }
 
 .tabs {
@@ -1761,103 +1962,699 @@ table.data tr.row-detail .card {
   }
 }
 
-/* On a phone the map is the thing to drop, not the list. Hiding the rail made
-   the board unusable on the device a job seeker most often checks it from. */
+/* Phones get a task bar rather than a squeezed desktop tab strip. The map is
+   intentionally replaced by the decision-ready list; selected roles become a
+   contained list-detail view with an explicit return path. */
 @media (max-width: 760px) {
+  :root {
+    --mobile-nav: calc(64px + env(safe-area-inset-bottom));
+    --mobile-top: calc(52px + env(safe-area-inset-top));
+  }
+
+  html,
+  body,
+  #root {
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  body {
+    font-size: 14px;
+  }
+
+  .shell {
+    height: 100dvh;
+    grid-template-rows: var(--mobile-top) minmax(0, 1fr);
+  }
+
+  .topbar {
+    height: var(--mobile-top);
+    min-height: var(--mobile-top);
+    padding: env(safe-area-inset-top) 14px 0;
+    gap: 10px;
+    overflow: hidden;
+    z-index: 50;
+  }
+
+  .topbar .brand {
+    font-size: 15px;
+  }
+
+  .mobile-current {
+    display: block;
+    min-width: 0;
+    margin-left: auto;
+    color: var(--ink-3);
+    font-size: 12px;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .topbar .nav,
+  .topbar-right {
+    display: none;
+  }
+
+  .mobile-nav {
+    position: fixed;
+    z-index: 70;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: var(--mobile-nav);
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    padding: 0 4px env(safe-area-inset-bottom);
+    border-top: 1px solid var(--line);
+    background: color-mix(in oklab, var(--bg-raised) 96%, transparent);
+    box-shadow: 0 -8px 28px color-mix(in oklab, black 16%, transparent);
+    backdrop-filter: blur(18px);
+  }
+
+  .mobile-nav button {
+    position: relative;
+    min-width: 0;
+    min-height: 56px;
+    display: grid;
+    place-content: center;
+    gap: 3px;
+    color: var(--ink-3);
+    font-size: 10.5px;
+    font-weight: 620;
+    line-height: 1;
+  }
+
+  .mobile-nav button::before {
+    content: "";
+    width: 18px;
+    height: 3px;
+    margin: 0 auto 4px;
+    border-radius: 999px;
+    background: transparent;
+  }
+
+  .mobile-nav button.on {
+    color: var(--accent-text);
+  }
+
+  .mobile-nav button.on::before {
+    background: var(--accent);
+    box-shadow: 0 0 10px color-mix(in oklab, var(--accent-text) 45%, transparent);
+  }
+
+  .mobile-nav button b,
+  .mobile-nav button i {
+    position: absolute;
+    top: 8px;
+    left: calc(50% + 8px);
+    min-width: 17px;
+    height: 17px;
+    display: grid;
+    place-items: center;
+    padding: 0 4px;
+    border-radius: 999px;
+    background: var(--bg-hover);
+    box-shadow: inset 0 0 0 1px var(--line);
+    color: var(--ink-2);
+    font-family: var(--mono);
+    font-size: 8.5px;
+    font-style: normal;
+    font-weight: 650;
+  }
+
+  .mobile-nav button i {
+    background: transparent;
+    box-shadow: none;
+    letter-spacing: 1px;
+  }
+
+  .mobile-more-layer {
+    position: fixed;
+    z-index: 80;
+    inset: 0;
+    display: block;
+  }
+
+  .mobile-more-backdrop {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    background: color-mix(in oklab, black 58%, transparent);
+    backdrop-filter: blur(3px);
+  }
+
+  .mobile-more {
+    position: absolute;
+    left: 8px;
+    right: 8px;
+    bottom: calc(var(--mobile-nav) + 8px);
+    max-height: calc(100dvh - var(--mobile-nav) - 24px);
+    overflow-y: auto;
+    padding: 16px;
+    border-radius: 18px;
+    background: var(--bg-raised);
+    box-shadow: inset 0 0 0 1px var(--line), 0 18px 60px rgb(0 0 0 / 0.45);
+  }
+
+  .mobile-more-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+
+  .mobile-more-head .kicker {
+    display: block;
+    margin-bottom: 3px;
+  }
+
+  .mobile-more-head strong {
+    font-family: var(--heading);
+    font-size: 17px;
+  }
+
+  .mobile-sheet-close {
+    min-width: 56px;
+    min-height: 44px;
+    color: var(--ink-3);
+    font-size: 12px;
+  }
+
+  .mobile-more-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .mobile-more-grid button,
+  .mobile-more-actions button {
+    min-width: 0;
+    min-height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 10px 12px;
+    border-radius: var(--radius);
+    background: var(--bg);
+    box-shadow: inset 0 0 0 1px var(--line-soft);
+    color: var(--ink-2);
+    text-align: left;
+    font-weight: 600;
+  }
+
+  .mobile-more-grid button.on {
+    color: var(--accent-text);
+    background: color-mix(in oklab, var(--accent-text) 9%, var(--bg));
+    box-shadow: inset 0 0 0 1px var(--accent-dim);
+  }
+
+  .mobile-more-grid button b {
+    color: var(--ink-4);
+    font-family: var(--mono);
+    font-size: 10px;
+  }
+
+  .mobile-more-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid var(--line-soft);
+  }
+
+  .mobile-more-actions button span {
+    color: var(--ink-4);
+    font-size: 10px;
+    font-weight: 500;
+  }
+
+  .mobile-more > p {
+    margin: 12px 2px 0;
+    color: var(--ink-4);
+    font-family: var(--mono);
+    font-size: 10px;
+  }
+
   .board {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .rail {
+    min-width: 0;
     border-right: none;
   }
 
-  /* The map has no room to be legible here, so the list takes the whole
-     screen and a selected job covers it. */
+  .rail-head {
+    padding: 10px 12px;
+    gap: 8px;
+  }
+
+  .rail-head .search {
+    min-height: 44px;
+  }
+
+  .rail-mobile-tools {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .rail-mobile-tools > span {
+    color: var(--ink-4);
+    font-family: var(--mono);
+    font-size: 10.5px;
+    white-space: nowrap;
+  }
+
+  .filter-toggle {
+    min-width: 0;
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 12px;
+    border-radius: var(--radius-sm);
+    background: var(--bg);
+    box-shadow: inset 0 0 0 1px var(--line);
+    color: var(--ink-2);
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .filter-toggle b {
+    min-width: 22px;
+    padding: 2px 6px;
+    border-radius: 999px;
+    background: var(--bg-hover);
+    color: var(--ink-3);
+    font-family: var(--mono);
+    font-size: 9px;
+  }
+
+  .filter-toggle.on {
+    color: var(--accent-text);
+    box-shadow: inset 0 0 0 1px var(--accent-dim);
+  }
+
+  .filter-panel {
+    display: none;
+    gap: 10px;
+    padding-top: 2px;
+  }
+
+  .filter-panel.open {
+    display: grid;
+  }
+
+  .rail-summary {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    justify-content: stretch;
+    gap: 8px;
+  }
+
+  .rail-summary > label {
+    display: flex;
+    align-items: center;
+  }
+
+  .rail-summary select {
+    width: 100%;
+    min-width: 0;
+    min-height: 40px;
+    font-size: 13px;
+  }
+
+  .rail-summary > span {
+    grid-column: 1 / -1;
+  }
+
+  .rail-head .chip {
+    min-height: 38px;
+    padding: 7px 11px;
+  }
+
+  .rail-list {
+    overscroll-behavior: contain;
+    padding: 6px 6px calc(var(--mobile-nav) + 10px);
+  }
+
+  .job {
+    min-height: 68px;
+    padding: 11px 9px;
+  }
+
+  .job-title {
+    font-size: 13.5px;
+  }
+
+  .job-meta {
+    gap: 5px;
+    font-size: 11px;
+  }
+
+  /* The map has no room to stay honest here, so the list owns the viewport. */
   .board > .stage {
     display: none;
   }
 
   .board > .detail {
-    position: fixed;
-    inset: 52px 0 0;
+    position: absolute;
+    inset: 0 0 var(--mobile-nav);
     z-index: 40;
+    min-width: 0;
     background: var(--bg);
   }
 
-  .topbar {
-    gap: 10px;
-    padding: 0 12px;
+  .pane {
+    max-width: 100%;
+    overscroll-behavior: contain;
+  }
+
+  .pane-inner {
+    width: 100%;
+    max-width: 100%;
+    padding: 16px 12px calc(var(--mobile-nav) + 18px);
+  }
+
+  h1.title,
+  h2.title {
+    font-size: 20px;
+    line-height: 1.2;
+  }
+
+  .subtitle {
+    margin-bottom: 14px;
+    font-size: 12.5px;
+    line-height: 1.5;
+  }
+
+  .card,
+  .command-center,
+  .outcome-card {
+    min-width: 0;
+    padding: 12px;
+    margin-bottom: 10px;
+  }
+
+  .pane-inner > .grid-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin-bottom: 12px !important;
+  }
+
+  .pane-inner > .grid-3 .stat {
+    min-width: 0;
+    padding: 10px;
+  }
+
+  .pane-inner > .grid-3 .stat .n {
+    font-size: 20px;
+  }
+
+  .pane-inner > .grid-3 .stat .l {
+    font-size: 10.5px;
+    line-height: 1.35;
+  }
+
+  .detail-head {
+    min-width: 0;
+    padding: 9px 12px 10px;
+  }
+
+  .detail-head > .row {
+    min-width: 0;
+    flex-wrap: wrap;
+  }
+
+  .detail-head h1 {
+    font-size: 17px;
+  }
+
+  .detail-head > .row.wrap {
+    flex-wrap: nowrap;
+    margin-right: -12px;
+    padding-right: 12px;
     overflow-x: auto;
     scrollbar-width: none;
   }
 
-  .topbar::-webkit-scrollbar {
+  .detail-head > .row.wrap::-webkit-scrollbar {
     display: none;
   }
 
-  .topbar-right {
-    display: none;
+  .detail-head > .row:last-child {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
   }
 
-  .nav {
-    flex-shrink: 0;
+  .detail-head > .row:last-child .btn-primary {
+    min-width: 0;
   }
 
-  .nav button {
-    padding: 6px 9px;
-    font-size: 12.5px;
-    white-space: nowrap;
-  }
-
-  .pane-inner {
-    padding: 18px 14px 70px;
-  }
-
-  .detail-head,
   .detail-body {
-    padding-left: 14px;
-    padding-right: 14px;
+    min-width: 0;
+    padding: 12px 12px 20px;
+    overscroll-behavior: contain;
+  }
+
+  .tabs {
+    position: sticky;
+    z-index: 4;
+    top: -12px;
+    margin: 0 -12px 12px;
+    padding: 0 8px;
+    overflow-x: auto;
+    background: color-mix(in oklab, var(--bg) 94%, transparent);
+    backdrop-filter: blur(14px);
+    scrollbar-width: none;
+  }
+
+  .tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tabs button {
+    flex: 0 0 auto;
+    min-height: 44px;
+    padding: 9px 10px;
   }
 
   .split {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .grid-3 {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .decision-grid {
-    grid-template-columns: 1fr;
-  }
-
+  .decision-grid,
   .command-grid,
-  .kit-grid,
-  .packet-grid,
   .worth-strip {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .packet-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .command-card {
+    min-height: 104px;
+    padding: 10px;
+  }
+
+  /* These duplicate the tab destinations directly below. Removing them on a
+     phone keeps the gate evidence visible without a second navigation layer. */
+  .detail .kit-grid {
+    display: none;
+  }
+
+  .decision-step {
+    padding: 8px;
+  }
+
+  .decision-step .row-between {
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  .decision-step .pill {
+    padding-inline: 6px;
+  }
+
+  .row-between {
+    min-width: 0;
+    flex-wrap: wrap;
+  }
+
+  .link-row {
+    min-width: 0;
+    min-height: 44px;
+    flex-wrap: wrap;
+    overflow-wrap: anywhere;
+  }
+
+  .link-row > :first-child {
+    min-width: 0;
   }
 
   .bar-row {
-    grid-template-columns: 84px 1fr 58px;
+    grid-template-columns: minmax(72px, 88px) minmax(80px, 1fr);
+    gap: 7px;
     font-size: 11px;
   }
 
-  table.data {
-    font-size: 11.5px;
+  .bar-row > :last-child {
+    grid-column: 2;
+    text-align: left !important;
+    overflow-wrap: anywhere;
   }
 
-  /* Touch has no hover, so the dismiss control has to be permanently there. */
-  .job-dismiss {
-    opacity: 0.5;
-    width: 32px;
+  table.data {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    font-size: 11.5px;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  table.data thead,
+  table.data tbody {
+    min-width: 560px;
+  }
+
+  table.data td,
+  table.data th {
+    white-space: normal;
+  }
+
+  .field {
+    min-width: 0;
+  }
+
+  input[type="text"],
+  input[type="password"],
+  input[type="date"],
+  input[type="url"],
+  input[type="number"],
+  select {
+    min-height: 44px;
+    font-size: 16px;
+  }
+
+  textarea {
+    max-width: 100%;
+    font-size: 16px;
+  }
+
+  .btn {
+    min-height: 44px;
+    padding: 9px 13px;
+  }
+
+  .chip {
+    min-height: 36px;
+    padding: 7px 10px;
+  }
+
+  .empty {
+    padding: 36px 18px;
+  }
+
+  .global-notice {
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 9px 12px;
+    font-size: 11.5px;
+    line-height: 1.45;
+  }
+
+  .global-notice button {
+    min-height: 36px;
+    flex: 0 0 auto;
+  }
+
+  .state-page {
+    min-height: 100dvh;
+    padding:
+      calc(18px + env(safe-area-inset-top))
+      14px
+      calc(18px + env(safe-area-inset-bottom));
+  }
+
+  .state-card {
+    padding: 20px 16px;
+  }
+
+  .loading {
+    min-height: 100dvh;
+    padding: 24px;
+    text-align: center;
+  }
+
+  .login-wrap {
+    min-height: 100dvh;
+    height: auto;
+    padding:
+      calc(24px + env(safe-area-inset-top))
+      20px
+      calc(24px + env(safe-area-inset-bottom));
+  }
+
+  .login {
+    max-width: 360px;
+  }
+
+  .login h1 {
+    font-size: 25px;
+  }
+
+  .login .btn {
+    margin-top: 4px;
+  }
+
+
+}
+
+@media (max-width: 360px) {
+  .grid-3,
+  .command-grid,
+  .decision-grid,
+  .worth-strip,
+  .mobile-more-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pane-inner > .grid-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .mobile-more {
+    padding: 14px;
+  }
+
+  .job-meta .job-where {
+    display: none;
   }
 }
 
-@media (max-width: 420px) {
-  .grid-3 {
-    grid-template-columns: 1fr;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
   }
 }
 
@@ -1888,13 +2685,24 @@ table.data tr.row-detail .card {
   transition: opacity 0.12s, color 0.12s;
 }
 
-.job-row:hover .job-dismiss {
+.job-row:hover .job-dismiss,
+.job-row:focus-within .job-dismiss,
+.job-dismiss:focus-visible {
   opacity: 1;
 }
 
 .job-dismiss:hover {
   color: var(--ink);
   background: var(--bg-hover);
+}
+
+@media (max-width: 760px) {
+  /* Touch has no hover, so the dismiss control must remain discoverable. */
+  .job-dismiss {
+    opacity: 0.7;
+    width: 40px;
+    min-height: 44px;
+  }
 }
 
 /* Your own salary, marked inside the published band. */

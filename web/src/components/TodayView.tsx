@@ -142,10 +142,10 @@ export function TodayView({
   return (
     <div className="pane">
       <div className="pane-inner">
-        <h2 className="title">
+        <h1 className="title">
           {greeting()}
           {name ? `, ${name}` : ""}.
-        </h2>
+        </h1>
         <p className="subtitle">
           {actions.length === 0
             ? "Nothing is waiting on you."

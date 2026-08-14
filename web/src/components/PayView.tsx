@@ -124,7 +124,7 @@ export function PayView({ pay, benchmarks, settings, health }: Props) {
   return (
     <div className="pane">
       <div className="pane-inner pane-wide">
-        <h2 className="title">Pay</h2>
+        <h1 className="title">Pay</h1>
         <p className="subtitle">
           Two sources, never mixed. Published benchmarks answer what you should be earning where
           you live. Crawled postings show what employers are actually advertising right now — a
@@ -139,6 +139,7 @@ export function PayView({ pay, benchmarks, settings, health }: Props) {
                 What you should be making
               </div>
               <select
+                aria-label="Benchmark city"
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 style={{ width: "auto", padding: "4px 8px", fontSize: 12 }}

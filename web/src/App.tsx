@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { loadBundle, type Bundle } from "@/lib/data"
 import { applyTheme, readTheme, watchSystem, type Theme } from "./lib/theme"
 import { endSession, hasSession } from "@/lib/auth"
 import {
   loadDismissed,
+  canUseLocalStorage,
   saveDismissed,
   loadBoard,
   saveBoard,
@@ -48,6 +49,20 @@ type View =
   | "negotiate"
   | "settings"
 
+const NAV_ITEMS: Array<[View, string]> = [
+  ["today", "Today"],
+  ["board", "Board"],
+  ["advisor", "Advisor"],
+  ["tracker", "Applications"],
+  ["contacts", "Contacts"],
+  ["portfolio", "Portfolio"],
+  ["pay", "Pay"],
+  ["negotiate", "Negotiate"],
+  ["settings", "Settings"],
+]
+
+const MOBILE_PRIMARY: View[] = ["today", "board", "tracker", "contacts"]
+
 /** Dossiers are keyed by the crawler's company slug. */
 const slugFor = (name: string) =>
   name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")
@@ -58,6 +73,17 @@ export default function App() {
   const [error, setError] = useState<string | null>(null)
   const [view, setView] = useState<View>("today")
   const [theme, setTheme] = useState<Theme>(() => readTheme())
+  const [mobileMore, setMobileMore] = useState(false)
+  const [loadRevision, setLoadRevision] = useState(0)
+  const [volatileSession, setVolatileSession] = useState(false)
+  const [storageAvailable] = useState(canUseLocalStorage)
+  const [mobileViewport, setMobileViewport] = useState(() =>
+    window.matchMedia("(max-width: 760px)").matches,
+  )
+  const mobileMoreButton = useRef<HTMLButtonElement>(null)
+  const mobileMorePanel = useRef<HTMLElement>(null)
+  const wasMobileMoreOpen = useRef(false)
+  const restoreMoreFocus = useRef(true)
 
   const [applications, setApplications] = useState<Application[]>(() => loadApplications())
   const [contacts, setContacts] = useState<Contact[]>(() => loadContacts())
@@ -80,10 +106,12 @@ export default function App() {
 
   useEffect(() => {
     if (!authed) return
+    setError(null)
+    setBundle(null)
     loadBundle()
       .then(setBundle)
       .catch((e: Error) => setError(e.message))
-  }, [authed])
+  }, [authed, loadRevision])
 
   // Paint before anything else reads a colour, and keep following the OS
   // while the preference is "system".
@@ -101,6 +129,51 @@ export default function App() {
     () => saveBoard({ eligibleOnly, seniority, workplace, sort }),
     [eligibleOnly, seniority, workplace, sort],
   )
+
+  useEffect(() => {
+    if (!mobileMore) {
+      if (wasMobileMoreOpen.current && restoreMoreFocus.current) mobileMoreButton.current?.focus()
+      wasMobileMoreOpen.current = false
+      restoreMoreFocus.current = true
+      return
+    }
+    wasMobileMoreOpen.current = true
+    mobileMorePanel.current?.querySelector<HTMLElement>("[data-autofocus]")?.focus()
+    function manageDialogKeys(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setMobileMore(false)
+        return
+      }
+      if (event.key !== "Tab") return
+      const focusable = Array.from(
+        mobileMorePanel.current?.querySelectorAll<HTMLElement>(
+          'button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ) ?? [],
+      )
+      if (focusable.length === 0) return
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault()
+        last.focus()
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault()
+        first.focus()
+      }
+    }
+    window.addEventListener("keydown", manageDialogKeys)
+    return () => window.removeEventListener("keydown", manageDialogKeys)
+  }, [mobileMore])
+
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 760px)")
+    function handleViewportChange(event: MediaQueryListEvent): void {
+      setMobileViewport(event.matches)
+      if (!event.matches) setMobileMore(false)
+    }
+    media.addEventListener("change", handleViewportChange)
+    return () => media.removeEventListener("change", handleViewportChange)
+  }, [])
 
   const jobs = bundle?.data.jobs ?? []
 
@@ -286,21 +359,80 @@ export default function App() {
     setContacts((rows) => [contact, ...rows])
   }
 
-  if (!authed) return <Login onPass={() => setAuthed(true)} />
+  function changeView(next: View): void {
+    const fromSheet = mobileMore
+    if (fromSheet) restoreMoreFocus.current = false
+    setView(next)
+    setMobileMore(false)
+    if (fromSheet) requestAnimationFrame(() => document.querySelector<HTMLElement>("#main-content")?.focus())
+  }
+
+  function cycleTheme(): void {
+    setTheme(theme === "dark" ? "light" : theme === "light" ? "system" : "dark")
+  }
+
+  function lock(): void {
+    endSession()
+    setAuthed(false)
+    setMobileMore(false)
+  }
+
+  function retryLoad(): void {
+    setLoadRevision((revision) => revision + 1)
+  }
+
+  function closeDetail(): void {
+    const returnId = selectedId
+    setSelectedId(null)
+    if (returnId) {
+      requestAnimationFrame(() =>
+        document.querySelector<HTMLElement>(`[data-job="${returnId}"] .job`)?.focus(),
+      )
+    }
+  }
+
+  if (!authed) {
+    return (
+      <Login
+        onPass={(persisted) => {
+          setVolatileSession(!persisted)
+          setAuthed(true)
+        }}
+      />
+    )
+  }
 
   if (error) {
     return (
-      <div className="loading">
-        <div style={{ textAlign: "center" }}>
-          <p>Could not load the board.</p>
-          <p className="dimmer">{error}</p>
-          <p className="dimmer">Run `python cli.py build` to generate the data.</p>
+      <div className="state-page" data-state="load-error">
+        <div className="state-card">
+          <span className="state-mark" aria-hidden="true">!</span>
+          <h1>Board unavailable</h1>
+          <p>
+            {navigator.onLine
+              ? "The app opened, but its required job data did not. Your locally saved applications and contacts have not been changed."
+              : "You appear to be offline. The board needs its generated data files before it can open."}
+          </p>
+          <code>{error}</code>
+          <button className="btn btn-primary" onClick={retryLoad}>
+            Try loading again
+          </button>
+          <p className="state-note">
+            If this keeps happening, rebuild the data with <span className="mono">python cli.py build</span>{" "}
+            and redeploy the <span className="mono">web/dist</span> folder.
+          </p>
         </div>
       </div>
     )
   }
 
-  if (!bundle) return <div className="loading">loading the board…</div>
+  if (!bundle) {
+    return (
+      <div className="loading" role="status" aria-live="polite">
+        Loading current roles and your local workspace…
+      </div>
+    )
+  }
 
   const counts = {
     board: filtered.length,
@@ -312,47 +444,81 @@ export default function App() {
     offers: applications.filter((a) => a.stage === "offer").length,
     projects: projects.length,
   }
+  const countForView: Partial<Record<View, number>> = {
+    today: counts.actions,
+    board: counts.board,
+    advisor: counts.advice,
+    tracker: counts.tracker,
+    contacts: counts.contacts,
+    portfolio: counts.projects,
+    negotiate: counts.offers,
+  }
+  const currentLabel = NAV_ITEMS.find(([key]) => key === view)?.[1] ?? ""
+  const generatedAt = Date.parse(bundle.health.generated_at)
+  const sourceAgeDays = Number.isFinite(generatedAt)
+    ? Math.floor((Date.now() - generatedAt) / 86_400_000)
+    : null
+  const sourceProblem =
+    jobs.length === 0
+      ? {
+          tone: "bad",
+          text: "The latest build contains no roles. Treat this as a crawl failure, not an empty market.",
+        }
+      : sourceAgeDays !== null && sourceAgeDays >= 3
+        ? {
+            tone: "warn",
+            text: `This board is ${sourceAgeDays} days old. Confirm every posting is still open before tailoring an application.`,
+          }
+        : bundle.unavailable.length > 0
+          ? {
+              tone: "warn",
+              text: `${bundle.unavailable.length} optional evidence ${
+                bundle.unavailable.length === 1 ? "feed is" : "feeds are"
+              } unavailable. The Board still works; affected Advisor or company evidence will say when it is missing.`,
+            }
+          : null
+  const hasNotice = Boolean(sourceProblem || !storageAvailable || volatileSession)
 
   return (
     <div className="shell">
-      <header className="topbar">
+      <a
+        className="skip-link"
+        href="#main-content"
+        inert={mobileMore}
+        onClick={() =>
+          requestAnimationFrame(() => document.querySelector<HTMLElement>("#main-content")?.focus())
+        }
+      >
+        Skip to main content
+      </a>
+      <header className="topbar" inert={mobileMore}>
         <div className="brand">
           <span className="brand-dot" />
           job-lab
         </div>
+        <span className="mobile-current">{currentLabel}</span>
 
-        <nav className="nav">
-          {(
-            [
-              ["today", "Today", counts.actions],
-              ["board", "Board", counts.board],
-              ["advisor", "Advisor", counts.advice],
-              ["tracker", "Applications", counts.tracker],
-              ["contacts", "Contacts", counts.contacts],
-              ["portfolio", "Portfolio", counts.projects || null],
-              ["pay", "Pay", null],
-              ["negotiate", "Negotiate", counts.offers || null],
-              ["settings", "Settings", null],
-            ] as Array<[View, string, number | null]>
-          ).map(([key, label, count]) => (
+        <nav className="nav" aria-label="Primary">
+          {NAV_ITEMS.map(([key, label]) => {
+            const count = countForView[key]
+            return (
             <button
               key={key}
               className={view === key ? "on" : ""}
-              onClick={() => setView(key)}
+              onClick={() => changeView(key)}
             >
               <span className="label">{label}</span>
-              {count !== null && <span className="count">{count}</span>}
+              {count !== undefined && count > 0 && <span className="count">{count}</span>}
             </button>
-          ))}
+            )
+          })}
         </nav>
 
         <div className="topbar-right">
           <button
             className="chip"
             title={`Theme: ${theme}. Click to change.`}
-            onClick={() =>
-              setTheme(theme === "dark" ? "light" : theme === "light" ? "system" : "dark")
-            }
+            onClick={cycleTheme}
           >
             {theme === "dark" ? "dark" : theme === "light" ? "light" : "auto"}
           </button>
@@ -361,24 +527,49 @@ export default function App() {
           </span>
           <button
             className="chip"
-            onClick={() => {
-              endSession()
-              setAuthed(false)
-            }}
+            onClick={lock}
           >
             lock
           </button>
         </div>
       </header>
 
-      <main className="main">
+      <main
+        id="main-content"
+        className={`main${hasNotice ? " has-alert" : ""}`}
+        tabIndex={-1}
+        inert={mobileMore}
+      >
+        {hasNotice && (
+          <div className="notice-stack" role="status">
+            {sourceProblem && (
+              <div className={`global-notice ${sourceProblem.tone}`}>
+                <span>{sourceProblem.text}</span>
+                <button onClick={retryLoad}>Reload data</button>
+              </div>
+            )}
+            {!storageAvailable && (
+              <div className="global-notice bad">
+                <span>
+                  Browser storage is blocked or full. Changes made now can disappear when this page closes.
+                </span>
+                <button onClick={() => changeView("settings")}>Storage details</button>
+              </div>
+            )}
+            {volatileSession && (
+              <div className="global-notice warn">
+                <span>This browser cannot keep the lock session. You may need to unlock again after a reload.</span>
+              </div>
+            )}
+          </div>
+        )}
         {view === "board" && (
           <div className="board">
             <JobList
               jobs={filtered}
               all={jobs}
               selectedId={selectedId}
-              onSelect={setSelectedId}
+              onSelect={(id) => (id ? setSelectedId(id) : closeDetail())}
               query={query}
               onQuery={setQuery}
               eligibleOnly={eligibleOnly}
@@ -399,6 +590,8 @@ export default function App() {
               onDismiss={toggleDismiss}
               showDismissed={showDismissed}
               onShowDismissed={setShowDismissed}
+              inactive={mobileViewport && Boolean(selected)}
+              shortcutsDisabled={mobileMore}
             />
             {selected ? (
               <JobDetail
@@ -416,7 +609,7 @@ export default function App() {
                 onStage={(job, stage) => upsertApplication(job, stage)}
                 onAddContact={addContact}
                 onOpenSettings={() => setView("settings")}
-                onClose={() => setSelectedId(null)}
+                onClose={closeDetail}
               />
             ) : (
               <MapBoard
@@ -505,6 +698,89 @@ export default function App() {
           />
         )}
       </main>
+
+      <nav className="mobile-nav" aria-label="Mobile navigation" inert={mobileMore}>
+        {NAV_ITEMS.filter(([key]) => MOBILE_PRIMARY.includes(key)).map(([key, label]) => {
+          const count = countForView[key]
+          return (
+            <button
+              key={key}
+              className={view === key ? "on" : ""}
+              aria-current={view === key ? "page" : undefined}
+              onClick={() => changeView(key)}
+            >
+              <span>{label}</span>
+              {count !== undefined && count > 0 && <b>{count}</b>}
+            </button>
+          )
+        })}
+        <button
+          ref={mobileMoreButton}
+          className={mobileMore || !MOBILE_PRIMARY.includes(view) ? "on" : ""}
+          aria-expanded={mobileMore}
+          aria-controls="mobile-more"
+          onClick={() => setMobileMore((open) => !open)}
+        >
+          <span>More</span>
+          <i aria-hidden="true">•••</i>
+        </button>
+      </nav>
+
+      {mobileMore && (
+        <div className="mobile-more-layer">
+          <button
+            className="mobile-more-backdrop"
+            aria-label="Close navigation"
+            onClick={() => setMobileMore(false)}
+          />
+          <aside
+            ref={mobileMorePanel}
+            id="mobile-more"
+            className="mobile-more"
+            role="dialog"
+            aria-modal="true"
+            aria-label="More navigation"
+          >
+            <div className="mobile-more-head">
+              <div>
+                <span className="kicker">Navigate</span>
+                <strong>More job-search tools</strong>
+              </div>
+              <button
+                className="mobile-sheet-close"
+                data-autofocus
+                onClick={() => setMobileMore(false)}
+              >
+                Close
+              </button>
+            </div>
+            <div className="mobile-more-grid">
+              {NAV_ITEMS.filter(([key]) => !MOBILE_PRIMARY.includes(key)).map(([key, label]) => {
+                const count = countForView[key]
+                return (
+                  <button
+                    key={key}
+                    className={view === key ? "on" : ""}
+                    onClick={() => changeView(key)}
+                  >
+                    <span>{label}</span>
+                    {count !== undefined && count > 0 && <b>{count}</b>}
+                  </button>
+                )
+              })}
+            </div>
+            <div className="mobile-more-actions">
+              <button onClick={cycleTheme}>
+                Theme <span>{theme === "system" ? "auto" : theme}</span>
+              </button>
+              <button onClick={lock}>
+                Lock <span>private data</span>
+              </button>
+            </div>
+            <p>Board rebuilt {ago(bundle.health.generated_at.slice(0, 10))}.</p>
+          </aside>
+        </div>
+      )}
     </div>
   )
 }

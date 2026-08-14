@@ -157,6 +157,7 @@ export function Tracker({ applications, contacts, jobs, onChange, onOpenJob }: P
               <div className="field">
                 <label>Date applied</label>
                 <input
+                  aria-label={`Date applied for ${open.title}`}
                   type="date"
                   value={open.date_applied ?? ""}
                   onChange={(e) => update(open.id, { date_applied: e.target.value })}
@@ -165,6 +166,7 @@ export function Tracker({ applications, contacts, jobs, onChange, onOpenJob }: P
               <div className="field">
                 <label>Follow up on</label>
                 <input
+                  aria-label={`Follow-up date for ${open.title}`}
                   type="date"
                   value={open.follow_up_date ?? ""}
                   onChange={(e) => update(open.id, { follow_up_date: e.target.value })}
@@ -175,6 +177,7 @@ export function Tracker({ applications, contacts, jobs, onChange, onOpenJob }: P
             <div className="field">
               <label>Notes</label>
               <textarea
+                aria-label={`Notes for ${open.title}`}
                 rows={4}
                 value={open.notes ?? ""}
                 placeholder="Who you spoke to, what they asked, what you promised to send…"
@@ -284,7 +287,7 @@ export function Tracker({ applications, contacts, jobs, onChange, onOpenJob }: P
   return (
     <div className="pane">
       <div className="pane-inner pane-wide">
-        <h2 className="title">Applications</h2>
+        <h1 className="title">Applications</h1>
         <p className="subtitle">
           Every role you have touched, and what it is waiting on. Stored in this browser only —
           export a backup from Settings.
@@ -494,6 +497,7 @@ export function Tracker({ applications, contacts, jobs, onChange, onOpenJob }: P
               <div className="field">
                 <label>Role</label>
                 <input
+                  aria-label="Manual application role"
                   value={draft.title}
                   placeholder="Senior Product Designer"
                   onChange={(e) => setDraft({ ...draft, title: e.target.value })}
@@ -502,6 +506,7 @@ export function Tracker({ applications, contacts, jobs, onChange, onOpenJob }: P
               <div className="field">
                 <label>Company</label>
                 <input
+                  aria-label="Manual application company"
                   value={draft.company}
                   placeholder="Adobe"
                   onChange={(e) => setDraft({ ...draft, company: e.target.value })}
@@ -512,6 +517,7 @@ export function Tracker({ applications, contacts, jobs, onChange, onOpenJob }: P
               <div className="field">
                 <label>Link to the posting</label>
                 <input
+                  aria-label="Manual application posting link"
                   value={draft.url}
                   placeholder="https://…"
                   onChange={(e) => setDraft({ ...draft, url: e.target.value })}
@@ -520,6 +526,7 @@ export function Tracker({ applications, contacts, jobs, onChange, onOpenJob }: P
               <div className="field">
                 <label>Location</label>
                 <input
+                  aria-label="Manual application location"
                   value={draft.location}
                   placeholder="Bengaluru, India"
                   onChange={(e) => setDraft({ ...draft, location: e.target.value })}
@@ -537,10 +544,15 @@ export function Tracker({ applications, contacts, jobs, onChange, onOpenJob }: P
         )}
 
         {applications.length === 0 ? (
-          <div className="empty">
-            Nothing tracked yet.
-            <br />
-            Open a role on the board and hit “Open &amp; track application”.
+          <div className="empty" data-state="empty-applications">
+            <strong>No applications tracked yet.</strong>
+            <span>
+              Open a role on the Board and choose “Open &amp; track application”, or add an
+              application that started somewhere else.
+            </span>
+            <button className="btn btn-sm" onClick={() => setAdding(true)}>
+              Add an application by hand
+            </button>
           </div>
         ) : (
           <table className="data">
@@ -592,6 +604,7 @@ export function Tracker({ applications, contacts, jobs, onChange, onOpenJob }: P
                     </td>
                     <td>
                       <select
+                        aria-label={`Stage for ${row.title} at ${row.company}`}
                         value={row.stage}
                         onChange={(e) => update(row.id, { stage: e.target.value as Stage })}
                         style={{ width: "auto", padding: "4px 7px", fontSize: 12 }}
