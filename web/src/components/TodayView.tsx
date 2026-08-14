@@ -39,6 +39,24 @@ const KIND_CLASS: Record<ActionKind, string> = {
   nothing: "",
 }
 
+// Every card on this feed differs only by a small pill in the corner —
+// giving each kind's tone a left border too means the list can be scanned
+// by color before a single word is read, the way the pill's own tone
+// already promises but the card itself never delivered on.
+const KIND_BORDER: Record<ActionKind, string> = {
+  offer: "var(--good)",
+  interview: "var(--accent)",
+  portfolio: "var(--warn)",
+  funnel: "var(--warn)",
+  apply: "var(--accent)",
+  follow_up: "var(--warn)",
+  expiring: "var(--bad)",
+  resume: "var(--accent)",
+  profile: "var(--warn)",
+  network: "var(--line)",
+  nothing: "var(--line)",
+}
+
 const LABEL_FOR: Partial<Record<ActionKind, string>> = {
   offer: "Read the offer",
   interview: "Prepare",
@@ -122,11 +140,13 @@ export function TodayView({
           <div
             className="card"
             key={action.id}
-            style={
-              action.urgency >= 85
-                ? { borderLeft: "2px solid var(--accent)" }
-                : undefined
-            }
+            style={{
+              borderLeft: `3px solid ${KIND_BORDER[action.kind]}`,
+              boxShadow:
+                action.urgency >= 85
+                  ? `inset 0 0 0 1px var(--line), 0 0 0 1px color-mix(in oklab, ${KIND_BORDER[action.kind]} 35%, transparent), var(--shadow-sm)`
+                  : undefined,
+            }}
           >
             <div className="row-between" style={{ alignItems: "flex-start", marginBottom: 5 }}>
               <h3 style={{ margin: 0 }}>{action.title}</h3>

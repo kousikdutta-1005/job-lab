@@ -119,15 +119,19 @@
   --ink-3: oklch(0.705 0.015 286.067);
   --ink-4: oklch(0.552 0.016 285.938);
 
-  /* Solid fills use the preset primary; --accent-text is the same hue lifted
-     to a lightness that can actually be read as text on --bg. The preset
-     assumes primary is only ever a button fill, but this app also uses it for
-     labels and section headers. */
-  --accent: oklch(0.92 0.004 286.32);
-  --accent-hover: oklch(0.705 0.015 286.067);
-  --accent-ink: oklch(0.21 0.006 285.885);
-  --accent-text: oklch(0.985 0 0);
-  --accent-dim: oklch(0.552 0.016 285.938);
+  /* The preset's own --primary is a near-neutral zinc (chroma 0.004) — fine
+     as a button fill in a generic admin UI, but it drains every accent, hot
+     score and active state in this app down to grayscale. Its chart-1/
+     chart-2 tokens carry the same indigo hue the old brand mark already used
+     (the favicon is #4f46e5), so --accent is built from those instead: a
+     real hue for fills, a lighter tint for text-on-bg, a muted one for
+     borders. This is the one deliberate departure from the preset's literal
+     tokens — everything else here is what the CLI generated.  */
+  --accent: oklch(0.53 0.22 277.117);
+  --accent-hover: oklch(0.66 0.21 277.117);
+  --accent-ink: oklch(0.985 0 0);
+  --accent-text: oklch(0.785 0.115 274.713);
+  --accent-dim: oklch(0.47 0.19 277.117);
 
   --good: oklch(0.78 0.148 162);
   --warn: oklch(0.808 0.128 76);
@@ -135,6 +139,8 @@
   --link: oklch(0.785 0.115 274.713);
 
   --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 28px rgb(0 0 0 / 0.35);
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.3);
+  --shadow-lift: 0 4px 16px rgb(0 0 0 / 0.45), 0 1px 2px rgb(0 0 0 / 0.3);
 }
 
 /* Light — preset :root scale. */
@@ -153,11 +159,11 @@
   --ink-3: oklch(0.552 0.016 285.938);
   --ink-4: oklch(0.705 0.015 286.067);
 
-  --accent: oklch(0.21 0.006 285.885);
-  --accent-hover: oklch(0.552 0.016 285.938);
+  --accent: oklch(0.53 0.22 277.117);
+  --accent-hover: oklch(0.46 0.2 277.117);
   --accent-ink: oklch(0.985 0 0);
-  --accent-text: oklch(0.21 0.006 285.885);
-  --accent-dim: oklch(0.705 0.015 286.067);
+  --accent-text: oklch(0.5 0.2 277.117);
+  --accent-dim: oklch(0.68 0.16 277.117);
 
   --good: oklch(0.52 0.128 162);
   --warn: oklch(0.55 0.12 68);
@@ -165,6 +171,8 @@
   --link: oklch(0.585 0.233 277.117);
 
   --shadow: 0 1px 2px rgb(16 24 40 / 0.06), 0 8px 28px rgb(16 24 40 / 0.08);
+  --shadow-sm: 0 1px 2px rgb(16 24 40 / 0.05);
+  --shadow-lift: 0 4px 16px rgb(16 24 40 / 0.1), 0 1px 2px rgb(16 24 40 / 0.06);
 }
 
 * {
@@ -264,7 +272,10 @@ a:hover {
   height: 52px;
   border-bottom: 1px solid var(--line);
   background: var(--bg-raised);
+  box-shadow: var(--shadow-sm);
   flex-shrink: 0;
+  position: relative;
+  z-index: 1;
 }
 
 .brand {
@@ -418,22 +429,27 @@ textarea {
   color: var(--ink);
   font-size: 13px;
   font-weight: 520;
-  transition: background 0.12s, box-shadow 0.12s;
+  transition: background 0.12s, box-shadow 0.12s, transform 0.12s;
 }
 
 .btn:hover {
   background: var(--bg-hover);
 }
 
+.btn:active {
+  transform: translateY(1px);
+}
+
 .btn-primary {
   background: var(--accent);
   color: var(--accent-ink);
-  box-shadow: none;
+  box-shadow: 0 1px 2px color-mix(in oklab, var(--accent) 50%, transparent), 0 4px 14px color-mix(in oklab, var(--accent) 35%, transparent);
   font-weight: 600;
 }
 
 .btn-primary:hover {
   background: var(--accent-hover);
+  box-shadow: 0 1px 2px color-mix(in oklab, var(--accent) 55%, transparent), 0 6px 20px color-mix(in oklab, var(--accent) 45%, transparent);
 }
 
 .btn-sm {
@@ -842,9 +858,14 @@ h2.title {
 .card {
   background: var(--bg-raised);
   border-radius: var(--radius);
-  box-shadow: inset 0 0 0 1px var(--line);
+  box-shadow: inset 0 0 0 1px var(--line), var(--shadow-sm);
   padding: 15px;
   margin-bottom: 12px;
+  transition: box-shadow 0.15s, transform 0.15s;
+}
+
+.card:has(.btn:hover) {
+  box-shadow: inset 0 0 0 1px var(--line), var(--shadow-lift);
 }
 
 .card h3 {
@@ -881,8 +902,13 @@ h2.title {
 .stat {
   background: var(--bg-raised);
   border-radius: var(--radius);
-  box-shadow: inset 0 0 0 1px var(--line);
+  box-shadow: inset 0 0 0 1px var(--line), var(--shadow-sm);
   padding: 13px 14px;
+  transition: box-shadow 0.15s;
+}
+
+.stat:hover {
+  box-shadow: inset 0 0 0 1px var(--line), var(--shadow-lift);
 }
 
 .stat .n {
