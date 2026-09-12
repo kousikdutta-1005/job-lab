@@ -235,10 +235,10 @@
   },
   "canva": {
     "ats": "smartrecruiters",
-    "checked_at": 1786590570.5011258,
+    "checked_at": 1789245812.300173,
     "confidence": "verified",
     "domain": "canva.com",
-    "how": "slug guessed from name; board is named 'Canva'; company domain appears in posting URLs",
+    "how": "slug guessed from name; board is named 'Canva'; company domain appears in posting URLs; company named in 12 of 12 descriptions",
     "name": "Canva",
     "slug": "canva"
   },
@@ -262,7 +262,7 @@
   },
   "cars24": {
     "ats": "smartrecruiters",
-    "checked_at": 1786590659.5486531,
+    "checked_at": 1789245790.6843176,
     "confidence": "verified",
     "domain": "cars24.com",
     "how": "slug guessed from name; board is named 'Cars24'; company domain appears in posting URLs; 1 of 1 postings are in India",
@@ -910,10 +910,10 @@
   },
   "ixigo": {
     "ats": "smartrecruiters",
-    "checked_at": 1786590669.502578,
+    "checked_at": 1789245781.7673538,
     "confidence": "verified",
     "domain": "ixigo.com",
-    "how": "slug guessed from name; board is named 'ixigo'; company domain appears in posting URLs; 9 of 9 postings are in India",
+    "how": "slug guessed from name; board is named 'ixigo'; company domain appears in posting URLs; company named in 8 of 8 descriptions; 8 of 8 postings are in India",
     "name": "Ixigo",
     "slug": "ixigo"
   },
@@ -991,10 +991,10 @@
   },
   "kovai.co": {
     "ats": "smartrecruiters",
-    "checked_at": 1786590623.736728,
+    "checked_at": 1789245771.8163967,
     "confidence": "verified",
     "domain": "kovai.co",
-    "how": "slug guessed from name; board is named 'Kovai.co'; company domain appears in posting URLs; 4 of 4 postings are in India",
+    "how": "slug guessed from name; board is named 'Kovai.co'; company domain appears in posting URLs; company named in 4 of 4 descriptions; 4 of 4 postings are in India",
     "name": "Kovai.co",
     "slug": "kovaico"
   },
@@ -1333,7 +1333,7 @@
   },
   "nobroker": {
     "ats": "smartrecruiters",
-    "checked_at": 1786590649.926937,
+    "checked_at": 1789245771.4586375,
     "confidence": "verified",
     "domain": "nobroker.in",
     "how": "slug guessed from name; board is named 'NoBroker'; company domain appears in posting URLs",
@@ -1639,10 +1639,10 @@
   },
   "refyne": {
     "ats": "smartrecruiters",
-    "checked_at": 1786590643.64767,
+    "checked_at": 1789245769.7667518,
     "confidence": "verified",
     "domain": "refyne.co.in",
-    "how": "slug guessed from name; board is named 'Refyne'; company domain appears in posting URLs; 9 of 10 postings are in India",
+    "how": "slug guessed from name; board is named 'Refyne'; company domain appears in posting URLs; company named in 10 of 10 descriptions; 9 of 10 postings are in India",
     "name": "Refyne",
     "slug": "refyne"
   },
@@ -1683,13 +1683,13 @@
     "slug": null
   },
   "rippling": {
-    "ats": "bamboohr",
-    "checked_at": 1786590602.404489,
-    "confidence": "likely",
+    "ats": null,
+    "checked_at": 1789245777.2389202,
+    "confidence": "none",
     "domain": "rippling.com",
-    "how": "slug guessed from name; company domain appears in posting URLs",
+    "how": "no public board found",
     "name": "Rippling",
-    "slug": "rippling"
+    "slug": null
   },
   "rocketlane": {
     "ats": null,
@@ -1801,7 +1801,7 @@
   },
   "signal": {
     "ats": null,
-    "checked_at": 1789161122.1737237,
+    "checked_at": 1789245755.5294533,
     "confidence": "none",
     "domain": "signal.org",
     "how": "pinned board rejected: board answered but has no postings",
@@ -1936,10 +1936,10 @@
   },
   "swiggy": {
     "ats": "smartrecruiters",
-    "checked_at": 1786590467.4014452,
+    "checked_at": 1789245814.5202096,
     "confidence": "verified",
     "domain": "swiggy.com",
-    "how": "slug guessed from name; board is named 'SWIGGY'; company domain appears in posting URLs; 24 of 36 postings are in India",
+    "how": "slug guessed from name; board is named 'SWIGGY'; company domain appears in posting URLs; company named in 11 of 12 descriptions; 44 of 60 postings are in India",
     "name": "Swiggy",
     "slug": "swiggy"
   },
@@ -1999,7 +1999,7 @@
   },
   "turtlemint": {
     "ats": "smartrecruiters",
-    "checked_at": 1786590643.869236,
+    "checked_at": 1789245770.4562128,
     "confidence": "verified",
     "domain": "turtlemint.com",
     "how": "slug guessed from name; board is named 'Turtlemint'; company domain appears in posting URLs",
@@ -2044,7 +2044,7 @@
   },
   "unacademy": {
     "ats": "smartrecruiters",
-    "checked_at": 1786590542.7359202,
+    "checked_at": 1789245766.575862,
     "confidence": "verified",
     "domain": "unacademy.com",
     "how": "slug guessed from name; board is named 'Unacademy'; company domain appears in posting URLs; 3 of 3 postings are in India",
@@ -2071,7 +2071,7 @@
   },
   "upstox": {
     "ats": "smartrecruiters",
-    "checked_at": 1786590451.578161,
+    "checked_at": 1789245765.6368825,
     "confidence": "verified",
     "domain": "upstox.com",
     "how": "slug guessed from name; board is named 'upstox'; company domain appears in posting URLs",
@@ -2196,13 +2196,13 @@
     "slug": "zapier"
   },
   "zepto": {
-    "ats": "bamboohr",
-    "checked_at": 1786590468.725554,
-    "confidence": "likely",
+    "ats": null,
+    "checked_at": 1789245771.4672322,
+    "confidence": "none",
     "domain": "zepto.co.in",
-    "how": "slug guessed from name; company domain appears in posting URLs; company named in 3 of 3 descriptions",
+    "how": "bamboohr/zepto: no Indian postings on an Indian company's board (5 jobs) \u2014 probably a namesake",
     "name": "Zepto",
-    "slug": "zepto"
+    "slug": null
   },
   "zerodha": {
     "ats": null,
