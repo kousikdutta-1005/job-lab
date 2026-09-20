@@ -1801,7 +1801,7 @@
   },
   "signal": {
     "ats": null,
-    "checked_at": 1789851322.957111,
+    "checked_at": 1789937821.4291906,
     "confidence": "none",
     "domain": "signal.org",
     "how": "pinned board rejected: board answered but has no postings",
